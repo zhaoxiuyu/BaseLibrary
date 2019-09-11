@@ -3,7 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.getkeepsafe.dexcount' // 统计方法数
-group='com.osc.zxy'
+group = 'com.osc.zxy'
 
 android {
     compileSdkVersion rootProject.compileSdkVersion
@@ -107,7 +107,7 @@ dependencies {
     api 'com.github.bumptech.glide:glide:4.9.0'
     kapt 'com.github.bumptech.glide:compiler:4.9.0'
     api 'com.github.bumptech.glide:okhttp3-integration:4.9.0'
-//    api 'jp.wasabeef:glide-transformations:4.1.0'
+    api 'jp.wasabeef:glide-transformations:4.1.0'
 
     // View动画效果大集合
 //    api 'com.daimajia.easing:library:2.0@aar'
