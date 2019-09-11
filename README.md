@@ -22,13 +22,3 @@
 
 [Java-Activity如何写参考](https://github.com/zhaoxiuyu/BaseLibrary/blob/master/library/src/main/java/com/base/library/template/ui/JavaActivityDemo.kt)
 
-
-**数据库使用Room** 
-[Dao如何写参考]
-(https://github.com/zhaoxiuyu/BaseLibrary/blob/master/library/src/main/java/com/base/library/database/dao/TestDao.kt)
-[Entity如何写参考]
-(https://github.com/zhaoxiuyu/BaseLibrary/blob/master/library/src/main/java/com/base/library/database/entity/Test.kt)
-[DataBase查看]
-(https://github.com/zhaoxiuyu/BaseLibrary/blob/master/library/src/main/java/com/base/library/database/database/DataBase.kt)
-[封装到工具类里面使用]
-(https://github.com/zhaoxiuyu/BaseLibrary/blob/master/library/src/main/java/com/base/library/database/RoomUtils.kt)
