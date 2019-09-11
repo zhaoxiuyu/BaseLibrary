@@ -1,0 +1,88 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'com.getkeepsafe.dexcount' // 统计方法数
+
+android {
+    compileSdkVersion 28
+    buildToolsVersion = '29.0.0'
+
+    //默认配置项
+    defaultConfig {
+        applicationId "com.base.app"
+        minSdkVersion rootProject.minSdkVersion
+        targetSdkVersion rootProject.targetSdkVersion
+        versionCode rootProject.versionCode
+        versionName rootProject.versionName
+
+        multiDexEnabled true
+        vectorDrawables.useSupportLibrary = true
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    //打包时的相关配置
+    packagingOptions {
+        exclude 'META-INF/proguard/androidx-annotations.pro'
+    }
+
+    //DEX 可选参数
+    dexOptions {
+        //是否预先dex库，它可以改善增量的生成，但是在clear build可能会变慢
+        preDexLibraries true
+        //可以使用Dex的最大并发进程数。默认为4
+        maxProcessCount 8
+    }
+
+    //签名配置
+    signingConfigs {
+        config {
+            keyAlias "sendinfo"
+            keyPassword "sendinfokey"
+            storeFile file("./keystore/androidkey")
+            storePassword "sendinfokey"
+            v2SigningEnabled true
+        }
+    }
+
+    // 编译配置，release或debug版本的内容
+    buildTypes {
+        release {
+            minifyEnabled false
+            signingConfig signingConfigs.config
+            buildConfigField("boolean", "IS_DEBUG", "false")
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            minifyEnabled false
+            signingConfig signingConfigs.config
+            buildConfigField("boolean", "IS_DEBUG", "true")
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        unsigned {
+            minifyEnabled false
+            buildConfigField("boolean", "IS_DEBUG", "false")
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    //Java版本配置
+    compileOptions {
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
+    }
+
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test:runner:1.1.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
+    implementation project(':library')
+
+}
+
+repositories {
+    mavenCentral()
+}

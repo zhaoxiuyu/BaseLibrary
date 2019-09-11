@@ -1,0 +1,50 @@
+buildscript {
+    ext.kotlin_version = '1.3.50'
+    repositories {
+        google()
+        jcenter()
+        mavenCentral()
+        maven { url "https://jitpack.io" }
+        maven { url 'https://maven.fabric.io/public' }
+    }
+
+    ext {
+        kotlin_version = '1.3.30'
+
+        compileSdkVersion = 28
+        targetSdkVersion = 28
+        minSdkVersion = 19
+
+        versionCode = 100
+        versionName = "1.0.0"
+
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.4.2'
+
+        // kotlin
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+
+        // 统计方法数
+        classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.8.6'
+
+        // JitPack
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
+
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+        mavenCentral()
+        maven { url "https://jitpack.io" }
+        maven { url 'https://maven.fabric.io/public' }
+        maven { url 'https://dl.bintray.com/jetbrains/anko' } //这是你需要加入的
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
