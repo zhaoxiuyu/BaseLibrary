@@ -1,7 +1,5 @@
 package com.base.library.base
 
-import com.base.library.util.MD5Util
-
 /**
  * 接口 , 标识 , 常量
  */
@@ -17,6 +15,6 @@ const val PHONE = PORT + "v1/mobile/address/query"
 /**
  * 常量方法
  */
-fun sign(): String {
-    return MD5Util.string2MD5("" + "" + "" + KEY).toLowerCase()
-}
+//fun sign(): String {
+//    return MD5Util.string2MD5("" + "" + "" + KEY).toLowerCase()
+//}
