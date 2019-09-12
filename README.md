@@ -22,3 +22,5 @@
 
 [Java-Activity如何写参考](https://github.com/zhaoxiuyu/BaseLibrary/blob/master/library/src/main/java/com/base/library/template/ui/JavaActivityDemo.kt)
 
+[不想写Contract和Presenter,可以直接使用通用的](https://github.com/zhaoxiuyu/BaseLibrary/blob/master/library/src/main/java/com/base/library/template/ui/Demo2Activity.kt)
+
