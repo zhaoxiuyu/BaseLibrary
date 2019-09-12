@@ -1,9 +1,9 @@
 apply plugin: 'com.android.library'
+group = 'com.github..zhaoxiuyu'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.getkeepsafe.dexcount' // 统计方法数
-group = 'com.github.base.library.zhaoxiuyu'
 
 android {
     compileSdkVersion rootProject.compileSdkVersion
@@ -37,6 +37,17 @@ android {
         }
     }
 
+}
+
+// 指定编码
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
+
+// 打包源码
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
 }
 
 repositories {
