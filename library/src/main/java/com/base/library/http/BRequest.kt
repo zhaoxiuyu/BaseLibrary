@@ -19,7 +19,7 @@ class BRequest(val url: String) {
     var httpType = POST //请求类型
     var httpMode = getOkGo //请求方式
     var silence = false //是否静默加载
-    var isFinish = false//是否销毁页面
+    var isFinish = false//请求失败 确定 提示框 是否销毁当前页面
     var isSpliceUrl = false//是否强制将params的参数拼接到url后面,up系列与params系列混用
     var isMultipart = false//是否强制使用multipart/form-data表单上传
     var method: String = url //方法名(默认设置为URL)
