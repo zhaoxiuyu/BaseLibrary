@@ -37,6 +37,11 @@ android {
         }
     }
 
+    //防止lint检查时报错导致中断整个编译过程
+    lintOptions {
+        abortOnError false
+    }
+
 }
 
 // 指定编码
