@@ -3,7 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.getkeepsafe.dexcount' // 统计方法数
-group = 'com.osc.zxy'
+group = 'com.github.base.library.zhaoxiuyu'
 
 android {
     compileSdkVersion rootProject.compileSdkVersion
