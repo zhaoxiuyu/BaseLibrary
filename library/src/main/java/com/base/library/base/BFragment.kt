@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.base.library.mvp.BPresenter
+import com.base.library.mvp.BView
 import com.base.library.util.getCacheObservable
 import com.base.library.util.putCacheObservable
 import com.blankj.utilcode.util.LogUtils
@@ -18,8 +20,6 @@ import com.lxj.xpopup.interfaces.OnConfirmListener
 import com.lxj.xpopup.interfaces.XPopupCallback
 import com.uber.autodispose.AutoDispose
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
-import com.base.library.mvp.BPresenter
-import com.base.library.mvp.BView
 import io.reactivex.functions.Consumer
 
 /**
