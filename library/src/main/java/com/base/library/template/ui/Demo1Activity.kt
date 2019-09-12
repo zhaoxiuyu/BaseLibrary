@@ -1,11 +1,11 @@
-package com.zxy.library.framework.template.ui
+package com.base.library.template.ui
 
 import android.content.Intent
 import com.base.library.R
 import com.base.library.base.BActivity
 import com.blankj.utilcode.util.ToastUtils
-import com.zxy.library.framework.template.contract.Demo1Contract
-import com.zxy.library.framework.template.presenter.Demo1Presenter
+import com.base.library.template.contract.Demo1Contract
+import com.base.library.template.presenter.Demo1Presenter
 
 /**
  * 作用: 使用案例,Activity使用自己定义的Contract和Presenter

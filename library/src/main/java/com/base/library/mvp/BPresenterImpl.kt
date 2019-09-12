@@ -12,10 +12,6 @@ import com.lzy.okgo.exception.HttpException
 import com.lzy.okgo.exception.StorageException
 import com.uber.autodispose.AutoDispose
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
-import com.zxy.library.framework.mvp.BModel
-import com.zxy.library.framework.mvp.BPresenter
-import com.zxy.library.framework.mvp.BRequestCallback
-import com.zxy.library.framework.mvp.BView
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Consumer
@@ -61,7 +57,7 @@ open class BPresenterImpl<T : BView>(var mView: T) : BPresenter, BRequestCallbac
 
     override fun requestComplete() {}
 
-    override fun requestSuccess(any: BaseResponse, baseHttpDto: BRequest) {
+    override fun requestSuccess(baseResponse: BaseResponse, baseHttpDto: BRequest) {
         mView?.disDialog()
     }
 
@@ -75,10 +71,10 @@ open class BPresenterImpl<T : BView>(var mView: T) : BPresenter, BRequestCallbac
             }
             .observeOn(AndroidSchedulers.mainThread())
             .`as`(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner)))
-            .subscribe(Consumer {
+            .subscribe({
                 LogUtils.d("返回线程 : " + Thread.currentThread().name)
                 requestSuccess(it, baseHttpDto)
-            }, Consumer {
+            }, {
                 requestError(it, baseHttpDto)
             })
     }
@@ -105,7 +101,7 @@ open class BPresenterImpl<T : BView>(var mView: T) : BPresenter, BRequestCallbac
          */
         if (!baseHttpDto.silence) {
             val fl = if (baseHttpDto.isFinish) mView?.getConfirmFinishListener() else null
-            mView?.showDialog("异常提示", "$content", confirmListener = fl)
+            mView?.showDialog("异常提示", content, confirmListener = fl)
         }
 
         throwable?.printStackTrace()

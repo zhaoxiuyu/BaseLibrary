@@ -53,12 +53,12 @@ object JsonUtils {
     /**
      * 将 String 解析成指定泛型
      */
-    fun <T> toAny(str: String, t: Class<T>) = gson.fromJson(str, t)
+    fun <T> toAny(str: String, t: Class<T>): T = gson.fromJson(str, t)
 
     /**
      * 将 Any 解析成指定泛型
      */
-    fun <T> toAny(any: Any, t: Class<T>) = gson.fromJson(gson.toJson(any) ?: "", t)
+    fun <T> toAny(any: Any, t: Class<T>): T = gson.fromJson(gson.toJson(any) ?: "", t)
 
     /**
      * 将 Any 解析成指定泛型并返回
@@ -79,7 +79,7 @@ object JsonUtils {
     /**
      * 将指定类变成 String
      */
-    fun <T> toJson(any: T) = gson.toJson(any)
+    fun <T> toJson(any: T): String = gson.toJson(any)
 
     /**
      * 将 String 解析 Map

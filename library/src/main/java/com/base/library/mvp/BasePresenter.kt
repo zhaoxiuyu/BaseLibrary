@@ -1,7 +1,6 @@
-package com.zxy.library.framework.mvp
+package com.base.library.mvp
 
 import com.base.library.entitys.BaseResponse
-import com.base.library.mvp.BPresenterImpl
 import com.base.library.http.BRequest
 import com.blankj.utilcode.util.LogUtils
 

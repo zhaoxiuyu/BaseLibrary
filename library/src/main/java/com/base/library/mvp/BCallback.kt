@@ -5,12 +5,8 @@ import com.lzy.okgo.callback.AbsCallback
 import com.lzy.okgo.model.Progress
 import com.lzy.okgo.model.Response
 import com.lzy.okgo.request.base.Request
-import com.zxy.library.framework.mvp.BRequestCallback
 
-open class BCallback(callback: BRequestCallback, silence: Boolean) : AbsCallback<String>() {
-
-    private var callback: BRequestCallback = callback
-    private var silence: Boolean = silence
+open class BCallback(private val callback: BRequestCallback, private val silence: Boolean) : AbsCallback<String>() {
 
     /**
      * 请求网络开始前，UI线程

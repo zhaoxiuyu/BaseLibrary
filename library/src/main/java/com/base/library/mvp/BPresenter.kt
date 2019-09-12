@@ -1,4 +1,4 @@
-package com.zxy.library.framework.mvp
+package com.base.library.mvp
 
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver

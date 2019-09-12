@@ -1,4 +1,4 @@
-package com.zxy.library.framework.mvp
+package com.base.library.mvp
 
 import com.base.library.http.BRequest
 import io.reactivex.disposables.Disposable

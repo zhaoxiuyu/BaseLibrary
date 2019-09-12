@@ -27,7 +27,7 @@ object BManager {
     private const val CACHE_CONTROL_NETWORK = "max-age=0"
 
     lateinit var mBaseHttpService: BService
-    lateinit var mOkHttpClient: OkHttpClient
+    private lateinit var mOkHttpClient: OkHttpClient
 
     init {
         initOkHttpClient()

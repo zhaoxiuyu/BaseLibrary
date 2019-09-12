@@ -1,4 +1,4 @@
-package com.zxy.library.framework.mvp
+package com.base.library.mvp
 
 import com.base.library.entitys.BaseResponse
 import com.base.library.http.BRequest
@@ -13,7 +13,7 @@ interface BRequestCallback {
     fun beforeRequest()
 
     /**
-     * @param msg 请求错误调用
+     * 请求错误调用
      */
     fun requestError(throwable: Throwable?, baseHttpDto: BRequest)
 
@@ -23,12 +23,12 @@ interface BRequestCallback {
     fun requestComplete()
 
     /**
-     * @param str 返回成功调用 返回数据
+     * 返回成功调用 返回数据
      */
     fun requestSuccess(baseResponse: BaseResponse, baseHttpDto: BRequest)
 
     /**
-     * @param str 返回成功调用 返回数据
+     * 返回成功调用 返回数据
      */
     fun requestSuccess(body: String, baseHttpDto: BRequest)
 

@@ -10,35 +10,30 @@
             android:id="@+id/doOnNext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="doOnNext"
             android:gravity="center"/>
 
     <Button
             android:id="@+id/doOnSubscribe"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="doOnSubscribe"
             android:gravity="center"/>
 
     <Button
             android:id="@+id/butDialog"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Dialog"
             android:gravity="center"/>
 
     <Button
             android:id="@+id/show"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="显示"
             android:gravity="center"/>
 
     <Button
             android:id="@+id/hide"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="隐藏"
             android:gravity="center"/>
 
     <FrameLayout

@@ -7,9 +7,9 @@ import com.base.library.entitys.BaseResponse
 import com.blankj.utilcode.util.LogUtils
 import com.uber.autodispose.AutoDispose
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
-import com.zxy.library.framework.mvp.BPresenter
-import com.zxy.library.framework.mvp.BasePresenter
-import com.zxy.library.framework.mvp.BaseView
+import com.base.library.mvp.BPresenter
+import com.base.library.mvp.BasePresenter
+import com.base.library.mvp.BaseView
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import java.util.concurrent.TimeUnit

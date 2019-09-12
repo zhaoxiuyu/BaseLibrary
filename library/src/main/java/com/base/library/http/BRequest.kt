@@ -13,7 +13,8 @@ import io.reactivex.Observable
 /**
  * 通用的网络请求参数封装
  */
-class BRequest(url: String) {
+class BRequest(val url: String) {
+    // url 请求的标志,用来唯一指定请求
 
     var httpType = POST //请求类型
     var httpMode = getOkGo //请求方式
@@ -21,7 +22,6 @@ class BRequest(url: String) {
     var isFinish = false//是否销毁页面
     var isSpliceUrl = false//是否强制将params的参数拼接到url后面,up系列与params系列混用
     var isMultipart = false//是否强制使用multipart/form-data表单上传
-    var url: String = url //请求的标志,用来唯一指定请求
     var method: String = url //方法名(默认设置为URL)
     var cacheMode = CacheMode.NO_CACHE//缓存模式
     var cacheTime = -1L //缓存时长-1永不过期
@@ -90,8 +90,8 @@ class BRequest(url: String) {
         const val HEAD = 0x100004
         const val OPTIONS = 0x100005
 
-        const val getOkGo = 0x100006 // OKGO 请求方式
-        const val getOkRx2 = 0x100007 // OKGO Rx2 请求方式
+        const val getOkGo = 0x100006 // OkGo 请求方式
+        const val getOkRx2 = 0x100007 // OkGo Rx2 请求方式
         const val getRetrofit2 = 0x100008 // Retrofit2 请求方式
     }
 

@@ -6,9 +6,9 @@ import com.base.app.R
 import com.base.library.base.BActivity
 import com.base.library.entitys.BaseResponse
 import com.blankj.utilcode.util.FragmentUtils
-import com.zxy.library.framework.mvp.BPresenter
-import com.zxy.library.framework.mvp.BasePresenter
-import com.zxy.library.framework.mvp.BaseView
+import com.base.library.mvp.BPresenter
+import com.base.library.mvp.BasePresenter
+import com.base.library.mvp.BaseView
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BActivity<BPresenter>(), BaseView {

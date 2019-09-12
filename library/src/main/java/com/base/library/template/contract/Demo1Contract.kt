@@ -1,7 +1,7 @@
-package com.zxy.library.framework.template.contract
+package com.base.library.template.contract
 
-import com.zxy.library.framework.mvp.BPresenter
-import com.zxy.library.framework.mvp.BView
+import com.base.library.mvp.BPresenter
+import com.base.library.mvp.BView
 
 /**
  * 作用: 使用案例,自己定义Contract

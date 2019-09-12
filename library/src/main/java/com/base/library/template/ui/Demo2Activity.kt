@@ -1,11 +1,11 @@
-package com.zxy.library.framework.template.ui
+package com.base.library.template.ui
 
 import android.content.Intent
 import com.base.library.base.BActivity
 import com.base.library.entitys.BaseResponse
-import com.zxy.library.framework.mvp.BPresenter
-import com.zxy.library.framework.mvp.BasePresenter
-import com.zxy.library.framework.mvp.BaseView
+import com.base.library.mvp.BPresenter
+import com.base.library.mvp.BasePresenter
+import com.base.library.mvp.BaseView
 
 /**
  * 作用: 使用案例,使用通用的P和V

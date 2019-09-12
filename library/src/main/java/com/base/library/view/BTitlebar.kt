@@ -6,7 +6,7 @@ import android.os.CountDownTimer
 import android.util.AttributeSet
 import android.view.View
 import android.widget.RelativeLayout
-import com.zxy.library.interfaces.OnSurplusListener
+import com.base.library.interfaces.OnSurplusListener
 import kotlinx.android.synthetic.main.base_titlebar.view.*
 
 /**
@@ -26,9 +26,9 @@ class BTitlebar(context: Context?, attrs: AttributeSet?) : RelativeLayout(contex
     }
 
     //左侧 返回按钮图片
-    fun setIvLeftSrc(resid: Int) {
+    fun setIvLeftSrc(resId: Int) {
         ivLeft.visibility = View.VISIBLE
-        ivLeft.setImageResource(resid)
+        ivLeft.setImageResource(resId)
     }
 
     //左侧 文字内容 和 点击事件
@@ -39,9 +39,9 @@ class BTitlebar(context: Context?, attrs: AttributeSet?) : RelativeLayout(contex
     }
 
     //中间  标题中间的图片
-    fun setIvCenter(resid: Int, listener: OnClickListener) {
+    fun setIvCenter(resId: Int, listener: OnClickListener) {
         ivCenter.visibility = View.VISIBLE
-        ivCenter.setImageResource(resid)
+        ivCenter.setImageResource(resId)
         ivCenter.setOnClickListener(listener)
     }
 

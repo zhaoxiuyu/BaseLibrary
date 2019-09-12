@@ -5,8 +5,6 @@ import com.base.library.http.BManager
 import com.base.library.http.BRequest
 import com.blankj.utilcode.util.LogUtils
 import com.lzy.okgo.model.Response
-import com.zxy.library.framework.mvp.BModel
-import com.zxy.library.framework.mvp.BRequestCallback
 import io.reactivex.Observable
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers

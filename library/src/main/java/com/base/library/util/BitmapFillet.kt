@@ -44,8 +44,7 @@ fun bitmapFillet(type: Int, bitmap: Bitmap, roundPx: Int): Bitmap {
 
         //帖子图
         val src = Rect(0, 0, width, height)
-        val dst = src
-        canvas.drawBitmap(bitmap, src, dst, paint)
+        canvas.drawBitmap(bitmap, src, src, paint)
         return paintingBoard
     } catch (e: Exception) {
         return bitmap

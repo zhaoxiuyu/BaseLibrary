@@ -1,4 +1,4 @@
-package com.zxy.library.framework.template.presenter
+package com.base.library.template.presenter
 
 import com.base.library.base.IDCARD
 import com.base.library.base.KEY
@@ -6,7 +6,7 @@ import com.base.library.entitys.BaseResponse
 import com.base.library.http.BRequest
 import com.base.library.mvp.BPresenterImpl
 import com.blankj.utilcode.util.StringUtils
-import com.zxy.library.framework.template.contract.Demo1Contract
+import com.base.library.template.contract.Demo1Contract
 
 /**
  * 作用: 使用案例,自己定义Presenter

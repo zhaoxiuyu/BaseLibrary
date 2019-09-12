@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/bLL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,6 +19,7 @@
                 android:id="@+id/ivLeft"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:contentDescription="@string/bTitleIvLeft"
                 android:paddingBottom="@dimen/dp_4"
                 android:paddingTop="@dimen/dp_4"
                 android:visibility="visible"/>
@@ -26,11 +28,10 @@
                 android:id="@+id/tvLeftCenter"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="15dp"
+                android:layout_marginStart="15dp"
                 android:layout_toEndOf="@+id/ivLeft"
-                android:layout_toRightOf="@+id/ivLeft"
                 android:gravity="center"
-                android:text="深大智能"
+                tools:text="深大智能"
                 android:textColor="#FFFFFF"
                 android:visibility="invisible"/>
 
@@ -40,7 +41,7 @@
                 android:layout_height="match_parent"
                 android:layout_centerInParent="true"
                 android:gravity="center"
-                android:text="首页"
+                tools:text="首页"
                 android:textColor="#FFFFFF"/>
 
         <TextView
@@ -48,11 +49,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentTop="true"
-                android:layout_marginRight="15dp"
-                android:layout_toLeftOf="@+id/tvRight"
+                android:layout_marginEnd="15dp"
                 android:layout_toStartOf="@+id/tvRight"
                 android:gravity="center"
-                android:text="保存"
+                tools:text="保存"
                 android:textColor="#FFFFFF"
                 android:visibility="invisible"/>
 
@@ -61,15 +61,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
                 android:gravity="center"
-                android:text="设置"
+                tools:text="设置"
                 android:textColor="#FFFFFF"
                 android:visibility="invisible"/>
 
         <ImageView
                 android:id="@+id/ivCenter"
+                android:contentDescription="@string/bTitleIvCenter"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_centerHorizontal="true"

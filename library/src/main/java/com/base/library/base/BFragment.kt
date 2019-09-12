@@ -18,9 +18,8 @@ import com.lxj.xpopup.interfaces.OnConfirmListener
 import com.lxj.xpopup.interfaces.XPopupCallback
 import com.uber.autodispose.AutoDispose
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
-import com.zxy.app.base.BApplication
-import com.zxy.library.framework.mvp.BPresenter
-import com.zxy.library.framework.mvp.BView
+import com.base.library.mvp.BPresenter
+import com.base.library.mvp.BView
 import io.reactivex.functions.Consumer
 
 /**
@@ -131,7 +130,7 @@ abstract class BFragment<T : BPresenter> : ImmersionFragment(), BView {
     override fun putCache(key: String, content: String, time: Int) {
         putCacheObservable(key, content, time)
             .`as`(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(this)))
-            .subscribe { LogUtils.d("$it") }
+            .subscribe { LogUtils.d(it) }
     }
 
     //获取缓存

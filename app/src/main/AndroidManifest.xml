@@ -4,15 +4,13 @@
           package="com.base.app">
 
     <application
-            android:name="com.zxy.app.base.BApplication"
+            android:name="com.base.library.base.BApplication"
             android:allowBackup="true"
             android:icon="@mipmap/ic_launcher"
             android:label="@string/app_name"
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
-            android:maxAspectRatio="2.4"
-            android:resizeableActivity="true"
             tools:replace="android:icon">
 
         <activity android:name=".module.common.ui.MainActivity">
@@ -24,12 +22,10 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.zxy.library.framework.template.ui.Demo1Activity">
+        <activity android:name="com.base.library.template.ui.Demo1Activity">
         </activity>
 
-        <!-- 沉浸式,全面屏与刘海
-            android:maxAspectRatio="2.4"
-            android:resizeableActivity="true" -->
+        <!-- 沉浸式,全面屏 -->
         <meta-data
                 android:name="android.max_aspect"
                 android:value="2.4"/>

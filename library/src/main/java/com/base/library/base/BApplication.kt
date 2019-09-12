@@ -1,4 +1,4 @@
-package com.zxy.app.base
+package com.base.library.base
 
 import androidx.core.content.ContextCompat
 import androidx.multidex.MultiDexApplication
