@@ -1,9 +1,18 @@
 apply plugin: 'com.android.library'
-group = 'com.github..zhaoxiuyu'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.getkeepsafe.dexcount' // 统计方法数
+
+repositories {
+    flatDir { dirs 'libs' }
+    mavenCentral()
+    google()
+    jcenter()
+    maven { url "https://jitpack.io" }
+}
+
+group = 'com.github..zhaoxiuyu'
 
 android {
     compileSdkVersion rootProject.compileSdkVersion
@@ -37,26 +46,16 @@ android {
         }
     }
 
-    //防止lint检查时报错导致中断整个编译过程
     lintOptions {
         abortOnError false
     }
 
-}
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+        androidTest.java.srcDirs += 'src/androidTest/kotlin'
+        androidTest.resources.srcDirs += 'src/androidTest/res'
+    }
 
-// 指定编码
-tasks.withType(JavaCompile) {
-    options.encoding = "UTF-8"
-}
-
-// 打包源码
-task sourcesJar(type: Jar) {
-    from android.sourceSets.main.java.srcDirs
-    classifier = 'sources'
-}
-
-repositories {
-    flatDir { dirs 'libs' }
 }
 
 dependencies {
@@ -165,4 +164,29 @@ dependencies {
     //底部导航栏
     //api 'com.ashokvarma.android:bottom-navigation-bar:2.1.0'
 
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from android.sourceSets.main.java.sourceFiles
+}
+
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.sourceFiles
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+task classesJar(type: Jar) {
+    from "$buildDir/intermediates/classes/release"
+}
+
+artifacts {
+    archives classesJar
+    archives javadocJar
+    archives sourcesJar
 }

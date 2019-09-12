@@ -5,10 +5,10 @@ import android.content.Intent
 import com.base.app.R
 import com.base.library.base.BActivity
 import com.base.library.entitys.BaseResponse
-import com.blankj.utilcode.util.FragmentUtils
 import com.base.library.mvp.BPresenter
 import com.base.library.mvp.BasePresenter
 import com.base.library.mvp.BaseView
+import com.blankj.utilcode.util.FragmentUtils
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BActivity<BPresenter>(), BaseView {
