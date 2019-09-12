@@ -22,3 +22,40 @@
 
 [Java-Activity如何写参考](https://github.com/zhaoxiuyu/BaseLibrary/blob/master/library/src/main/java/com/base/library/template/ui/JavaActivityDemo.kt)
 
+[不想写Contract和Presenter,可以直接使用通用的](https://github.com/zhaoxiuyu/BaseLibrary/blob/master/library/src/main/java/com/base/library/template/ui/Demo2Activity.kt)
+
+
+**数据库使用Room** 
+
+[表](https://github.com/zhaoxiuyu/BaseLibrary/blob/master/library/src/main/java/com/base/library/database/entity/Test.kt)
+
+[dao](https://github.com/zhaoxiuyu/BaseLibrary/blob/master/library/src/main/java/com/base/library/database/dao/TestDao.kt)
+
+[工具类](https://github.com/zhaoxiuyu/BaseLibrary/blob/master/library/src/main/java/com/base/library/database/RoomUtils.kt)
+
+[dataBase](https://github.com/zhaoxiuyu/BaseLibrary/blob/master/library/src/main/java/com/base/library/database/database/DataBase.kt)
+
+**使用http网络请求** 
+
+```java
+        val bRequest = BRequest("url").apply {
+            httpType = BRequest.POST //请求类型
+            httpMode = BRequest.getOkGo //请求方式(OkGo,OkRx2,Retrofit2)
+            silence = false //是否静默加载
+            isFinish = false//是否销毁页面
+            isSpliceUrl = false//是否强制将params的参数拼接到url后面,up系列与params系列混用
+            isMultipart = false//是否强制使用multipart/form-data表单上传
+            method = url //方法名(默认设置为URL)
+            cacheMode = CacheMode.NO_CACHE//缓存模式
+            cacheTime = -1L //缓存时长-1永不过期
+            heads = null //请求头和参数  Map<String, String>
+            params = null // key value 参数
+            body = "" //upString
+            tag = null //标识
+        }
+        mPresenter?.getData(bRequest)
+
+```
+
+
+
