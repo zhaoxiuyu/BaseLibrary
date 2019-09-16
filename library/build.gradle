@@ -142,6 +142,7 @@ dependencies {
     api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.45-androidx'
 
     // 分割线
+    api 'com.yqritc:recyclerview-flexibledivider:1.4.0'
     api 'com.oushangfeng:PinnedSectionItemDecoration:1.3.2-androidx'
 
     // banner 轮播图
