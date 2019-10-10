@@ -8,14 +8,8 @@ import java.io.Serializable
 class BaseResponse : Serializable {
 
     var success: Boolean = false
-
-    var msg: String? = null
-    var message: String? = null
-
-    var retCode: String? = null
-    var code: String? = null
-
-    var result: Any? = null
-    var dataInfo: Any? = null
+    var message: String = ""
+    var code: String = ""
+    var data: Any? = null
 
 }

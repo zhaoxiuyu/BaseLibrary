@@ -17,16 +17,20 @@ class BModelImpl : BModel {
     private var compositeDisposable: CompositeDisposable? = null
 
     override fun getData(callback: BRequestCallback, http: BRequest) {
+        val requestBody = http.print()
+        callback.other(requestBody, "请求参数 ${http.method}", "I")
         http.getOkGo().execute(object : BCallback(callback, http.silence) {
             override fun onSuccess(response: Response<String>?) {
                 super.onSuccess(response)
                 val body = response?.body() ?: ""
 
+                callback.other(body, "请求成功 ${http.method}", "I")
                 callback.requestSuccess(body, http)
             }
 
             override fun onError(response: Response<String>?) {
                 val throwable = response?.exception
+                callback.other("${throwable?.localizedMessage}", "请求失败 ${http.method}", "E")
                 callback.requestError(throwable, http)
                 super.onError(response)
             }
@@ -109,6 +113,7 @@ class BModelImpl : BModel {
                 .appendln(data)
                 .toString()
         )
+        LogUtils.json(data)
     }
 
 }

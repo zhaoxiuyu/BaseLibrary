@@ -46,4 +46,9 @@ interface BView {
 
     fun getCache(key: String, consumer: Consumer<String>)
 
+    /**
+     * 可以用来保存日志
+     */
+    fun other(content: String, behavior: String, level: String)
+
 }

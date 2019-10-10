@@ -65,13 +65,16 @@ class BTitlebar(context: Context?, attrs: AttributeSet?) : RelativeLayout(contex
     private var cdTimer: CountDownTimer? = null
     private var surplusListener: OnSurplusListener? = null
 
+    fun setOnSurplusListener(surplus: OnSurplusListener? = null) {
+        this.surplusListener = surplus
+    }
+
     /**
      * countTime 总倒计时时间,单位:毫秒
      * surplusListener 倒计时结束回调接口
      * finish 倒计时结束是否自动销毁页面
      */
-    fun startSurplus(countTime: Int = 30000, surplusListener: OnSurplusListener? = null, finish: Boolean = true) {
-        this.surplusListener = surplusListener
+    fun startSurplus(countTime: Int = 30000, finish: Boolean = true) {
         tvRightCenter.visibility = View.VISIBLE
         tvRightCenter.text = "倒计时 ${(countTime / 1000)}"
 
@@ -87,6 +90,7 @@ class BTitlebar(context: Context?, attrs: AttributeSet?) : RelativeLayout(contex
                 surplusListener?.surplus()
             }
         }
+        cdTimer?.start()
     }
 
     fun stopSurplus() {

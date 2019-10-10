@@ -1,8 +1,11 @@
 package com.base.library.util
 
+import com.base.library.database.DataBaseUtils
+import com.base.library.database.entity.JournalRecord
 import com.blankj.utilcode.util.CacheDiskStaticUtils
 import io.reactivex.Observable
 import io.reactivex.ObservableTransformer
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
@@ -23,6 +26,17 @@ fun getCacheObservable(key: String): Observable<String> {
         .compose(transformer())
 }
 
+//添加日志记录到数据库
+fun roomInsertJournalRecord(content: String, behavior: String, level: String): Single<Long> {
+    val journalRecord = JournalRecord()
+    journalRecord.content = content
+    journalRecord.behavior = behavior
+    journalRecord.level = level
+
+    return DataBaseUtils.getJournalRecordDao().insertRxCompletable(journalRecord)
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+}
 
 //变换 IO线程 -> Main线程
 fun <T> transformer(): ObservableTransformer<T, T> {

@@ -30,6 +30,7 @@ abstract class BActivity<T : BPresenter> : AppCompatActivity(), BView {
     abstract fun initData()
 
     var mPresenter: T? = null
+    private var xPopupLoading: BasePopupView? = null
     private var xPopup: BasePopupView? = null
 
     val mHandler: Handler by lazy { Handler() }
@@ -57,18 +58,22 @@ abstract class BActivity<T : BPresenter> : AppCompatActivity(), BView {
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         disDialog()
         mHandler.removeCallbacksAndMessages(null)
+        super.onDestroy()
     }
 
     override fun getContext() = this
 
     override fun showDialog(xPopupCallback: XPopupCallback?, loading: String?) {
-        xPopup = XPopup.Builder(this)
-            .dismissOnBackPressed(false)
-            .dismissOnTouchOutside(false)
-            .setPopupCallback(xPopupCallback).asLoading(loading).show()
+        if (xPopupLoading == null) {
+            xPopupLoading = XPopup.Builder(this)
+                .dismissOnBackPressed(false)
+                .dismissOnTouchOutside(false)
+                .setPopupCallback(xPopupCallback).asLoading(loading).show()
+        } else {
+            xPopupLoading?.show()
+        }
     }
 
     override fun showDialog(
@@ -103,10 +108,12 @@ abstract class BActivity<T : BPresenter> : AppCompatActivity(), BView {
     //关闭提示框
     override fun disDialog() {
         xPopup?.dismiss()
+        xPopupLoading?.dismiss()
     }
 
     //关闭提示框之后销毁页面
     override fun dismissWith() {
+        xPopupLoading?.dismiss()
         xPopup?.dismissWith { finish() }
     }
 
@@ -122,6 +129,10 @@ abstract class BActivity<T : BPresenter> : AppCompatActivity(), BView {
         getCacheObservable(key)
             .`as`(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(this)))
             .subscribe(consumer)
+    }
+
+    // todo
+    override fun other(content: String, behavior: String, level: String) {
     }
 
 }

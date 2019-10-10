@@ -46,11 +46,6 @@ object JsonUtils {
     }
 
     /**
-     * 获取 gson
-     */
-    fun getGson() = gson
-
-    /**
      * 将 String 解析成指定泛型
      */
     fun <T> toAny(str: String, t: Class<T>): T = gson.fromJson(str, t)

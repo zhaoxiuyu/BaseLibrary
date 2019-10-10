@@ -139,4 +139,9 @@ abstract class BFragment<T : BPresenter> : ImmersionFragment(), BView {
             .`as`(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(this)))
             .subscribe(consumer)
     }
+
+    // todo
+    override fun other(content: String, behavior: String, level: String) {
+    }
+
 }

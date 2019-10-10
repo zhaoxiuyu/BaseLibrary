@@ -2,7 +2,9 @@ package com.base.library.database.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import com.base.library.database.dao.JournalRecordDao
 import com.base.library.database.dao.TestDao
+import com.base.library.database.entity.JournalRecord
 import com.base.library.database.entity.Test
 
 /**
@@ -12,11 +14,13 @@ import com.base.library.database.entity.Test
  * exportSchema 未知
  */
 @Database(
-    entities = [Test::class],
+    entities = [Test::class, JournalRecord::class],
     version = 1
 )
 abstract class DataBase : RoomDatabase() {
 
     abstract fun getTestDao(): TestDao
+
+    abstract fun getJournalRecordDao(): JournalRecordDao
 
 }

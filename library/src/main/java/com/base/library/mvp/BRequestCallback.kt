@@ -32,4 +32,9 @@ interface BRequestCallback {
      */
     fun requestSuccess(body: String, baseHttpDto: BRequest)
 
+    /**
+     * 可以用来保存日志
+     */
+    fun other(content: String, behavior: String, level: String)
+
 }

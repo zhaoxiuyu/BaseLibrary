@@ -293,9 +293,12 @@ fun getGlideBitmapPath(url: String): String {
 /**
  * 清空图片缓存
  */
-fun GlideClean() {
+fun GlideDiskClean() {
     //磁盘缓存清理（子线程）
     GlideApp.get(Utils.getApp()).clearDiskCache()
+}
+
+fun GlideMemoryClean() {
     //内存缓存清理（主线程）
     GlideApp.get(Utils.getApp()).clearMemory()
 }

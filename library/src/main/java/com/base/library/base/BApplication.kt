@@ -4,6 +4,7 @@ import androidx.core.content.ContextCompat
 import androidx.multidex.MultiDexApplication
 import com.base.library.BuildConfig
 import com.base.library.R
+import com.base.library.util.CockroachUtil
 import com.blankj.utilcode.util.CrashUtils
 import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.Utils
@@ -30,10 +31,31 @@ class BApplication : MultiDexApplication() {
         RxTool.init(this)
         initHttp()
 
+        if (BuildConfig.DEBUG) {
+            initCockroach()
+        }
+
         //XPopup主题颜色
         XPopup.setPrimaryColor(ContextCompat.getColor(this, R.color.base_sb_pressed))
 
         LogUtils.d("初始化耗时 : ${System.currentTimeMillis() - startTime}")
+    }
+
+    /**
+     * todo
+     * 不死异常拦截
+     * handlerException内部建议手动try{ 异常处理逻辑 }catch(Throwable e){ }
+     * 以防handlerException内部再次抛出异常，导致循环调用handlerException
+     */
+    private fun initCockroach() {
+        CockroachUtil.install(object : CockroachUtil.ExceptionHandler {
+            override fun handlerException(thread: Thread, throwable: Throwable, info: String) {
+                try {
+                    LogUtils.e(info)
+                } catch (e: Throwable) {
+                }
+            }
+        })
     }
 
     /**

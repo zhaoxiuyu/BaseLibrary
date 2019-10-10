@@ -4,7 +4,6 @@ import androidx.room.*
 import com.base.library.database.entity.Test
 import io.reactivex.*
 
-
 @Dao // 访问数据库操作的接口
 interface TestDao {
 
