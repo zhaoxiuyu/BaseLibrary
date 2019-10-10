@@ -1,24 +1,42 @@
+// 声明是Android程序，
+//com.android.application 表示这是一个应用程序模块
+//com.android.library 标识这是一个库模块
+//而这区别：前者可以直接运行，后者只能被导入别的应用作为一个模块。
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.getkeepsafe.dexcount' // 统计方法数
 
+//配置项目构建的各种属性
 android {
-    compileSdkVersion 28
-    buildToolsVersion = '29.0.0'
+    compileSdkVersion 28 //编译时使用 Android版本
+    buildToolsVersion = '29.0.0' //编译时使用的构建工具的版本
 
     //默认配置项
     defaultConfig {
-        applicationId "com.base.app"
-        minSdkVersion rootProject.minSdkVersion
-        targetSdkVersion rootProject.targetSdkVersion
-        versionCode rootProject.versionCode
-        versionName rootProject.versionName
+        applicationId "com.base.app" //项目包名
+        minSdkVersion rootProject.minSdkVersion //最低兼容Android版本
+        targetSdkVersion rootProject.targetSdkVersion //目标版本
+        versionCode rootProject.versionCode //版本号
+        versionName rootProject.versionName //版本名
 
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        //依赖库多的时候可能出现重复文件,通过 exclude 将重复的文件剔除
+        packagingOptions {
+//            exclude "lib/mips/libRSSupport.so"
+//            exclude 'lib/arm64-v8a/libRSSupport.so'
+//            exclude 'lib/armeabi-v7a/librsjni.so'
+//            exclude 'lib/x86/libRSSupport.so'
+//            exclude 'lib/x86_64/libRSSupport.so'
+//            exclude 'lib/armeabi-v7a/libRSSupport.so'
+//            exclude 'lib/arm64-v8a/librsjni.so'
+//            exclude 'lib/x86/librsjni.so'
+//            exclude 'lib/x86_64/librsjni.so'
+        }
     }
 
     //打包时的相关配置
@@ -45,10 +63,10 @@ android {
         }
     }
 
-    // 编译配置，release或debug版本的内容
+    // 自动化打包配置，release或debug版本的内容
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled false //是否混淆
             signingConfig signingConfigs.config
             buildConfigField("boolean", "IS_DEBUG", "false")
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -63,6 +81,21 @@ android {
             minifyEnabled false
             buildConfigField("boolean", "IS_DEBUG", "false")
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    // 多渠道打包
+    flavorDimensions "default"  // 这个一定要加
+    productFlavors {
+        sendinfo {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "sendinfo"]
+        }
+    }
+
+    // 设置编译生成APK的名称
+    android.applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            outputFileName = "${defaultConfig.versionName}_${variant.name}_${getDate()}.apk"
         }
     }
 
@@ -85,4 +118,9 @@ dependencies {
 
 repositories {
     mavenCentral()
+}
+
+//打包时间
+def getDate() {
+    return new Date().format("yyyyMMdd HH-mm-ss", TimeZone.getTimeZone("UTC"))
 }

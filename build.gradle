@@ -1,8 +1,10 @@
 buildscript {
+    //这里是gradle脚本执行所需依赖，分别是对应的maven库和插件
+
     ext.kotlin_version = '1.3.50'
     repositories {
-        google()
-        jcenter()
+        google() //可以引用google上的开源项目
+        jcenter() //声明了jcenter()配置，可以引用 jcenter 上的开源项目
         mavenCentral()
         maven { url "https://jitpack.io" }
         maven { url 'https://maven.fabric.io/public' }
@@ -18,6 +20,7 @@ buildscript {
     }
 
     dependencies {
+        //此处是 android 的插件 gradle 及其版本号
         classpath 'com.android.tools.build:gradle:3.4.2'
 
         // kotlin
@@ -33,6 +36,7 @@ buildscript {
 }
 
 allprojects {
+    //这里是项目本身需要的依赖，比如项目所需的 maven 库
     repositories {
         google()
         jcenter()
@@ -43,6 +47,9 @@ allprojects {
     }
 }
 
+// 这是一个 task 任务，执行 clean project 时执行此 task。可以理解为一个函数
+// 该任务继承自 Delete，删除根目录中的 build 目录。
+// 相当于执行 Delete.delete(rootProject.buildDir)。
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
