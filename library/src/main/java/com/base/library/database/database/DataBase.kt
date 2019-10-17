@@ -8,7 +8,7 @@ import com.base.library.database.entity.JournalRecord
 import com.base.library.database.entity.Test
 
 /**
- * 数据库持有者,应用程序持久化 关系型数据的底层连接主要访问点
+ * 数据库持有者 & 数据库版本管理者,应用程序持久化 关系型数据的底层连接主要访问点
  * entities 数据库表的实体
  * version 数据库版本号
  * exportSchema 未知

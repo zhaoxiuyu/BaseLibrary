@@ -1,6 +1,7 @@
 package com.base.library.mvp
 
 import android.content.Context
+import com.base.library.interfaces.MyXPopupListener
 import com.lxj.xpopup.interfaces.OnCancelListener
 import com.lxj.xpopup.interfaces.OnConfirmListener
 import com.lxj.xpopup.interfaces.XPopupCallback
@@ -24,11 +25,9 @@ interface BView {
         isHideCancel: Boolean = true // 是否隐藏取消按钮
     )
 
-    fun getConfirmDisListener(): OnConfirmListener
-    fun getConfirmFinishListener(): OnConfirmListener
+    fun getDismissListener(): MyXPopupListener
 
-    fun getCancelDisListener(): OnCancelListener
-    fun getCancelFinishListener(): OnCancelListener
+    fun getDismissFinishListener(): MyXPopupListener
 
     fun disDialog() // 销毁对话框
 

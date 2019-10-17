@@ -68,18 +68,15 @@ android {
         release {
             minifyEnabled false //是否混淆
             signingConfig signingConfigs.config
-            buildConfigField("boolean", "IS_DEBUG", "false")
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
             minifyEnabled false
             signingConfig signingConfigs.config
-            buildConfigField("boolean", "IS_DEBUG", "true")
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         unsigned {
             minifyEnabled false
-            buildConfigField("boolean", "IS_DEBUG", "false")
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }

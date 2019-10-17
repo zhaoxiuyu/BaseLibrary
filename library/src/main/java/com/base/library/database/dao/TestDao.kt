@@ -4,7 +4,15 @@ import androidx.room.*
 import com.base.library.database.entity.Test
 import io.reactivex.*
 
-@Dao // 访问数据库操作的接口
+/**
+ * 数据操作类，包含用于访问数据库的方法
+ * @Dao ： 标注数据库操作的类。
+ * @Query ： 包含所有Sqlite语句操作。
+ * @Insert ： 标注数据库的插入操作。
+ * @Delete ： 标注数据库的删除操作。
+ * @Update ： 标注数据库的更新操作。
+ */
+@Dao
 interface TestDao {
 
     /**
@@ -17,6 +25,13 @@ interface TestDao {
     /**
      * +++++++++++++++++++ 直接操作，需要手动开启子线程调用 +++++++++++++++++++
      */
+
+    //    @Insert(onConflict = OnConflictStrategy.REPLACE)
+//    OnConflictStrategy.REPLACE：冲突策略是取代旧数据同时继续事务
+//    OnConflictStrategy.ROLLBACK：冲突策略是回滚事务
+//    OnConflictStrategy.ABORT：冲突策略是终止事务
+//    OnConflictStrategy.FAIL：冲突策略是事务失败
+//    OnConflictStrategy.IGNORE：冲突策略是忽略冲突
     @Insert
     fun insertTest(test: Test)
 

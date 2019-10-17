@@ -14,7 +14,6 @@ import com.uber.autodispose.AutoDispose
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 import java.net.ConnectException
 import java.net.SocketTimeoutException
@@ -100,7 +99,7 @@ open class BPresenterImpl<T : BView>(var mView: T) : BPresenter, BRequestCallbac
          * 不属于静默加载才弹窗
          */
         if (!baseHttpDto.silence) {
-            val fl = if (baseHttpDto.isFinish) mView?.getConfirmFinishListener() else null
+            val fl = if (baseHttpDto.isFinish) mView?.getDismissFinishListener() else null
             mView?.showDialog("异常提示", content, confirmListener = fl)
         }
 

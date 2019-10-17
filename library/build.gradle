@@ -31,17 +31,14 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            buildConfigField("boolean", "IS_DEBUG", "false")
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
             minifyEnabled false
-            buildConfigField("boolean", "IS_DEBUG", "true")
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         unsigned {
             minifyEnabled false
-            buildConfigField("boolean", "IS_DEBUG", "false")
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -149,7 +146,7 @@ dependencies {
     api 'com.youth.banner:banner:1.4.10'
 
     // 提示框
-    api 'com.lxj:xpopup:1.8.9-x'
+    api 'com.lxj:xpopup:1.8.10-x'
 
     // SuperTextView
     api 'com.github.lygttpod:SuperTextView:2.2.4'

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.base.library.interfaces.MyXPopupListener
 import com.base.library.mvp.BPresenter
 import com.base.library.mvp.BView
 import com.base.library.util.getCacheObservable
@@ -104,17 +105,31 @@ abstract class BFragment<T : BPresenter> : ImmersionFragment(), BView {
             .show()
     }
 
-    //确定 - 关闭提示框
-    override fun getConfirmDisListener(): OnConfirmListener = OnConfirmListener { disDialog() }
+//    //确定 - 关闭提示框
+//    override fun getConfirmDisListener(): OnConfirmListener = OnConfirmListener { disDialog() }
+//
+//    //确定 - 关闭页面
+//    override fun getConfirmFinishListener(): OnConfirmListener = OnConfirmListener { dismissWith() }
+//
+//    //取消 - 关闭提示框
+//    override fun getCancelDisListener(): OnCancelListener = OnCancelListener { disDialog() }
+//
+//    //取消 - 关闭页面
+//    override fun getCancelFinishListener(): OnCancelListener = OnCancelListener { dismissWith() }
 
-    //确定 - 关闭页面
-    override fun getConfirmFinishListener(): OnConfirmListener = OnConfirmListener { dismissWith() }
+    // 关闭提示框
+    override fun getDismissListener(): MyXPopupListener = object : MyXPopupListener {
+        override fun onDis() {
+            disDialog()
+        }
+    }
 
-    //取消 - 关闭提示框
-    override fun getCancelDisListener(): OnCancelListener = OnCancelListener { disDialog() }
-
-    //取消 - 关闭页面
-    override fun getCancelFinishListener(): OnCancelListener = OnCancelListener { dismissWith() }
+    // 关闭提示框 并且 销毁页面
+    override fun getDismissFinishListener(): MyXPopupListener = object : MyXPopupListener {
+        override fun onDis() {
+            dismissWith()
+        }
+    }
 
     //关闭提示框
     override fun disDialog() {
@@ -140,7 +155,7 @@ abstract class BFragment<T : BPresenter> : ImmersionFragment(), BView {
             .subscribe(consumer)
     }
 
-    // todo
+    //P层的数据回调,可以做一些日志保存
     override fun other(content: String, behavior: String, level: String) {
     }
 

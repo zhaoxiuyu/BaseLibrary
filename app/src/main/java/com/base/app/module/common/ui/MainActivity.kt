@@ -9,6 +9,9 @@ import com.base.library.mvp.BPresenter
 import com.base.library.mvp.BasePresenter
 import com.base.library.mvp.BaseView
 import com.blankj.utilcode.util.FragmentUtils
+import com.blankj.utilcode.util.LogUtils
+import com.lxj.xpopup.interfaces.OnCancelListener
+import com.lxj.xpopup.interfaces.OnConfirmListener
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BActivity<BPresenter>(), BaseView {
@@ -39,6 +42,33 @@ class MainActivity : BActivity<BPresenter>(), BaseView {
         }
         hide.setOnClickListener {
             FragmentUtils.remove(mainFragment)
+        }
+        butDialog.setOnClickListener {
+            LogUtils.d("123")
+
+            showDialog(
+                title = "测试",
+                content = "取消退出,确定重试",
+                confirmListener = OnConfirmListener {
+                    showDialog(
+                        title = "测试",
+                        content = "我点击了确定",
+                        confirmListener = getDismissListener(),
+                        cancelListener = getDismissListener(),
+                        isHideCancel = true
+                    )
+                },
+                cancelListener = OnCancelListener {
+                    showDialog(
+                        title = "测试",
+                        content = "我点击了取消",
+                        confirmListener = getDismissListener(),
+                        cancelListener = getDismissListener(),
+                        isHideCancel = true
+                    )
+                },
+                isHideCancel = false
+            )
         }
     }
 

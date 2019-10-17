@@ -6,19 +6,21 @@ import android.os.Handler
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import com.base.library.R
+import com.base.library.interfaces.MyXPopupListener
+import com.base.library.mvp.BPresenter
+import com.base.library.mvp.BView
 import com.base.library.util.getCacheObservable
 import com.base.library.util.putCacheObservable
 import com.blankj.utilcode.util.LogUtils
 import com.gyf.immersionbar.ImmersionBar
 import com.lxj.xpopup.XPopup
-import com.lxj.xpopup.core.BasePopupView
+import com.lxj.xpopup.impl.ConfirmPopupView
+import com.lxj.xpopup.impl.LoadingPopupView
 import com.lxj.xpopup.interfaces.OnCancelListener
 import com.lxj.xpopup.interfaces.OnConfirmListener
 import com.lxj.xpopup.interfaces.XPopupCallback
 import com.uber.autodispose.AutoDispose
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
-import com.base.library.mvp.BPresenter
-import com.base.library.mvp.BView
 import io.reactivex.functions.Consumer
 import kotlinx.android.synthetic.main.base_activity_layout.*
 import kotlinx.android.synthetic.main.base_titlebar.*
@@ -30,8 +32,8 @@ abstract class BActivity<T : BPresenter> : AppCompatActivity(), BView {
     abstract fun initData()
 
     var mPresenter: T? = null
-    private var xPopupLoading: BasePopupView? = null
-    private var xPopup: BasePopupView? = null
+    private var xPopupLoading: LoadingPopupView? = null
+    private var xPopup: ConfirmPopupView? = null
 
     val mHandler: Handler by lazy { Handler() }
     val mApplication: BApplication by lazy { application as BApplication }
@@ -70,10 +72,10 @@ abstract class BActivity<T : BPresenter> : AppCompatActivity(), BView {
             xPopupLoading = XPopup.Builder(this)
                 .dismissOnBackPressed(false)
                 .dismissOnTouchOutside(false)
-                .setPopupCallback(xPopupCallback).asLoading(loading).show()
-        } else {
-            xPopupLoading?.show()
+                .setPopupCallback(xPopupCallback).asLoading(loading)
         }
+        //隐藏状态才显示
+        if (xPopupLoading?.isDismiss == true) xPopupLoading?.show()
     }
 
     override fun showDialog(
@@ -89,21 +91,31 @@ abstract class BActivity<T : BPresenter> : AppCompatActivity(), BView {
         disDialog()
         xPopup = XPopup.Builder(this).setPopupCallback(xPopupCallback)
             .dismissOnBackPressed(false).dismissOnTouchOutside(false)
-            .asConfirm(title, content, cancelBtnText, confirmBtnText, confirmListener, cancelListener, isHideCancel)
-            .show()
+            .asConfirm(
+                title,
+                content,
+                cancelBtnText,
+                confirmBtnText,
+                confirmListener,
+                cancelListener,
+                isHideCancel
+            )
+        xPopup?.show()
     }
 
-    //确定 - 关闭提示框
-    override fun getConfirmDisListener(): OnConfirmListener = OnConfirmListener { disDialog() }
+    // 关闭提示框
+    override fun getDismissListener(): MyXPopupListener = object : MyXPopupListener {
+        override fun onDis() {
+            disDialog()
+        }
+    }
 
-    //确定 - 关闭页面
-    override fun getConfirmFinishListener(): OnConfirmListener = OnConfirmListener { dismissWith() }
-
-    //取消 - 关闭提示框
-    override fun getCancelDisListener(): OnCancelListener = OnCancelListener { disDialog() }
-
-    //取消 - 关闭页面
-    override fun getCancelFinishListener(): OnCancelListener = OnCancelListener { dismissWith() }
+    // 关闭提示框 并且 销毁页面
+    override fun getDismissFinishListener(): MyXPopupListener = object : MyXPopupListener {
+        override fun onDis() {
+            dismissWith()
+        }
+    }
 
     //关闭提示框
     override fun disDialog() {
@@ -131,7 +143,7 @@ abstract class BActivity<T : BPresenter> : AppCompatActivity(), BView {
             .subscribe(consumer)
     }
 
-    // todo
+    //P层的数据回调,可以做一些日志保存
     override fun other(content: String, behavior: String, level: String) {
     }
 

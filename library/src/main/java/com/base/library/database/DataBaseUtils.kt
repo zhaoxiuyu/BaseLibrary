@@ -8,6 +8,9 @@ import com.base.library.database.database.DataBase
 import com.blankj.utilcode.util.SDCardUtils
 import com.blankj.utilcode.util.Utils
 
+/**
+ * 数据库的创建者 & 负责数据库版本更新的具体实现者
+ */
 object DataBaseUtils {
 
     private val dataBase = Room.databaseBuilder(

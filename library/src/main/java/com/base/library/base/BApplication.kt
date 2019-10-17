@@ -31,7 +31,7 @@ class BApplication : MultiDexApplication() {
         RxTool.init(this)
         initHttp()
 
-        if (BuildConfig.DEBUG) {
+        if (!BuildConfig.DEBUG) {
             initCockroach()
         }
 
@@ -83,11 +83,11 @@ class BApplication : MultiDexApplication() {
     private fun initAndroidUtilCode() {
         Utils.init(this)
         CrashUtils.init { crashInfo, e -> LogUtils.e(crashInfo) }
-        LogUtils.getConfig().setLogSwitch(BuildConfig.IS_DEBUG)//总开关
-            .setConsoleSwitch(BuildConfig.IS_DEBUG)//控制台开关
+        LogUtils.getConfig().setLogSwitch(BuildConfig.DEBUG)//总开关
+            .setConsoleSwitch(BuildConfig.DEBUG)//控制台开关
             .setGlobalTag("IZXY")//全局 Tag
             .setFilePrefix("AndroidUtilCode") // Log 文件前缀
-            .setBorderSwitch(BuildConfig.IS_DEBUG)//边框开关
+            .setBorderSwitch(BuildConfig.DEBUG)//边框开关
             .stackDeep = 1 //栈深度
     }
 
