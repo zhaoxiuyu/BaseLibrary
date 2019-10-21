@@ -7,6 +7,7 @@ import com.base.library.http.BRequest
  * 作用: 网络请求监听基类
  */
 interface BRequestCallback {
+
     /**
      * 请求之前调用
      */
@@ -16,11 +17,6 @@ interface BRequestCallback {
      * 请求错误调用
      */
     fun requestError(throwable: Throwable?, baseHttpDto: BRequest)
-
-    /**
-     * 请求完成调用
-     */
-    fun requestComplete()
 
     /**
      * 返回成功调用 返回数据

@@ -5,7 +5,6 @@ import androidx.multidex.MultiDexApplication
 import com.base.library.BuildConfig
 import com.base.library.R
 import com.base.library.util.CockroachUtil
-import com.blankj.utilcode.util.CrashUtils
 import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.Utils
 import com.didichuxing.doraemonkit.DoraemonKit
@@ -82,7 +81,6 @@ class BApplication : MultiDexApplication() {
      */
     private fun initAndroidUtilCode() {
         Utils.init(this)
-        CrashUtils.init { crashInfo, e -> LogUtils.e(crashInfo) }
         LogUtils.getConfig().setLogSwitch(BuildConfig.DEBUG)//总开关
             .setConsoleSwitch(BuildConfig.DEBUG)//控制台开关
             .setGlobalTag("IZXY")//全局 Tag

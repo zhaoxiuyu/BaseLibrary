@@ -21,7 +21,7 @@ buildscript {
 
     dependencies {
         //此处是 android 的插件 gradle 及其版本号
-        classpath 'com.android.tools.build:gradle:3.4.2'
+        classpath 'com.android.tools.build:gradle:3.5.1'
 
         // kotlin
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"

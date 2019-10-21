@@ -11,7 +11,7 @@ apply plugin: 'com.getkeepsafe.dexcount' // 统计方法数
 //配置项目构建的各种属性
 android {
     compileSdkVersion 28 //编译时使用 Android版本
-    buildToolsVersion = '29.0.0' //编译时使用的构建工具的版本
+    buildToolsVersion = '29.0.2' //编译时使用的构建工具的版本
 
     //默认配置项
     defaultConfig {
@@ -109,8 +109,9 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    implementation project(':library')
 
+    implementation project(':library')
+    kapt 'com.android.databinding:compiler:3.1.4'
 }
 
 repositories {

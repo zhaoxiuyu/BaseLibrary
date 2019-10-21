@@ -1,7 +1,6 @@
 package com.base.library.mvp
 
 import android.annotation.SuppressLint
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import com.base.library.entitys.BaseResponse
 import com.base.library.http.BRequest
@@ -22,21 +21,15 @@ import java.net.UnknownHostException
 open class BPresenterImpl<T : BView>(var mView: T) : BPresenter, BRequestCallback {
 
     private val model: BModel = BModelImpl()
-    private var lifecycleOwner: LifecycleOwner? = null
+    var lifecycleOwner: LifecycleOwner? = null
 
     override fun onCreate(owner: LifecycleOwner) {
         lifecycleOwner = owner
     }
 
-    override fun onResume(owner: LifecycleOwner) {
-    }
-
     override fun onDestroy(owner: LifecycleOwner) {
         OkGo.getInstance().cancelTag(this)
         model.closeAllDispose()
-    }
-
-    override fun onLifecycleChanged(owner: LifecycleOwner, event: Lifecycle.Event) {
     }
 
     override fun getData(http: BRequest) {
@@ -53,8 +46,6 @@ open class BPresenterImpl<T : BView>(var mView: T) : BPresenter, BRequestCallbac
     override fun beforeRequest() {
         mView?.showDialog()
     }
-
-    override fun requestComplete() {}
 
     override fun requestSuccess(baseResponse: BaseResponse, baseHttpDto: BRequest) {
         mView?.disDialog()

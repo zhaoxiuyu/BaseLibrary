@@ -26,8 +26,8 @@ interface BPresenter : LifecycleObserver {
     /**
      * Activity 运行
      */
-    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-    fun onResume(@NotNull owner: LifecycleOwner)
+//    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+//    fun onResume(@NotNull owner: LifecycleOwner)
 
     /**
      * Activity 销毁
@@ -38,7 +38,7 @@ interface BPresenter : LifecycleObserver {
     /**
      * Activity 生命周期改变
      */
-    @OnLifecycleEvent(Lifecycle.Event.ON_ANY)
-    fun onLifecycleChanged(@NotNull owner: LifecycleOwner, @NotNull event: Lifecycle.Event)
+//    @OnLifecycleEvent(Lifecycle.Event.ON_ANY)
+//    fun onLifecycleChanged(@NotNull owner: LifecycleOwner, @NotNull event: Lifecycle.Event)
 
 }

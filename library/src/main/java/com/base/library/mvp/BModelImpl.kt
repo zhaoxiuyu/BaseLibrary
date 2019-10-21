@@ -48,7 +48,6 @@ class BModelImpl : BModel {
                 }
 
                 override fun onComplete() {
-                    callback.requestComplete()
                 }
 
                 override fun onNext(s: String) {
@@ -82,7 +81,6 @@ class BModelImpl : BModel {
                 }
 
                 override fun onComplete() {
-                    callback.requestComplete()
                 }
             })
     }

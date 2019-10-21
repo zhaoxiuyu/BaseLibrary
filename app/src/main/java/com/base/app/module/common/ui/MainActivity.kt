@@ -12,6 +12,11 @@ import com.blankj.utilcode.util.FragmentUtils
 import com.blankj.utilcode.util.LogUtils
 import com.lxj.xpopup.interfaces.OnCancelListener
 import com.lxj.xpopup.interfaces.OnConfirmListener
+import com.uber.autodispose.AutoDispose
+import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
+import io.reactivex.Observable
+import io.reactivex.Observer
+import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BActivity<BPresenter>(), BaseView {
@@ -72,6 +77,8 @@ class MainActivity : BActivity<BPresenter>(), BaseView {
         }
     }
 
+    var disposable: Disposable? = null
+
     private fun doOnNext() {
 //        val br = BaseResponse()
 //        br.code = "10010"
@@ -84,6 +91,32 @@ class MainActivity : BActivity<BPresenter>(), BaseView {
 //            .subscribe {
 //                LogUtils.d("${it.code}")
 //            }
+
+        val froms = mutableListOf("1", "2", "3")
+        Observable.fromIterable(froms)
+            .map {
+                LogUtils.d("map = $it")
+                it
+            }
+            .`as`(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(this)))
+            .subscribe(object : Observer<String> {
+                override fun onComplete() {
+                    LogUtils.d("onComplete")
+                }
+
+                override fun onSubscribe(d: Disposable) {
+                    disposable = d
+                    LogUtils.d("onSubscribe")
+                }
+
+                override fun onNext(t: String) {
+                    if (t == "2") disposable?.dispose()
+                    LogUtils.d("onNext")
+                }
+
+                override fun onError(e: Throwable) {
+                }
+            })
     }
 
     private fun doOnSubscribe() {

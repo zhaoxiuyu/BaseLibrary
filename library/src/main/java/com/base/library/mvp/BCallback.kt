@@ -6,7 +6,8 @@ import com.lzy.okgo.model.Progress
 import com.lzy.okgo.model.Response
 import com.lzy.okgo.request.base.Request
 
-open class BCallback(private val callback: BRequestCallback, private val silence: Boolean) : AbsCallback<String>() {
+open class BCallback(private val callback: BRequestCallback, private val silence: Boolean) :
+    AbsCallback<String>() {
 
     /**
      * 请求网络开始前，UI线程
@@ -46,7 +47,6 @@ open class BCallback(private val callback: BRequestCallback, private val silence
      */
     override fun onFinish() {
         Log.v("OkGo", "onFinish")
-        callback.requestComplete()
         super.onFinish()
     }
 
