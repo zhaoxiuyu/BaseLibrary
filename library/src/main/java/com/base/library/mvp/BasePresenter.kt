@@ -1,6 +1,5 @@
 package com.base.library.mvp
 
-import com.base.library.entitys.BaseResponse
 import com.base.library.http.BRequest
 import com.blankj.utilcode.util.LogUtils
 
@@ -9,9 +8,9 @@ import com.blankj.utilcode.util.LogUtils
  */
 class BasePresenter(view: BaseView) : BPresenterImpl<BaseView>(view), BPresenter {
 
-    override fun requestSuccess(baseResponse: BaseResponse, baseHttpDto: BRequest) {
-        mView?.disDialog()
-        mView?.bindData(baseResponse)
+    override fun requestSuccess(body: String, baseHttpDto: BRequest) {
+        super.requestSuccess(body, baseHttpDto)
+        mView?.bindData(body)
     }
 
     override fun requestError(throwable: Throwable?, baseHttpDto: BRequest) {

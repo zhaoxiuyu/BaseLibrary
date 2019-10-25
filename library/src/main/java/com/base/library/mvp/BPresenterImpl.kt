@@ -1,36 +1,19 @@
 package com.base.library.mvp
 
-import android.annotation.SuppressLint
 import androidx.lifecycle.LifecycleOwner
-import com.base.library.entitys.BaseResponse
+import androidx.lifecycle.ViewModel
 import com.base.library.http.BRequest
-import com.base.library.util.JsonUtils
 import com.blankj.utilcode.util.LogUtils
 import com.lzy.okgo.OkGo
 import com.lzy.okgo.exception.HttpException
 import com.lzy.okgo.exception.StorageException
-import com.uber.autodispose.AutoDispose
-import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import java.net.ConnectException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 
-open class BPresenterImpl<T : BView>(var mView: T) : BPresenter, BRequestCallback {
+open class BPresenterImpl<T : BView?>(var mView: T?) : ViewModel(), BPresenter, BRequestCallback {
 
     private val model: BModel = BModelImpl()
-    var lifecycleOwner: LifecycleOwner? = null
-
-    override fun onCreate(owner: LifecycleOwner) {
-        lifecycleOwner = owner
-    }
-
-    override fun onDestroy(owner: LifecycleOwner) {
-        OkGo.getInstance().cancelTag(this)
-        model.closeAllDispose()
-    }
 
     override fun getData(http: BRequest) {
         mView?.let {
@@ -47,50 +30,31 @@ open class BPresenterImpl<T : BView>(var mView: T) : BPresenter, BRequestCallbac
         mView?.showDialog()
     }
 
-    override fun requestSuccess(baseResponse: BaseResponse, baseHttpDto: BRequest) {
+    override fun requestSuccess(body: String, bRequest: BRequest) {
         mView?.disDialog()
     }
 
-    @SuppressLint("CheckResult")
-    override fun requestSuccess(body: String, baseHttpDto: BRequest) {
-        Observable.just(body)
-            .subscribeOn(Schedulers.io())
-            .map {
-                LogUtils.d("解析线程 : " + Thread.currentThread().name)
-                JsonUtils.toAny(it, BaseResponse::class.java)
-            }
-            .observeOn(AndroidSchedulers.mainThread())
-            .`as`(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner)))
-            .subscribe({
-                LogUtils.d("返回线程 : " + Thread.currentThread().name)
-                requestSuccess(it, baseHttpDto)
-            }, {
-                requestError(it, baseHttpDto)
-            })
-    }
-
-    override fun requestError(throwable: Throwable?, baseHttpDto: BRequest) {
+    override fun requestError(throwable: Throwable?, bRequest: BRequest) {
         mView?.disDialog()
 
-        var content = "额...出错了"
-        if (throwable is UnknownHostException || throwable is ConnectException) {
-            content = "网络连接失败,请连接网络"
+        val content = if (throwable is UnknownHostException || throwable is ConnectException) {
+            "网络连接失败,请连接网络"
         } else if (throwable is SocketTimeoutException) {
-            content = "网络请求超时"
+            "网络请求超时"
         } else if (throwable is HttpException) {
-            content = "响应码404和500,服务器内部错误"
+            "响应码404和500,服务器内部错误"
         } else if (throwable is StorageException) {
-            content = "SD卡不存在或者没有权限"
-        } else if (throwable is IllegalStateException) {
-            content = throwable.message ?: "额...出错了"
+            "SD卡不存在或者没有权限"
+        } else {
+            throwable?.message ?: "额...出错了"
         }
         LogUtils.e(content)
 
         /**
          * 不属于静默加载才弹窗
          */
-        if (!baseHttpDto.silence) {
-            val fl = if (baseHttpDto.isFinish) mView?.getDismissFinishListener() else null
+        if (!bRequest.silence) {
+            val fl = if (bRequest.isFinish) mView?.getDismissFinishListener() else null
             mView?.showDialog("异常提示", content, confirmListener = fl)
         }
 
@@ -99,6 +63,22 @@ open class BPresenterImpl<T : BView>(var mView: T) : BPresenter, BRequestCallbac
 
     override fun other(content: String, behavior: String, level: String) {
         mView?.other(content, behavior, level)
+    }
+
+    override fun onCleared() {
+        recovery()
+        LogUtils.d("onCleared 回收")
+    }
+
+    override fun onDestroy(owner: LifecycleOwner) {
+        recovery()
+        LogUtils.d("onDestroy 回收")
+    }
+
+    private fun recovery() {
+        OkGo.getInstance().cancelTag(this)
+        model.closeAllDispose()
+//        mView = null
     }
 
 }

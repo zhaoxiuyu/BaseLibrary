@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import com.base.app.R
 import com.base.library.base.BActivity
-import com.base.library.entitys.BaseResponse
 import com.base.library.mvp.BPresenter
 import com.base.library.mvp.BasePresenter
 import com.base.library.mvp.BaseView
@@ -18,6 +17,7 @@ import io.reactivex.Observable
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_main.*
+
 
 class MainActivity : BActivity<BPresenter>(), BaseView {
 
@@ -48,6 +48,8 @@ class MainActivity : BActivity<BPresenter>(), BaseView {
         hide.setOnClickListener {
             FragmentUtils.remove(mainFragment)
         }
+        butLogin.setOnClickListener { startActivity(Intent(this, LoginActivity::class.java)) }
+        butRegister.setOnClickListener { startActivity(Intent(this, RegisterActivity::class.java)) }
         butDialog.setOnClickListener {
             LogUtils.d("123")
 
@@ -135,7 +137,8 @@ class MainActivity : BActivity<BPresenter>(), BaseView {
 //            })
     }
 
-    override fun bindData(baseResponse: BaseResponse) {
+
+    override fun bindData(any: Any) {
     }
 
     override fun bindError(string: String) {

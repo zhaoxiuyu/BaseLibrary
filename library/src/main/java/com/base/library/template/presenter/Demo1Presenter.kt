@@ -6,7 +6,11 @@ import com.base.library.entitys.BaseResponse
 import com.base.library.http.BRequest
 import com.base.library.mvp.BPresenterImpl
 import com.base.library.template.contract.Demo1Contract
+import com.base.library.util.JsonUtils
+import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.StringUtils
+import io.reactivex.Observable
+import io.reactivex.schedulers.Schedulers
 
 /**
  * 作用: 使用案例,自己定义Presenter
@@ -14,14 +18,17 @@ import com.blankj.utilcode.util.StringUtils
 class Demo1Presenter(view: Demo1Contract.View) : BPresenterImpl<Demo1Contract.View>(view),
     Demo1Contract.Presenter {
 
-    override fun requestSuccess(any: BaseResponse, baseHttpDto: BRequest) {
-        super.requestSuccess(any, baseHttpDto)
-        when (baseHttpDto.url) {
-            IDCARD -> {
-//                data class PersonData(var name: String, var age: Int)
-//                val loginVo = JsonUtils.toAny(baseResponse.dataInfo.toString(), PersonData::class.java)
+    override fun requestSuccess(body: String, baseHttpDto: BRequest) {
+        super.requestSuccess(body, baseHttpDto)
+        Observable.just(body)
+            .subscribeOn(Schedulers.io())
+            .map {
+                LogUtils.d("解析线程 : " + Thread.currentThread().name)
+                JsonUtils.toAny(it, BaseResponse::class.java)
             }
-        }
+            .subscribe {
+
+            }
     }
 
     override fun check(idCard: String) {

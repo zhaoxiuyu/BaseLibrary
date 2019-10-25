@@ -9,7 +9,9 @@ class BaseResponse : Serializable {
 
     var success: Boolean = false
     var message: String = ""
+    var errorMsg: String = ""
     var code: String = ""
+    var errorCode: String = ""
     var data: Any? = null
 
 }

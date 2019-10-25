@@ -2,7 +2,6 @@ package com.base.library.template.ui
 
 import android.content.Intent
 import com.base.library.base.BActivity
-import com.base.library.entitys.BaseResponse
 import com.base.library.mvp.BPresenter
 import com.base.library.mvp.BasePresenter
 import com.base.library.mvp.BaseView
@@ -22,7 +21,7 @@ class Demo2Activity : BActivity<BPresenter>(), BaseView {
         mPresenter = BasePresenter(this)
     }
 
-    override fun bindData(baseResponse: BaseResponse) {
+    override fun bindData(any: Any) {
     }
 
     override fun bindError(string: String) {

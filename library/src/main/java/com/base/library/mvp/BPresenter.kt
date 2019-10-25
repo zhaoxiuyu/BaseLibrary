@@ -20,8 +20,8 @@ interface BPresenter : LifecycleObserver {
     /**
      * Activity 创建
      */
-    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-    fun onCreate(@NotNull owner: LifecycleOwner)
+//    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
+//    fun onCreate(@NotNull owner: LifecycleOwner)
 
     /**
      * Activity 运行
