@@ -21,6 +21,7 @@ class Demo1Activity : BActivity<Demo1Contract.Presenter>(), Demo1Contract.View {
     }
 
     override fun initData() {
+        mPresenter?.check("")
     }
 
     override fun loginSuccess(request: String?) {

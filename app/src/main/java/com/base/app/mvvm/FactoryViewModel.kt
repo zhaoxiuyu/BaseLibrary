@@ -1,12 +1,13 @@
-package com.base.library.mvp
+package com.base.app.mvvm
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.base.library.mvp.BView
 
 /**
  * 创建ViewModel的工厂方法
  */
-class ViewModelFactory(var mView: BView, var cla: Class<*>) :
+class FactoryViewModel(var mView: BView, var cla: Class<*>) :
     ViewModelProvider.NewInstanceFactory() {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {

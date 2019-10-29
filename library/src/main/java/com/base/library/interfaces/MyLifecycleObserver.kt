@@ -4,23 +4,31 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.OnLifecycleEvent
-import org.jetbrains.annotations.NotNull
 
 /**
  * 通用的生命周期管理
  */
 interface MyLifecycleObserver : LifecycleObserver {
 
-    /**
-     * Activity 创建
-     */
-    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-    fun onCreate(@NotNull owner: LifecycleOwner)
+//    @OnLifecycleEvent(Lifecycle.Event.ON_ANY)
+//    fun onAny(owner: LifecycleOwner, event: Lifecycle.Event)
 
-    /**
-     * Activity 销毁
-     */
+    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
+    fun onCreate(owner: LifecycleOwner)
+
+//    @OnLifecycleEvent(Lifecycle.Event.ON_START)
+//    fun onStart(owner: LifecycleOwner)
+//
+//    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+//    fun onResume(owner: LifecycleOwner)
+//
+//    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+//    fun onPause(owner: LifecycleOwner)
+//
+//    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
+//    fun onStop(owner: LifecycleOwner)
+
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    fun onDestroy(@NotNull owner: LifecycleOwner)
+    fun onDestroy(owner: LifecycleOwner)
 
 }

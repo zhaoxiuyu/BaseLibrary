@@ -1,30 +1,24 @@
 package com.base.library.mvp
 
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.ViewModel
+import com.base.library.base.IDCARD
+import com.base.library.http.BManager
 import com.base.library.http.BRequest
 import com.blankj.utilcode.util.LogUtils
 import com.lzy.okgo.OkGo
 import com.lzy.okgo.exception.HttpException
 import com.lzy.okgo.exception.StorageException
+import com.lzy.okgo.model.Response
+import com.uber.autodispose.AutoDispose
+import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
+import io.reactivex.Observable
 import java.net.ConnectException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 
-open class BPresenterImpl<T : BView?>(var mView: T?) : ViewModel(), BPresenter, BRequestCallback {
+open class BPresenterImpl<T : BView?>(var mView: T?) : BPresenter, BRequestCallback {
 
-    private val model: BModel = BModelImpl()
-
-    override fun getData(http: BRequest) {
-        mView?.let {
-            http.tag = this
-            when (http.httpMode) {
-                BRequest.getOkGo -> model.getData(this, http)
-                BRequest.getOkRx2 -> model.getOkRx2(this, http)
-                BRequest.getRetrofit2 -> model.getRetrofit2(this, http)
-            }
-        }
-    }
+    var owner: LifecycleOwner? = null
 
     override fun beforeRequest() {
         mView?.showDialog()
@@ -65,20 +59,51 @@ open class BPresenterImpl<T : BView?>(var mView: T?) : ViewModel(), BPresenter, 
         mView?.other(content, behavior, level)
     }
 
-    override fun onCleared() {
-        recovery()
-        LogUtils.d("onCleared 回收")
+    override fun onCreate(owner: LifecycleOwner) {
+        this.owner = owner
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
-        recovery()
-        LogUtils.d("onDestroy 回收")
+        OkGo.getInstance().cancelTag(this)
     }
 
-    private fun recovery() {
-        OkGo.getInstance().cancelTag(this)
-        model.closeAllDispose()
-//        mView = null
+    override fun getData(http: BRequest) {
+        val requestBody = http.print()
+        other(requestBody, "请求参数 ${http.method}", "I")
+        http.getOkGo().execute(object : BCallback(this, http.silence) {
+            override fun onSuccess(response: Response<String>?) {
+                super.onSuccess(response)
+                val body = response?.body() ?: ""
+
+                other(body, "请求成功 ${http.method}", "I")
+                requestSuccess(body, http)
+            }
+
+            override fun onError(response: Response<String>?) {
+                val throwable = response?.exception
+                other("${throwable?.localizedMessage}", "请求失败 ${http.method}", "E")
+                requestError(throwable, http)
+                super.onError(response)
+            }
+        })
+    }
+
+    override fun getRetrofit2(http: BRequest) {
+        fun getRetrofitApi(): Observable<String> {
+            return when (http.url) {
+                IDCARD -> BManager.mBaseHttpService.apiPay(http.body)
+                else -> BManager.mBaseHttpService.apiPay(http.body)
+            }
+        }
+
+        Observable.just(http).doOnSubscribe { if (!http.silence) beforeRequest() }
+            .flatMap { getRetrofitApi() }
+            .`as`(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(owner)))
+            .subscribe({
+                requestSuccess(it, http)
+            }, {
+                requestError(it, http)
+            })
     }
 
 }

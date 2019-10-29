@@ -23,7 +23,7 @@
         </activity>
 
         <activity android:name=".module.common.ui.LoginActivity"></activity>
-        <activity android:name=".module.common.ui.RegisterActivity"></activity>
+        <activity android:name=".module.personal.ui.RegisterActivity"></activity>
 
         <activity android:name="com.base.library.template.ui.Demo1Activity"></activity>
 

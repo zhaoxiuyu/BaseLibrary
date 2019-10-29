@@ -9,7 +9,10 @@ import com.base.library.template.contract.Demo1Contract
 import com.base.library.util.JsonUtils
 import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.StringUtils
+import com.uber.autodispose.AutoDispose
+import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
 import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 /**
@@ -18,14 +21,15 @@ import io.reactivex.schedulers.Schedulers
 class Demo1Presenter(view: Demo1Contract.View) : BPresenterImpl<Demo1Contract.View>(view),
     Demo1Contract.Presenter {
 
-    override fun requestSuccess(body: String, baseHttpDto: BRequest) {
-        super.requestSuccess(body, baseHttpDto)
+    override fun requestSuccess(body: String, bRequest: BRequest) {
+        super.requestSuccess(body, bRequest)
         Observable.just(body)
-            .subscribeOn(Schedulers.io())
             .map {
                 LogUtils.d("解析线程 : " + Thread.currentThread().name)
                 JsonUtils.toAny(it, BaseResponse::class.java)
             }
+            .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+            .`as`(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(owner)))
             .subscribe {
 
             }

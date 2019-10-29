@@ -2,7 +2,7 @@ package com.base.library.database
 
 import androidx.lifecycle.LifecycleOwner
 import com.base.library.database.entity.JournalRecord
-import com.base.library.interfaces.MyLifecycleObserver
+import com.base.library.interfaces.MyLifecycle
 import com.blankj.utilcode.constant.TimeConstants
 import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.TimeUtils
@@ -12,15 +12,12 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 
-class RoomLifecycle : MyLifecycleObserver {
+class RoomLifecycle : MyLifecycle {
 
     private lateinit var owner: LifecycleOwner
 
     override fun onCreate(owner: LifecycleOwner) {
         this.owner = owner
-    }
-
-    override fun onDestroy(owner: LifecycleOwner) {
     }
 
     // 添加日志

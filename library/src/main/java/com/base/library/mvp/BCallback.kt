@@ -6,7 +6,7 @@ import com.lzy.okgo.model.Progress
 import com.lzy.okgo.model.Response
 import com.lzy.okgo.request.base.Request
 
-open class BCallback(private val callback: BRequestCallback, private val silence: Boolean) :
+open class BCallback(private val callback: BRequestCallback?, private val silence: Boolean) :
     AbsCallback<String>() {
 
     /**
@@ -14,7 +14,7 @@ open class BCallback(private val callback: BRequestCallback, private val silence
      */
     override fun onStart(request: Request<String, out Request<Any, Request<*, *>>>?) {
         Log.v("OkGo", "onStart")
-        if (!silence) callback.beforeRequest()
+        if (!silence) callback?.beforeRequest()
         super.onStart(request)
     }
 

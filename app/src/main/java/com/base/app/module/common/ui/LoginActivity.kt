@@ -7,7 +7,7 @@ import com.base.app.module.common.presenter.LoginPresenter
 import com.base.library.base.BActivity
 import kotlinx.android.synthetic.main.activity_login.*
 
-class LoginActivity : BActivity<LoginContract.Presenter>(), LoginContract.View {
+class LoginActivity : BActivity<LoginPresenter>(), LoginContract.View {
 
     override fun initArgs(intent: Intent?) {
     }

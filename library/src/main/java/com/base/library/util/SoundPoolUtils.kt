@@ -7,20 +7,13 @@ import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
 import androidx.lifecycle.LifecycleOwner
-import com.base.library.interfaces.MyLifecycleObserver
+import com.base.library.interfaces.MyLifecycle
 import com.blankj.utilcode.util.Utils
 
 /**
  * 短音频 + 震动
  */
-object SoundPoolUtils : MyLifecycleObserver {
-
-    override fun onCreate(owner: LifecycleOwner) {
-    }
-
-    override fun onDestroy(owner: LifecycleOwner) {
-        release()
-    }
+object SoundPoolUtils : MyLifecycle {
 
     private val MAX_STREAMS = 2
     private val DEFAULT_QUALITY = 0
@@ -62,7 +55,14 @@ object SoundPoolUtils : MyLifecycleObserver {
     fun playVideo(resId: Int) {
         val load = mSoundPool.load(Utils.getApp(), resId, DEFAULT_PRIORITY)
         mSoundPool.setOnLoadCompleteListener { soundPool, sampleId, status ->
-            mSoundPool.play(load, LEFT_VOLUME.toFloat(), RIGHT_VOLUME.toFloat(), DEFAULT_PRIORITY, LOOP, RATE)
+            mSoundPool.play(
+                load,
+                LEFT_VOLUME.toFloat(),
+                RIGHT_VOLUME.toFloat(),
+                DEFAULT_PRIORITY,
+                LOOP,
+                RATE
+            )
         }
     }
 
@@ -94,6 +94,10 @@ object SoundPoolUtils : MyLifecycleObserver {
     fun release() {
         mSoundPool.release()
         mVibrator.cancel()
+    }
+
+    override fun onDestroy(owner: LifecycleOwner) {
+        release()
     }
 
 }

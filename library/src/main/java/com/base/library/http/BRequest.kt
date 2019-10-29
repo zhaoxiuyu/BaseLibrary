@@ -1,7 +1,6 @@
 package com.base.library.http
 
 import androidx.lifecycle.MutableLiveData
-import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.StringUtils
 import com.lzy.okgo.OkGo
 import com.lzy.okgo.cache.CacheMode
@@ -18,7 +17,6 @@ class BRequest(val url: String) {
     // url 请求的标志,用来唯一指定请求
 
     var httpType = POST //请求类型
-    var httpMode = getOkGo //请求方式
     var silence = false //是否静默加载
     var isFinish = false//请求失败 确定 提示框 是否销毁当前页面
     var isSpliceUrl = false//是否强制将params的参数拼接到url后面,up系列与params系列混用
@@ -81,11 +79,10 @@ class BRequest(val url: String) {
         sb.appendln("请求头为 : ")
         heads?.forEach { sb.appendln("${it.key} = ${it.value}") }
         sb.appendln("body参数为 : ")
-
-        LogUtils.i(sb.toString())
-        if (!StringUtils.isEmpty(body)) LogUtils.json(body)
-
         sb.appendln(body)
+
+//        LogUtils.i(sb.toString())
+
         return sb.toString()
     }
 
@@ -96,10 +93,6 @@ class BRequest(val url: String) {
         const val DELETE = 0x100003
         const val HEAD = 0x100004
         const val OPTIONS = 0x100005
-
-        const val getOkGo = 0x100006 // OkGo 请求方式
-        const val getOkRx2 = 0x100007 // OkGo Rx2 请求方式
-        const val getRetrofit2 = 0x100008 // Retrofit2 请求方式
     }
 
 }

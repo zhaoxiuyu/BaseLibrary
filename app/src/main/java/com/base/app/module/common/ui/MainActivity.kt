@@ -3,8 +3,8 @@ package com.base.app.module.common.ui
 import android.annotation.SuppressLint
 import android.content.Intent
 import com.base.app.R
+import com.base.app.module.personal.ui.RegisterActivity
 import com.base.library.base.BActivity
-import com.base.library.mvp.BPresenter
 import com.base.library.mvp.BasePresenter
 import com.base.library.mvp.BaseView
 import com.blankj.utilcode.util.FragmentUtils
@@ -19,7 +19,7 @@ import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_main.*
 
 
-class MainActivity : BActivity<BPresenter>(), BaseView {
+class MainActivity : BActivity<BasePresenter>(), BaseView {
 
     private val mainFragment: MainFragment by lazy { MainFragment() }
 

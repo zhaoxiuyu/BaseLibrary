@@ -8,12 +8,12 @@ import com.blankj.utilcode.util.LogUtils
  */
 class BasePresenter(view: BaseView) : BPresenterImpl<BaseView>(view), BPresenter {
 
-    override fun requestSuccess(body: String, baseHttpDto: BRequest) {
-        super.requestSuccess(body, baseHttpDto)
+    override fun requestSuccess(body: String, bRequest: BRequest) {
+        super.requestSuccess(body, bRequest)
         mView?.bindData(body)
     }
 
-    override fun requestError(throwable: Throwable?, baseHttpDto: BRequest) {
+    override fun requestError(throwable: Throwable?, bRequest: BRequest) {
         mView?.disDialog()
 
         var string = "${throwable?.message}"
