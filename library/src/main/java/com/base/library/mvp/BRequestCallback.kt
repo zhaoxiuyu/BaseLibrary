@@ -1,5 +1,6 @@
 package com.base.library.mvp
 
+import com.base.library.entitys.BaseResponse
 import com.base.library.http.BRequest
 
 /**
@@ -16,6 +17,11 @@ interface BRequestCallback {
      * 返回成功调用 返回数据
      */
     fun requestSuccess(body: String, bRequest: BRequest)
+
+    /**
+     * 返回成功调用 返回数据
+     */
+    fun requestSuccess(body: BaseResponse, bRequest: BRequest)
 
     /**
      * 请求错误调用

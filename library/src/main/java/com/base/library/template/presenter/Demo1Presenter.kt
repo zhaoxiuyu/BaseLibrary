@@ -7,6 +7,7 @@ import com.base.library.http.BRequest
 import com.base.library.mvp.BPresenterImpl
 import com.base.library.template.contract.Demo1Contract
 import com.base.library.util.JsonUtils
+import com.blankj.utilcode.util.GsonUtils
 import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.StringUtils
 import com.uber.autodispose.AutoDispose
@@ -26,7 +27,7 @@ class Demo1Presenter(view: Demo1Contract.View) : BPresenterImpl<Demo1Contract.Vi
         Observable.just(body)
             .map {
                 LogUtils.d("解析线程 : " + Thread.currentThread().name)
-                JsonUtils.toAny(it, BaseResponse::class.java)
+                GsonUtils.fromJson(it, BaseResponse::class.java)
             }
             .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
             .`as`(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(owner)))

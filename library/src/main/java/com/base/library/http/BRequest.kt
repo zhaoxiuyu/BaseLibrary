@@ -1,6 +1,5 @@
 package com.base.library.http
 
-import androidx.lifecycle.MutableLiveData
 import com.blankj.utilcode.util.StringUtils
 import com.lzy.okgo.OkGo
 import com.lzy.okgo.cache.CacheMode
@@ -28,8 +27,6 @@ class BRequest(val url: String) {
     var params: Map<String, String>? = null // key value 参数
     var body: String = "" //upString
     var tag: Any? = null //标识
-
-    var liveData: MutableLiveData<*>? = null
 
     fun getOkGo(): Request<String, out Request<*, *>> {
         return getRequest()

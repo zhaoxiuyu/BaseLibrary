@@ -1,5 +1,6 @@
 package com.base.library.http
 
+import com.base.library.util.MMKVUtils
 import com.blankj.utilcode.util.NetworkUtils
 import com.blankj.utilcode.util.SDCardUtils
 import com.lzy.okgo.interceptor.HttpLoggingInterceptor
@@ -31,7 +32,7 @@ object BManager {
 
     init {
         initOkHttpClient()
-        initBaseUrl("") // todo
+        initBaseUrl(MMKVUtils.getStr("BaseUrl")) // 初始化 url 默认从MMKV中获取
     }
 
     private fun initOkHttpClient() {
@@ -64,7 +65,7 @@ object BManager {
 //                    }
 //                }
 
-            val logging = HttpLoggingInterceptor("")
+            val logging = HttpLoggingInterceptor("logging")
             logging.setColorLevel(Level.ALL)
             mOkHttpClient = OkHttpClient.Builder().cache(cache)
 //                    .addNetworkInterceptor(cacheControlInterceptor)

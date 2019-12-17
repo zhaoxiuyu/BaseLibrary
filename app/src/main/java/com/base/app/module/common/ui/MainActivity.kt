@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import com.base.app.R
 import com.base.app.module.personal.ui.RegisterActivity
-import com.base.library.base.BActivity
+import com.base.library.base.BaseActivity
 import com.base.library.mvp.BasePresenter
 import com.base.library.mvp.BaseView
 import com.blankj.utilcode.util.FragmentUtils
@@ -18,8 +18,7 @@ import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_main.*
 
-
-class MainActivity : BActivity<BasePresenter>(), BaseView {
+class MainActivity : BaseActivity<BasePresenter>(), BaseView {
 
     private val mainFragment: MainFragment by lazy { MainFragment() }
 
@@ -39,6 +38,7 @@ class MainActivity : BActivity<BasePresenter>(), BaseView {
 //                .setHttpType(BRequest.GET)
 //                .builder()
 //        mPresenter.getData(bRequest)
+
 
         doOnNext.setOnClickListener { doOnNext() }
         doOnSubscribe.setOnClickListener { doOnSubscribe() }

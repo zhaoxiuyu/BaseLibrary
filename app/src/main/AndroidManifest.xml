@@ -14,6 +14,10 @@
             tools:replace="android:icon">
 
         <activity android:name=".module.common.ui.MainActivity">
+
+        </activity>
+
+        <activity android:name=".module.common.ui.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
@@ -21,11 +25,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".module.personal.ui.RegisterActivity">
 
-        <activity android:name=".module.common.ui.LoginActivity"></activity>
-        <activity android:name=".module.personal.ui.RegisterActivity"></activity>
+        </activity>
 
-        <activity android:name="com.base.library.template.ui.Demo1Activity"></activity>
+        <activity android:name="com.base.library.template.ui.Demo1Activity">
+
+        </activity>
 
         <!-- 沉浸式,全面屏 -->
         <meta-data

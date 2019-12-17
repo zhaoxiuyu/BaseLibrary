@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import com.base.library.R
 import com.base.library.interfaces.MyXPopupListener
+import com.base.library.mvp.BPresenter
 import com.base.library.mvp.BView
 import com.base.library.util.getCacheObservable
 import com.base.library.util.putCacheObservable
@@ -27,11 +28,13 @@ import kotlinx.android.synthetic.main.base_titlebar.*
 /**
  * 基础的BaseActivity
  */
-abstract class BaseActivity : AppCompatActivity(), BView {
+abstract class BaseActivity<T : BPresenter> : AppCompatActivity(), BView {
 
     abstract fun initArgs(intent: Intent?)
     abstract fun initView()
     abstract fun initData()
+
+    var mPresenter: T? = null
 
     private var xPopupLoading: LoadingPopupView? = null
     private var xPopup: ConfirmPopupView? = null
@@ -45,6 +48,7 @@ abstract class BaseActivity : AppCompatActivity(), BView {
         initArgs(intent)
         initView()
         ImmersionBar.with(this).titleBar(bLL).init() // 沉浸式
+        mPresenter?.let { lifecycle.addObserver(it) }
         window.decorView.post { mHandler.post { initData() } }
     }
 

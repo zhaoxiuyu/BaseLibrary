@@ -2,7 +2,7 @@ package com.base.library.template.ui
 
 import android.content.Intent
 import com.base.library.R
-import com.base.library.base.BActivity
+import com.base.library.base.BaseActivity
 import com.base.library.template.contract.Demo1Contract
 import com.base.library.template.presenter.Demo1Presenter
 import com.blankj.utilcode.util.ToastUtils
@@ -10,7 +10,7 @@ import com.blankj.utilcode.util.ToastUtils
 /**
  * 作用: 使用案例,Activity使用自己定义的Contract和Presenter
  */
-class Demo1Activity : BActivity<Demo1Contract.Presenter>(), Demo1Contract.View {
+class Demo1Activity : BaseActivity<Demo1Contract.Presenter>(), Demo1Contract.View {
 
     override fun initArgs(intent: Intent?) {
     }

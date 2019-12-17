@@ -3,9 +3,11 @@ package com.base.app.mvvm
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProviders
 import com.base.library.base.BaseActivity
+import com.base.library.http.BManager
+import com.base.library.mvp.BasePresenter
 import java.lang.reflect.ParameterizedType
 
-abstract class MActivity<VM : BaseViewModel> : BaseActivity() {
+abstract class MActivity<VM : BaseViewModel> : BaseActivity<BasePresenter>() {
 
     var viewModel: VM? = null
 

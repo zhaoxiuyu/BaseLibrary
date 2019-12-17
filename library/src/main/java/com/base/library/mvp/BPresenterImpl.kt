@@ -2,8 +2,10 @@ package com.base.library.mvp
 
 import androidx.lifecycle.LifecycleOwner
 import com.base.library.base.IDCARD
+import com.base.library.entitys.BaseResponse
 import com.base.library.http.BManager
 import com.base.library.http.BRequest
+import com.blankj.utilcode.util.GsonUtils
 import com.blankj.utilcode.util.LogUtils
 import com.lzy.okgo.OkGo
 import com.lzy.okgo.exception.HttpException
@@ -12,6 +14,8 @@ import com.lzy.okgo.model.Response
 import com.uber.autodispose.AutoDispose
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
 import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import java.net.ConnectException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
@@ -20,11 +24,34 @@ open class BPresenterImpl<T : BView?>(var mView: T?) : BPresenter, BRequestCallb
 
     var owner: LifecycleOwner? = null
 
+    override fun onCreate(owner: LifecycleOwner) {
+        this.owner = owner
+    }
+
+    override fun onDestroy(owner: LifecycleOwner) {
+        OkGo.getInstance().cancelTag(this)
+    }
+
+    override fun other(content: String, behavior: String, level: String) {
+        mView?.other(content, behavior, level)
+    }
+
     override fun beforeRequest() {
         mView?.showDialog()
     }
 
     override fun requestSuccess(body: String, bRequest: BRequest) {
+        Observable.just(body).map { GsonUtils.fromJson(it, BaseResponse::class.java) }
+            .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+            .`as`(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(owner)))
+            .subscribe({
+                requestSuccess(it, bRequest)
+            }, {
+                requestError(it, bRequest)
+            })
+    }
+
+    override fun requestSuccess(body: BaseResponse, bRequest: BRequest) {
         mView?.disDialog()
     }
 
@@ -55,18 +82,6 @@ open class BPresenterImpl<T : BView?>(var mView: T?) : BPresenter, BRequestCallb
         throwable?.printStackTrace()
     }
 
-    override fun other(content: String, behavior: String, level: String) {
-        mView?.other(content, behavior, level)
-    }
-
-    override fun onCreate(owner: LifecycleOwner) {
-        this.owner = owner
-    }
-
-    override fun onDestroy(owner: LifecycleOwner) {
-        OkGo.getInstance().cancelTag(this)
-    }
-
     override fun getData(http: BRequest) {
         val requestBody = http.print()
         other(requestBody, "请求参数 ${http.method}", "I")
@@ -95,9 +110,9 @@ open class BPresenterImpl<T : BView?>(var mView: T?) : BPresenter, BRequestCallb
                 else -> BManager.mBaseHttpService.apiPay(http.body)
             }
         }
-
-        Observable.just(http).doOnSubscribe { if (!http.silence) beforeRequest() }
-            .flatMap { getRetrofitApi() }
+        Observable.just(http).subscribeOn(Schedulers.io())
+            .doOnSubscribe { if (!http.silence) beforeRequest() }
+            .flatMap { getRetrofitApi() }.observeOn(AndroidSchedulers.mainThread())
             .`as`(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(owner)))
             .subscribe({
                 requestSuccess(it, http)

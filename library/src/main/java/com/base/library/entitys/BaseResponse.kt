@@ -11,7 +11,7 @@ class BaseResponse : Serializable {
     var message: String = ""
     var errorMsg: String = ""
     var code: String = ""
-    var errorCode: String = ""
+    var errorCode: Int = 0
     var data: Any? = null
 
 }
