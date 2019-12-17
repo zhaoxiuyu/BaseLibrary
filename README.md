@@ -1,6 +1,21 @@
-# BaseLibrary说明
+[![](https://jitpack.io/v/zhaoxiuyu/BaseLibrary.svg)](https://jitpack.io/#zhaoxiuyu/BaseLibrary)
 
-------
+Add it in your root build.gradle at the end of repositories:
+
+	allprojects {
+		repositories {
+			...
+			maven { url 'https://jitpack.io' }
+		}
+	}
+Step 2. Add the dependency
+
+	dependencies {
+	        implementation 'com.github.zhaoxiuyu:BaseLibrary:Tag'
+	}
+        
+
+
 
 自己经常使用的MVP架构项目，集成了常用的第三方开源库。
 
