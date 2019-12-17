@@ -22,18 +22,9 @@ import io.reactivex.schedulers.Schedulers
 class Demo1Presenter(view: Demo1Contract.View) : BPresenterImpl<Demo1Contract.View>(view),
     Demo1Contract.Presenter {
 
-    override fun requestSuccess(body: String, bRequest: BRequest) {
-        super.requestSuccess(body, bRequest)
-        Observable.just(body)
-            .map {
-                LogUtils.d("解析线程 : " + Thread.currentThread().name)
-                GsonUtils.fromJson(it, BaseResponse::class.java)
-            }
-            .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-            .`as`(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(owner)))
-            .subscribe {
-
-            }
+    override fun requestSuccess(response: BaseResponse, bRequest: BRequest) {
+        super.requestSuccess(response, bRequest)
+        LogUtils.d("登录状态 : ${response.code}")
     }
 
     override fun check(idCard: String) {

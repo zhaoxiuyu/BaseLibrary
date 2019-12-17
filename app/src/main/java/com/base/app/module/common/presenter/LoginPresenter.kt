@@ -21,9 +21,9 @@ class LoginPresenter(view: LoginContract.View) : BPresenterImpl<LoginContract.Vi
         LogUtils.d(bRequest.tag)
     }
 
-    override fun requestSuccess(body: BaseResponse, bRequest: BRequest) {
-        super.requestSuccess(body, bRequest)
-        if (body.errorCode == 0) {
+    override fun requestSuccess(response: BaseResponse, bRequest: BRequest) {
+        super.requestSuccess(response, bRequest)
+        if (response.errorCode == 0) {
             mView?.loginSuccess("成功")
         } else {
             mView?.loginError("错误")

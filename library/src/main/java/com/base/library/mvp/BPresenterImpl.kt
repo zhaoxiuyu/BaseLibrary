@@ -51,7 +51,7 @@ open class BPresenterImpl<T : BView?>(var mView: T?) : BPresenter, BRequestCallb
             })
     }
 
-    override fun requestSuccess(body: BaseResponse, bRequest: BRequest) {
+    override fun requestSuccess(response: BaseResponse, bRequest: BRequest) {
         mView?.disDialog()
     }
 
