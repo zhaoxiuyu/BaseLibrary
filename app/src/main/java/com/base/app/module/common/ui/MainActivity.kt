@@ -28,17 +28,28 @@ class MainActivity : BaseActivity<BasePresenter>(), BaseView {
     override fun initView() {
         initContentView(R.layout.activity_main)
         mPresenter = BasePresenter(this)
+
+        mainLooper.queue.addIdleHandler {
+            LogUtils.d("addIdleHandler")
+            false
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        LogUtils.d("onResume")
     }
 
     @SuppressLint("MissingPermission")
     override fun initData() {
+
+        LogUtils.d("initData")
 
 //        val bRequest =
 //            BRequest.Builder("http://apicloud.mob.com/v1/mobile/address/query?key=2747420d25758&phone=13300001982")
 //                .setHttpType(BRequest.GET)
 //                .builder()
 //        mPresenter.getData(bRequest)
-
 
         doOnNext.setOnClickListener { doOnNext() }
         doOnSubscribe.setOnClickListener { doOnSubscribe() }
@@ -49,7 +60,18 @@ class MainActivity : BaseActivity<BasePresenter>(), BaseView {
             FragmentUtils.remove(mainFragment)
         }
         butLogin.setOnClickListener { startActivity(Intent(this, LoginActivity::class.java)) }
-        butRegister.setOnClickListener { startActivity(Intent(this, RegisterActivity::class.java)) }
+//        butRegister.setOnClickListener { startActivity(Intent(this, RegisterActivity::class.java)) }
+
+        butRegister.setOnClickListener {
+            var datas = mutableListOf("1", "2", "3")
+            Observable.just("1", true).map {
+                LogUtils.d("just = $it")
+            }.`as`(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(this)))
+                .subscribe {
+                    LogUtils.d("just + subscribe = $it")
+                }
+        }
+
         butDialog.setOnClickListener {
             LogUtils.d("123")
 

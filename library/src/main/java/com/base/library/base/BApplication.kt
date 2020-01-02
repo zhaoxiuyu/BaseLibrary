@@ -26,15 +26,14 @@ open class BApplication : MultiDexApplication() {
         val startTime = System.currentTimeMillis()//获取开始时间
 
         Utils.init(this)
-        initHttp(null)
+        initLogUtils()
         RxTool.init(this)
         DoraemonKit.install(this)
         XPopup.setPrimaryColor(ContextCompat.getColor(this, R.color.base_sb_pressed))
-
         if (BuildConfig.DEBUG) {
-            initLogUtils()
             initHttp(getLoggingInterceptor())
         } else {
+            initHttp(null)
             initCockroach()
         }
         LogUtils.d("初始化耗时 : ${System.currentTimeMillis() - startTime}")
