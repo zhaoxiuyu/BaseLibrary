@@ -3,6 +3,7 @@ package com.base.library.base
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import com.base.library.R
@@ -39,7 +40,6 @@ abstract class BaseActivity<T : BPresenter> : AppCompatActivity(), BView {
     private var xPopupLoading: LoadingPopupView? = null
     private var xPopup: ConfirmPopupView? = null
 
-    val mHandler: Handler by lazy { Handler() }
     val mApplication: BApplication by lazy { application as BApplication }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,9 +47,18 @@ abstract class BaseActivity<T : BPresenter> : AppCompatActivity(), BView {
 
         initArgs(intent)
         initView()
-        ImmersionBar.with(this).titleBar(bLL).init() // 沉浸式
+        ImmersionBar.with(this).titleBar(bFL).init() // 沉浸式
         mPresenter?.let { lifecycle.addObserver(it) }
-        window.decorView.post { mHandler.post { initData() } }
+
+        // window.decorView 获取到DecorView后,调用post方法,此时DecorView的attachInfo为空,
+        // 会将这个Runnable放置runQueue中。runQueue内的任务会在ViewRootImpl.performTraversals的开始阶段被依次取出执行,
+        // 这个方法内会执行到DecorView的测量、布局、绘制操作，不过runQueue的执行顺序会在这之前,所以需要再进行一次post操作
+//        window.decorView.post { mHandler.post { initData() } }
+        // IdleHandler在线程处于空闲的时候被执行,false 该回调进行移除,true 以后会多次调用
+        Looper.myQueue().addIdleHandler {
+            initData()
+            false
+        }
     }
 
     fun initContentView(layoutResID: Int) {
@@ -65,7 +74,6 @@ abstract class BaseActivity<T : BPresenter> : AppCompatActivity(), BView {
 
     override fun onDestroy() {
         disDialog()
-        mHandler.removeCallbacksAndMessages(null)
         super.onDestroy()
     }
 

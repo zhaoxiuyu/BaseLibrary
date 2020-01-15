@@ -3,20 +3,23 @@ package com.base.app.module.common.ui
 import android.annotation.SuppressLint
 import android.content.Intent
 import com.base.app.R
-import com.base.app.module.personal.ui.RegisterActivity
 import com.base.library.base.BaseActivity
 import com.base.library.mvp.BasePresenter
 import com.base.library.mvp.BaseView
 import com.blankj.utilcode.util.FragmentUtils
 import com.blankj.utilcode.util.LogUtils
+import com.blankj.utilcode.util.ThreadUtils
 import com.lxj.xpopup.interfaces.OnCancelListener
 import com.lxj.xpopup.interfaces.OnConfirmListener
 import com.uber.autodispose.AutoDispose
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
 import io.reactivex.Observable
-import io.reactivex.Observer
-import io.reactivex.disposables.Disposable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlin.concurrent.thread
 
 class MainActivity : BaseActivity<BasePresenter>(), BaseView {
 
@@ -28,11 +31,6 @@ class MainActivity : BaseActivity<BasePresenter>(), BaseView {
     override fun initView() {
         initContentView(R.layout.activity_main)
         mPresenter = BasePresenter(this)
-
-        mainLooper.queue.addIdleHandler {
-            LogUtils.d("addIdleHandler")
-            false
-        }
     }
 
     override fun onResume() {
@@ -59,17 +57,15 @@ class MainActivity : BaseActivity<BasePresenter>(), BaseView {
         hide.setOnClickListener {
             FragmentUtils.remove(mainFragment)
         }
-        butLogin.setOnClickListener { startActivity(Intent(this, LoginActivity::class.java)) }
+        butLogin.setOnClickListener {
+
+            startActivity(Intent(this, LoginActivity::class.java))
+
+        }
 //        butRegister.setOnClickListener { startActivity(Intent(this, RegisterActivity::class.java)) }
 
         butRegister.setOnClickListener {
-            var datas = mutableListOf("1", "2", "3")
-            Observable.just("1", true).map {
-                LogUtils.d("just = $it")
-            }.`as`(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(this)))
-                .subscribe {
-                    LogUtils.d("just + subscribe = $it")
-                }
+            //            xc()
         }
 
         butDialog.setOnClickListener {
@@ -101,46 +97,24 @@ class MainActivity : BaseActivity<BasePresenter>(), BaseView {
         }
     }
 
-    var disposable: Disposable? = null
-
     private fun doOnNext() {
-//        val br = BaseResponse()
-//        br.code = "10010"
-//        Observable
-//            .just(br)
-//            .doOnNext {
-//                it.code = "1008611"
-//            }
-//            .`as`(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(this)))
-//            .subscribe {
-//                LogUtils.d("${it.code}")
-//            }
-
         val froms = mutableListOf("1", "2", "3")
         Observable.fromIterable(froms)
+            .subscribeOn(Schedulers.io())
+//            .doOnEach {
+//                LogUtils.d("doOnEach = ${Thread.currentThread().name} = $it")
+//            }
             .map {
-                LogUtils.d("map = $it")
+                LogUtils.d("map = ${Thread.currentThread().name} = $it")
+                Thread.sleep(2000)
                 it
             }
+            .observeOn(AndroidSchedulers.mainThread())
             .`as`(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(this)))
-            .subscribe(object : Observer<String> {
-                override fun onComplete() {
-                    LogUtils.d("onComplete")
-                }
+            .subscribe {
+                LogUtils.d("subscribe = ${Thread.currentThread().name} = $it")
+            }
 
-                override fun onSubscribe(d: Disposable) {
-                    disposable = d
-                    LogUtils.d("onSubscribe")
-                }
-
-                override fun onNext(t: String) {
-                    if (t == "2") disposable?.dispose()
-                    LogUtils.d("onNext")
-                }
-
-                override fun onError(e: Throwable) {
-                }
-            })
     }
 
     private fun doOnSubscribe() {
@@ -159,6 +133,18 @@ class MainActivity : BaseActivity<BasePresenter>(), BaseView {
 //            })
     }
 
+
+    fun xc() {
+        val myThread = thread(start = false) {
+            LogUtils.d("1主线程${ThreadUtils.isMainThread()}")
+        }
+        myThread.start()
+
+        GlobalScope.launch {
+            LogUtils.d("2主线程${ThreadUtils.isMainThread()}")
+        }
+
+    }
 
     override fun bindData(any: Any) {
     }

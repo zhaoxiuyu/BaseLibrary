@@ -14,6 +14,7 @@ import com.lzy.okgo.https.HttpsUtils
 import com.lzy.okgo.interceptor.HttpLoggingInterceptor
 import com.vondear.rxtool.RxTool
 import okhttp3.OkHttpClient
+import org.litepal.LitePal
 import java.util.logging.Level
 
 /**
@@ -29,6 +30,7 @@ open class BApplication : MultiDexApplication() {
         initLogUtils()
         RxTool.init(this)
         DoraemonKit.install(this)
+        LitePal.initialize(this)
         XPopup.setPrimaryColor(ContextCompat.getColor(this, R.color.base_sb_pressed))
         if (BuildConfig.DEBUG) {
             initHttp(getLoggingInterceptor())

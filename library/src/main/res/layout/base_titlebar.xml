@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/bLL"
+        android:id="@+id/bFL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/title_bar"
-        android:orientation="vertical">
+        android:background="@color/title_bar">
 
     <com.base.library.view.BTitlebar
             android:id="@+id/bTitlebar"
@@ -20,9 +18,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:contentDescription="@string/bTitleIvLeft"
-                android:paddingBottom="@dimen/dp_4"
                 android:paddingTop="@dimen/dp_4"
-                android:visibility="visible"/>
+                android:paddingBottom="@dimen/dp_4"
+                android:visibility="visible" />
 
         <TextView
                 android:id="@+id/tvLeftCenter"
@@ -31,9 +29,9 @@
                 android:layout_marginStart="15dp"
                 android:layout_toEndOf="@+id/ivLeft"
                 android:gravity="center"
-                tools:text="深大智能"
                 android:textColor="#FFFFFF"
-                android:visibility="invisible"/>
+                android:visibility="invisible"
+                tools:text="深大智能" />
 
         <TextView
                 android:id="@+id/tvCenter"
@@ -41,8 +39,8 @@
                 android:layout_height="match_parent"
                 android:layout_centerInParent="true"
                 android:gravity="center"
-                tools:text="首页"
-                android:textColor="#FFFFFF"/>
+                android:text="首页"
+                android:textColor="#FFFFFF" />
 
         <TextView
                 android:id="@+id/tvRightCenter"
@@ -52,28 +50,28 @@
                 android:layout_marginEnd="15dp"
                 android:layout_toStartOf="@+id/tvRight"
                 android:gravity="center"
-                tools:text="保存"
                 android:textColor="#FFFFFF"
-                android:visibility="invisible"/>
+                android:visibility="invisible"
+                tools:text="保存" />
 
         <TextView
                 android:id="@+id/tvRight"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_alignParentEnd="true"
                 android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
                 android:gravity="center"
-                tools:text="设置"
                 android:textColor="#FFFFFF"
-                android:visibility="invisible"/>
+                android:visibility="invisible"
+                tools:text="设置" />
 
         <ImageView
                 android:id="@+id/ivCenter"
-                android:contentDescription="@string/bTitleIvCenter"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_centerHorizontal="true"
-                android:visibility="invisible"/>
+                android:contentDescription="@string/bTitleIvCenter"
+                android:visibility="invisible" />
 
     </com.base.library.view.BTitlebar>
-</LinearLayout>
+</FrameLayout>

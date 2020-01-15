@@ -1,15 +1,10 @@
-package com.base.library.database.entity
+package com.base.library.dao
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 import com.blankj.utilcode.util.AppUtils
 import com.blankj.utilcode.util.TimeUtils
+import org.litepal.crud.LitePalSupport
 
-@Entity
-class JournalRecord {
-
-    @PrimaryKey(autoGenerate = true) // 设置主键 并且 自动增长(id系统自动生成,可以写,但没必要)
-    var id: Int = 0
+class JournalLitePal : LitePalSupport() {
 
     var content: String = ""// 内容
 

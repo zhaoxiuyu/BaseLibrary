@@ -1,7 +1,4 @@
 buildscript {
-    //这里是gradle脚本执行所需依赖，分别是对应的maven库和插件
-
-    ext.kotlin_version = '1.3.50'
     repositories {
         google() //可以引用google上的开源项目
         jcenter() //声明了jcenter()配置，可以引用 jcenter 上的开源项目
@@ -21,10 +18,10 @@ buildscript {
 
     dependencies {
         //此处是 android 的插件 gradle 及其版本号
-        classpath 'com.android.tools.build:gradle:3.5.1'
+        classpath 'com.android.tools.build:gradle:3.5.3'
 
         // kotlin
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.61"
 
         // 统计方法数
         classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.8.6'
