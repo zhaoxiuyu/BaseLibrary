@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import com.base.app.R
 import com.base.library.base.BaseActivity
+import com.base.library.dao.LitePalUtils
+import com.base.library.dao.entity.Journal
 import com.base.library.mvp.BasePresenter
 import com.base.library.mvp.BaseView
 import com.blankj.utilcode.util.FragmentUtils
@@ -61,6 +63,7 @@ class MainActivity : BaseActivity<BasePresenter>(), BaseView {
 
             startActivity(Intent(this, LoginActivity::class.java))
 
+            LitePalUtils.delete(Journal::class.java, 1)
         }
 //        butRegister.setOnClickListener { startActivity(Intent(this, RegisterActivity::class.java)) }
 

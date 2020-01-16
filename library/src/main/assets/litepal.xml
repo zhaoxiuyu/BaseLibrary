@@ -6,7 +6,7 @@
     <version value="1" />
 
     <list>
-        <mapping class="com.base.library.dao.JournalLitePal" />
+        <mapping class="com.base.library.dao.entity.Journal" />
     </list>
 
     <storage value="RoomBaseLibrary" />

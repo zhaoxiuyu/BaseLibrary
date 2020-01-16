@@ -1,10 +1,10 @@
-package com.base.library.dao
+package com.base.library.dao.entity
 
 import com.blankj.utilcode.util.AppUtils
 import com.blankj.utilcode.util.TimeUtils
 import org.litepal.crud.LitePalSupport
 
-class JournalLitePal : LitePalSupport() {
+class Journal : LitePalSupport() {
 
     var content: String = ""// 内容
 
