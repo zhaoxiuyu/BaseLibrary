@@ -63,7 +63,6 @@ class MainActivity : BaseActivity<BasePresenter>(), BaseView {
 
             startActivity(Intent(this, LoginActivity::class.java))
 
-            LitePalUtils.delete(Journal::class.java, 1)
         }
 //        butRegister.setOnClickListener { startActivity(Intent(this, RegisterActivity::class.java)) }
 
