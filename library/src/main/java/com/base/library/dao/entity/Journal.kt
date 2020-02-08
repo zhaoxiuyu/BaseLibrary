@@ -4,6 +4,9 @@ import com.blankj.utilcode.util.AppUtils
 import com.blankj.utilcode.util.TimeUtils
 import org.litepal.crud.LitePalSupport
 
+/**
+ * 数据库表，需要在assets里面进行注册
+ */
 class Journal : LitePalSupport() {
 
     var content: String = ""// 内容
