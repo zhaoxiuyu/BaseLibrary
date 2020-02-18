@@ -4,13 +4,14 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import com.base.app.R
 import com.base.library.base.BaseActivity
-import com.base.library.dao.LitePalUtils
-import com.base.library.dao.entity.Journal
+import com.base.library.base.KEY
+import com.base.library.base.PORT
+import com.base.library.http.BManager
 import com.base.library.mvp.BasePresenter
 import com.base.library.mvp.BaseView
+import com.base.library.util.MMKVUtils
 import com.blankj.utilcode.util.FragmentUtils
 import com.blankj.utilcode.util.LogUtils
-import com.blankj.utilcode.util.ThreadUtils
 import com.lxj.xpopup.interfaces.OnCancelListener
 import com.lxj.xpopup.interfaces.OnConfirmListener
 import com.uber.autodispose.AutoDispose
@@ -19,9 +20,7 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlin.concurrent.thread
+import kotlinx.coroutines.*
 
 class MainActivity : BaseActivity<BasePresenter>(), BaseView {
 
@@ -67,7 +66,20 @@ class MainActivity : BaseActivity<BasePresenter>(), BaseView {
 //        butRegister.setOnClickListener { startActivity(Intent(this, RegisterActivity::class.java)) }
 
         butRegister.setOnClickListener {
-            //            xc()
+            var str: String? = null
+            var str2: String? = "str2"
+            str?.let {
+                LogUtils.d("str不为空")
+            } ?: let {
+                LogUtils.d("str空")
+            }
+
+            str2?.let {
+                LogUtils.d("str2不为空")
+            } ?: let {
+                LogUtils.d("str2空")
+            }
+
         }
 
         butDialog.setOnClickListener {
@@ -120,6 +132,7 @@ class MainActivity : BaseActivity<BasePresenter>(), BaseView {
     }
 
     private fun doOnSubscribe() {
+
 //        Observable
 //            .just("item")
 //            .subscribeOn(Schedulers.io())
@@ -135,17 +148,74 @@ class MainActivity : BaseActivity<BasePresenter>(), BaseView {
 //            })
     }
 
-
     fun xc() {
-        val myThread = thread(start = false) {
-            LogUtils.d("1主线程${ThreadUtils.isMainThread()}")
-        }
-        myThread.start()
-
         GlobalScope.launch {
-            LogUtils.d("2主线程${ThreadUtils.isMainThread()}")
+            // async 启动新协程,3个同时请求,无需等待前一个请求的结果
+            val str1 = async { getStr("str1") }
+            val str1Await = str1.await()
+            LogUtils.d("1")
+
+            val str2 = async { getStr("str2") }
+            val str2Await = str2.await()
+            LogUtils.d("2")
+
+            val str3 = async { getStr("str3") }
+            val str3Await = str3.await()
+            LogUtils.d("3")
+
+            // await 协程挂起,等3个请求全部返回了在组装数据
+            printStr(str1Await, str2Await, str3Await)
+
+            LogUtils.d("4")
+        }
+    }
+
+    fun xc2() {
+        GlobalScope.launch(Dispatchers.Main) {
+            LogUtils.d(Thread.currentThread().name)
+
+            val str = getStr2("str2")
+
+            LogUtils.d("${Thread.currentThread().name} = $str")
+        }
+    }
+
+    private var job: Job? = null
+    fun xc3() {
+        job = GlobalScope.launch(Dispatchers.Main) {
+            MMKVUtils.put("BaseUrl", PORT)
+            val map = mapOf("key" to KEY, "cardno" to "429001199311153156")
+
+            val json = withContext(Dispatchers.IO) {
+                LogUtils.d(Thread.currentThread().name)
+                val call = BManager.mBaseHttpService.getPostsAsync(map)
+                call.execute()
+            }
+            LogUtils.d("${Thread.currentThread().name} = $json")
+        }
+        job?.invokeOnCompletion {
+            LogUtils.d("协程被取消了")
         }
 
+    }
+
+    override fun onPause() {
+        super.onPause()
+        job?.cancel()
+    }
+
+    suspend fun getStr(str: String): String {
+        LogUtils.d("${Thread.currentThread().name} + $str")
+        if ("str2" == str) delay(3000)
+        return str
+    }
+
+    fun printStr(str1: String, str2: String, str3: String) {
+        LogUtils.d("${Thread.currentThread().name} + $str1 = $str2 = $str3")
+    }
+
+    suspend fun getStr2(str: String) = withContext(Dispatchers.IO) {
+        return@withContext str
     }
 
     override fun bindData(any: Any) {
@@ -153,5 +223,11 @@ class MainActivity : BaseActivity<BasePresenter>(), BaseView {
 
     override fun bindError(string: String) {
     }
+
+    /**
+     * 协程就是切线程
+     * 挂起就是可以自动切回来的切线程
+     * 挂起的非阻塞式就是用看起来的阻塞的代码写出非阻塞的操作
+     */
 
 }

@@ -1,9 +1,11 @@
 package com.base.library.http
 
 import io.reactivex.Observable
+import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.POST
 import retrofit2.http.Path
+import retrofit2.http.QueryMap
 
 interface BService {
 
@@ -18,5 +20,11 @@ interface BService {
      */
     @POST
     fun apiPay(@Body param: String): Observable<String>
+
+    /**
+     * 协程
+     */
+    @POST("idcard/query")
+    fun getPostsAsync(@QueryMap params: Map<String, String>): Call<String>
 
 }

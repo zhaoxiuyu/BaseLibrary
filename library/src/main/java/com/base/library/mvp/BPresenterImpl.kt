@@ -82,6 +82,9 @@ open class BPresenterImpl<T : BView?>(var mView: T?) : BPresenter, BRequestCallb
         throwable?.printStackTrace()
     }
 
+    /**
+     * OKGO
+     */
     override fun getData(http: BRequest) {
         val requestBody = http.print()
         other(requestBody, "请求参数 ${http.method}", "I")
@@ -103,6 +106,9 @@ open class BPresenterImpl<T : BView?>(var mView: T?) : BPresenter, BRequestCallb
         })
     }
 
+    /**
+     * Retrofit2
+     */
     override fun getRetrofit2(http: BRequest) {
         fun getRetrofitApi(): Observable<String> {
             return when (http.url) {
