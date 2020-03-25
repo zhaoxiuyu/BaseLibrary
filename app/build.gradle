@@ -102,10 +102,6 @@ android {
         targetCompatibility = '1.8'
     }
 
-    dataBinding {
-        enabled = true
-    }
-
 }
 
 dependencies {
@@ -115,7 +111,6 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
     implementation project(':library')
-    kapt 'com.android.databinding:compiler:3.1.4'
 }
 
 repositories {

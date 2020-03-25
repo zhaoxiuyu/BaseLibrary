@@ -44,6 +44,7 @@ class MainActivity : BaseActivity<BasePresenter>(), BaseView {
 
         LogUtils.d("initData")
 
+        doOnNext.parent
 //        val bRequest =
 //            BRequest.Builder("http://apicloud.mob.com/v1/mobile/address/query?key=2747420d25758&phone=13300001982")
 //                .setHttpType(BRequest.GET)
