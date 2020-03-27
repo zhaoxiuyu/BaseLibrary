@@ -1,10 +1,10 @@
-package com.base.library.template.ui
+package com.base.library.mvp.template.ui
 
 /**
  * 如果用Java代码写Activity，案例如下：
  */
 
-//public class ActivityTest extends BActivity<BPresenter> implements BaseView {
+//public class ActivityTest extends BActivity<VPPresenter> implements _VPView {
 //
 //    @Override
 //    public void initArgs(Intent intent) {
@@ -13,7 +13,7 @@ package com.base.library.template.ui
 //    @Override
 //    public void initView() {
 //        initContentView(R.layout.base_activity_test);
-//        setMPresenter(new BasePresenter(this));
+//        setMPresenter(new _VPPresenter(this));
 //        getMPresenter().getData(null);
 //    }
 //
@@ -34,7 +34,7 @@ package com.base.library.template.ui
 //}
 //
 ////套一层BaseActivity
-//public class BaseActivity2<T extends BPresenter> extends BActivity {
+//public class BaseActivity2<T extends VPPresenter> extends BActivity {
 //
 //    @Override
 //    public void initArgs(@NotNull Intent intent) {

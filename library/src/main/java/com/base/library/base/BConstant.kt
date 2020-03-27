@@ -12,6 +12,11 @@ const val IDCARD = PORT + "idcard/query"
 
 const val PHONE = PORT + "v1/mobile/address/query"
 
+const val url = "https://wanandroid.com/wxarticle/chapters/json"
+const val url2 = "https://www.wanandroid.com/banner/json"
+const val url3 = "https://www.wanandroid.com/"
+
+
 /**
  * 常量方法
  */

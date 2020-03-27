@@ -4,10 +4,10 @@ import android.content.Intent
 import com.base.app.R
 import com.base.app.module.common.contract.LoginContract
 import com.base.app.module.common.presenter.LoginPresenter
-import com.base.library.base.BaseActivity
+import com.base.library.base.VPActivity
 import kotlinx.android.synthetic.main.activity_login.*
 
-class LoginActivity : BaseActivity<LoginPresenter>(), LoginContract.View {
+class LoginActivity : VPActivity<LoginPresenter>(), LoginContract.View {
 
     override fun initArgs(intent: Intent?) {
     }

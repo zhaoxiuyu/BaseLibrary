@@ -1,25 +1,18 @@
-package com.base.library.template.presenter
+package com.base.library.mvp.template.presenter
 
 import com.base.library.base.IDCARD
 import com.base.library.base.KEY
 import com.base.library.entitys.BaseResponse
-import com.base.library.http.BRequest
-import com.base.library.mvp.BPresenterImpl
-import com.base.library.template.contract.Demo1Contract
-import com.base.library.util.JsonUtils
-import com.blankj.utilcode.util.GsonUtils
+import com.base.library.base.BRequest
+import com.base.library.mvp.VPPresenterImpl
+import com.base.library.mvp.template.contract.Demo1Contract
 import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.StringUtils
-import com.uber.autodispose.AutoDispose
-import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 
 /**
  * 作用: 使用案例,自己定义Presenter
  */
-class Demo1Presenter(view: Demo1Contract.View) : BPresenterImpl<Demo1Contract.View>(view),
+class Demo1Presenter(view: Demo1Contract.View) : VPPresenterImpl<Demo1Contract.View>(view),
     Demo1Contract.Presenter {
 
     override fun requestSuccess(response: BaseResponse, bRequest: BRequest) {

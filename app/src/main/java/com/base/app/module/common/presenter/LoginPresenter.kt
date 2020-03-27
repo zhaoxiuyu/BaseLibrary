@@ -2,17 +2,11 @@ package com.base.app.module.common.presenter
 
 import com.base.app.module.common.contract.LoginContract
 import com.base.library.entitys.BaseResponse
-import com.base.library.http.BRequest
-import com.base.library.mvp.BPresenterImpl
-import com.base.library.util.JsonUtils
+import com.base.library.base.BRequest
+import com.base.library.mvp.VPPresenterImpl
 import com.blankj.utilcode.util.LogUtils
-import com.uber.autodispose.AutoDispose
-import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 
-class LoginPresenter(view: LoginContract.View) : BPresenterImpl<LoginContract.View>(view),
+class LoginPresenter(view: LoginContract.View) : VPPresenterImpl<LoginContract.View>(view),
     LoginContract.Presenter {
 
     override fun login(idCard: String) {

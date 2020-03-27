@@ -1,15 +1,15 @@
-package com.base.library.template.ui
+package com.base.library.mvp.template.ui
 
 import android.content.Intent
-import com.base.library.base.BaseActivity
-import com.base.library.mvp.BPresenter
-import com.base.library.mvp.BasePresenter
-import com.base.library.mvp.BaseView
+import com.base.library.base.VPActivity
+import com.base.library.mvp.VPPresenter
+import com.base.library.mvp._VPPresenter
+import com.base.library.mvp._VPView
 
 /**
  * 作用: 使用案例,使用通用的P和V
  */
-class Demo2Activity : BaseActivity<BPresenter>(), BaseView {
+class Demo2Activity : VPActivity<VPPresenter>(), _VPView {
 
     override fun initArgs(intent: Intent?) {
     }
@@ -18,7 +18,7 @@ class Demo2Activity : BaseActivity<BPresenter>(), BaseView {
     }
 
     override fun initData() {
-        mPresenter = BasePresenter(this)
+        mPresenter = _VPPresenter(this)
     }
 
     override fun bindData(any: Any) {

@@ -3,17 +3,15 @@ package com.base.app.module.common.ui
 import android.annotation.SuppressLint
 import android.content.Intent
 import com.base.app.R
-import com.base.library.base.BaseActivity
+import com.base.library.base.BManager
 import com.base.library.base.KEY
 import com.base.library.base.PORT
-import com.base.library.http.BManager
-import com.base.library.mvp.BasePresenter
-import com.base.library.mvp.BaseView
+import com.base.library.base.VPActivity
+import com.base.library.mvp._VPPresenter
+import com.base.library.mvp._VPView
 import com.base.library.util.MMKVUtils
 import com.blankj.utilcode.util.FragmentUtils
 import com.blankj.utilcode.util.LogUtils
-import com.lxj.xpopup.interfaces.OnCancelListener
-import com.lxj.xpopup.interfaces.OnConfirmListener
 import com.uber.autodispose.AutoDispose
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
 import io.reactivex.Observable
@@ -22,7 +20,7 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.*
 
-class MainActivity : BaseActivity<BasePresenter>(), BaseView {
+class MainActivity : VPActivity<_VPPresenter>(), _VPView {
 
     private val mainFragment: MainFragment by lazy { MainFragment() }
 
@@ -31,7 +29,7 @@ class MainActivity : BaseActivity<BasePresenter>(), BaseView {
 
     override fun initView() {
         initContentView(R.layout.activity_main)
-        mPresenter = BasePresenter(this)
+        mPresenter = _VPPresenter(this)
     }
 
     override fun onResume() {
@@ -81,34 +79,6 @@ class MainActivity : BaseActivity<BasePresenter>(), BaseView {
                 LogUtils.d("str2空")
             }
 
-        }
-
-        butDialog.setOnClickListener {
-            LogUtils.d("123")
-
-            showDialog(
-                title = "测试",
-                content = "取消退出,确定重试",
-                confirmListener = OnConfirmListener {
-                    showDialog(
-                        title = "测试",
-                        content = "我点击了确定",
-                        confirmListener = getDismissListener(),
-                        cancelListener = getDismissListener(),
-                        isHideCancel = true
-                    )
-                },
-                cancelListener = OnCancelListener {
-                    showDialog(
-                        title = "测试",
-                        content = "我点击了取消",
-                        confirmListener = getDismissListener(),
-                        cancelListener = getDismissListener(),
-                        isHideCancel = true
-                    )
-                },
-                isHideCancel = false
-            )
         }
     }
 

@@ -10,28 +10,24 @@ import io.reactivex.functions.Consumer
 /**
  * 作用: 基于MVP架构的View 视图基类
  */
-interface BView {
+interface VPView {
 
     fun showDialog(xPopupCallback: XPopupCallback? = null, loading: String? = "正在加载...")
 
     fun showDialog(
         title: String? = "提示",
         content: String? = "",
-        cancelBtnText: String? = "取消",
-        confirmBtnText: String? = "确定",
-        confirmListener: OnConfirmListener? = null, // 确定按钮回调
-        cancelListener: OnCancelListener? = null, // 取消按钮回调
-        xPopupCallback: XPopupCallback? = null, // 提示框 显示和隐藏监听
-        isHideCancel: Boolean = true // 是否隐藏取消按钮
+        cancelTx: String? = "取消",
+        confirmTx: String? = "确定",
+        confirmLi: OnConfirmListener? = null, // 确定按钮回调
+        cancelLi: OnCancelListener? = null, // 取消按钮回调
+        isHideCancel: Boolean? = true, // 是否隐藏取消按钮,
+        callback: XPopupCallback? = null // 提示框 显示和隐藏监听
     )
-
-    fun getDismissListener(): MyXPopupListener
 
     fun getDismissFinishListener(): MyXPopupListener
 
-    fun disDialog() // 销毁对话框
-
-    fun dismissWith() // 销毁对话框 之后 关闭页面
+    fun disDialog(finish: Boolean = false)
 
     /**
      * Activity获取当前this，Fragment获取getActivity

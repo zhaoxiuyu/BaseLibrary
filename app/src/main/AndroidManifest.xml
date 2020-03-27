@@ -14,6 +14,14 @@
             tools:replace="android:icon">
 
         <activity android:name=".module.common.ui.MainActivity">
+
+        </activity>
+
+        <activity android:name=".module.common.ui.LoginActivity">
+
+        </activity>
+
+        <activity android:name=".module.common.ui.RegisterActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
@@ -22,14 +30,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".module.common.ui.LoginActivity">
-
-        </activity>
-        <activity android:name=".module.personal.ui.RegisterActivity">
-
-        </activity>
-
-        <activity android:name="com.base.library.template.ui.Demo1Activity">
+        <activity android:name="com.base.library.mvp.template.ui.Demo1Activity">
 
         </activity>
 

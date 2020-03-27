@@ -6,7 +6,10 @@ import com.lzy.okgo.model.Progress
 import com.lzy.okgo.model.Response
 import com.lzy.okgo.request.base.Request
 
-open class BCallback(private val callback: BRequestCallback?, private val silence: Boolean) :
+/**
+ * 作用：OKGO 网络请求的生命周期
+ */
+open class VPRequestCallback(private val callback: VPCallback?, private val silence: Boolean) :
     AbsCallback<String>() {
 
     /**

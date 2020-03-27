@@ -1,12 +1,13 @@
 package com.base.library.mvp
 
-import com.base.library.http.BRequest
+import com.base.library.base.BRequest
 import com.blankj.utilcode.util.LogUtils
 
 /**
  * 作用: 通用的P层实现
+ * 如果你不想自定义P层，可以直接使用这个类
  */
-class BasePresenter(view: BaseView) : BPresenterImpl<BaseView>(view), BPresenter {
+class _VPPresenter(view: _VPView) : VPPresenterImpl<_VPView>(view), VPPresenter {
 
     override fun requestSuccess(body: String, bRequest: BRequest) {
         super.requestSuccess(body, bRequest)

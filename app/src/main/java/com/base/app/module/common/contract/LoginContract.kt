@@ -1,17 +1,17 @@
 package com.base.app.module.common.contract
 
-import com.base.library.mvp.BPresenter
-import com.base.library.mvp.BView
+import com.base.library.mvp.VPPresenter
+import com.base.library.mvp.VPView
 
 interface LoginContract {
 
-    interface View : BView {
+    interface View : VPView {
         fun loginSuccess(request: String?)
 
         fun loginError(msg: String?)
     }
 
-    interface Presenter : BPresenter {
+    interface Presenter : VPPresenter {
         fun login(idCard: String)
     }
 

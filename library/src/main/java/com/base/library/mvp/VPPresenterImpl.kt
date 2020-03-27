@@ -3,8 +3,8 @@ package com.base.library.mvp
 import androidx.lifecycle.LifecycleOwner
 import com.base.library.base.IDCARD
 import com.base.library.entitys.BaseResponse
-import com.base.library.http.BManager
-import com.base.library.http.BRequest
+import com.base.library.base.BManager
+import com.base.library.base.BRequest
 import com.blankj.utilcode.util.GsonUtils
 import com.blankj.utilcode.util.LogUtils
 import com.lzy.okgo.OkGo
@@ -20,7 +20,11 @@ import java.net.ConnectException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 
-open class BPresenterImpl<T : BView?>(var mView: T?) : BPresenter, BRequestCallback {
+/**
+ * 作用：P层的基础实现类
+ * 实现了网络请求 返回 取消等处理
+ */
+open class VPPresenterImpl<T : VPView?>(var mView: T?) : VPPresenter, VPCallback {
 
     var owner: LifecycleOwner? = null
 
@@ -76,7 +80,7 @@ open class BPresenterImpl<T : BView?>(var mView: T?) : BPresenter, BRequestCallb
          */
         if (!bRequest.silence) {
             val fl = if (bRequest.isFinish) mView?.getDismissFinishListener() else null
-            mView?.showDialog("异常提示", content, confirmListener = fl)
+            mView?.showDialog(title = "异常提示", content = content, confirmLi = fl)
         }
 
         throwable?.printStackTrace()
@@ -88,7 +92,7 @@ open class BPresenterImpl<T : BView?>(var mView: T?) : BPresenter, BRequestCallb
     override fun getData(http: BRequest) {
         val requestBody = http.print()
         other(requestBody, "请求参数 ${http.method}", "I")
-        http.getOkGo().execute(object : BCallback(this, http.silence) {
+        http.getOkGo().execute(object : VPRequestCallback(this, http.silence) {
             override fun onSuccess(response: Response<String>?) {
                 super.onSuccess(response)
                 val body = response?.body() ?: ""

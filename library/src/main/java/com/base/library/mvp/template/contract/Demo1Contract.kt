@@ -1,20 +1,20 @@
-package com.base.library.template.contract
+package com.base.library.mvp.template.contract
 
-import com.base.library.mvp.BPresenter
-import com.base.library.mvp.BView
+import com.base.library.mvp.VPPresenter
+import com.base.library.mvp.VPView
 
 /**
  * 作用: 使用案例,自己定义Contract
  */
 interface Demo1Contract {
 
-    interface View : BView {
+    interface View : VPView {
         fun loginSuccess(request: String?)
 
         fun loginError(msg: String?)
     }
 
-    interface Presenter : BPresenter {
+    interface Presenter : VPPresenter {
         fun check(idCard: String)
     }
 

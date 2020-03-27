@@ -1,4 +1,4 @@
-package com.base.library.http
+package com.base.library.base
 
 import com.blankj.utilcode.util.StringUtils
 import com.lzy.okgo.OkGo
@@ -8,6 +8,7 @@ import com.lzy.okgo.request.base.BodyRequest
 import com.lzy.okgo.request.base.Request
 import com.lzy.okrx2.adapter.ObservableBody
 import io.reactivex.Observable
+import java.lang.reflect.Type
 
 /**
  * 通用的网络请求参数封装
@@ -27,6 +28,8 @@ class BRequest(val url: String) {
     var params: Map<String, String>? = null // key value 参数
     var body: String = "" //upString
     var tag: Any? = null //标识
+
+    var gsonType: Type? = null // 解析类型
 
     fun getOkGo(): Request<String, out Request<*, *>> {
         return getRequest()

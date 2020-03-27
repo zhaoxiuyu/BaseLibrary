@@ -1,6 +1,5 @@
-package com.base.library.http
+package com.base.library.base
 
-import com.base.library.util.MMKVUtils
 import com.blankj.utilcode.util.NetworkUtils
 import com.blankj.utilcode.util.SDCardUtils
 import com.lzy.okgo.interceptor.HttpLoggingInterceptor
@@ -32,7 +31,7 @@ object BManager {
 
     init {
         initOkHttpClient()
-        initBaseUrl(MMKVUtils.getStr("BaseUrl")) // 初始化 url 默认从MMKV中获取
+        initBaseUrl(url3) // 初始化 url 默认从MMKV中获取
     }
 
     private fun initOkHttpClient() {

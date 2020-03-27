@@ -1,12 +1,12 @@
 package com.base.library.mvp
 
 import com.base.library.entitys.BaseResponse
-import com.base.library.http.BRequest
+import com.base.library.base.BRequest
 
 /**
  * 作用: 网络请求监听基类
  */
-interface BRequestCallback {
+interface VPCallback {
 
     /**
      * 请求之前调用
