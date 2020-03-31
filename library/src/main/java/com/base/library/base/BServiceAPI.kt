@@ -4,7 +4,7 @@ import io.reactivex.Observable
 import retrofit2.Call
 import retrofit2.http.*
 
-interface BService {
+interface BServiceAPI {
 
     /**
      * 通用的请求接口

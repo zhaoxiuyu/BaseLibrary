@@ -1,12 +1,9 @@
-// 声明是Android程序，
-//com.android.application 表示这是一个应用程序模块
-//com.android.library 标识这是一个库模块
-//而这区别：前者可以直接运行，后者只能被导入别的应用作为一个模块。
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.getkeepsafe.dexcount' // 统计方法数
+apply plugin: 'com.didi.dokit' //DoraemonKit插件
 
 //配置项目构建的各种属性
 android {

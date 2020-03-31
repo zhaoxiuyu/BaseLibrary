@@ -87,11 +87,11 @@ dependencies {
 
     // 工具类
     api 'com.blankj:utilcode:1.26.0'//柯基 AndroidUtilCode
-    api "com.github.tamsiree.RxTool:RxKit:2.3.9"//基础工具库
-    api "com.github.tamsiree.RxTool:RxUI:2.3.9"//UI库
-    api "com.github.tamsiree.RxTool:RxCamera:2.3.9"//相机库
-    api "com.github.tamsiree.RxTool:RxFeature:2.3.9" //功能库（Zxing扫描与生成二维码条形码 支付宝 微信）
-    api "com.github.tamsiree.RxTool:RxArcGisKit:2.3.9"  //ArcGis For Android工具库（API：100.1以上版本）
+//    api "com.github.tamsiree.RxTool:RxKit:2.5.9"//基础工具库
+//    api "com.github.tamsiree.RxTool:RxUI:2.5.9"//UI库
+//    api "com.github.tamsiree.RxTool:RxCamera:2.5.9"//相机库
+//    api "com.github.tamsiree.RxTool:RxFeature:2.5.9" //功能库（Zxing扫描与生成二维码条形码 支付宝 微信）
+//    api "com.github.tamsiree.RxTool:RxArcGisKit:2.5.9"  //ArcGis For Android工具库（API：100.1以上版本）
 
     // MMKV
     api 'com.tencent:mmkv:1.0.23'
@@ -105,10 +105,10 @@ dependencies {
     api 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0'
     api 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0'
 
-    // 内存泄漏 性能优化 检测工具
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.0'
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:1.2.1'
-    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:1.2.1'
+    // 性能优化 检测工具,LeakCanary 已经在 doraemonkit 中动态集成
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:3.0.0'
+    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:3.0.0'
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-leakcanary:3.0.0'
 
     // 网络请求核心库,rx扩展,rx下载,rxandroid
     api 'com.lzy.net:okgo:3.0.4'

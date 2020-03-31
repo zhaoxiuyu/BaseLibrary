@@ -10,7 +10,7 @@ buildscript {
     ext {
         compileSdkVersion = 28
         targetSdkVersion = 28
-        minSdkVersion = 19
+        minSdkVersion = 21
 
         versionCode = 100
         versionName = "1.0.0"
@@ -26,8 +26,11 @@ buildscript {
         // 统计方法数
         classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.8.6'
 
-        // JitPack
+        // JitPack 上传依赖
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
+
+        // didichuxing 流量监控以及其他AOP功能
+        classpath 'com.didichuxing.doraemonkit:doraemonkit-plugin:3.0.0'
 
     }
 }

@@ -159,7 +159,7 @@ class MainActivity : VPActivity<_VPPresenter>(), _VPView {
 
             val json = withContext(Dispatchers.IO) {
                 LogUtils.d(Thread.currentThread().name)
-                val call = BManager.mBaseHttpService.getPostsAsync(map)
+                val call = BManager.getServiceAPI().getPostsAsync(map)
                 call.execute()
             }
             LogUtils.d("${Thread.currentThread().name} = $json")

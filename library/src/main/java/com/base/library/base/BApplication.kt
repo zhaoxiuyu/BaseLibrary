@@ -8,11 +8,12 @@ import com.base.library.util.CockroachUtil
 import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.Utils
 import com.didichuxing.doraemonkit.DoraemonKit
+import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DoraemonInterceptor
+import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DoraemonWeakNetworkInterceptor
 import com.lxj.xpopup.XPopup
 import com.lzy.okgo.OkGo
 import com.lzy.okgo.https.HttpsUtils
 import com.lzy.okgo.interceptor.HttpLoggingInterceptor
-import com.vondear.rxtool.RxTool
 import okhttp3.OkHttpClient
 import org.litepal.LitePal
 import java.util.logging.Level
@@ -24,21 +25,19 @@ open class BApplication : MultiDexApplication() {
 
     override fun onCreate() {
         super.onCreate()
-        val startTime = System.currentTimeMillis()//获取开始时间
 
-        Utils.init(this)
-        initLogUtils()
-        RxTool.init(this)
-        DoraemonKit.install(this)
+        utilcode()
+//        RxTool.init(this)
         LitePal.initialize(this)
+        DoraemonKit.install(this, null, "0f0894d53fe597a618cb4e0c31e2f536")
         XPopup.setPrimaryColor(ContextCompat.getColor(this, R.color.base_sb_pressed))
+
         if (BuildConfig.DEBUG) {
             initHttp(getLoggingInterceptor())
         } else {
             initHttp(null)
             initCockroach()
         }
-        LogUtils.d("初始化耗时 : ${System.currentTimeMillis() - startTime}")
     }
 
     /**
@@ -68,6 +67,8 @@ open class BApplication : MultiDexApplication() {
         val builder = OkHttpClient.Builder()
         logging?.let { builder.addInterceptor(it) }//打印日志
         builder.sslSocketFactory(sslParams1.sSLSocketFactory, sslParams1.trustManager)
+        builder.addNetworkInterceptor(DoraemonWeakNetworkInterceptor()) //用于模拟弱网的拦截器
+        builder.addInterceptor(DoraemonInterceptor()).build()  //网络请求监控的拦截器
 
         //重连次数,默认三次,最差的情况4次(一次原始请求,三次重连请求),不需要可以设置为0
         OkGo.getInstance().init(this).setOkHttpClient(builder.build()).retryCount = 0
@@ -84,7 +85,8 @@ open class BApplication : MultiDexApplication() {
     /**
      * 初始化打印日志
      */
-    private fun initLogUtils() {
+    private fun utilcode() {
+        Utils.init(this)
         LogUtils.getConfig().setLogSwitch(BuildConfig.DEBUG)//总开关
             .setConsoleSwitch(BuildConfig.DEBUG)//控制台开关
             .setLogHeadSwitch(BuildConfig.DEBUG)//控制台开关

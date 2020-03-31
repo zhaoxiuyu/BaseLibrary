@@ -131,8 +131,8 @@ open class VMViewModel : ViewModel() {
      */
     private fun getRetrofitApi(request: BRequest): Observable<String> {
         return when (request.url) {
-            "" -> BManager.mBaseHttpService.apiPay()
-            else -> BManager.mBaseHttpService.apiPay()
+            "" -> BManager.getServiceAPI().apiPay()
+            else -> BManager.getServiceAPI().apiPay()
         }
     }
 

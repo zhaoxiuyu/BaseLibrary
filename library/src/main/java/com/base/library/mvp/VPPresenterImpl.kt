@@ -1,10 +1,10 @@
 package com.base.library.mvp
 
 import androidx.lifecycle.LifecycleOwner
-import com.base.library.base.IDCARD
-import com.base.library.entitys.BaseResponse
 import com.base.library.base.BManager
 import com.base.library.base.BRequest
+import com.base.library.base.IDCARD
+import com.base.library.entitys.BaseResponse
 import com.blankj.utilcode.util.GsonUtils
 import com.blankj.utilcode.util.LogUtils
 import com.lzy.okgo.OkGo
@@ -116,8 +116,8 @@ open class VPPresenterImpl<T : VPView?>(var mView: T?) : VPPresenter, VPCallback
     override fun getRetrofit2(http: BRequest) {
         fun getRetrofitApi(): Observable<String> {
             return when (http.url) {
-                IDCARD -> BManager.mBaseHttpService.apiPay(http.body)
-                else -> BManager.mBaseHttpService.apiPay(http.body)
+                IDCARD -> BManager.getServiceAPI().apiPay(http.body)
+                else -> BManager.getServiceAPI().apiPay(http.body)
             }
         }
         Observable.just(http).subscribeOn(Schedulers.io())
