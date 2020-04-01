@@ -10,4 +10,11 @@ class Chapters {
     var userControlSetTop: Boolean = false  // ": false,
     var visibl: Int? = null  // e": 1
 
+    var desc: String? = null // ": "享学~",
+    var imagePath: String? = null
+    var isVisible: String? = null // ": 1,
+    var title: String? = null // ": "后悔在简历上写了&ldquo;精通&rdquo;",
+    var type: String? = null // ": 0,
+    var url: String? = null // ": "https://mp.weixin.qq.com/s/HjQyiLSkCpjs_kuVZU-PVQ"
+
 }

@@ -24,16 +24,28 @@ class RegisterViewModel : VMViewModel() {
         return liveChapters
     }
 
-    // 通过 Retrofit 获取首页 banner
-    fun getBanner(): MutableLiveData<BResponse<List<Banner>>> {
-        val liveBanner = MutableLiveData<BResponse<List<Banner>>>()
+    val liveBanner = MutableLiveData<BResponse<List<Banner>>>()
 
+    // 通过 Retrofit 获取首页 banner
+    fun getBanner() {
         val request = BRequest(url3).apply {
             httpType = BRequest.GET
             gsonType = GsonUtils.getListType(Banner::class.java)
         }
         getRetrofit(request, liveBanner)
-        return liveBanner
+    }
+
+    // 如果没有配置header就走默认的url，配置了就走header里面的url
+    fun getHh(): MutableLiveData<BResponse<List<Chapters>>> {
+        val liveHh = MutableLiveData<BResponse<List<Chapters>>>()
+
+        val request = BRequest(url).apply {
+            httpType = BRequest.GET
+            baseUrl = url3
+            gsonType = GsonUtils.getListType(Chapters::class.java)
+        }
+        getRetrofit(request, liveHh)
+        return liveHh
     }
 
     /**

@@ -1,7 +1,11 @@
 package com.base.library.base
 
+import com.blankj.utilcode.util.LogUtils
 import com.lzy.okgo.interceptor.HttpLoggingInterceptor
+import okhttp3.HttpUrl
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.Response
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
@@ -15,7 +19,7 @@ object BManager {
 
     init {
         initClient()
-        initBaseUrl(url3) // 初始化 url 默认从MMKV中获取
+        initBaseUrl()
     }
 
     /**
@@ -29,16 +33,13 @@ object BManager {
         clientBuilder.retryOnConnectionFailure(false) // 是否重连
         clientBuilder.followRedirects(true) // 允许重定向
 
-//        // https 支持
-//        clientBuilder.hostnameVerifier { hostname, session ->
-//            return@hostnameVerifier true
-//        }
-
         // 添加日志打印
         val logging = HttpLoggingInterceptor("OkHttp")
         logging.setPrintLevel(HttpLoggingInterceptor.Level.BODY)
         logging.setColorLevel(Level.INFO)
         clientBuilder.addInterceptor(logging)
+
+        clientBuilder.addInterceptor(BaseUrlInterceptor())
 
         mOkHttpClient = clientBuilder.build()
     }
@@ -46,18 +47,55 @@ object BManager {
     /**
      * 初始化 Retrofit
      */
-    private fun initBaseUrl(host: String) {
-        val retrofit = Retrofit.Builder().baseUrl(host).client(mOkHttpClient)
-            .addConverterFactory(ScalarsConverterFactory.create()) // 使用String
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create()) // 使用RxJava
+    private fun initBaseUrl() {
+        val retrofit = Retrofit.Builder().baseUrl(url3).client(mOkHttpClient)
+            .addConverterFactory(ScalarsConverterFactory.create()) // 使用 String
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create()) // 使用 RxJava
             .build()
         mServiceAPI = retrofit.create(BServiceAPI::class.java)
     }
 
+    /**
+     * 主要是根据Header判断是否重新设置BaseUrl
+     */
+    class BaseUrlInterceptor : Interceptor {
+        override fun intercept(chain: Interceptor.Chain): Response {
+            val request = chain.request() // 获取 request
+            val oidUrl = request.url() // 获取原有的 HttpUrl 实例
+            val builder = request.newBuilder() // 获取 request 的创建者 builder
+
+            val header = request.headers("urlName") // 从 request 中获取 header
+            if (header != null && header.size > 0) {
+                // 如果有这个header，就将这个header删除，这个header只用做更换 BaseUrl 的标识
+                builder.removeHeader("urlName")
+                val headerValue = header[0] // 获得新的 BaseUrl
+                LogUtils.d("headerValue = $headerValue")
+
+                if ("default" != headerValue) {
+                    val httpUrl = HttpUrl.parse(headerValue)
+
+                    LogUtils.d("httpUrl = ${httpUrl?.scheme()} ; ${httpUrl?.host()} ; ${httpUrl?.port()}")
+
+                    val newUrl = if (httpUrl != null) {
+                        oidUrl.newBuilder()
+                            .scheme(httpUrl.scheme())
+                            .host(httpUrl.host())
+                            .port(httpUrl.port()).build()
+                    } else {
+                        oidUrl
+                    }
+                    return chain.proceed(builder.url(newUrl).build())
+                }
+            }
+            return chain.proceed(request)
+        }
+    }
+
+    /**
+     * 获取 service
+     */
     fun getServiceAPI(): BServiceAPI {
         return mServiceAPI
     }
-
-
 
 }

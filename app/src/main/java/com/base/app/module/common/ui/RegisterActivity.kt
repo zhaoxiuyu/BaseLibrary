@@ -41,16 +41,23 @@ class RegisterActivity : VMActivity<RegisterViewModel>() {
                 tv.text = sb.toString()
             })
         }
+
         but2.setOnClickListener {
-            vm?.getBanner()?.observe(this, Observer { it1 ->
+            vm?.getBanner()
+        }
+        vm?.liveBanner?.observe(this, Observer { it1 ->
+            it1.handler(object : OnCallback<List<Banner>>() {})
+            sb.delete(0, sb.length)
+            it1.data?.forEach { sb.appendln(it.title) }
+            tv.text = sb.toString()
+        })
 
-                it1.handler(object : OnCallback<List<Banner>>() {})
-
-                sb.delete(0, sb.length)
-                it1.data?.forEach { sb.appendln(it.title) }
-                tv.text = sb.toString()
+        but3.setOnClickListener {
+            vm?.getHh()?.observe(this, Observer {
+                it.handler(object : OnCallback<List<Chapters>>() {})
             })
         }
+
     }
 
 }

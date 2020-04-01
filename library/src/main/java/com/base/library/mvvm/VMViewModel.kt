@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.base.library.base.BManager
 import com.base.library.base.BRequest
 import com.base.library.base.BResponse
+import com.base.library.base.url3
 import com.blankj.utilcode.util.GsonUtils
 import com.blankj.utilcode.util.LogUtils
 import com.lzy.okgo.callback.AbsCallback
@@ -131,8 +132,8 @@ open class VMViewModel : ViewModel() {
      */
     private fun getRetrofitApi(request: BRequest): Observable<String> {
         return when (request.url) {
-            "" -> BManager.getServiceAPI().apiPay()
-            else -> BManager.getServiceAPI().apiPay()
+            url3 -> BManager.getServiceAPI().apiUrl(request.baseUrl)
+            else -> BManager.getServiceAPI().apiUrl(request.baseUrl)
         }
     }
 

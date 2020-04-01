@@ -31,6 +31,13 @@ class BRequest(val url: String) {
 
     var gsonType: Type? = null // 解析类型
 
+    /**
+     * 使用OkHttp+Retrofit请求时这个参数才有效果
+     * 这个参数可以不用管,默认走Retrofit初始化时设置的baseUrl
+     * 如果请求有不同的BaseUrl,就可以改变这个值，会在拦截器里面自动替换成这个参数
+     */
+    var baseUrl: String = "default"
+
     fun getOkGo(): Request<String, out Request<*, *>> {
         return getRequest()
     }
@@ -44,15 +51,15 @@ class BRequest(val url: String) {
     }
 
     private fun getRequest(): Request<String, out Request<*, *>> {
-        val request: Request<String, out Request<*, *>>
-        when (httpType) {
-            GET -> request = OkGo.get(url)
-            POST -> request = OkGo.post(url)
-            PUT -> request = OkGo.put(url)
-            DELETE -> request = OkGo.delete(url)
-            HEAD -> request = OkGo.head(url)
-            else -> request = OkGo.options(url)
+        val request: Request<String, out Request<*, *>> = when (httpType) {
+            GET -> OkGo.get(url)
+            POST -> OkGo.post(url)
+            PUT -> OkGo.put(url)
+            DELETE -> OkGo.delete(url)
+            HEAD -> OkGo.head(url)
+            else -> OkGo.options(url)
         }
+
         heads?.forEach { request?.headers(it.key, it.value) }
         request?.params(params)
         request?.tag(tag)
