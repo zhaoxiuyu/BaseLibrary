@@ -1,12 +1,12 @@
 package com.base.library.mvvm.template.viewmodel
 
 import androidx.lifecycle.MutableLiveData
+import com.base.library.base.BRequest
 import com.base.library.base.BResponse
 import com.base.library.base.url
 import com.base.library.base.url3
 import com.base.library.entitys.Banner
 import com.base.library.entitys.Chapters
-import com.base.library.base.BRequest
 import com.base.library.mvvm.VMViewModel
 import com.blankj.utilcode.util.GsonUtils
 

@@ -60,11 +60,11 @@ class BRequest(val url: String) {
             else -> OkGo.options(url)
         }
 
-        heads?.forEach { request?.headers(it.key, it.value) }
-        request?.params(params)
-        request?.tag(tag)
-        request?.cacheMode(cacheMode)
-        request?.cacheTime(cacheTime)
+        heads?.forEach { request.headers(it.key, it.value) }
+        request.params(params)
+        request.tag(tag)
+        request.cacheMode(cacheMode)
+        request.cacheTime(cacheTime)
 
         if (!StringUtils.isEmpty(body) || isSpliceUrl) {//是否强制将params的参数拼接到url后面,up系列与params系列混用
             (request as BodyRequest)

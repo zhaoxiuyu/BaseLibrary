@@ -9,6 +9,7 @@ import com.base.library.base.BResponse
 import com.base.library.base.url3
 import com.blankj.utilcode.util.GsonUtils
 import com.blankj.utilcode.util.LogUtils
+import com.lzy.okgo.OkGo
 import com.lzy.okgo.callback.AbsCallback
 import com.lzy.okgo.exception.HttpException
 import com.lzy.okgo.exception.StorageException
@@ -36,6 +37,7 @@ open class VMViewModel : ViewModel() {
      * 使用 OKGO 进行网络请求
      */
     fun <T> getData(bRequest: BRequest, liveData: MutableLiveData<BResponse<T>>) {
+        bRequest.tag = this
         bRequest.getOkGo().execute(object : AbsCallback<String>() {
             // 请求网络开始前，UI线程
             override fun onStart(request: Request<String, out Request<Any, Request<*, *>>>?) {
@@ -204,6 +206,7 @@ open class VMViewModel : ViewModel() {
     override fun onCleared() {
         super.onCleared()
         compositeDisposable?.dispose()
+        OkGo.getInstance().cancelTag(this)
     }
 
 }

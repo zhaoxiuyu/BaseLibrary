@@ -2,7 +2,6 @@ package com.base.library.mvvm.template.ui
 
 import android.content.Intent
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.base.library.R
 import com.base.library.base.VMActivity
 import com.base.library.entitys.Banner
@@ -24,6 +23,7 @@ class Demo3Activity : VMActivity<Demo3ViewModel>() {
 
     override fun initData() {
         start.setOnClickListener {
+
             vm?.getChapters()?.observe(this, Observer { it1 ->
                 // 重写回调(非必需)，根据不同的状态进行处理,下面这个对成功提示框单独做定制修改
                 it1.handler(object : OnCallback<List<Chapters>>() {
@@ -37,6 +37,7 @@ class Demo3Activity : VMActivity<Demo3ViewModel>() {
                     LogUtils.d(it.name)
                 }
             })
+
         }
         qt.setOnClickListener {
             vm?.getBanner()?.observe(this, Observer { it1 ->
