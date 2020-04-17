@@ -22,16 +22,24 @@
         </activity>
 
         <activity android:name=".module.common.ui.RegisterActivity">
+
+        </activity>
+
+        <activity android:name="com.base.library.mvp.template.ui.Demo1Activity">
+
+        </activity>
+
+        <!-- 作为新功能的尝试 -->
+        <activity android:name=".module.newfunction.ui.FunctionActivity">
+
+        </activity>
+        <activity android:name=".module.newfunction.ui.ViewPage2">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-
-        <activity android:name="com.base.library.mvp.template.ui.Demo1Activity">
-
         </activity>
 
         <!-- 沉浸式,全面屏 -->
