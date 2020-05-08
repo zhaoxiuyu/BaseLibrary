@@ -1,10 +1,9 @@
 package com.base.library.mvp.template.presenter
 
-import com.base.library.base.IDCARD
-import com.base.library.base.KEY
+import com.base.library.entitys.BRequest
 import com.base.library.entitys.BaseResponse
-import com.base.library.base.BRequest
-import com.base.library.mvp.VPPresenterImpl
+import com.base.library.http.HttpConstant
+import com.base.library.mvp.core.VPPresenterImpl
 import com.base.library.mvp.template.contract.Demo1Contract
 import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.StringUtils
@@ -22,8 +21,8 @@ class Demo1Presenter(view: Demo1Contract.View) : VPPresenterImpl<Demo1Contract.V
 
     override fun check(idCard: String) {
         if (StringUtils.isEmpty(idCard)) {
-            val bRequest = BRequest(IDCARD).apply {
-                params = mapOf("key" to KEY, "cardno" to idCard)
+            val bRequest = BRequest(HttpConstant.IDCARD).apply {
+                params = mapOf("key" to HttpConstant.KEY, "cardno" to idCard)
             }
             getData(bRequest)
         } else {

@@ -1,10 +1,10 @@
-package com.base.library.mvp
+package com.base.library.mvp.core
 
 import androidx.lifecycle.LifecycleOwner
-import com.base.library.base.BManager
-import com.base.library.base.BRequest
-import com.base.library.base.IDCARD
+import com.base.library.entitys.BRequest
 import com.base.library.entitys.BaseResponse
+import com.base.library.http.HttpConstant
+import com.base.library.http.HttpManager
 import com.blankj.utilcode.util.GsonUtils
 import com.blankj.utilcode.util.LogUtils
 import com.lzy.okgo.OkGo
@@ -24,7 +24,8 @@ import java.net.UnknownHostException
  * 作用：P层的基础实现类
  * 实现了网络请求 返回 取消等处理
  */
-open class VPPresenterImpl<T : VPView?>(var mView: T?) : VPPresenter, VPCallback {
+open class VPPresenterImpl<T : VPView?>(var mView: T?) : VPPresenter,
+    VPCallback {
 
     var owner: LifecycleOwner? = null
 
@@ -116,8 +117,8 @@ open class VPPresenterImpl<T : VPView?>(var mView: T?) : VPPresenter, VPCallback
     override fun getRetrofit2(http: BRequest) {
         fun getRetrofitApi(): Observable<String> {
             return when (http.url) {
-                IDCARD -> BManager.getServiceAPI().apiPay(http.body)
-                else -> BManager.getServiceAPI().apiPay(http.body)
+                HttpConstant.IDCARD -> HttpManager.getServiceAPI().apiPay(http.body)
+                else -> HttpManager.getServiceAPI().apiPay(http.body)
             }
         }
         Observable.just(http).subscribeOn(Schedulers.io())

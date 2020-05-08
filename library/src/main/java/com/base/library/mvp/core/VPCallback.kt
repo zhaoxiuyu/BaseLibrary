@@ -1,7 +1,7 @@
-package com.base.library.mvp
+package com.base.library.mvp.core
 
 import com.base.library.entitys.BaseResponse
-import com.base.library.base.BRequest
+import com.base.library.entitys.BRequest
 
 /**
  * 作用: 网络请求监听基类

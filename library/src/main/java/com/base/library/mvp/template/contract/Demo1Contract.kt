@@ -1,7 +1,7 @@
 package com.base.library.mvp.template.contract
 
-import com.base.library.mvp.VPPresenter
-import com.base.library.mvp.VPView
+import com.base.library.mvp.core.VPPresenter
+import com.base.library.mvp.core.VPView
 
 /**
  * 作用: 使用案例,自己定义Contract

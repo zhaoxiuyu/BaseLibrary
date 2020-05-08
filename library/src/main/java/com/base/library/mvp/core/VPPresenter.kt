@@ -1,6 +1,6 @@
-package com.base.library.mvp
+package com.base.library.mvp.core
 
-import com.base.library.base.BRequest
+import com.base.library.entitys.BRequest
 import com.base.library.interfaces.MyLifecycle
 
 /**

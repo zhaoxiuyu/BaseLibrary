@@ -11,7 +11,7 @@ import com.base.app.module.newfunction.adapter.VP2Adapter
 import com.base.app.module.newfunction.transformer.ScaleInTransformer
 import com.base.app.module.newfunction.viewmodel.FunctionViewModel
 import com.base.app.utils.TestDatas
-import com.base.library.base.VMActivity
+import com.base.library.mvvm.core.VMActivity
 import kotlinx.android.synthetic.main.activity_viewpage2.*
 
 class ViewPage2 : VMActivity<FunctionViewModel>() {

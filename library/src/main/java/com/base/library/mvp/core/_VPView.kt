@@ -1,4 +1,4 @@
-package com.base.library.mvp
+package com.base.library.mvp.core
 
 /**
  * 作用: 通用的回调层

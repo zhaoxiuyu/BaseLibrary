@@ -1,31 +1,29 @@
-package com.base.library.base
+package com.base.library.mvp
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import com.base.library.base.BActivity
 import com.base.library.interfaces.MyXPopupListener
-import com.base.library.mvp.VPPresenter
-import com.base.library.mvp.VPView
+import com.base.library.mvp.core.VPPresenter
+import com.base.library.mvp.core.VPView
 import com.lxj.xpopup.interfaces.OnCancelListener
 import com.lxj.xpopup.interfaces.OnConfirmListener
 import com.lxj.xpopup.interfaces.XPopupCallback
 import io.reactivex.functions.Consumer
 
-abstract class VPFragment<T : VPPresenter> : BFragment(), VPView {
+/**
+ * MVP 模式的基础 Activity
+ */
+abstract class VPActivity<T : VPPresenter> : BActivity(),
+    VPView {
 
     var mPresenter: T? = null
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         mPresenter?.let { lifecycle.addObserver(it) }
-        return super.onCreateView(inflater, container, savedInstanceState)
     }
 
-    override fun getContext() = activity!!
+    override fun getContext() = this
 
     override fun showDialog(xPopupCallback: XPopupCallback?, loading: String?) {
         showLoading(xPopupCallback, loading)
@@ -65,6 +63,7 @@ abstract class VPFragment<T : VPPresenter> : BFragment(), VPView {
     override fun putCache(key: String, content: String, time: Int) {
         putCacheDisk(key, content, time)
     }
+
 
     //P层的数据回调,可以做一些日志保存
     override fun other(content: String, behavior: String, level: String) {

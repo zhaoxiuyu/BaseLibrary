@@ -1,34 +1,32 @@
 package com.base.app.module.common.viewmodel
 
 import androidx.lifecycle.MutableLiveData
-import com.base.library.base.BRequest
-import com.base.library.base.BResponse
-import com.base.library.base.url
-import com.base.library.base.url3
-import com.base.library.entitys.Banner
-import com.base.library.entitys.Chapters
-import com.base.library.mvvm.VMViewModel
+import com.base.library.entitys.BRequest
+import com.base.library.entitys.BResponse
+import com.base.library.entitys.response.Banner
+import com.base.library.entitys.response.Chapters
+import com.base.library.http.HttpConstant
+import com.base.library.mvvm.core.VMViewModel
 import com.blankj.utilcode.util.GsonUtils
 
 class RegisterViewModel : VMViewModel() {
 
-    // 通过 OKGO 获取公众号列表,
-    fun getChapters(): MutableLiveData<BResponse<List<Chapters>>> {
-        val liveChapters = MutableLiveData<BResponse<List<Chapters>>>()
+    // 公众号列表
+    val liveChapters by lazy { MutableLiveData<BResponse<List<Chapters>>>() }
 
-        val request = BRequest(url).apply {
+    fun getChapters() {
+        val request = BRequest(HttpConstant.url).apply {
             httpType = BRequest.GET
             gsonType = GsonUtils.getListType(Chapters::class.java)
         }
         getData(request, liveChapters)
-        return liveChapters
     }
 
-    val liveBanner = MutableLiveData<BResponse<List<Banner>>>()
+    // 首页banner
+    val liveBanner by lazy { MutableLiveData<BResponse<List<Banner>>>() }
 
-    // 通过 Retrofit 获取首页 banner
     fun getBanner() {
-        val request = BRequest(url3).apply {
+        val request = BRequest(HttpConstant.url3).apply {
             httpType = BRequest.GET
             gsonType = GsonUtils.getListType(Banner::class.java)
         }
@@ -39,9 +37,9 @@ class RegisterViewModel : VMViewModel() {
     fun getHh(): MutableLiveData<BResponse<List<Chapters>>> {
         val liveHh = MutableLiveData<BResponse<List<Chapters>>>()
 
-        val request = BRequest(url).apply {
+        val request = BRequest(HttpConstant.url).apply {
             httpType = BRequest.GET
-            baseUrl = url3
+            baseUrl = HttpConstant.url3
             gsonType = GsonUtils.getListType(Chapters::class.java)
         }
         getRetrofit(request, liveHh)

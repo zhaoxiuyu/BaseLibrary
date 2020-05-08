@@ -4,9 +4,9 @@ import android.content.Intent
 import androidx.lifecycle.Observer
 import com.base.app.R
 import com.base.app.module.common.viewmodel.RegisterViewModel
-import com.base.library.base.VMActivity
-import com.base.library.entitys.Banner
-import com.base.library.entitys.Chapters
+import com.base.library.entitys.BResponse
+import com.base.library.entitys.response.Chapters
+import com.base.library.mvvm.core.VMActivity
 import kotlinx.android.synthetic.main.activity_register.*
 
 class RegisterActivity : VMActivity<RegisterViewModel>() {
@@ -23,41 +23,39 @@ class RegisterActivity : VMActivity<RegisterViewModel>() {
     }
 
     override fun initData() {
-        but1.setOnClickListener {
-            vm?.getChapters()?.observe(this, Observer { it1 ->
-                // 重写回调(非必需)，根据不同的状态进行处理,下面这个对成功提示框单独做定制修改
-                it1.handler(object : OnCallback<List<Chapters>>() {
-                    override fun onSuccess(
-                        msg: String,
-                        data: List<Chapters>?,
-                        isFinish: Boolean
-                    ) {
-                        showDialog()
-                    }
-                })
+        but1.setOnClickListener { vm?.getChapters() }
+        but2.setOnClickListener { vm?.getBanner() }
 
-                sb.delete(0, sb.length)
-                it1.data?.forEach { sb.appendln(it.name) }
-                tv.text = sb.toString()
-            })
-        }
-
-        but2.setOnClickListener {
-            vm?.getBanner()
-        }
+        vm?.liveChapters?.observe(this, Observer { br ->
+            sb.delete(0, sb.length)
+            br.data?.forEach { sb.appendln(it.name) }
+            sb.appendln("liveChapters")
+            tv.text = sb.toString()
+        })
         vm?.liveBanner?.observe(this, Observer { it1 ->
-            it1.handler(object : OnCallback<List<Banner>>() {})
             sb.delete(0, sb.length)
             it1.data?.forEach { sb.appendln(it.title) }
+            sb.appendln("liveBanner")
             tv.text = sb.toString()
         })
 
         but3.setOnClickListener {
-            vm?.getHh()?.observe(this, Observer {
-                it.handler(object : OnCallback<List<Chapters>>() {})
+            vm?.getHh()?.observe(this, Observer { it1 ->
+                it1.handler(object : OnCallback<List<Chapters>>() {})
+                sb.delete(0, sb.length)
+                it1.data?.forEach { sb.appendln(it.title) }
+                sb.appendln("getHh")
+                tv.text = sb.toString()
             })
         }
+    }
 
+    override fun stateLiveData(bResponse: BResponse<Any>) {
+        bResponse.handler(object : OnCallback<Any>() {
+            override fun onLoading(msg: String) {
+                super.onLoading("看看改变了没")
+            }
+        })
     }
 
 }

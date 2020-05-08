@@ -3,9 +3,7 @@ package com.base.library.mvvm.template.ui
 import android.content.Intent
 import androidx.lifecycle.Observer
 import com.base.library.R
-import com.base.library.base.VMActivity
-import com.base.library.entitys.Banner
-import com.base.library.entitys.Chapters
+import com.base.library.mvvm.core.VMActivity
 import com.base.library.mvvm.template.viewmodel.Demo3ViewModel
 import com.blankj.utilcode.util.LogUtils
 import kotlinx.android.synthetic.main.base_activity_test.*
@@ -22,33 +20,21 @@ class Demo3Activity : VMActivity<Demo3ViewModel>() {
     }
 
     override fun initData() {
-        start.setOnClickListener {
+        start.setOnClickListener { vm?.getChapters() }
+        qt.setOnClickListener { vm?.getBanner() }
 
-            vm?.getChapters()?.observe(this, Observer { it1 ->
-                // 重写回调(非必需)，根据不同的状态进行处理,下面这个对成功提示框单独做定制修改
-                it1.handler(object : OnCallback<List<Chapters>>() {
-                    override fun onSuccess(msg: String, data: List<Chapters>?, isFinish: Boolean) {
-                        showDialog()
-                    }
-                })
-
-                LogUtils.d("公众号列表 打印出来")
-                it1.data?.forEach {
-                    LogUtils.d(it.name)
-                }
-            })
-
-        }
-        qt.setOnClickListener {
-            vm?.getBanner()?.observe(this, Observer { it1 ->
-                it1.handler(object : OnCallback<List<Banner>>() {})
-
-                LogUtils.d("首页banner 打印出来")
-                it1.data?.forEach {
-                    LogUtils.d(it.title)
-                }
-            })
-        }
+        vm?.liveChapters?.observe(this, Observer { br ->
+            LogUtils.d("公众号列表 打印出来")
+            br.data?.forEach {
+                LogUtils.d(it.name)
+            }
+        })
+        vm?.liveBanner?.observe(this, Observer { br ->
+            LogUtils.d("首页banner 打印出来")
+            br.data?.forEach {
+                LogUtils.d(it.title)
+            }
+        })
     }
 
 }

@@ -1,7 +1,7 @@
 package com.base.app.module.common.contract
 
-import com.base.library.mvp.VPPresenter
-import com.base.library.mvp.VPView
+import com.base.library.mvp.core.VPPresenter
+import com.base.library.mvp.core.VPView
 
 interface LoginContract {
 

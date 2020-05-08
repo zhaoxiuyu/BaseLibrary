@@ -1,4 +1,4 @@
-package com.base.library.base
+package com.base.library.entitys
 
 import com.blankj.utilcode.util.StringUtils
 import com.lzy.okgo.OkGo

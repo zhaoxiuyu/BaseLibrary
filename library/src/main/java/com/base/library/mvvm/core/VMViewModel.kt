@@ -1,14 +1,13 @@
-package com.base.library.mvvm
+package com.base.library.mvvm.core
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.base.library.base.BManager
-import com.base.library.base.BRequest
-import com.base.library.base.BResponse
-import com.base.library.base.url3
+import com.base.library.entitys.BRequest
+import com.base.library.entitys.BResponse
+import com.base.library.http.HttpConstant
+import com.base.library.http.HttpManager
 import com.blankj.utilcode.util.GsonUtils
-import com.blankj.utilcode.util.LogUtils
 import com.lzy.okgo.OkGo
 import com.lzy.okgo.callback.AbsCallback
 import com.lzy.okgo.exception.HttpException
@@ -33,6 +32,8 @@ open class VMViewModel : ViewModel() {
 
     private var compositeDisposable: CompositeDisposable? = null
 
+    val stateLiveData = MutableLiveData<BResponse<Any>>()
+
     /**
      * 使用 OKGO 进行网络请求
      */
@@ -42,9 +43,7 @@ open class VMViewModel : ViewModel() {
             // 请求网络开始前，UI线程
             override fun onStart(request: Request<String, out Request<Any, Request<*, *>>>?) {
                 Log.v("OkGo", "onStart")
-                if (!bRequest.silence) {
-                    liveData.value = BResponse.ResponseLoading()
-                }
+                if (!bRequest.silence) stateLiveData.value = BResponse.ResponseLoading()
                 super.onStart(request)
             }
 
@@ -101,15 +100,20 @@ open class VMViewModel : ViewModel() {
     }
 
     /**
-     * 使用 RxJava 和 Retrofit 请求
+     * 获取不同的Retrofit接口API
      */
+    private fun getRetrofitApi(request: BRequest): Observable<String> {
+        return when (request.url) {
+            HttpConstant.url3 -> HttpManager.getServiceAPI().apiUrl(request.baseUrl)
+            else -> HttpManager.getServiceAPI().apiUrl(request.baseUrl)
+        }
+    }
+
     fun <T> getRetrofit(bRequest: BRequest, liveData: MutableLiveData<BResponse<T>>) {
         getRetrofitApi(bRequest)
             .subscribeOn(Schedulers.io())
             .doOnSubscribe {
-                if (!bRequest.silence) {
-                    liveData.value = BResponse.ResponseLoading()
-                }
+                if (!bRequest.silence) stateLiveData.value = BResponse.ResponseLoading()
             }.observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : Observer<String> {
                 override fun onSubscribe(d: Disposable) {
@@ -130,16 +134,6 @@ open class VMViewModel : ViewModel() {
     }
 
     /**
-     * 获取不同的Retrofit接口API
-     */
-    private fun getRetrofitApi(request: BRequest): Observable<String> {
-        return when (request.url) {
-            url3 -> BManager.getServiceAPI().apiUrl(request.baseUrl)
-            else -> BManager.getServiceAPI().apiUrl(request.baseUrl)
-        }
-    }
-
-    /**
      * 验证数据是否合法
      */
     open fun <T> success(
@@ -150,13 +144,15 @@ open class VMViewModel : ViewModel() {
         val type = GsonUtils.getType(BResponse::class.java, bRequest.gsonType)
         val response = GsonUtils.fromJson<BResponse<T>>(body, type)
 
+        // 成功就进行回调，否则走状态回调
         if (response.errorCode == 0) {
+            response.isFinish = bRequest.isFinish
             response.state = BResponse.SUCCESS
+            liveData.value = response
+            stateLiveData.value = BResponse.ResponseSuccess(response.message, bRequest.isFinish)
         } else {
-            response.state = BResponse.FAIL
+            stateLiveData.value = BResponse.ResponseError(null, response.message, bRequest.isFinish)
         }
-        response.isFinish = bRequest.isFinish
-        liveData.value = response
     }
 
     /**
@@ -178,13 +174,12 @@ open class VMViewModel : ViewModel() {
         } else {
             "出现异常"
         }
-        LogUtils.e(content)
 
         /**
          * 不属于静默加载才弹窗
          */
         if (!bRequest.silence) {
-            liveData.value = BResponse.ResponseError(throwable, content, bRequest.isFinish)
+            stateLiveData.value = BResponse.ResponseError(throwable, content, bRequest.isFinish)
         }
 
         throwable?.printStackTrace()

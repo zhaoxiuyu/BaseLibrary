@@ -4,7 +4,7 @@ import android.content.Intent
 import com.base.app.R
 import com.base.app.module.common.contract.LoginContract
 import com.base.app.module.common.presenter.LoginPresenter
-import com.base.library.base.VPActivity
+import com.base.library.mvp.VPActivity
 import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : VPActivity<LoginPresenter>(), LoginContract.View {

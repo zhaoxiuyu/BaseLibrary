@@ -3,13 +3,9 @@ package com.base.app.module.common.ui
 import android.annotation.SuppressLint
 import android.content.Intent
 import com.base.app.R
-import com.base.library.base.BManager
-import com.base.library.base.KEY
-import com.base.library.base.PORT
-import com.base.library.base.VPActivity
-import com.base.library.mvp._VPPresenter
-import com.base.library.mvp._VPView
-import com.base.library.util.MMKVUtils
+import com.base.library.mvp.VPActivity
+import com.base.library.mvp.core._VPPresenter
+import com.base.library.mvp.core._VPView
 import com.blankj.utilcode.util.FragmentUtils
 import com.blankj.utilcode.util.LogUtils
 import com.uber.autodispose.AutoDispose
@@ -20,7 +16,8 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.*
 
-class MainActivity : VPActivity<_VPPresenter>(), _VPView {
+class MainActivity : VPActivity<_VPPresenter>(),
+    _VPView {
 
     private val mainFragment: MainFragment by lazy { MainFragment() }
 
@@ -139,40 +136,6 @@ class MainActivity : VPActivity<_VPPresenter>(), _VPView {
 
             LogUtils.d("4")
         }
-    }
-
-    fun xc2() {
-        GlobalScope.launch(Dispatchers.Main) {
-            LogUtils.d(Thread.currentThread().name)
-
-            val str = getStr2("str2")
-
-            LogUtils.d("${Thread.currentThread().name} = $str")
-        }
-    }
-
-    private var job: Job? = null
-    fun xc3() {
-        job = GlobalScope.launch(Dispatchers.Main) {
-            MMKVUtils.put("BaseUrl", PORT)
-            val map = mapOf("key" to KEY, "cardno" to "429001199311153156")
-
-            val json = withContext(Dispatchers.IO) {
-                LogUtils.d(Thread.currentThread().name)
-                val call = BManager.getServiceAPI().getPostsAsync(map)
-                call.execute()
-            }
-            LogUtils.d("${Thread.currentThread().name} = $json")
-        }
-        job?.invokeOnCompletion {
-            LogUtils.d("协程被取消了")
-        }
-
-    }
-
-    override fun onPause() {
-        super.onPause()
-        job?.cancel()
     }
 
     suspend fun getStr(str: String): String {

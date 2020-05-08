@@ -121,7 +121,7 @@ abstract class BActivity : AppCompatActivity() {
         }
     }
 
-    fun dismissDialog(finish: Boolean) {
+    fun dismissDialog(finish: Boolean = false) {
         if (finish) {
             xPopup?.dismissWith { finish() }
         } else {

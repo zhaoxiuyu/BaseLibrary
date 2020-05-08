@@ -2,7 +2,7 @@ package com.base.library.mvp.template.ui
 
 import android.content.Intent
 import com.base.library.R
-import com.base.library.base.VPActivity
+import com.base.library.mvp.VPActivity
 import com.base.library.mvp.template.contract.Demo1Contract
 import com.base.library.mvp.template.presenter.Demo1Presenter
 import com.blankj.utilcode.util.ToastUtils

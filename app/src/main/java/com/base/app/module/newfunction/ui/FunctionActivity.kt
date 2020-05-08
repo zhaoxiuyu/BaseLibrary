@@ -10,7 +10,7 @@ import com.base.app.module.newfunction.adapter.ImageAdapter
 import com.base.app.module.newfunction.adapter.TextAdapter
 import com.base.app.module.newfunction.viewmodel.FunctionViewModel
 import com.base.app.utils.TestDatas
-import com.base.library.base.VMActivity
+import com.base.library.mvvm.core.VMActivity
 import com.blankj.utilcode.util.LogUtils
 import kotlinx.android.synthetic.main.activity_function.*
 

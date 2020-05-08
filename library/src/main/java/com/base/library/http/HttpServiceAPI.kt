@@ -1,10 +1,10 @@
-package com.base.library.base
+package com.base.library.http
 
 import io.reactivex.Observable
 import retrofit2.Call
 import retrofit2.http.*
 
-interface BServiceAPI {
+interface HttpServiceAPI {
 
     /**
      * 通用的请求接口
@@ -12,11 +12,11 @@ interface BServiceAPI {
     @POST("api/{code}")
     fun api(@Path("code") code: String, @Body param: String): Observable<String>
 
-    /**
-     * 通用的请求接口
-     */
     @GET("banner/json")
     fun apiPay(@Body param: String): Observable<String>
+
+    @POST("banner/json")
+    fun getPostsMap(@QueryMap params: Map<String, String>): Call<String>
 
     /**
      * 通用的请求接口
@@ -28,7 +28,7 @@ interface BServiceAPI {
     /**
      * 协程
      */
-    @POST("idcard/query")
-    fun getPostsAsync(@QueryMap params: Map<String, String>): Call<String>
+    @POST("banner/json")
+    suspend fun getPostsAsync(): String
 
 }

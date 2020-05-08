@@ -3,7 +3,7 @@ package com.base.app.module.newfunction.ui
 import android.os.Bundle
 import com.base.app.R
 import com.base.app.module.newfunction.viewmodel.FunctionViewModel
-import com.base.library.base.VMFragment
+import com.base.library.mvvm.core.VMFragment
 import com.blankj.utilcode.util.LogUtils
 import kotlinx.android.synthetic.main.item_vp2.*
 

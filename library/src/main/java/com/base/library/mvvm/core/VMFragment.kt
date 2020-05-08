@@ -1,4 +1,4 @@
-package com.base.library.base
+package com.base.library.mvvm.core
 
 import android.os.Bundle
 import android.util.Log
@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
-import com.base.library.mvvm.VMViewModel
+import com.base.library.base.BFragment
 import com.lzy.okgo.model.Progress
 import java.lang.reflect.ParameterizedType
 
@@ -24,24 +24,19 @@ abstract class VMFragment<VM : VMViewModel> : BFragment() {
     }
 
     // 放到Base里面，父类可以统一操作，也可以留给子类重写
-    abstract inner class OnCallback<T> : BResponse.OnHandleCallback<T> {
+    abstract inner class OnCallback<T> : OnHandleCallback {
         override fun onLoading(msg: String) {
             Log.v("OnCallback", "onLoading")
             showLoading(null, msg)
         }
 
-        override fun onSuccess(msg: String, data: T?, isFinish: Boolean) {
+        override fun onSuccess(msg: String, data: Any?, isFinish: Boolean) {
             Log.v("OnCallback", "onSuccess")
         }
 
-        override fun onError(error: Throwable?, isFinish: Boolean) {
+        override fun onError(error: Throwable?, message: String, isFinish: Boolean) {
             Log.v("OnCallback", "onError")
-            showDialog(content = "${error?.message}")
-        }
-
-        override fun onFailure(msg: String, isFinish: Boolean) {
-            Log.v("OnCallback", "onFailure")
-            showDialog(content = msg)
+            showDialog(content = message)
         }
 
         override fun onCompleted() {

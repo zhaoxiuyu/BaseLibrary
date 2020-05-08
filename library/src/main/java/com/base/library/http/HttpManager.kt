@@ -1,4 +1,4 @@
-package com.base.library.base
+package com.base.library.http
 
 import com.blankj.utilcode.util.LogUtils
 import com.lzy.okgo.interceptor.HttpLoggingInterceptor
@@ -12,9 +12,9 @@ import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.util.concurrent.TimeUnit
 import java.util.logging.Level
 
-object BManager {
+object HttpManager {
 
-    private lateinit var mServiceAPI: BServiceAPI
+    private lateinit var mServiceAPI: HttpServiceAPI
     private lateinit var mOkHttpClient: OkHttpClient
 
     init {
@@ -30,7 +30,7 @@ object BManager {
         clientBuilder.connectTimeout(10, TimeUnit.SECONDS)
         clientBuilder.readTimeout(10, TimeUnit.SECONDS)
         clientBuilder.writeTimeout(10, TimeUnit.SECONDS)
-        clientBuilder.retryOnConnectionFailure(false) // 是否重连
+        clientBuilder.retryOnConnectionFailure(true) // 是否重连
         clientBuilder.followRedirects(true) // 允许重定向
 
         // 添加日志打印
@@ -48,11 +48,11 @@ object BManager {
      * 初始化 Retrofit
      */
     private fun initBaseUrl() {
-        val retrofit = Retrofit.Builder().baseUrl(url3).client(mOkHttpClient)
+        val retrofit = Retrofit.Builder().baseUrl(HttpConstant.url3).client(mOkHttpClient)
             .addConverterFactory(ScalarsConverterFactory.create()) // 使用 String
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create()) // 使用 RxJava
             .build()
-        mServiceAPI = retrofit.create(BServiceAPI::class.java)
+        mServiceAPI = retrofit.create(HttpServiceAPI::class.java)
     }
 
     /**
@@ -73,9 +73,6 @@ object BManager {
 
                 if ("default" != headerValue) {
                     val httpUrl = HttpUrl.parse(headerValue)
-
-                    LogUtils.d("httpUrl = ${httpUrl?.scheme()} ; ${httpUrl?.host()} ; ${httpUrl?.port()}")
-
                     val newUrl = if (httpUrl != null) {
                         oidUrl.newBuilder()
                             .scheme(httpUrl.scheme())
@@ -94,7 +91,7 @@ object BManager {
     /**
      * 获取 service
      */
-    fun getServiceAPI(): BServiceAPI {
+    fun getServiceAPI(): HttpServiceAPI {
         return mServiceAPI
     }
 

@@ -1,4 +1,4 @@
-package com.base.library.mvp
+package com.base.library.mvp.core
 
 import android.util.Log
 import com.lzy.okgo.callback.AbsCallback

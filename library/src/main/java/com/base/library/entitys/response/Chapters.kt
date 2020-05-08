@@ -1,4 +1,4 @@
-package com.base.library.entitys
+package com.base.library.entitys.response
 
 class Chapters {
 

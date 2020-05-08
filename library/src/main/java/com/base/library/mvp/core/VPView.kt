@@ -1,4 +1,4 @@
-package com.base.library.mvp
+package com.base.library.mvp.core
 
 import android.content.Context
 import com.base.library.interfaces.MyXPopupListener

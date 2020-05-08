@@ -2,15 +2,16 @@ package com.base.app.module.common.presenter
 
 import com.base.app.module.common.contract.LoginContract
 import com.base.library.entitys.BaseResponse
-import com.base.library.base.BRequest
-import com.base.library.mvp.VPPresenterImpl
+import com.base.library.entitys.BRequest
+import com.base.library.mvp.core.VPPresenterImpl
 import com.blankj.utilcode.util.LogUtils
 
 class LoginPresenter(view: LoginContract.View) : VPPresenterImpl<LoginContract.View>(view),
     LoginContract.Presenter {
 
     override fun login(idCard: String) {
-        val bRequest = BRequest("https://www.wanandroid.com/banner/json")
+        val bRequest =
+            BRequest("https://www.wanandroid.com/banner/json")
         getData(bRequest)
         LogUtils.d(bRequest.tag)
     }
