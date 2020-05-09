@@ -10,6 +10,7 @@ import kotlinx.android.synthetic.main.activity_login.*
 class LoginActivity : VPActivity<LoginPresenter>(), LoginContract.View {
 
     override fun initArgs(intent: Intent?) {
+        // todo
     }
 
     override fun initView() {

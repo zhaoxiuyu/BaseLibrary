@@ -62,8 +62,8 @@ class MainActivity : VPActivity<_VPPresenter>(),
 //        butRegister.setOnClickListener { startActivity(Intent(this, RegisterActivity::class.java)) }
 
         butRegister.setOnClickListener {
-            var str: String? = null
-            var str2: String? = "str2"
+            val str: String? = null
+            val str2: String? = "str2"
             str?.let {
                 LogUtils.d("str不为空")
             } ?: let {
@@ -116,40 +116,14 @@ class MainActivity : VPActivity<_VPPresenter>(),
 //            })
     }
 
-    fun xc() {
-        GlobalScope.launch {
-            // async 启动新协程,3个同时请求,无需等待前一个请求的结果
-            val str1 = async { getStr("str1") }
-            val str1Await = str1.await()
-            LogUtils.d("1")
-
-            val str2 = async { getStr("str2") }
-            val str2Await = str2.await()
-            LogUtils.d("2")
-
-            val str3 = async { getStr("str3") }
-            val str3Await = str3.await()
-            LogUtils.d("3")
-
-            // await 协程挂起,等3个请求全部返回了在组装数据
-            printStr(str1Await, str2Await, str3Await)
-
-            LogUtils.d("4")
-        }
-    }
-
-    suspend fun getStr(str: String): String {
+    private suspend fun getStr(str: String): String {
         LogUtils.d("${Thread.currentThread().name} + $str")
         if ("str2" == str) delay(3000)
         return str
     }
 
-    fun printStr(str1: String, str2: String, str3: String) {
+    private fun printStr(str1: String, str2: String, str3: String) {
         LogUtils.d("${Thread.currentThread().name} + $str1 = $str2 = $str3")
-    }
-
-    suspend fun getStr2(str: String) = withContext(Dispatchers.IO) {
-        return@withContext str
     }
 
     override fun bindData(any: Any) {

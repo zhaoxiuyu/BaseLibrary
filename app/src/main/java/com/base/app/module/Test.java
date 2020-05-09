@@ -1,16 +1,17 @@
 package com.base.app.module;
 
-import java.util.ArrayList;
-import java.util.List;
+/**
+ * 测试
+ *
+ * @author Administrator
+ */
+public final class Test {
 
-public class Test {
+    private Test() {
 
-    public static void main(String[] args) {
+    }
 
-        List<String> list = new ArrayList<String>();
-
-        List<Object> list2 = new ArrayList<Object>();
-        list2.addAll(list);
+    public static void main(final String[] args) {
 
     }
 

@@ -14,8 +14,6 @@ class CoroutineActivity : VMActivity<RegisterViewModel>() {
 
 //    private val vm by lazy { ViewModelProvider(this).get(RegisterViewModel::class.java) }
 
-    private val sb = StringBuilder("")
-
     override fun initArgs(intent: Intent?) {
     }
 

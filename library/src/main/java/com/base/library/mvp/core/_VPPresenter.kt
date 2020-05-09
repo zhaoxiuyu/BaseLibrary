@@ -18,7 +18,7 @@ class _VPPresenter(view: _VPView) : VPPresenterImpl<_VPView>(view),
     override fun requestError(throwable: Throwable?, bRequest: BRequest) {
         mView?.disDialog()
 
-        var string = "${throwable?.message}"
+        val string = "${throwable?.message}"
         LogUtils.e("错误信息 : \n ${throwable?.message}")
 
         mView?.bindError(string)

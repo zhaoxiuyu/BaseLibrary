@@ -46,16 +46,4 @@ class RegisterViewModel : VMViewModel() {
         return liveHh
     }
 
-    /**
-     * 一般来说成功标识是固定的,直接写在父类里面统一验证即可
-     * 也可以通过重写父类的success自己定义成功规则的处理
-     */
-    override fun <T> success(
-        request: BRequest,
-        liveData: MutableLiveData<BResponse<T>>,
-        body: String
-    ) {
-        super.success(request, liveData, body)
-    }
-
 }

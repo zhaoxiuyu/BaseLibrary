@@ -1,7 +1,6 @@
 package com.base.library.util
 
 import java.math.BigDecimal
-import java.text.DecimalFormat
 
 //默认除法运算精度
 private const val DEF_DIV_SCALE = 2
@@ -60,13 +59,4 @@ fun ArithRound(v1: Double, scale: Int = DEF_DIV_SCALE): Double {
     val b1 = BigDecimal(v1.toString())
     val b2 = BigDecimal("1")
     return b1.divide(b2, scale, BigDecimal.ROUND_HALF_UP).toDouble()
-}
-
-//保留两位小数
-fun ArithWith2(v1: Double): String {
-    val df = DecimalFormat("#0.00")
-    if (v1.equals(0)) {
-        return "0.00"
-    }
-    return df.format(v1)
 }

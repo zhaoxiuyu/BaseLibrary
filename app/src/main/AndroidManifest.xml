@@ -34,7 +34,7 @@
 
         </activity>
 
-        <activity android:name=".module.common.ui.CoroutineActivity"></activity>
+        <activity android:name=".module.common.ui.CoroutineActivity" />
 
         <!-- 作为新功能的尝试 -->
         <activity android:name=".module.newfunction.ui.FunctionActivity">

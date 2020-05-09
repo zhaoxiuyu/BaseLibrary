@@ -5,10 +5,10 @@ import android.os.CountDownTimer
 /**
  * 倒计时
  */
-class MyCountDownTimer(millisInFuture: Long, countDownInterval: Long, finishTick: MyFinishTick) :
-    CountDownTimer(millisInFuture, countDownInterval) {
-
-    private var finishTick: MyFinishTick = finishTick
+class MyCountDownTimer(
+    millisInFuture: Long, countDownInterval: Long,
+    private val finishTick: MyFinishTick
+) : CountDownTimer(millisInFuture, countDownInterval) {
 
     override fun onFinish() {
         finishTick.onFinish()

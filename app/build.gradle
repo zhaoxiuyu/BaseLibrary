@@ -120,6 +120,6 @@ repositories {
 }
 
 //打包时间
-def getDate() {
+static def getDate() {
     return new Date().format("yyyyMMdd HH-mm-ss", TimeZone.getTimeZone("UTC"))
 }

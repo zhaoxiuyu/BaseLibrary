@@ -7,7 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.base.app.R
 
-class VP2Adapter(var mStrs: MutableList<String>) :
+class VP2Adapter(private val mStrs: MutableList<String>) :
     RecyclerView.Adapter<VP2Adapter.PageViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PageViewHolder {

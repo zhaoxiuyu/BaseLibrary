@@ -64,10 +64,10 @@ class ViewPage2 : VMActivity<FunctionViewModel>() {
         vp2.setPageTransformer(cpt)
 
         // 滑动事件监听根据需要重写,OnPageChangeCallback是个抽象类
-        vp2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-            override fun onPageSelected(position: Int) {
-                super.onPageSelected(position)
-            }
-        })
+//        vp2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+//            override fun onPageSelected(position: Int) {
+//                super.onPageSelected(position)
+//            }
+//        })
     }
 }
