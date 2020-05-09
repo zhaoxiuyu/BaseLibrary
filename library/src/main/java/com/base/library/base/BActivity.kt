@@ -111,7 +111,6 @@ abstract class BActivity : AppCompatActivity() {
         xPopup = XPopup.Builder(this).setPopupCallback(callback)
             .dismissOnBackPressed(false).dismissOnTouchOutside(false)
             .asConfirm(title, content, cancelTx, confirmTx, confirmLi, cancelLi, isHideCancel)
-
         xPopup?.show()
     }
 

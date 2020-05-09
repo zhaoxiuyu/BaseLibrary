@@ -1,6 +1,7 @@
 package com.base.app.module.newfunction.ui
 
 import android.content.Intent
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
@@ -12,6 +13,7 @@ import com.base.app.module.newfunction.transformer.ScaleInTransformer
 import com.base.app.module.newfunction.viewmodel.FunctionViewModel
 import com.base.app.utils.TestDatas
 import com.base.library.mvvm.core.VMActivity
+import com.blankj.utilcode.util.LogUtils
 import kotlinx.android.synthetic.main.activity_viewpage2.*
 
 class ViewPage2 : VMActivity<FunctionViewModel>() {
@@ -64,10 +66,18 @@ class ViewPage2 : VMActivity<FunctionViewModel>() {
         vp2.setPageTransformer(cpt)
 
         // 滑动事件监听根据需要重写,OnPageChangeCallback是个抽象类
-//        vp2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-//            override fun onPageSelected(position: Int) {
-//                super.onPageSelected(position)
-//            }
-//        })
+        vp2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+            }
+        })
+
+        /**
+         * 接受来自Fragment发送的消息
+         */
+        LogUtils.d("activity = ${getSharedViewModel()}")
+        getSharedViewModel()?.getEventLiveData()?.observe(this, Observer {
+            showDialog(content = "${it.first}")
+        })
     }
 }

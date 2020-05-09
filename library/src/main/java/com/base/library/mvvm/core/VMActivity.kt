@@ -15,6 +15,7 @@ import java.lang.reflect.ParameterizedType
 abstract class VMActivity<VM : VMViewModel> : BActivity() {
 
     protected var vm: VM? = null
+    private var mSharedViewModel: SharedViewModel? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         createViewModel()
@@ -32,11 +33,21 @@ abstract class VMActivity<VM : VMViewModel> : BActivity() {
             vm = ViewModelProvider(this).get(modelClass as Class<VMViewModel>) as VM
         }
         vm?.stateLiveData?.observe(this, Observer { stateLiveData(it) })
+        mSharedViewModel = ViewModelProvider(this).get(SharedViewModel::class.java)
     }
 
+    /**
+     * 默认走这个里面的提示框流程和样式
+     * 实现类可以重写这个方法进行定制
+     */
     open fun stateLiveData(bResponse: BResponse<Any>) {
         bResponse.handler(object : OnCallback<Any>() {})
     }
+
+    /**
+     * 通过这个可以实现Activity/Fragment页面之间的通信
+     */
+    fun getSharedViewModel(): SharedViewModel? = mSharedViewModel
 
     // 放到Base里面，父类可以统一操作，也可以留给子类重写
     abstract inner class OnCallback<T> : OnHandleCallback {

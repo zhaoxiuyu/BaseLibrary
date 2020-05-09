@@ -17,8 +17,12 @@ class Fragment1 : VMFragment<FunctionViewModel>() {
     }
 
     override fun initData() {
-        itemTv.text = "Fragment1"
+        LogUtils.d("fragment = ${getSharedViewModel()}")
 
+        itemTv.text = "Fragment1"
+        itemTv.setOnClickListener {
+            getSharedViewModel()?.getEventLiveData()?.value = Triple("Fragment1", true, "测试")
+        }
     }
 
     override fun onStart() {
