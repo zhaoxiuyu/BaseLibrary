@@ -129,10 +129,8 @@ abstract class BActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
-        dismissDialog(false)
-        xPopup = null
-
         super.onDestroy()
+        dismissDialog(false)
     }
 
 }

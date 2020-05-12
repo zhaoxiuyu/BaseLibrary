@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import com.base.library.interfaces.MyXPopupListener
 import com.blankj.utilcode.util.CacheDiskStaticUtils
 import com.blankj.utilcode.util.LogUtils
@@ -129,15 +128,8 @@ abstract class BFragment : ImmersionFragment() {
      * ------------- 清理 -------------
      */
     override fun onDestroyView() {
-        dismissDialog()
         super.onDestroyView()
-    }
-
-    override fun onDetach() {
-        val childFragmentManager = Fragment::class.java.getDeclaredField("mChildFragmentManager")
-        childFragmentManager.isAccessible = true
-        childFragmentManager.set(this, null)
-        super.onDetach()
+        dismissDialog()
     }
 
 }

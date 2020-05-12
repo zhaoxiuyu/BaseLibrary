@@ -29,7 +29,7 @@ open class BApplication : MultiDexApplication() {
         utilcode()
 //        RxTool.init(this)
         LitePal.initialize(this)
-        DoraemonKit.install(this, null, "0f0894d53fe597a618cb4e0c31e2f536")
+        DoraemonKit.install(this, "0f0894d53fe597a618cb4e0c31e2f536")
         XPopup.setPrimaryColor(ContextCompat.getColor(this, R.color.base_sb_pressed))
 
         if (BuildConfig.DEBUG) {
