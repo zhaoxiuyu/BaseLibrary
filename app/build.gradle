@@ -36,6 +36,11 @@ android {
             exclude 'META-INF/rxjava.properties'
             exclude 'META-INF/library_release.kotlin_module0'
         }
+
+        ndk {
+            abiFilters 'armeabi-v7a'
+        }
+
     }
 
     //打包时的相关配置
