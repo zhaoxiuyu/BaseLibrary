@@ -4,15 +4,16 @@ import android.content.Intent
 import androidx.lifecycle.Observer
 import com.base.app.R
 import com.base.app.module.common.viewmodel.RegisterViewModel
-import com.base.library.mvvm.core.VMActivity
 import com.base.library.entitys.response.Banner
+import com.base.library.mvvm.core.VMActivity
 import com.blankj.utilcode.util.NetworkUtils
 import com.blankj.utilcode.util.ShellUtils
 import kotlinx.android.synthetic.main.activity_register.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class CoroutineActivity : VMActivity<RegisterViewModel>() {
+class CoroutineActivity : VMActivity() {
 
-//    private val vm by lazy { ViewModelProvider(this).get(RegisterViewModel::class.java) }
+    private val vm by viewModel<RegisterViewModel>()
 
     override fun initArgs(intent: Intent?) {
     }

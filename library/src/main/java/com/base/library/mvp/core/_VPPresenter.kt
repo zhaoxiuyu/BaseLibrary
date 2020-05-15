@@ -7,8 +7,7 @@ import com.blankj.utilcode.util.LogUtils
  * 作用: 通用的P层实现
  * 如果你不想自定义P层，可以直接使用这个类
  */
-class _VPPresenter(view: _VPView) : VPPresenterImpl<_VPView>(view),
-    VPPresenter {
+class _VPPresenter(view: _VPView) : VPPresenterImpl<_VPView>(view), VPPresenter {
 
     override fun requestSuccess(body: String, bRequest: BRequest) {
         super.requestSuccess(body, bRequest)

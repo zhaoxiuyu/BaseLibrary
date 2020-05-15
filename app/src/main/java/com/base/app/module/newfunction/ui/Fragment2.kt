@@ -1,34 +1,28 @@
 package com.base.app.module.newfunction.ui
 
 import android.os.Bundle
-import androidx.lifecycle.Observer
 import com.base.app.R
-import com.base.app.module.newfunction.viewmodel.FunctionViewModel
+import com.base.app.base.MyConstant
 import com.base.library.mvvm.core.VMFragment
+import com.blankj.utilcode.util.BusUtils
 import com.blankj.utilcode.util.LogUtils
-import com.blankj.utilcode.util.ToastUtils
 import kotlinx.android.synthetic.main.item_vp2.*
 
-class Fragment2 : VMFragment<FunctionViewModel>() {
+class Fragment2 : VMFragment() {
 
     override fun initArgs(bundle: Bundle?) {
     }
 
     override fun initView(bundle: Bundle?) {
         setContentView(R.layout.item_vp2)
-
     }
 
     override fun initData() {
-        LogUtils.d("fragment = ${getSharedViewModel()}")
-
         itemTv.text = "Fragment2"
         itemTv.setOnClickListener {
-            getSharedViewModel()?.getEventLiveData()?.value = Triple("Fragment2", true, "测试")
+            val triple = Triple<String, Boolean, Any>("Fragment2", true, "Fragment2")
+            BusUtils.post(MyConstant.TAG_NO_PARAM, triple)
         }
-        getSharedViewModel()?.getEventLiveData()?.observe(this, Observer {
-            ToastUtils.showLong("我看看收到没")
-        })
     }
 
     override fun onStart() {

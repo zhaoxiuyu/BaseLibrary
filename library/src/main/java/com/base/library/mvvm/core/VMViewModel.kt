@@ -8,6 +8,7 @@ import com.base.library.entitys.BResponse
 import com.base.library.http.HttpConstant
 import com.base.library.http.HttpManager
 import com.blankj.utilcode.util.GsonUtils
+import com.blankj.utilcode.util.LogUtils
 import com.lzy.okgo.OkGo
 import com.lzy.okgo.callback.AbsCallback
 import com.lzy.okgo.exception.HttpException
@@ -202,6 +203,7 @@ open class VMViewModel : ViewModel() {
         super.onCleared()
         compositeDisposable?.dispose()
         OkGo.getInstance().cancelTag(this)
+        LogUtils.d("onCleared")
     }
 
 }

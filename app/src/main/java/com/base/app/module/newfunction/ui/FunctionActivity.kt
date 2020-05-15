@@ -8,13 +8,12 @@ import com.base.app.R
 import com.base.app.module.newfunction.adapter.ButtonAdapter
 import com.base.app.module.newfunction.adapter.ImageAdapter
 import com.base.app.module.newfunction.adapter.TextAdapter
-import com.base.app.module.newfunction.viewmodel.FunctionViewModel
 import com.base.app.utils.TestDatas
 import com.base.library.mvvm.core.VMActivity
 import com.blankj.utilcode.util.LogUtils
 import kotlinx.android.synthetic.main.activity_function.*
 
-class FunctionActivity : VMActivity<FunctionViewModel>() {
+class FunctionActivity : VMActivity() {
 
     private val bAdapter by lazy { ButtonAdapter() }
     private val iAdapter by lazy { ImageAdapter() }

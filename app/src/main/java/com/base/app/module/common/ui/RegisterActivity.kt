@@ -8,10 +8,11 @@ import com.base.library.entitys.BResponse
 import com.base.library.entitys.response.Chapters
 import com.base.library.mvvm.core.VMActivity
 import kotlinx.android.synthetic.main.activity_register.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class RegisterActivity : VMActivity<RegisterViewModel>() {
+class RegisterActivity : VMActivity() {
 
-//    private val vm by lazy { ViewModelProvider(this).get(RegisterViewModel::class.java) }
+    private val vm by viewModel<RegisterViewModel>()
 
     private val sb = StringBuilder("")
 
@@ -23,16 +24,16 @@ class RegisterActivity : VMActivity<RegisterViewModel>() {
     }
 
     override fun initData() {
-        but1.setOnClickListener { vm?.getChapters() }
-        but2.setOnClickListener { vm?.getBanner() }
+        but1.setOnClickListener { vm.getChapters() }
+        but2.setOnClickListener { vm.getBanner() }
 
-        vm?.liveChapters?.observe(this, Observer { br ->
+        vm.liveChapters?.observe(this, Observer { br ->
             sb.delete(0, sb.length)
             br.data?.forEach { sb.appendln(it.name) }
             sb.appendln("liveChapters")
             tv.text = sb.toString()
         })
-        vm?.liveBanner?.observe(this, Observer { it1 ->
+        vm.liveBanner?.observe(this, Observer { it1 ->
             sb.delete(0, sb.length)
             it1.data?.forEach { sb.appendln(it.title) }
             sb.appendln("liveBanner")
@@ -40,7 +41,7 @@ class RegisterActivity : VMActivity<RegisterViewModel>() {
         })
 
         but3.setOnClickListener {
-            vm?.getHh()?.observe(this, Observer { it1 ->
+            vm.getHh()?.observe(this, Observer { it1 ->
                 it1.handler(object : OnCallback<List<Chapters>>() {})
                 sb.delete(0, sb.length)
                 it1.data?.forEach { sb.appendln(it.title) }

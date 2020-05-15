@@ -4,6 +4,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.getkeepsafe.dexcount' // 统计方法数
 apply plugin: 'com.didi.dokit' //DoraemonKit插件
+apply plugin: "com.blankj.bus"
 
 //配置项目构建的各种属性
 android {

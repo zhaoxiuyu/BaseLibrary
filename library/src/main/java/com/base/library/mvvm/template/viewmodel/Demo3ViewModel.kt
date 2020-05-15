@@ -14,6 +14,8 @@ class Demo3ViewModel : VMViewModel() {
     // 通过 OKGO 获取公众号列表,
     val liveChapters by lazy { MutableLiveData<BResponse<List<Chapters>>>() }
 
+
+
     fun getChapters() {
         val request = BRequest(HttpConstant.url).apply {
             httpType = BRequest.GET

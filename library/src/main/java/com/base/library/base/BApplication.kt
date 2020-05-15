@@ -4,6 +4,7 @@ import androidx.core.content.ContextCompat
 import androidx.multidex.MultiDexApplication
 import com.base.library.BuildConfig
 import com.base.library.R
+import com.base.library.mvvm.template.viewmodel.Demo3ViewModel
 import com.base.library.util.CockroachUtil
 import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.Utils
@@ -15,6 +16,8 @@ import com.lzy.okgo.OkGo
 import com.lzy.okgo.https.HttpsUtils
 import com.lzy.okgo.interceptor.HttpLoggingInterceptor
 import okhttp3.OkHttpClient
+import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.dsl.module
 import org.litepal.LitePal
 import java.util.logging.Level
 
@@ -38,6 +41,12 @@ open class BApplication : MultiDexApplication() {
             initHttp(null)
             initCockroach()
         }
+
+    }
+
+    // 注入 ViewModule 对象
+    val vmLibraryModule = module {
+        viewModel { Demo3ViewModel() }
     }
 
     /**

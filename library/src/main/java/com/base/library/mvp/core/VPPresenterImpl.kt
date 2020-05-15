@@ -24,8 +24,7 @@ import java.net.UnknownHostException
  * 作用：P层的基础实现类
  * 实现了网络请求 返回 取消等处理
  */
-open class VPPresenterImpl<T : VPView?>(var mView: T?) : VPPresenter,
-    VPCallback {
+open class VPPresenterImpl<T : VPView?>(var mView: T?) : VPPresenter, VPCallback {
 
     var owner: LifecycleOwner? = null
 

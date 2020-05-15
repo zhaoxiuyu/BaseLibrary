@@ -9,8 +9,7 @@ import com.base.library.mvp.core._VPView
 /**
  * 作用: 使用案例,使用通用的P和V
  */
-class Demo2Activity : VPActivity<VPPresenter>(),
-    _VPView {
+class Demo2Activity : VPActivity<VPPresenter>(), _VPView {
 
     override fun initArgs(intent: Intent?) {
     }

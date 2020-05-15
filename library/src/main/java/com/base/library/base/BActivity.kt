@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import com.base.library.R
 import com.base.library.interfaces.MyXPopupListener
+import com.blankj.utilcode.util.BusUtils
 import com.blankj.utilcode.util.CacheDiskStaticUtils
 import com.blankj.utilcode.util.LogUtils
 import com.gyf.immersionbar.ImmersionBar
@@ -47,6 +48,8 @@ abstract class BActivity : AppCompatActivity() {
             initData()
             false
         }
+
+        BusUtils.register(this)
     }
 
     open fun initContentView(layoutResID: Int) {
@@ -131,6 +134,7 @@ abstract class BActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         dismissDialog(false)
+        BusUtils.unregister(this)
     }
 
 }

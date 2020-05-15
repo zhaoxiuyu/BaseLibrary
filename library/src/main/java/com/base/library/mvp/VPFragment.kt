@@ -13,8 +13,7 @@ import com.lxj.xpopup.interfaces.OnConfirmListener
 import com.lxj.xpopup.interfaces.XPopupCallback
 import io.reactivex.functions.Consumer
 
-abstract class VPFragment<T : VPPresenter> : BFragment(),
-    VPView {
+abstract class VPFragment<T : VPPresenter> : BFragment(), VPView {
 
     var mPresenter: T? = null
 

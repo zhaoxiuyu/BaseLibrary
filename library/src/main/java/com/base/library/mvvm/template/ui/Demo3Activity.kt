@@ -7,10 +7,11 @@ import com.base.library.mvvm.core.VMActivity
 import com.base.library.mvvm.template.viewmodel.Demo3ViewModel
 import com.blankj.utilcode.util.LogUtils
 import kotlinx.android.synthetic.main.base_activity_test.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class Demo3Activity : VMActivity<Demo3ViewModel>() {
+class Demo3Activity : VMActivity() {
 
-//    private val vm by lazy { ViewModelProvider(this).get(Demo3ViewModel::class.java) }
+    private val vm by viewModel<Demo3ViewModel>()
 
     override fun initArgs(intent: Intent?) {
     }

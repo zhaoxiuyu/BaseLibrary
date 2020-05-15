@@ -4,6 +4,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.getkeepsafe.dexcount' // 统计方法数
+apply plugin: 'koin'
 apply plugin: 'com.github.dcendents.android-maven'
 group = 'com.github.zhaoxiuyu'
 
@@ -107,6 +108,12 @@ dependencies {
     api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.71"
     api 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.3'
     api 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.3'
+
+    // 依赖注入 koin
+    api "org.koin:koin-android:2.1.5"
+    api "org.koin:koin-androidx-scope:2.1.5"
+    api "org.koin:koin-androidx-viewmodel:2.1.5"
+    api "org.koin:koin-androidx-fragment:2.1.5"
 
     // 智能刷新框架
     api 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0'

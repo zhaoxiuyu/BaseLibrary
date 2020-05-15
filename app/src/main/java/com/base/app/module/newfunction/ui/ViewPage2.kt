@@ -1,22 +1,22 @@
 package com.base.app.module.newfunction.ui
 
 import android.content.Intent
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import com.base.app.R
+import com.base.app.base.MyConstant
 import com.base.app.module.newfunction.adapter.AdapterFragmentPage
 import com.base.app.module.newfunction.adapter.VP2Adapter
 import com.base.app.module.newfunction.transformer.ScaleInTransformer
-import com.base.app.module.newfunction.viewmodel.FunctionViewModel
 import com.base.app.utils.TestDatas
 import com.base.library.mvvm.core.VMActivity
+import com.blankj.utilcode.util.BusUtils
 import com.blankj.utilcode.util.LogUtils
 import kotlinx.android.synthetic.main.activity_viewpage2.*
 
-class ViewPage2 : VMActivity<FunctionViewModel>() {
+class ViewPage2 : VMActivity() {
 
     private val vP2Adapter by lazy { VP2Adapter(TestDatas.getStrs(5)) }
 
@@ -71,13 +71,11 @@ class ViewPage2 : VMActivity<FunctionViewModel>() {
                 super.onPageSelected(position)
             }
         })
-
-        /**
-         * 接受来自Fragment发送的消息
-         */
-        LogUtils.d("activity = ${getSharedViewModel()}")
-        getSharedViewModel()?.getEventLiveData()?.observe(this, Observer {
-            showDialog(content = "${it.first}")
-        })
     }
+
+    @BusUtils.Bus(tag = MyConstant.TAG_NO_PARAM)
+    fun oneParamFun(triple: Triple<String, Boolean, Any>) {
+        LogUtils.d(triple.first)
+    }
+
 }

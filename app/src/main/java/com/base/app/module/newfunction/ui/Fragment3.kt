@@ -2,27 +2,22 @@ package com.base.app.module.newfunction.ui
 
 import android.os.Bundle
 import com.base.app.R
-import com.base.app.module.newfunction.viewmodel.FunctionViewModel
 import com.base.library.mvvm.core.VMFragment
 import com.blankj.utilcode.util.LogUtils
 import kotlinx.android.synthetic.main.item_vp2.*
 
-class Fragment3 : VMFragment<FunctionViewModel>() {
+class Fragment3 : VMFragment() {
 
     override fun initArgs(bundle: Bundle?) {
     }
 
     override fun initView(bundle: Bundle?) {
         setContentView(R.layout.item_vp2)
-
     }
 
     override fun initData() {
-        LogUtils.d("fragment = ${getSharedViewModel()}")
-
         itemTv.text = "Fragment3"
         itemTv.setOnClickListener {
-            getSharedViewModel()?.getEventLiveData()?.value = Triple("Fragment3", true, "测试")
         }
     }
 

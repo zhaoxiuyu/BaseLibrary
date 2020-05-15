@@ -13,8 +13,7 @@ import io.reactivex.functions.Consumer
 /**
  * MVP 模式的基础 Activity
  */
-abstract class VPActivity<T : VPPresenter> : BActivity(),
-    VPView {
+abstract class VPActivity<T : VPPresenter> : BActivity(), VPView {
 
     var mPresenter: T? = null
 
