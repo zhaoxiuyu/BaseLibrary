@@ -23,7 +23,7 @@ class CoroutineActivity : VMActivity() {
     }
 
     override fun initData() {
-        vm?.liveBanner?.observe(this, Observer {
+        vm.liveBanner.observe(this, Observer {
             it.handler(object : OnCallback<List<Banner>>() {})
         })
 

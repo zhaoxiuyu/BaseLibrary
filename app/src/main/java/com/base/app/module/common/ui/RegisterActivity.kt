@@ -27,13 +27,13 @@ class RegisterActivity : VMActivity() {
         but1.setOnClickListener { vm.getChapters() }
         but2.setOnClickListener { vm.getBanner() }
 
-        vm.liveChapters?.observe(this, Observer { br ->
+        vm.liveChapters.observe(this, Observer { br ->
             sb.delete(0, sb.length)
             br.data?.forEach { sb.appendln(it.name) }
             sb.appendln("liveChapters")
             tv.text = sb.toString()
         })
-        vm.liveBanner?.observe(this, Observer { it1 ->
+        vm.liveBanner.observe(this, Observer { it1 ->
             sb.delete(0, sb.length)
             it1.data?.forEach { sb.appendln(it.title) }
             sb.appendln("liveBanner")
@@ -41,7 +41,7 @@ class RegisterActivity : VMActivity() {
         })
 
         but3.setOnClickListener {
-            vm.getHh()?.observe(this, Observer { it1 ->
+            vm.getHh().observe(this, Observer { it1 ->
                 it1.handler(object : OnCallback<List<Chapters>>() {})
                 sb.delete(0, sb.length)
                 it1.data?.forEach { sb.appendln(it.title) }

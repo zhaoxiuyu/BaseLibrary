@@ -2,14 +2,13 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'com.getkeepsafe.dexcount' // 统计方法数
 apply plugin: 'com.didi.dokit' //DoraemonKit插件
 apply plugin: "com.blankj.bus"
 
 //配置项目构建的各种属性
 android {
     compileSdkVersion 28 //编译时使用 Android版本
-    buildToolsVersion = '29.0.2' //编译时使用的构建工具的版本
+    buildToolsVersion = '29.0.3' //编译时使用的构建工具的版本
 
     //默认配置项
     defaultConfig {
@@ -116,8 +115,6 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
     implementation project(':library')
-
-    kapt "androidx.lifecycle:lifecycle-compiler:2.2.0"
 
 }
 

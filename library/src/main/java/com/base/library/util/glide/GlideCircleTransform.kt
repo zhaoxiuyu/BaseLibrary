@@ -218,7 +218,7 @@ class GlideCircleTransform(private val mBitmapPool: BitmapPool) : Transformation
     }
 
     override fun hashCode(): Int {
-        //避免Transformation重复设置,导致图片闪烁,同一个圆角值的Transformation视为同一个对象
+        //避免 Transformation 重复设置,导致图片闪烁,同一个圆角值的Transformation视为同一个对象
         return Util.hashCode(id.hashCode(), Util.hashCode(this.radius))
     }
 

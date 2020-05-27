@@ -19,7 +19,9 @@
     <EditText
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginTop="@dimen/dp_10" />
+            android:layout_marginTop="@dimen/dp_10"
+            android:hint="输入啥呢"
+            android:inputType="text" />
 
     <TextView
             android:id="@+id/tv"

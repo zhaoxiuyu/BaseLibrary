@@ -21,16 +21,16 @@ class Demo3Activity : VMActivity() {
     }
 
     override fun initData() {
-        start.setOnClickListener { vm?.getChapters() }
-        qt.setOnClickListener { vm?.getBanner() }
+        start.setOnClickListener { vm.getChapters() }
+        qt.setOnClickListener { vm.getBanner() }
 
-        vm?.liveChapters?.observe(this, Observer { br ->
+        vm.liveChapters.observe(this, Observer { br ->
             LogUtils.d("公众号列表 打印出来")
             br.data?.forEach {
                 LogUtils.d(it.name)
             }
         })
-        vm?.liveBanner?.observe(this, Observer { br ->
+        vm.liveBanner.observe(this, Observer { br ->
             LogUtils.d("首页banner 打印出来")
             br.data?.forEach {
                 LogUtils.d(it.title)
