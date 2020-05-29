@@ -1,9 +1,9 @@
 package com.base.library.mvvm.core
 
 import android.util.Log
+import androidx.lifecycle.Observer
 import com.base.library.base.BActivity
-import com.base.library.entitys.BResponse
-import com.lzy.okgo.model.Progress
+import rxhttp.wrapper.entity.Progress
 
 /**
  * MVVM 模式的基础 Activity
@@ -18,18 +18,22 @@ abstract class VMActivity : BActivity() {
      * 默认走这个里面的提示框流程和样式
      * 实现类可以重写这个方法进行定制
      */
-    open fun stateLiveData(bResponse: BResponse<Any>) {
-        bResponse.handler(object : OnCallback<Any>() {})
+    override fun initView() {
+        dialogState()
+    }
+
+    open fun dialogState() {
+        vm?.dialogState?.observe(this, Observer { it.handler(object : OnCallback() {}) })
     }
 
     // 放到Base里面，父类可以统一操作，也可以留给子类重写
-    abstract inner class OnCallback<T> : OnHandleCallback {
+    abstract inner class OnCallback : OnHandleCallback {
         override fun onLoading(msg: String) {
             Log.v("OnCallback", "onLoading")
             showLoading(null, msg)
         }
 
-        override fun onSuccess(msg: String, data: Any?, isFinish: Boolean) {
+        override fun onSuccess(msg: String, isFinish: Boolean) {
             Log.v("OnCallback", "onSuccess")
         }
 

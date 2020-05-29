@@ -12,8 +12,7 @@ import com.blankj.utilcode.util.ToastUtils
  */
 class Demo1Activity : VPActivity<Demo1Contract.Presenter>(), Demo1Contract.View {
 
-    override fun initArgs(intent: Intent?) {
-    }
+    override fun initArgs(intent: Intent?) = null
 
     override fun initView() {
         initContentView(R.layout.base_activity_test)
@@ -21,15 +20,15 @@ class Demo1Activity : VPActivity<Demo1Contract.Presenter>(), Demo1Contract.View 
     }
 
     override fun initData() {
-        mPresenter?.check("")
     }
 
-    override fun loginSuccess(request: String?) {
-        ToastUtils.showLong("登录成功")
+    override fun articleSuccess(request: String?) {
+    }
+
+    override fun chaptersError(msg: String?) {
     }
 
     override fun loginError(msg: String?) {
-        showDialog(content = "$msg", cancelLi = null)
     }
 
 }

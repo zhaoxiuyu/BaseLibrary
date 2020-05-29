@@ -7,14 +7,16 @@ apply plugin: "com.blankj.bus"
 
 //配置项目构建的各种属性
 android {
-    compileSdkVersion 28 //编译时使用 Android版本
+    compileSdkVersion 29 //编译时使用 Android版本
     buildToolsVersion = '29.0.3' //编译时使用的构建工具的版本
 
     //默认配置项
     defaultConfig {
         applicationId "com.base.app" //项目包名
-        minSdkVersion rootProject.minSdkVersion //最低兼容Android版本
-        targetSdkVersion rootProject.targetSdkVersion //目标版本
+
+        targetSdkVersion 29 //目标版本
+        minSdkVersion 21 //最低兼容Android版本
+
         versionCode rootProject.versionCode //版本号
         versionName rootProject.versionName //版本名
 
@@ -102,6 +104,7 @@ android {
 
     //Java版本配置
     compileOptions {
+        encoding "utf-8"
         sourceCompatibility = '1.8'
         targetCompatibility = '1.8'
     }

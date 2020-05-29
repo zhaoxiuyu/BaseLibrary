@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import com.base.library.R
 import com.base.library.interfaces.MyXPopupListener
+import com.base.library.mvvm.core.VMViewModel
 import com.blankj.utilcode.util.BusUtils
 import com.blankj.utilcode.util.CacheDiskStaticUtils
 import com.blankj.utilcode.util.LogUtils
@@ -25,17 +26,18 @@ import kotlinx.android.synthetic.main.base_titlebar.*
 
 abstract class BActivity : AppCompatActivity() {
 
-    abstract fun initArgs(intent: Intent?)
+    abstract fun initArgs(intent: Intent?): VMViewModel?
     abstract fun initView()
     abstract fun initData()
 
+    var vm: VMViewModel? = null
     val mApplication: BApplication by lazy { application as BApplication }
     private var xPopup: BasePopupView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        initArgs(intent)
+        vm = initArgs(intent)
         initView()
         ImmersionBar.with(this).titleBar(bFL).init() // 沉浸式
 

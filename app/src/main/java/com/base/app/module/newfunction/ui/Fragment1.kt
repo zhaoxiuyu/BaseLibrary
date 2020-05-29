@@ -8,9 +8,7 @@ import kotlinx.android.synthetic.main.item_vp2.*
 
 class Fragment1 : VMFragment() {
 
-    override fun initArgs(bundle: Bundle?) {
-    }
-
+    override fun initArgs(bundle: Bundle?) = null
     override fun initView(bundle: Bundle?) {
         setContentView(R.layout.item_vp2)
     }

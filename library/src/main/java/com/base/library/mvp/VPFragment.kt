@@ -26,7 +26,7 @@ abstract class VPFragment<T : VPPresenter> : BFragment(), VPView {
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
-    override fun getContext() = activity!!
+    override fun getContext() = requireActivity()
 
     override fun showDialog(xPopupCallback: XPopupCallback?, loading: String?) {
         showLoading(xPopupCallback, loading)

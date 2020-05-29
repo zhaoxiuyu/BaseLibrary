@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.base.library.interfaces.MyXPopupListener
+import com.base.library.mvvm.core.VMViewModel
 import com.blankj.utilcode.util.CacheDiskStaticUtils
 import com.blankj.utilcode.util.LogUtils
 import com.gyf.immersionbar.ImmersionBar
@@ -24,10 +25,11 @@ import io.reactivex.schedulers.Schedulers
  */
 abstract class BFragment : ImmersionFragment() {
 
-    abstract fun initArgs(bundle: Bundle?)
+    abstract fun initArgs(bundle: Bundle?): VMViewModel?
     abstract fun initView(bundle: Bundle?)
     abstract fun initData()
 
+    var vm: VMViewModel? = null
     private var mView: View? = null
     private var container: ViewGroup? = null
     private var inflater: LayoutInflater? = null
@@ -43,7 +45,7 @@ abstract class BFragment : ImmersionFragment() {
         this.inflater = inflater
         this.container = container
 
-        initArgs(arguments)
+        vm = initArgs(arguments)
         initView(savedInstanceState)
         return mView
     }

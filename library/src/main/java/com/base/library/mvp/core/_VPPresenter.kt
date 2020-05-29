@@ -1,6 +1,7 @@
 package com.base.library.mvp.core
 
 import com.base.library.entitys.BRequest
+import com.base.library.entitys.BResponse
 import com.blankj.utilcode.util.LogUtils
 
 /**
@@ -9,18 +10,18 @@ import com.blankj.utilcode.util.LogUtils
  */
 class _VPPresenter(view: _VPView) : VPPresenterImpl<_VPView>(view), VPPresenter {
 
-    override fun requestSuccess(body: String, bRequest: BRequest) {
-        super.requestSuccess(body, bRequest)
-        mView?.bindData(body)
-    }
-
-    override fun requestError(throwable: Throwable?, bRequest: BRequest) {
-        mView?.disDialog()
-
-        val string = "${throwable?.message}"
-        LogUtils.e("错误信息 : \n ${throwable?.message}")
-
-        mView?.bindError(string)
-    }
+//    override fun requestSuccess(body: String, bRequest: BRequest) {
+//        super.requestSuccess(body, bRequest)
+//        mView?.bindData(body)
+//    }
+//
+//    override fun requestError(throwable: Throwable?, bRequest: BRequest) {
+//        mView?.disDialog()
+//
+//        val string = "${throwable?.message}"
+//        LogUtils.e("错误信息 : \n ${throwable?.message}")
+//
+//        mView?.bindError(string)
+//    }
 
 }

@@ -11,8 +11,7 @@ import com.base.library.mvp.core._VPView
  */
 class Demo2Activity : VPActivity<VPPresenter>(), _VPView {
 
-    override fun initArgs(intent: Intent?) {
-    }
+    override fun initArgs(intent: Intent?) = null
 
     override fun initView() {
     }

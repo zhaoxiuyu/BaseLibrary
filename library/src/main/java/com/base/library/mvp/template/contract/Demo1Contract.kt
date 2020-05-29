@@ -9,13 +9,22 @@ import com.base.library.mvp.core.VPView
 interface Demo1Contract {
 
     interface View : VPView {
-        fun loginSuccess(request: String?)
+        fun articleSuccess(request: String?)
+
+        fun chaptersError(msg: String?)
 
         fun loginError(msg: String?)
     }
 
     interface Presenter : VPPresenter {
-        fun check(idCard: String)
+        // 首页文章列表
+        fun getArticle()
+
+        // 获取公众号列表
+        fun getChapters()
+
+        // 登录
+        fun getLogin(map: Map<String, String>)
     }
 
 }

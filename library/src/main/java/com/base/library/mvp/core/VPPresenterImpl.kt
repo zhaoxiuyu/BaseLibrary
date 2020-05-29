@@ -1,21 +1,14 @@
 package com.base.library.mvp.core
 
+import android.util.Log
 import androidx.lifecycle.LifecycleOwner
 import com.base.library.entitys.BRequest
-import com.base.library.entitys.BaseResponse
-import com.base.library.http.HttpConstant
-import com.base.library.http.HttpManager
-import com.blankj.utilcode.util.GsonUtils
+import com.base.library.entitys.BResponse
 import com.blankj.utilcode.util.LogUtils
-import com.lzy.okgo.OkGo
-import com.lzy.okgo.exception.HttpException
-import com.lzy.okgo.exception.StorageException
-import com.lzy.okgo.model.Response
-import com.uber.autodispose.AutoDispose
-import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import com.bumptech.glide.load.HttpException
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.disposables.Disposable
 import java.net.ConnectException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
@@ -26,40 +19,67 @@ import java.net.UnknownHostException
  */
 open class VPPresenterImpl<T : VPView?>(var mView: T?) : VPPresenter, VPCallback {
 
-    var owner: LifecycleOwner? = null
+    private var compositeDisposable: CompositeDisposable? = null
 
-    override fun onCreate(owner: LifecycleOwner) {
-        this.owner = owner
-    }
-
-    override fun onDestroy(owner: LifecycleOwner) {
-        OkGo.getInstance().cancelTag(this)
-    }
-
-    override fun other(content: String, behavior: String, level: String) {
-        mView?.other(content, behavior, level)
-    }
-
-    override fun beforeRequest() {
-        mView?.showDialog()
-    }
-
-    override fun requestSuccess(body: String, bRequest: BRequest) {
-        Observable.just(body).map { GsonUtils.fromJson(it, BaseResponse::class.java) }
-            .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-            .`as`(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(owner)))
+    override fun <T> getData(bRequest: BRequest, clas: Class<T>) {
+        val disposable = bRequest.getRxHttp.asResponse(clas)
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe { doOnSubscribe(bRequest.silence) }
+            .doFinally { doFinally() }
             .subscribe({
-                requestSuccess(it, bRequest)
+                success(bRequest, it)
             }, {
-                requestError(it, bRequest)
+                error(bRequest, it)
             })
+        addDisposable(disposable)
     }
 
-    override fun requestSuccess(response: BaseResponse, bRequest: BRequest) {
+    fun <T> getData2(bRequest: BRequest, clas: Class<T>, onNext: DataCallback<BResponse<T>>) {
+        bRequest.getRxHttp.asResponse(clas).subscribe { onNext.accept(it) }
+
+        val disposable = bRequest.getRxHttp.asResponse(clas)
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe { doOnSubscribe(bRequest.silence) }
+            .doFinally { doFinally() }
+            .subscribe({
+                success(bRequest, it)
+            }, {
+                error(bRequest, it)
+            })
+        addDisposable(disposable)
+    }
+
+    override fun <T> getDatas(bRequest: BRequest, clas: Class<T>) {
+        val disposable = bRequest.getRxHttp.asResponseList(clas)
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe { doOnSubscribe(bRequest.silence) }
+            .doFinally { doFinally() }
+            .subscribe({
+                success(bRequest, it)
+            }, {
+                error(bRequest, it)
+            })
+        addDisposable(disposable)
+    }
+
+    override fun <T> getDataString(bRequest: BRequest) {
+        val disposable = bRequest.getRxHttp.asString()
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe { doOnSubscribe(bRequest.silence) }
+            .doFinally { doFinally() }
+            .subscribe({ success(bRequest, it) }, { error(bRequest, it) })
+        addDisposable(disposable)
+    }
+
+    override fun <T> success(bRequest: BRequest, res: BResponse<T>) {
         mView?.disDialog()
     }
 
-    override fun requestError(throwable: Throwable?, bRequest: BRequest) {
+    override fun success(bRequest: BRequest, body: String) {
+        mView?.disDialog()
+    }
+
+    override fun error(bRequest: BRequest, throwable: Throwable?) {
         mView?.disDialog()
 
         val content = if (throwable is UnknownHostException || throwable is ConnectException) {
@@ -68,8 +88,6 @@ open class VPPresenterImpl<T : VPView?>(var mView: T?) : VPPresenter, VPCallback
             "网络请求超时"
         } else if (throwable is HttpException) {
             "响应码404和500,服务器内部错误"
-        } else if (throwable is StorageException) {
-            "SD卡不存在或者没有权限"
         } else {
             throwable?.message ?: "额...出错了"
         }
@@ -86,49 +104,34 @@ open class VPPresenterImpl<T : VPView?>(var mView: T?) : VPPresenter, VPCallback
         throwable?.printStackTrace()
     }
 
-    /**
-     * OKGO
-     */
-    override fun getData(http: BRequest) {
-        val requestBody = http.print()
-        other(requestBody, "请求参数 ${http.method}", "I")
-        http.getOkGo().execute(object : VPRequestCallback(this, http.silence) {
-            override fun onSuccess(response: Response<String>?) {
-                super.onSuccess(response)
-                val body = response?.body() ?: ""
+    override fun doOnSubscribe(silence: Boolean) {
+        Log.d("VPPresenterImpl", "请求开始 是否静默加载 $silence")
+        if (!silence) {
+            mView?.showDialog()
+        }
+    }
 
-                other(body, "请求成功 ${http.method}", "I")
-                requestSuccess(body, http)
-            }
+    override fun doFinally() {
+        Log.d("VPPresenterImpl", "请求结束")
+    }
 
-            override fun onError(response: Response<String>?) {
-                val throwable = response?.exception
-                other("${throwable?.localizedMessage}", "请求失败 ${http.method}", "E")
-                requestError(throwable, http)
-                super.onError(response)
-            }
-        })
+    override fun other(content: String, behavior: String, level: String) {
+        mView?.other(content, behavior, level)
     }
 
     /**
-     * Retrofit2
+     * 添加一个订阅事件
      */
-    override fun getRetrofit2(http: BRequest) {
-        fun getRetrofitApi(): Observable<String> {
-            return when (http.url) {
-                HttpConstant.IDCARD -> HttpManager.getServiceAPI().apiPay(http.body)
-                else -> HttpManager.getServiceAPI().apiPay(http.body)
-            }
+    private fun addDisposable(disposable: Disposable) {
+        if (compositeDisposable == null) {
+            compositeDisposable = CompositeDisposable()
         }
-        Observable.just(http).subscribeOn(Schedulers.io())
-            .doOnSubscribe { if (!http.silence) beforeRequest() }
-            .flatMap { getRetrofitApi() }.observeOn(AndroidSchedulers.mainThread())
-            .`as`(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(owner)))
-            .subscribe({
-                requestSuccess(it, http)
-            }, {
-                requestError(it, http)
-            })
+        compositeDisposable?.add(disposable)
+    }
+
+    override fun onDestroy(owner: LifecycleOwner) {
+        Log.d("VPPresenterImpl", "onDestroy")
+        compositeDisposable?.dispose()
     }
 
 }

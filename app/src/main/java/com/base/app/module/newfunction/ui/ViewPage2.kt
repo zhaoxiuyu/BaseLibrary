@@ -20,8 +20,7 @@ class ViewPage2 : VMActivity() {
 
     private val vP2Adapter by lazy { VP2Adapter(TestDatas.getStrs(5)) }
 
-    override fun initArgs(intent: Intent?) {
-    }
+    override fun initArgs(intent: Intent?) = null
 
     override fun initView() {
         initContentView(R.layout.activity_viewpage2)

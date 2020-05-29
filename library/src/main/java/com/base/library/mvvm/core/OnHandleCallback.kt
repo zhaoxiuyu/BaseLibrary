@@ -1,6 +1,7 @@
 package com.base.library.mvvm.core
 
-import com.lzy.okgo.model.Progress
+import rxhttp.wrapper.entity.Progress
+
 
 /**
  * 定义状态的回调
@@ -9,7 +10,7 @@ interface OnHandleCallback {
 
     fun onLoading(msg: String)
 
-    fun onSuccess(msg: String, data: Any?, isFinish: Boolean = false)
+    fun onSuccess(msg: String, isFinish: Boolean = false)
 
     fun onError(error: Throwable?, message: String, isFinish: Boolean = false)
 

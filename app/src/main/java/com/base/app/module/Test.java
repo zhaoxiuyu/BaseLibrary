@@ -8,7 +8,6 @@ package com.base.app.module;
 public final class Test {
 
     private Test() {
-
     }
 
     public static void main(final String[] args) {

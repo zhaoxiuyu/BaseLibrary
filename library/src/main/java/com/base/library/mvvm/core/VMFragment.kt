@@ -1,9 +1,9 @@
 package com.base.library.mvvm.core
 
+import android.os.Bundle
 import android.util.Log
+import androidx.lifecycle.Observer
 import com.base.library.base.BFragment
-import com.base.library.entitys.BResponse
-import com.lzy.okgo.model.Progress
 
 abstract class VMFragment : BFragment() {
 
@@ -11,22 +11,26 @@ abstract class VMFragment : BFragment() {
 //abstract class VMFragment<VM : VMViewModel> : BFragment() {
 //    protected var vm: VM? = null
 
+    override fun initView(bundle: Bundle?) {
+        dialogState()
+    }
+
     /**
      * 默认走这个里面的提示框流程和样式
      * 实现类可以重写这个方法进行定制
      */
-    open fun stateLiveData(bResponse: BResponse<Any>) {
-        bResponse.handler(object : OnCallback<Any>() {})
+    open fun dialogState() {
+        vm?.dialogState?.observe(this, Observer { it.handler(object : OnCallback() {}) })
     }
 
     // 放到Base里面，父类可以统一操作，也可以留给子类重写
-    abstract inner class OnCallback<T> : OnHandleCallback {
+    abstract inner class OnCallback : OnHandleCallback {
         override fun onLoading(msg: String) {
             Log.v("OnCallback", "onLoading")
             showLoading(null, msg)
         }
 
-        override fun onSuccess(msg: String, data: Any?, isFinish: Boolean) {
+        override fun onSuccess(msg: String, isFinish: Boolean) {
             Log.v("OnCallback", "onSuccess")
         }
 
@@ -40,7 +44,7 @@ abstract class VMFragment : BFragment() {
             dismissDialog(false)
         }
 
-        override fun onProgress(progress: Progress?) {
+        override fun onProgress(progress: rxhttp.wrapper.entity.Progress?) {
             Log.v("OnCallback", "onProgress")
         }
     }

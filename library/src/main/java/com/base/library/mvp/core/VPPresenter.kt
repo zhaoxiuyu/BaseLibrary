@@ -11,8 +11,10 @@ interface VPPresenter : MyLifecycle {
     /**
      * 数据请求
      */
-    fun getData(http: BRequest)
+    fun <T> getData(bRequest: BRequest, clas: Class<T>)
 
-    fun getRetrofit2(http: BRequest)
+    fun <T> getDatas(bRequest: BRequest, clas: Class<T>)
+
+    fun <T> getDataString(bRequest: BRequest)
 
 }
