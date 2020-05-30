@@ -9,6 +9,5 @@ class BResponse<T> {
     var data: T? = null
     var errorMsg: String = ""
     var errorCode: Int = 0
-    var throwable: Throwable? = null
 
 }

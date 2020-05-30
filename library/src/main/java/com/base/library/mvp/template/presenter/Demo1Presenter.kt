@@ -6,7 +6,7 @@ import com.base.library.entitys.BResponse
 import com.base.library.entitys.response.Article
 import com.base.library.entitys.response.Chapters
 import com.base.library.entitys.response.Login
-import com.base.library.mvp.core.DataCallback
+import com.base.library.mvp.core.SuccessCall
 import com.base.library.mvp.core.VPPresenterImpl
 import com.base.library.mvp.template.contract.Demo1Contract
 
@@ -20,21 +20,27 @@ class Demo1Presenter(view: Demo1Contract.View) : VPPresenterImpl<Demo1Contract.V
     override fun getArticle() {
         val request = BRequest(BConstant.article, BRequest.GET)
         request.getRxHttp.setDomainTowanandroidIfAbsent()
-        getData(request, Article::class.java)
-
-
-        getData2(request, Article::class.java, object : DataCallback<BResponse<Article>> {
-            override fun accept(t: BResponse<Article>) {
+        getData(request, Article::class.java, object : SuccessCall<BResponse<Article>> {
+            override fun accept(bResponse: BResponse<Article>) {
+                bResponse.data?.let { mView?.articleSuccess(it) }
+                    ?: let { mView?.showDialog(content = "获取首页文章列表失败") }
             }
         })
-
     }
 
     // 获取公众号列表
     override fun getChapters() {
         val request = BRequest(BConstant.chapters, BRequest.GET)
         request.getRxHttp.setDomainTowanandroidIfAbsent()
-        getDatas(request, Chapters::class.java)
+        getDatas(
+            request,
+            Chapters::class.java,
+            object : SuccessCall<BResponse<MutableList<Chapters>>> {
+                override fun accept(bResponse: BResponse<MutableList<Chapters>>) {
+                    bResponse.data?.let { mView?.chaptersSuccess(it) }
+                        ?: let { mView?.showDialog(content = "获取公众号列表失败") }
+                }
+            })
     }
 
     // 登录
@@ -43,15 +49,12 @@ class Demo1Presenter(view: Demo1Contract.View) : VPPresenterImpl<Demo1Contract.V
             params = map
             getRxHttp.setDomainTowanandroidIfAbsent()
         }
-        getData(request, Login::class.java)
-    }
-
-    override fun <T> success(bRequest: BRequest, res: BResponse<T>) {
-        super.success(bRequest, res)
-    }
-
-    override fun success(bRequest: BRequest, body: String) {
-        super.success(bRequest, body)
+        getData(request, Login::class.java, object : SuccessCall<BResponse<Login>> {
+            override fun accept(bResponse: BResponse<Login>) {
+                bResponse.data?.let { mView?.loginSuccess(it) }
+                    ?: let { mView?.showDialog(content = "登录异常") }
+            }
+        })
     }
 
 }

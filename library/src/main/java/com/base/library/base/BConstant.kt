@@ -20,11 +20,11 @@ object BConstant {
     @Domain(name = "baiduUrl")
     const val sendinfoUrl = "https://www.baidu.com/"
 
-    // 公众号列表
-    const val chapters = "/wxarticle/chapters/json"
-
     // 首页文章列表
     const val article = "/article/list/1/json"
+
+    // 公众号列表
+    const val chapters = "/wxarticle/chapters/json"
 
     // 登录
     const val login = "/user/login"

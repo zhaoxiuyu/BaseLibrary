@@ -21,62 +21,49 @@ open class VPPresenterImpl<T : VPView?>(var mView: T?) : VPPresenter, VPCallback
 
     private var compositeDisposable: CompositeDisposable? = null
 
-    override fun <T> getData(bRequest: BRequest, clas: Class<T>) {
+    override fun <T> getData(bRequest: BRequest, clas: Class<T>, sc: SuccessCall<BResponse<T>>) {
         val disposable = bRequest.getRxHttp.asResponse(clas)
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe { doOnSubscribe(bRequest.silence) }
             .doFinally { doFinally() }
-            .subscribe({
-                success(bRequest, it)
-            }, {
-                error(bRequest, it)
-            })
+            .subscribe({ success(bRequest, it, sc) }, { error(bRequest, it) })
         addDisposable(disposable)
     }
 
-    fun <T> getData2(bRequest: BRequest, clas: Class<T>, onNext: DataCallback<BResponse<T>>) {
-        bRequest.getRxHttp.asResponse(clas).subscribe { onNext.accept(it) }
-
-        val disposable = bRequest.getRxHttp.asResponse(clas)
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe { doOnSubscribe(bRequest.silence) }
-            .doFinally { doFinally() }
-            .subscribe({
-                success(bRequest, it)
-            }, {
-                error(bRequest, it)
-            })
-        addDisposable(disposable)
-    }
-
-    override fun <T> getDatas(bRequest: BRequest, clas: Class<T>) {
+    override fun <T> getDatas(
+        bRequest: BRequest,
+        clas: Class<T>,
+        sc: SuccessCall<BResponse<MutableList<T>>>
+    ) {
         val disposable = bRequest.getRxHttp.asResponseList(clas)
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe { doOnSubscribe(bRequest.silence) }
             .doFinally { doFinally() }
-            .subscribe({
-                success(bRequest, it)
-            }, {
-                error(bRequest, it)
-            })
+            .subscribe({ success(bRequest, it, sc) }, { error(bRequest, it) })
         addDisposable(disposable)
     }
 
-    override fun <T> getDataString(bRequest: BRequest) {
+    override fun <T> getDataString(bRequest: BRequest, sc: SuccessCall<String>) {
         val disposable = bRequest.getRxHttp.asString()
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe { doOnSubscribe(bRequest.silence) }
             .doFinally { doFinally() }
-            .subscribe({ success(bRequest, it) }, { error(bRequest, it) })
+            .subscribe({ sc.accept(it) }, { error(bRequest, it) })
         addDisposable(disposable)
     }
 
-    override fun <T> success(bRequest: BRequest, res: BResponse<T>) {
+    /**
+     * 根据状态判断走成功还是失败的回调，可以重写这个方法单独进行处理
+     */
+    override fun <T> success(req: BRequest, res: BResponse<T>, sc: SuccessCall<BResponse<T>>) {
+        Log.d("VMViewModel", "请求成功")
         mView?.disDialog()
-    }
 
-    override fun success(bRequest: BRequest, body: String) {
-        mView?.disDialog()
+        if (res.errorCode == 0) {
+            sc.accept(res)
+        } else {
+            error(req, Throwable(res.errorMsg))
+        }
     }
 
     override fun error(bRequest: BRequest, throwable: Throwable?) {

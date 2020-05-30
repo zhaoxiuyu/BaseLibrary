@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'com.didi.dokit' //DoraemonKit插件
+//apply plugin: 'com.didi.dokit' //DoraemonKit插件
 apply plugin: "com.blankj.bus"
 
 //配置项目构建的各种属性

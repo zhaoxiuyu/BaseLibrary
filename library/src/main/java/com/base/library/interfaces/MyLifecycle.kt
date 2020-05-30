@@ -7,5 +7,4 @@ import androidx.lifecycle.DefaultLifecycleObserver
  */
 interface MyLifecycle : DefaultLifecycleObserver {
 
-
 }

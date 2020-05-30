@@ -1,7 +1,6 @@
 package com.base.library.mvp.core
 
 import com.base.library.entitys.BRequest
-import com.base.library.entitys.BResponse
 
 /**
  * 作用: 网络请求监听基类
@@ -22,13 +21,6 @@ interface VPCallback {
      * 可以用来保存日志
      */
     fun other(content: String, behavior: String, level: String)
-
-    /**
-     * 成功
-     */
-    fun <T> success(bRequest: BRequest, res: BResponse<T>)
-
-    fun success(bRequest: BRequest, body: String)
 
     /**
      * 失败
