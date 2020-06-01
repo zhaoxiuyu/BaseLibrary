@@ -2,14 +2,13 @@ package com.base.library.mvp.template.ui
 
 import android.content.Intent
 import com.base.library.mvp.VPActivity
-import com.base.library.mvp.core.VPPresenter
-import com.base.library.mvp.core._VPPresenter
-import com.base.library.mvp.core._VPView
+import com.base.library.mvp.template.contract.CommonContract
+import com.base.library.mvp.template.presenter.CommonPresenter
 
 /**
  * 作用: 使用案例,使用通用的P和V
  */
-class Demo2Activity : VPActivity<VPPresenter>(), _VPView {
+class Demo2Activity : VPActivity<CommonContract.Presenter>(), CommonContract.View {
 
     override fun initArgs(intent: Intent?) = null
 
@@ -17,13 +16,11 @@ class Demo2Activity : VPActivity<VPPresenter>(), _VPView {
     }
 
     override fun initData() {
-        mPresenter = _VPPresenter(this)
+        mPresenter = CommonPresenter(this)
     }
 
-    override fun bindData(any: Any) {
-    }
+    override fun responseData(data: String) {
 
-    override fun bindError(string: String) {
     }
 
 }

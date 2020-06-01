@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.base.library.entitys.BRequest
 import com.base.library.entitys.BResponse
+import com.base.library.mvp.core.SuccessCall
 import com.base.library.rxhttp.RxHttpState
 import com.bumptech.glide.load.HttpException
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -24,7 +25,7 @@ open class VMViewModel : ViewModel() {
     val dialogState = MutableLiveData<RxHttpState>()
 
     /**
-     * 使用 OKGO 进行网络请求
+     * ----------------------------- data 为单个实体对象 ----------------------------------------------------
      */
     fun <T> getData(bRequest: BRequest, liveData: MutableLiveData<BResponse<T>>, clas: Class<T>) {
         val disposable = bRequest.getRxHttp.asResponse(clas)
@@ -48,13 +49,89 @@ open class VMViewModel : ViewModel() {
         addDisposable(disposable)
     }
 
-    fun getDataString(bRequest: BRequest, liveData: MutableLiveData<String>?) {
+    open fun <T> success(req: BRequest, live: MutableLiveData<BResponse<T>>, res: BResponse<T>) {
+        Log.d("VMViewModel", "请求成功")
+
+        // 成功就进行回调，否则走状态回调
+        if (res.errorCode == 0) {
+            dialogState.value = RxHttpState.Success(res.errorMsg, req.isFinish)
+            live.value = res
+        } else {
+            dialogState.value = RxHttpState.Error(null, res.errorMsg, req.isFinish)
+        }
+    }
+
+    /**
+     * ----------------------------- data 为 List ----------------------------------------------------
+     */
+
+    fun <T> getData(bRequest: BRequest, clas: Class<T>, sc: SuccessCall<BResponse<T>>) {
+        val disposable = bRequest.getRxHttp.asResponse(clas)
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe { doOnSubscribe(bRequest.silence) }
+            .doFinally { doFinally() }
+            .subscribe({ success(bRequest, it, sc) }, { error(bRequest, it) })
+        addDisposable(disposable)
+    }
+
+    fun <T> getDatas(
+        bRequest: BRequest,
+        clas: Class<T>,
+        sc: SuccessCall<BResponse<MutableList<T>>>
+    ) {
+        val disposable = bRequest.getRxHttp.asResponseList(clas)
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe { doOnSubscribe(bRequest.silence) }
+            .doFinally { doFinally() }
+            .subscribe({ success(bRequest, it, sc) }, { error(bRequest, it) })
+        addDisposable(disposable)
+    }
+
+    /**
+     * 根据状态判断走成功还是失败的回调，可以重写这个方法单独进行处理
+     */
+    fun <T> success(req: BRequest, res: BResponse<T>, sc: SuccessCall<BResponse<T>>) {
+        Log.d("VMViewModel", "请求成功")
+        // 成功就进行回调，否则走状态回调
+        if (res.errorCode == 0) {
+            dialogState.value = RxHttpState.Success(res.errorMsg, req.isFinish)
+            sc.accept(res)
+        } else {
+            dialogState.value = RxHttpState.Error(null, res.errorMsg, req.isFinish)
+        }
+    }
+
+    /**
+     * ---------------------------------------------------------------------------------
+     */
+
+    fun getDataString(bRequest: BRequest, liveData: MutableLiveData<String>) {
         val disposable = bRequest.getRxHttp.asString()
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe { doOnSubscribe(bRequest.silence) }
             .doFinally { doFinally() }
-            .subscribe({ success(bRequest, liveData, it) }, { error(bRequest, it) })
+            .subscribe({
+                success(bRequest)
+                liveData.value = it
+            }, { error(bRequest, it) })
         addDisposable(disposable)
+    }
+
+    fun getDataString(bRequest: BRequest, sc: SuccessCall<String>) {
+        val disposable = bRequest.getRxHttp.asString()
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe { doOnSubscribe(bRequest.silence) }
+            .doFinally { doFinally() }
+            .subscribe({
+                success(bRequest)
+                sc.accept(it)
+            }, { error(bRequest, it) })
+        addDisposable(disposable)
+    }
+
+    open fun success(bRequest: BRequest) {
+        Log.d("VMViewModel", "请求成功")
+        dialogState.value = RxHttpState.Success("操作完成", bRequest.isFinish)
     }
 
     private fun doOnSubscribe(silence: Boolean = false) {
@@ -64,24 +141,6 @@ open class VMViewModel : ViewModel() {
 
     private fun doFinally() {
         Log.d("VMViewModel", "请求结束")
-    }
-
-    open fun <T> success(req: BRequest, live: MutableLiveData<BResponse<T>>, res: BResponse<T>) {
-        Log.d("VMViewModel", "请求成功")
-
-        // 成功就进行回调，否则走状态回调
-        if (res.errorCode == 0) {
-            live.value = res
-            dialogState.value = RxHttpState.Success(res.errorMsg, req.isFinish)
-        } else {
-            dialogState.value = RxHttpState.Error(null, res.errorMsg, req.isFinish)
-        }
-    }
-
-    open fun success(bRequest: BRequest, liveData: MutableLiveData<String>?, body: String) {
-        Log.d("VMViewModel", "请求成功")
-        dialogState.value = RxHttpState.Success("操作完成", bRequest.isFinish)
-        liveData?.let { it.value = body }
     }
 
     /**
