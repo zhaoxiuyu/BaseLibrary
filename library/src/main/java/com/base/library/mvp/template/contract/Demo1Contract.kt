@@ -1,8 +1,8 @@
 package com.base.library.mvp.template.contract
 
-import com.base.library.entitys.response.Article
-import com.base.library.entitys.response.Chapters
-import com.base.library.entitys.response.Login
+import com.base.library.entitys.response.WanArticle
+import com.base.library.entitys.response.WanChapters
+import com.base.library.entitys.response.WanLogin
 import com.base.library.mvp.core.VPPresenter
 import com.base.library.mvp.core.VPView
 
@@ -12,11 +12,11 @@ import com.base.library.mvp.core.VPView
 interface Demo1Contract {
 
     interface View : VPView {
-        fun articleSuccess(article: Article)
+        fun articleSuccess(article: WanArticle)
 
-        fun chaptersSuccess(chapters: MutableList<Chapters>)
+        fun chaptersSuccess(chapters: MutableList<WanChapters>)
 
-        fun loginSuccess(login: Login)
+        fun loginSuccess(login: WanLogin)
     }
 
     interface Presenter : VPPresenter {

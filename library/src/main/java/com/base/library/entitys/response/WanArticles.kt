@@ -1,6 +1,6 @@
 package com.base.library.entitys.response
 
-class Articles {
+class WanArticles {
 
     var chapterName: String? = null
     var link: String? = null
@@ -8,6 +8,6 @@ class Articles {
     var shareUser: String? = null
     var publishTime: String? = null
 
-    var tags: MutableList<ArticlesTags>? = null
+    var tags: MutableList<WanArticlesTags>? = null
 
 }
