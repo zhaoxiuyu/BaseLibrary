@@ -2,8 +2,6 @@ package com.base.library.rxhttp
 
 import com.base.library.entitys.BPageList
 import com.base.library.entitys.BResponse
-import com.blankj.utilcode.util.LogUtils
-import com.blankj.utilcode.util.ThreadUtils
 import okhttp3.Response
 import rxhttp.wrapper.annotation.Parser
 import rxhttp.wrapper.entity.ParameterizedTypeImpl
@@ -31,7 +29,6 @@ open class RxHttpParser<T> : AbstractParser<BResponse<T>> {
     constructor(type: Type) : super(type)
 
     override fun onParse(response: Response): BResponse<T> {
-        LogUtils.d("当前是主线程 = " + ThreadUtils.isMainThread())
         //  获取泛型类型
         val type: Type = ParameterizedTypeImpl[BResponse::class.java, mType]
         val data: BResponse<T> = convert(response, type)
