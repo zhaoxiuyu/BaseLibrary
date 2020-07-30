@@ -8,7 +8,7 @@ import com.base.library.mvp.core.VPView
 import com.lxj.xpopup.interfaces.OnCancelListener
 import com.lxj.xpopup.interfaces.OnConfirmListener
 import com.lxj.xpopup.interfaces.XPopupCallback
-import io.reactivex.functions.Consumer
+import io.reactivex.rxjava3.functions.Consumer
 
 /**
  * MVP 模式的基础 Activity

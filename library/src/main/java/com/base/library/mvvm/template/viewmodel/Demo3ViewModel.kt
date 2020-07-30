@@ -16,8 +16,8 @@ class Demo3ViewModel : VMViewModel() {
     val article by lazy { MutableLiveData<BResponse<WanArticle>>() }
 
     fun getArticle() {
-        val request = BRequest(BConstant.article, BRequest.GET)
-        request.getRxHttp.setDomainTowanandroidIfAbsent()
+        val request = BRequest(BConstant.article).build()
+        request.getRxHttp().setDomainTowanandroidIfAbsent()
         getData(request, article, WanArticle::class.java)
     }
 
@@ -25,8 +25,8 @@ class Demo3ViewModel : VMViewModel() {
     val chapters by lazy { MutableLiveData<BResponse<MutableList<WanChapters>>>() }
 
     fun getChapters() {
-        val request = BRequest(BConstant.chapters, BRequest.GET)
-        request.getRxHttp.setDomainTowanandroidIfAbsent()
+        val request = BRequest(BConstant.chapters).build()
+        request.getRxHttp().setDomainTowanandroidIfAbsent()
         getDatas(request, chapters, WanChapters::class.java)
     }
 
@@ -36,8 +36,8 @@ class Demo3ViewModel : VMViewModel() {
     fun getLogin(map: Map<String, String>) {
         val request = BRequest(BConstant.login, BRequest.PostForm).apply {
             params = map
-            getRxHttp.setDomainTowanandroidIfAbsent()
-        }
+        }.build()
+        request.getRxHttp().setDomainTowanandroidIfAbsent()
         getData(request, login, WanLogin::class.java)
     }
 
@@ -46,8 +46,8 @@ class Demo3ViewModel : VMViewModel() {
      */
 
     fun getArticle2() {
-        val request = BRequest(BConstant.article, BRequest.GET)
-        request.getRxHttp.setDomainTowanandroidIfAbsent()
+        val request = BRequest(BConstant.article).build()
+        request.getRxHttp().setDomainTowanandroidIfAbsent()
         getData(request, WanArticle::class.java, object : SuccessCall<BResponse<WanArticle>> {
             override fun accept(bResponse: BResponse<WanArticle>) {
 
@@ -56,10 +56,9 @@ class Demo3ViewModel : VMViewModel() {
     }
 
     fun getChapters2() {
-        val request = BRequest(BConstant.chapters, BRequest.GET)
-        request.getRxHttp.setDomainTowanandroidIfAbsent()
-        getDatas(
-            request,
+        val request = BRequest(BConstant.chapters).build()
+        request.getRxHttp().setDomainTowanandroidIfAbsent()
+        getDatas(request,
             WanArticle::class.java,
             object : SuccessCall<BResponse<MutableList<WanArticle>>> {
                 override fun accept(bResponse: BResponse<MutableList<WanArticle>>) {
@@ -70,8 +69,8 @@ class Demo3ViewModel : VMViewModel() {
     fun getLogin2(map: Map<String, String>) {
         val request = BRequest(BConstant.login, BRequest.PostForm).apply {
             params = map
-            getRxHttp.setDomainTowanandroidIfAbsent()
-        }
+        }.build()
+        request.getRxHttp().setDomainTowanandroidIfAbsent()
         getData(request, WanLogin::class.java, object : SuccessCall<BResponse<WanLogin>> {
             override fun accept(bResponse: BResponse<WanLogin>) {
             }
@@ -85,8 +84,8 @@ class Demo3ViewModel : VMViewModel() {
     fun getString(map: Map<String, String>) {
         val request = BRequest(BConstant.login, BRequest.PostForm).apply {
             params = map
-            getRxHttp.setDomainTowanandroidIfAbsent()
-        }
+        }.build()
+        request.getRxHttp().setDomainTowanandroidIfAbsent()
         getDataString(request, object : SuccessCall<String> {
             override fun accept(bResponse: String) {
             }
@@ -98,8 +97,8 @@ class Demo3ViewModel : VMViewModel() {
     fun getString2(map: Map<String, String>) {
         val request = BRequest(BConstant.login, BRequest.PostForm).apply {
             params = map
-            getRxHttp.setDomainTowanandroidIfAbsent()
-        }
+        }.build()
+        request.getRxHttp().setDomainTowanandroidIfAbsent()
         getDataString(request, str)
     }
 

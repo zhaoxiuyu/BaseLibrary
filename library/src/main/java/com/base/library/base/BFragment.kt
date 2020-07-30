@@ -13,12 +13,10 @@ import com.gyf.immersionbar.components.ImmersionFragment
 import com.lxj.xpopup.XPopup
 import com.lxj.xpopup.core.BasePopupView
 import com.lxj.xpopup.interfaces.XPopupCallback
-import com.uber.autodispose.AutoDispose
-import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.functions.Consumer
-import io.reactivex.schedulers.Schedulers
+import com.rxjava.rxlife.lifeOnMain
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.functions.Consumer
+import io.reactivex.rxjava3.schedulers.Schedulers
 
 /**
  * ImmersionOwner 用来在Fragment中实现沉浸式
@@ -67,11 +65,8 @@ abstract class BFragment : ImmersionFragment() {
      * ------------- 文件缓存 -------------
      */
     open fun getCacheDisk(key: String, consumer: Consumer<String>) {
-        Observable.just("获取缓存")
-            .map { CacheDiskStaticUtils.getString(key, "") }
-            .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-            .`as`(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(this)))
-            .subscribe(consumer)
+        Observable.just("获取缓存").map { CacheDiskStaticUtils.getString(key, "") }
+            .subscribeOn(Schedulers.io()).lifeOnMain(this).subscribe(consumer)
     }
 
     open fun putCacheDisk(key: String, content: String, time: Int) {
@@ -80,9 +75,7 @@ abstract class BFragment : ImmersionFragment() {
                 CacheDiskStaticUtils.put(key, content, time)
                 "$key 缓存成功"
             }
-            .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-            .`as`(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(this)))
-            .subscribe { LogUtils.d(it) }
+            .subscribeOn(Schedulers.io()).lifeOnMain(this).subscribe { LogUtils.d(it) }
     }
 
     /**
@@ -118,11 +111,21 @@ abstract class BFragment : ImmersionFragment() {
         xPopup?.show()
     }
 
-    fun dismissDialog(finish: Boolean = false) {
-        if (finish) {
-            xPopup?.dismissWith { activity?.finish() }
-        } else {
-            xPopup?.dismiss()
+    // 提供一个接口,关闭 Dialog 的同时是否关闭页面
+    fun getDismissFinish(isFinish: Boolean = false, runnable: Runnable? = null): MyXPopupListener =
+        object : MyXPopupListener {
+            override fun onDis() {
+                dismissDialog(isFinish, runnable)
+            }
+        }
+
+    // 关闭 Dialog
+    fun dismissDialog(isFinish: Boolean = false, runnable: Runnable? = null) {
+        xPopup?.dismissWith {
+            runnable?.run()
+            if (isFinish) {
+                activity?.finish()
+            }
         }
     }
 

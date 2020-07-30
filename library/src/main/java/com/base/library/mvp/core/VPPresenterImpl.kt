@@ -22,7 +22,7 @@ open class VPPresenterImpl<T : VPView?>(var mView: T?) : VPPresenter, VPCallback
     private var compositeDisposable: CompositeDisposable? = null
 
     override fun <T> getData(bRequest: BRequest, clas: Class<T>, sc: SuccessCall<BResponse<T>>) {
-        val disposable = bRequest.getRxHttp.asResponse(clas)
+        val disposable = bRequest.getRxHttp().asResponse(clas)
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe { doOnSubscribe(bRequest.silence) }
             .doFinally { doFinally() }
@@ -35,7 +35,7 @@ open class VPPresenterImpl<T : VPView?>(var mView: T?) : VPPresenter, VPCallback
         clas: Class<T>,
         sc: SuccessCall<BResponse<MutableList<T>>>
     ) {
-        val disposable = bRequest.getRxHttp.asResponseList(clas)
+        val disposable = bRequest.getRxHttp().asResponseList(clas)
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe { doOnSubscribe(bRequest.silence) }
             .doFinally { doFinally() }
@@ -44,7 +44,7 @@ open class VPPresenterImpl<T : VPView?>(var mView: T?) : VPPresenter, VPCallback
     }
 
     override fun getDataString(bRequest: BRequest, sc: SuccessCall<String>) {
-        val disposable = bRequest.getRxHttp.asString()
+        val disposable = bRequest.getRxHttp().asString()
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe { doOnSubscribe(bRequest.silence) }
             .doFinally { doFinally() }

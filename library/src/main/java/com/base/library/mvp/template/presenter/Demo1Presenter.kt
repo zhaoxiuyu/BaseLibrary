@@ -18,8 +18,8 @@ class Demo1Presenter(view: Demo1Contract.View) : VPPresenterImpl<Demo1Contract.V
 
     // 首页文章列表
     override fun getArticle() {
-        val request = BRequest(BConstant.article, BRequest.GET)
-        request.getRxHttp.setDomainTowanandroidIfAbsent()
+        val request = BRequest(BConstant.article).build()
+        request.getRxHttp().setDomainTowanandroidIfAbsent()
         getData(request, WanArticle::class.java, object : SuccessCall<BResponse<WanArticle>> {
             override fun accept(bResponse: BResponse<WanArticle>) {
                 bResponse.data?.let { mView?.articleSuccess(it) }
@@ -30,8 +30,8 @@ class Demo1Presenter(view: Demo1Contract.View) : VPPresenterImpl<Demo1Contract.V
 
     // 获取公众号列表
     override fun getChapters() {
-        val request = BRequest(BConstant.chapters, BRequest.GET)
-        request.getRxHttp.setDomainTowanandroidIfAbsent()
+        val request = BRequest(BConstant.chapters).build()
+        request.getRxHttp().setDomainTowanandroidIfAbsent()
         getDatas(
             request,
             WanChapters::class.java,
@@ -47,8 +47,8 @@ class Demo1Presenter(view: Demo1Contract.View) : VPPresenterImpl<Demo1Contract.V
     override fun getLogin(map: Map<String, String>) {
         val request = BRequest(BConstant.login, BRequest.PostForm).apply {
             params = map
-            getRxHttp.setDomainTowanandroidIfAbsent()
-        }
+        }.build()
+        request.getRxHttp().setDomainTowanandroidIfAbsent()
         getData(request, WanLogin::class.java, object : SuccessCall<BResponse<WanLogin>> {
             override fun accept(bResponse: BResponse<WanLogin>) {
                 bResponse.data?.let { mView?.loginSuccess(it) }
