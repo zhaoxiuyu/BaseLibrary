@@ -13,7 +13,7 @@ interface VPPresenter : MyLifecycle {
 
     fun <T> getDatas(bRequest: BRequest, clas: Class<T>, sc: SuccessCall<BResponse<MutableList<T>>>)
 
-    fun <T> getDataString(bRequest: BRequest, sc: SuccessCall<String>)
+    fun getDataString(bRequest: BRequest, sc: SuccessCall<String>)
 
     fun <T> success(req: BRequest, res: BResponse<T>, sc: SuccessCall<BResponse<T>>)
 

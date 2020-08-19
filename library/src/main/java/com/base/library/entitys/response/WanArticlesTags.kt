@@ -1,6 +1,6 @@
 package com.base.library.entitys.response
 
-class ArticlesTags {
+class WanArticlesTags {
 
     var title: String? = null
     var type: String? = null

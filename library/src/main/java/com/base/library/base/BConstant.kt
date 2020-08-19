@@ -9,16 +9,12 @@ import rxhttp.wrapper.annotation.Domain
 object BConstant {
 
     // 默认域名
-//    @DefaultDomain
-//    const val baseUrl = "https://www.baidu.com/"
+    @DefaultDomain
+    const val baseUrl = "https://www.baidu.com/"
 
     // 子域名
     @Domain(name = "wanandroid")
     const val baiduUrl = "https://www.wanandroid.com/"
-
-    // 子域名
-    @Domain(name = "baiduUrl")
-    const val sendinfoUrl = "https://www.baidu.com/"
 
     // 首页文章列表
     const val article = "/article/list/1/json"

@@ -1,7 +1,6 @@
 package com.base.library.util
 
 import android.graphics.*
-import java.lang.Exception
 
 /**
  * 指定角切圆角

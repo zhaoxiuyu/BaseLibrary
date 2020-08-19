@@ -15,5 +15,3 @@ fun isFastClick(): Boolean {
     mLastClickTime = currentTime
     return false
 }
-
-

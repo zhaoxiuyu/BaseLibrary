@@ -7,6 +7,7 @@ import java.math.BigDecimal
 import java.util.*
 import kotlin.collections.HashMap
 
+
 /**
  * Gson 工具类
  */

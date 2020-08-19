@@ -1,6 +1,6 @@
 package com.base.library.entitys.response
 
-class Login {
+class WanLogin {
 
     var admin: String = "" //  ": false,
     var email: String = "" //  ": "",

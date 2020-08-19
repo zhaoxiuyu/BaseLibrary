@@ -669,4 +669,5 @@ object GlideUtils {
         //内存缓存清理（主线程）
         GlideApp.get(Utils.getApp()).clearMemory()
     }
+
 }

@@ -22,7 +22,7 @@ open class VPPresenterImpl<T : VPView?>(var mView: T?) : VPPresenter, VPCallback
     private var compositeDisposable: CompositeDisposable? = null
 
     override fun <T> getData(bRequest: BRequest, clas: Class<T>, sc: SuccessCall<BResponse<T>>) {
-        val disposable = bRequest.getRxHttp.asResponse(clas)
+        val disposable = bRequest.getRxHttp().asResponse(clas)
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe { doOnSubscribe(bRequest.silence) }
             .doFinally { doFinally() }
@@ -35,7 +35,7 @@ open class VPPresenterImpl<T : VPView?>(var mView: T?) : VPPresenter, VPCallback
         clas: Class<T>,
         sc: SuccessCall<BResponse<MutableList<T>>>
     ) {
-        val disposable = bRequest.getRxHttp.asResponseList(clas)
+        val disposable = bRequest.getRxHttp().asResponseList(clas)
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe { doOnSubscribe(bRequest.silence) }
             .doFinally { doFinally() }
@@ -43,8 +43,8 @@ open class VPPresenterImpl<T : VPView?>(var mView: T?) : VPPresenter, VPCallback
         addDisposable(disposable)
     }
 
-    override fun <T> getDataString(bRequest: BRequest, sc: SuccessCall<String>) {
-        val disposable = bRequest.getRxHttp.asString()
+    override fun getDataString(bRequest: BRequest, sc: SuccessCall<String>) {
+        val disposable = bRequest.getRxHttp().asString()
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe { doOnSubscribe(bRequest.silence) }
             .doFinally { doFinally() }
@@ -55,8 +55,12 @@ open class VPPresenterImpl<T : VPView?>(var mView: T?) : VPPresenter, VPCallback
     /**
      * 根据状态判断走成功还是失败的回调，可以重写这个方法单独进行处理
      */
-    override fun <T> success(req: BRequest, res: BResponse<T>, sc: SuccessCall<BResponse<T>>) {
-        Log.d("VMViewModel", "请求成功")
+    override fun <T> success(
+        req: BRequest,
+        res: BResponse<T>,
+        sc: SuccessCall<BResponse<T>>
+    ) {
+        Log.d("VPPresenterImpl", "请求成功")
         mView?.disDialog()
 
         if (res.errorCode == 0) {
@@ -69,15 +73,16 @@ open class VPPresenterImpl<T : VPView?>(var mView: T?) : VPPresenter, VPCallback
     override fun error(bRequest: BRequest, throwable: Throwable?) {
         mView?.disDialog()
 
-        val content = if (throwable is UnknownHostException || throwable is ConnectException) {
-            "网络连接失败,请连接网络"
-        } else if (throwable is SocketTimeoutException) {
-            "网络请求超时"
-        } else if (throwable is HttpException) {
-            "响应码404和500,服务器内部错误"
-        } else {
-            throwable?.message ?: "额...出错了"
-        }
+        val content =
+            if (throwable is UnknownHostException || throwable is ConnectException) {
+                "网络连接失败,请连接网络"
+            } else if (throwable is SocketTimeoutException) {
+                "网络请求超时"
+            } else if (throwable is HttpException) {
+                "响应码404和500,服务器内部错误"
+            } else {
+                throwable?.message ?: "额...出错了"
+            }
         LogUtils.e(content)
 
         /**

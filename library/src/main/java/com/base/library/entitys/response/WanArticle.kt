@@ -1,6 +1,6 @@
 package com.base.library.entitys.response
 
-class Article {
+class WanArticle {
 
     var offset: String? = null
     var over: String? = null
@@ -9,6 +9,6 @@ class Article {
     var total: String? = null
     var curPage: String? = null
 
-    var datas: MutableList<Articles>? = null
+    var datas: MutableList<WanArticles>? = null
 
 }

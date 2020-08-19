@@ -5,7 +5,7 @@ import com.base.library.interfaces.MyXPopupListener
 import com.lxj.xpopup.interfaces.OnCancelListener
 import com.lxj.xpopup.interfaces.OnConfirmListener
 import com.lxj.xpopup.interfaces.XPopupCallback
-import io.reactivex.functions.Consumer
+import io.reactivex.rxjava3.functions.Consumer
 
 /**
  * 作用: 基于MVP架构的View 视图基类

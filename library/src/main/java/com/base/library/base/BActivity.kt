@@ -15,12 +15,10 @@ import com.gyf.immersionbar.ImmersionBar
 import com.lxj.xpopup.XPopup
 import com.lxj.xpopup.core.BasePopupView
 import com.lxj.xpopup.interfaces.XPopupCallback
-import com.uber.autodispose.AutoDispose
-import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.functions.Consumer
-import io.reactivex.schedulers.Schedulers
+import com.rxjava.rxlife.lifeOnMain
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.functions.Consumer
+import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.android.synthetic.main.base_activity_layout.*
 import kotlinx.android.synthetic.main.base_titlebar.*
 
@@ -69,11 +67,8 @@ abstract class BActivity : AppCompatActivity() {
      * ------------- 文件缓存 -------------
      */
     open fun getCacheDisk(key: String, consumer: Consumer<String>) {
-        Observable.just("获取缓存")
-            .map { CacheDiskStaticUtils.getString(key, "") }
-            .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-            .`as`(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(this)))
-            .subscribe(consumer)
+        Observable.just("获取缓存").map { CacheDiskStaticUtils.getString(key, "") }
+            .subscribeOn(Schedulers.io()).lifeOnMain(this).subscribe(consumer)
     }
 
     open fun putCacheDisk(key: String, content: String, time: Int) {
@@ -82,9 +77,7 @@ abstract class BActivity : AppCompatActivity() {
                 CacheDiskStaticUtils.put(key, content, time)
                 "$key 缓存成功"
             }
-            .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-            .`as`(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(this)))
-            .subscribe { LogUtils.d(it) }
+            .subscribeOn(Schedulers.io()).lifeOnMain(this).subscribe { LogUtils.d(it) }
     }
 
     /**
@@ -119,17 +112,19 @@ abstract class BActivity : AppCompatActivity() {
         xPopup?.show()
     }
 
-    fun getDismissFinish(): MyXPopupListener = object : MyXPopupListener {
-        override fun onDis() {
-            dismissDialog(true)
+    fun getDismissFinish(isFinish: Boolean, runnable: Runnable? = null): MyXPopupListener =
+        object : MyXPopupListener {
+            override fun onDis() {
+                dismissDialog(isFinish, runnable)
+            }
         }
-    }
 
-    fun dismissDialog(finish: Boolean = false) {
-        if (finish) {
-            xPopup?.dismissWith { finish() }
-        } else {
-            xPopup?.dismiss()
+    fun dismissDialog(isFinish: Boolean = false, runnable: Runnable? = null) {
+        xPopup?.dismissWith {
+            runnable?.run()
+            if (isFinish) {
+                finish()
+            }
         }
     }
 

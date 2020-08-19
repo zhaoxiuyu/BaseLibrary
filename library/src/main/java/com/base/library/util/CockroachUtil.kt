@@ -34,7 +34,11 @@ object CockroachUtil {
                 } catch (e: Throwable) {
                     //   Binder.clearCallingIdentity();
                     if (e is QuitCockroachException) return@Runnable
-                    sExceptionHandler?.handlerException(Looper.getMainLooper().thread, e, getInfo(e))
+                    sExceptionHandler?.handlerException(
+                        Looper.getMainLooper().thread,
+                        e,
+                        getInfo(e)
+                    )
                 }
             }
         })
