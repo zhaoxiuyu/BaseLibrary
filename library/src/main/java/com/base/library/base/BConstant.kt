@@ -16,6 +16,9 @@ object BConstant {
     @Domain(name = "wanandroid")
     const val baiduUrl = "https://www.wanandroid.com/"
 
+    /**
+     * 接口
+     */
     // 首页文章列表
     const val article = "/article/list/1/json"
 
@@ -24,5 +27,10 @@ object BConstant {
 
     // 登录
     const val login = "/user/login"
+
+    /**
+     * 参数 key
+     */
+    const val LibraryToken = "LibraryToken"
 
 }

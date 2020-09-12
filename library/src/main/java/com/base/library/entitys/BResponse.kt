@@ -13,6 +13,7 @@ class BResponse<T> {
     var status: Int = -1
     var message: String? = null
 
+    var code: String = ""
     var msg: String = ""
 
     // 是否包含收押金额

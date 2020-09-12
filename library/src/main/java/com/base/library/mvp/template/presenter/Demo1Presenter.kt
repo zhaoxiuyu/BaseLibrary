@@ -1,7 +1,7 @@
 package com.base.library.mvp.template.presenter
 
 import com.base.library.base.BConstant
-import com.base.library.entitys.BRequest
+import com.base.library.rxhttp.RxRequest
 import com.base.library.entitys.BResponse
 import com.base.library.entitys.response.WanArticle
 import com.base.library.entitys.response.WanChapters
@@ -18,7 +18,7 @@ class Demo1Presenter(view: Demo1Contract.View) : VPPresenterImpl<Demo1Contract.V
 
     // 首页文章列表
     override fun getArticle() {
-        val request = BRequest(BConstant.article).build()
+        val request = RxRequest(BConstant.article).build()
         request.getRxHttp().setDomainTowanandroidIfAbsent()
         getData(request, WanArticle::class.java, object : SuccessCall<BResponse<WanArticle>> {
             override fun accept(bResponse: BResponse<WanArticle>) {
@@ -30,7 +30,7 @@ class Demo1Presenter(view: Demo1Contract.View) : VPPresenterImpl<Demo1Contract.V
 
     // 获取公众号列表
     override fun getChapters() {
-        val request = BRequest(BConstant.chapters).build()
+        val request = RxRequest(BConstant.chapters).build()
         request.getRxHttp().setDomainTowanandroidIfAbsent()
         getDatas(
             request,
@@ -45,8 +45,11 @@ class Demo1Presenter(view: Demo1Contract.View) : VPPresenterImpl<Demo1Contract.V
 
     // 登录
     override fun getLogin(map: Map<String, String>) {
-        val request = BRequest(BConstant.login, BRequest.PostForm).apply {
-            params = map
+        val request = RxRequest(
+            BConstant.login,
+            RxRequest.PostForm
+        ).apply {
+            paramMap = map
         }.build()
         request.getRxHttp().setDomainTowanandroidIfAbsent()
         getData(request, WanLogin::class.java, object : SuccessCall<BResponse<WanLogin>> {

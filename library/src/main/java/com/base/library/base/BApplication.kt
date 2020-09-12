@@ -9,7 +9,7 @@ import com.blankj.utilcode.util.Utils
 import com.lxj.xpopup.XPopup
 import org.litepal.LitePal
 import rxhttp.RxHttpPlugins
-import rxhttp.wrapper.param.RxHttp
+import rxhttpLibrary.RxHttp
 import java.io.File
 
 /**

@@ -3,6 +3,9 @@ package com.base.library.rxhttp
 import com.base.library.mvvm.core.OnHandleCallback
 import rxhttp.wrapper.entity.Progress
 
+/**
+ * 请求状态的回调
+ */
 class RxHttpState(var state: Int, var message: String) {
 
     // 当前这个对象的状态

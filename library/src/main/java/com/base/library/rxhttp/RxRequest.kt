@@ -1,12 +1,12 @@
-package com.base.library.entitys
+package com.base.library.rxhttp
 
 import rxhttp.wrapper.cahce.CacheMode
-import rxhttp.wrapper.param.RxHttp
+import rxhttpLibrary.RxHttp
 
 /**
  * 通用的网络请求参数封装
  */
-class BRequest(val url: String, val httpType: Int = GET) {
+class RxRequest(val url: String, val httpType: Int = GET) {
 
     // url 请求的标志,用来唯一指定请求
     var silence = false //是否静默加载
@@ -17,9 +17,11 @@ class BRequest(val url: String, val httpType: Int = GET) {
     var cacheMode = CacheMode.ONLY_NETWORK //缓存模式
     var cacheTime = -1L  //缓存时长-1永不过期
 
-    var heads: Map<String, String>? = null //请求头和参数
-    var params: Map<String, String>? = null // key value 参数
-    var json: String? = null //upString
+    var headMap: Map<String, String>? = null //请求头
+    var paramMap: Map<String, String>? = null // key value 参数
+    var jsonObj: String? = null // json对象
+    var jsonObjElement: String? = null // jsonObjElement会转换成数组
+    var objArray: ArrayList<*>? = null // 数组
 
     private lateinit var RXHttp: RxHttp<*, *>
 
@@ -27,7 +29,7 @@ class BRequest(val url: String, val httpType: Int = GET) {
         return RXHttp
     }
 
-    fun build(): BRequest {
+    fun build(): RxRequest {
         when (httpType) {
             PostForm -> PostForm()
             PostJson -> PostJson()
@@ -37,39 +39,40 @@ class BRequest(val url: String, val httpType: Int = GET) {
         return this
     }
 
-    private fun Get(): BRequest {
-//        val http = RxHttp.getParamEncrypt(url)
-        val http = RxHttp.get(url)
-        params?.let { http.addAll(it) }
+    private fun Get(): RxRequest {
+        val http = RxHttp.getParamEncrypt(url)
+//        val http = RxHttp.get(url)
         return HttpSetting(http)
     }
 
-    private fun PostForm(): BRequest {
-//        val http = RxHttp.postFormEncrypt(url)
-        val http = RxHttp.postForm(url)
-        params?.let { http.addAll(it) }
+    private fun PostForm(): RxRequest {
+        val http = RxHttp.postFormEncrypt(url)
+//        val http = RxHttp.postForm(url)
+        paramMap?.let { http.addAll(it) }
         return HttpSetting(http)
     }
 
-    private fun PostJson(): BRequest {
-//        val http = RxHttp.postJsonEncrypt(url)
-        val http = RxHttp.postJson(url)
-        params?.let { http.addAll(it) }
-        json?.let { http.addAll(it) }
+    private fun PostJson(): RxRequest {
+        val http = RxHttp.postJsonEncrypt(url)
+//        val http = RxHttp.postJson(url)
+        paramMap?.let { http.addAll(it) }
+        jsonObj?.let { http.addAll(it) }
         return HttpSetting(http)
     }
 
-    private fun PostJsonArray(): BRequest {
+    private fun PostJsonArray(): RxRequest {
         val http = RxHttp.postJsonArray(url)
-        params?.let { http.addAll(it) }
-        json?.let { http.addJsonElement(it) }
+        paramMap?.let { http.addAll(it) }
+        jsonObj?.let { http.addAll(it) }
+        objArray?.let { http.addAll(it) }
+        jsonObjElement?.let { http.addJsonElement(it) }
         return HttpSetting(http)
     }
 
-    private fun HttpSetting(http: RxHttp<*, *>): BRequest {
+    private fun HttpSetting(http: RxHttp<*, *>): RxRequest {
         RXHttp = http
         RXHttp.isAssemblyEnabled = assemblyEnabled
-        RXHttp.addAllHeader(heads)
+        RXHttp.addAllHeader(headMap)
         RXHttp.setCacheValidTime(cacheTime)
         RXHttp.setCacheMode(cacheMode)
         return this

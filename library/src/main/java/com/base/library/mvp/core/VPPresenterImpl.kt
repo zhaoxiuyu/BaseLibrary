@@ -2,7 +2,7 @@ package com.base.library.mvp.core
 
 import android.util.Log
 import androidx.lifecycle.LifecycleOwner
-import com.base.library.entitys.BRequest
+import com.base.library.rxhttp.RxRequest
 import com.base.library.entitys.BResponse
 import com.blankj.utilcode.util.LogUtils
 import com.bumptech.glide.load.HttpException
@@ -21,7 +21,7 @@ open class VPPresenterImpl<T : VPView?>(var mView: T?) : VPPresenter, VPCallback
 
     private var compositeDisposable: CompositeDisposable? = null
 
-    override fun <T> getData(bRequest: BRequest, clas: Class<T>, sc: SuccessCall<BResponse<T>>) {
+    override fun <T> getData(bRequest: RxRequest, clas: Class<T>, sc: SuccessCall<BResponse<T>>) {
         val disposable = bRequest.getRxHttp().asResponse(clas)
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe { doOnSubscribe(bRequest.silence) }
@@ -31,7 +31,7 @@ open class VPPresenterImpl<T : VPView?>(var mView: T?) : VPPresenter, VPCallback
     }
 
     override fun <T> getDatas(
-        bRequest: BRequest,
+        bRequest: RxRequest,
         clas: Class<T>,
         sc: SuccessCall<BResponse<MutableList<T>>>
     ) {
@@ -43,7 +43,7 @@ open class VPPresenterImpl<T : VPView?>(var mView: T?) : VPPresenter, VPCallback
         addDisposable(disposable)
     }
 
-    override fun getDataString(bRequest: BRequest, sc: SuccessCall<String>) {
+    override fun getDataString(bRequest: RxRequest, sc: SuccessCall<String>) {
         val disposable = bRequest.getRxHttp().asString()
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe { doOnSubscribe(bRequest.silence) }
@@ -56,7 +56,7 @@ open class VPPresenterImpl<T : VPView?>(var mView: T?) : VPPresenter, VPCallback
      * 根据状态判断走成功还是失败的回调，可以重写这个方法单独进行处理
      */
     override fun <T> success(
-        req: BRequest,
+        req: RxRequest,
         res: BResponse<T>,
         sc: SuccessCall<BResponse<T>>
     ) {
@@ -70,7 +70,7 @@ open class VPPresenterImpl<T : VPView?>(var mView: T?) : VPPresenter, VPCallback
         }
     }
 
-    override fun error(bRequest: BRequest, throwable: Throwable?) {
+    override fun error(bRequest: RxRequest, throwable: Throwable?) {
         mView?.disDialog()
 
         val content =

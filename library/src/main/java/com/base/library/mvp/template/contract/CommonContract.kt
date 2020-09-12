@@ -1,6 +1,6 @@
 package com.base.library.mvp.template.contract
 
-import com.base.library.entitys.BRequest
+import com.base.library.rxhttp.RxRequest
 import com.base.library.mvp.core.VPPresenter
 import com.base.library.mvp.core.VPView
 
@@ -15,7 +15,7 @@ interface CommonContract : VPView {
     }
 
     interface Presenter : VPPresenter {
-        fun requestData(bRequest: BRequest)
+        fun requestData(bRequest: RxRequest)
     }
 
 }

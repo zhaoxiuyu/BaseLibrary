@@ -4,12 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.base.library.interfaces.MyXPopupListener
 import com.base.library.mvvm.core.VMViewModel
 import com.blankj.utilcode.util.CacheDiskStaticUtils
 import com.blankj.utilcode.util.LogUtils
-import com.gyf.immersionbar.ImmersionBar
-import com.gyf.immersionbar.components.ImmersionFragment
 import com.lxj.xpopup.XPopup
 import com.lxj.xpopup.core.BasePopupView
 import com.lxj.xpopup.interfaces.XPopupCallback
@@ -21,7 +20,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 /**
  * ImmersionOwner 用来在Fragment中实现沉浸式
  */
-abstract class BFragment : ImmersionFragment() {
+abstract class BFragment : Fragment() {
 
     abstract fun initArgs(bundle: Bundle?): VMViewModel?
     abstract fun initView(bundle: Bundle?)
@@ -51,10 +50,6 @@ abstract class BFragment : ImmersionFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initData()
-    }
-
-    override fun initImmersionBar() {
-        ImmersionBar.with(this).titleBar(mView).init()
     }
 
     open fun setContentView(layout: Int) {

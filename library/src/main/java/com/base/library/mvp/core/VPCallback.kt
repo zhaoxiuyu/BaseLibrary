@@ -1,6 +1,6 @@
 package com.base.library.mvp.core
 
-import com.base.library.entitys.BRequest
+import com.base.library.rxhttp.RxRequest
 
 /**
  * 作用: 网络请求监听基类
@@ -25,6 +25,6 @@ interface VPCallback {
     /**
      * 失败
      */
-    fun error(bRequest: BRequest, throwable: Throwable?)
+    fun error(bRequest: RxRequest, throwable: Throwable?)
 
 }

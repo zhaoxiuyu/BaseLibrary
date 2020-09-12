@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.base.library.R
 import com.base.library.interfaces.MyXPopupListener
 import com.base.library.mvvm.core.VMViewModel
+import com.base.library.view.BTitlebar
 import com.blankj.utilcode.util.BusUtils
 import com.blankj.utilcode.util.CacheDiskStaticUtils
 import com.blankj.utilcode.util.LogUtils
@@ -51,6 +52,8 @@ abstract class BActivity : AppCompatActivity() {
 
         BusUtils.register(this)
     }
+
+    fun getBar(): BTitlebar = bTitlebar
 
     open fun initContentView(layoutResID: Int) {
         setContentView(R.layout.base_activity_layout)

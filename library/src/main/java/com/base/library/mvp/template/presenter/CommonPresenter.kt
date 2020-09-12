@@ -1,6 +1,6 @@
 package com.base.library.mvp.template.presenter
 
-import com.base.library.entitys.BRequest
+import com.base.library.rxhttp.RxRequest
 import com.base.library.mvp.core.SuccessCall
 import com.base.library.mvp.core.VPPresenterImpl
 import com.base.library.mvp.template.contract.CommonContract
@@ -12,7 +12,7 @@ import com.base.library.mvp.template.contract.CommonContract
 class CommonPresenter(view: CommonContract.View) : VPPresenterImpl<CommonContract.View>(view),
     CommonContract.Presenter {
 
-    override fun requestData(bRequest: BRequest) {
+    override fun requestData(bRequest: RxRequest) {
         getDataString(bRequest, object : SuccessCall<String> {
             override fun accept(bResponse: String) {
                 mView?.responseData(bResponse)

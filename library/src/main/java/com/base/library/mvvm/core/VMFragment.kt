@@ -17,8 +17,8 @@ abstract class VMFragment : BFragment(), OnHandleCallback {
     }
 
     /**
-     * 默认走这个里面的提示框流程和样式
-     * 实现类可以重写这个方法进行定制
+     * 默认走这个里面的提示框流程和样式,实现类可以重写这个方法进行定制
+     * 如果Fragment和Activity公用同一个ViewModel,那么Fragment就不要重复注册这个监听了，避免回调重复，Fragment里面重写这些方法也不会生效，可以在Activity里面重写操作
      */
     open fun dialogState() {
         vm?.dialogState?.observe(this, Observer { it.handler(this) })

@@ -3,7 +3,7 @@ package com.base.library.mvvm.core
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.base.library.entitys.BRequest
+import com.base.library.rxhttp.RxRequest
 import com.base.library.entitys.BResponse
 import com.base.library.mvp.core.SuccessCall
 import com.base.library.rxhttp.RxHttpState
@@ -29,7 +29,7 @@ open class VMViewModel : ViewModel() {
     /**
      * ----------------------------- data 为单个实体对象 ----------------------------------------------------
      */
-    fun <T> getData(bRequest: BRequest, liveData: MutableLiveData<BResponse<T>>, clas: Class<T>) {
+    fun <T> getData(bRequest: RxRequest, liveData: MutableLiveData<BResponse<T>>, clas: Class<T>) {
         val disposable = bRequest.getRxHttp().asResponse(clas)
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe { doOnSubscribe(bRequest.silence) }
@@ -39,7 +39,7 @@ open class VMViewModel : ViewModel() {
     }
 
     fun <T> getDatas(
-        bRequest: BRequest,
+        bRequest: RxRequest,
         liveData: MutableLiveData<BResponse<MutableList<T>>>,
         clas: Class<T>
     ) {
@@ -51,7 +51,7 @@ open class VMViewModel : ViewModel() {
         addDisposable(disposable)
     }
 
-    open fun <T> success(req: BRequest, live: MutableLiveData<BResponse<T>>, res: BResponse<T>) {
+    open fun <T> success(req: RxRequest, live: MutableLiveData<BResponse<T>>, res: BResponse<T>) {
         Log.d("VMViewModel", "请求成功")
 
         // 成功就进行回调，否则走状态回调
@@ -68,7 +68,7 @@ open class VMViewModel : ViewModel() {
      * ----------------------------- data 为 List ----------------------------------------------------
      */
 
-    fun <T> getData(bRequest: BRequest, clas: Class<T>, sc: SuccessCall<BResponse<T>>) {
+    fun <T> getData(bRequest: RxRequest, clas: Class<T>, sc: SuccessCall<BResponse<T>>) {
         val disposable = bRequest.getRxHttp().asResponse(clas)
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe { doOnSubscribe(bRequest.silence) }
@@ -78,7 +78,7 @@ open class VMViewModel : ViewModel() {
     }
 
     fun <T> getDatas(
-        bRequest: BRequest,
+        bRequest: RxRequest,
         clas: Class<T>,
         sc: SuccessCall<BResponse<MutableList<T>>>
     ) {
@@ -93,7 +93,7 @@ open class VMViewModel : ViewModel() {
     /**
      * 根据状态判断走成功还是失败的回调，可以重写这个方法单独进行处理
      */
-    fun <T> success(req: BRequest, res: BResponse<T>, sc: SuccessCall<BResponse<T>>) {
+    fun <T> success(req: RxRequest, res: BResponse<T>, sc: SuccessCall<BResponse<T>>) {
         Log.d("VMViewModel", "请求成功")
         // 成功就进行回调，否则走状态回调
         val msg = res.message ?: res.errorMsg ?: res.msg
@@ -108,7 +108,7 @@ open class VMViewModel : ViewModel() {
     /**
      * ---------------------------------------------------------------------------------
      */
-    fun getDataString(bRequest: BRequest, liveData: MutableLiveData<String>) {
+    fun getDataString(bRequest: RxRequest, liveData: MutableLiveData<String>) {
         val disposable = bRequest.getRxHttp().asString()
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe { doOnSubscribe(bRequest.silence) }
@@ -120,7 +120,7 @@ open class VMViewModel : ViewModel() {
         addDisposable(disposable)
     }
 
-    fun getDataString(bRequest: BRequest, sc: SuccessCall<String>) {
+    fun getDataString(bRequest: RxRequest, sc: SuccessCall<String>) {
         val disposable = bRequest.getRxHttp().asString()
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe { doOnSubscribe(bRequest.silence) }
@@ -132,7 +132,7 @@ open class VMViewModel : ViewModel() {
         addDisposable(disposable)
     }
 
-    open fun success(req: BRequest) {
+    open fun success(req: RxRequest) {
         Log.d("VMViewModel", "请求成功")
         dialogState.value = RxHttpState.Success("操作完成", req.url, req.isFinish, req.silence)
     }
@@ -142,7 +142,7 @@ open class VMViewModel : ViewModel() {
         dialogState.value = RxHttpState.Loading(silence = silence)
     }
 
-    private fun doFinally(bRequest: BRequest) {
+    private fun doFinally(bRequest: RxRequest) {
         Log.d("VMViewModel", "请求结束")
         dialogState.value = RxHttpState.Completed("请求结束", bRequest.url)
     }
@@ -150,7 +150,7 @@ open class VMViewModel : ViewModel() {
     /**
      * 组织错误信息
      */
-    open fun error(req: BRequest, throwable: Throwable?) {
+    open fun error(req: RxRequest, throwable: Throwable?) {
         Log.d("VMViewModel", "请求失败")
 
         val msg = if (throwable is UnknownHostException || throwable is ConnectException) {
