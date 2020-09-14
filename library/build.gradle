@@ -93,7 +93,7 @@ dependencies {
     api 'androidx.vectordrawable:vectordrawable:1.1.0' //矢量
     api 'androidx.constraintlayout:constraintlayout:2.0.1' //约束布局
 
-    // ViewModel
+    // Jetpack
     api "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
     api "androidx.lifecycle:lifecycle-runtime-ktx:2.2.0"
     api "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0"
@@ -126,9 +126,15 @@ dependencies {
     api "org.koin:koin-androidx-viewmodel:2.1.5"
     api "org.koin:koin-androidx-fragment:2.1.5"
 
-    // 智能刷新框架
-    api 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.2'
-    api 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.2'
+    // 智能刷新框架：分包之后不会有默认的Header和Footer需要手动添加！还是原来的三种方法！
+    api 'com.scwang.smart:refresh-layout-kernel:2.0.1'      //核心必须依赖
+    api 'com.scwang.smart:refresh-header-classics:2.0.1'    //经典刷新头
+    api 'com.scwang.smart:refresh-header-radar:2.0.1'       //雷达刷新头
+    api 'com.scwang.smart:refresh-header-falsify:2.0.1'     //虚拟刷新头
+    api 'com.scwang.smart:refresh-header-material:2.0.1'    //谷歌刷新头
+    api 'com.scwang.smart:refresh-header-two-level:2.0.1'   //二级刷新头
+    api 'com.scwang.smart:refresh-footer-ball:2.0.1'        //球脉冲加载
+    api 'com.scwang.smart:refresh-footer-classics:2.0.1'    //经典加载
 
     // 性能优化 检测工具,LeakCanary 已经在 doraemonkit 中动态集成
     debugApi 'com.didichuxing.doraemonkit:doraemonkit:3.1.8'
