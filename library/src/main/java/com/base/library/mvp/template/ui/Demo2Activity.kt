@@ -15,7 +15,7 @@ class Demo2Activity : VPActivity<CommonContract.Presenter>(), CommonContract.Vie
     override fun initView() {
     }
 
-    override fun initData() {
+    override fun lazyData() {
         mPresenter = CommonPresenter(this)
     }
 

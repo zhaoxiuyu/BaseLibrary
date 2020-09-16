@@ -17,11 +17,11 @@ class Demo1Activity : VPActivity<Demo1Contract.Presenter>(), Demo1Contract.View 
     override fun initArgs(intent: Intent?) = null
 
     override fun initView() {
-        initContentView(R.layout.base_activity_test)
+        setContentViewBar(R.layout.base_activity_test)
         mPresenter = Demo1Presenter(this)
     }
 
-    override fun initData() {
+    override fun lazyData() {
 
     }
 

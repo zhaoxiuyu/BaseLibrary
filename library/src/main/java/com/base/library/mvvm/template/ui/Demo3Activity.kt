@@ -17,10 +17,10 @@ class Demo3Activity : VMActivity() {
 
     override fun initView() {
         super.initView()
-        initContentView(R.layout.base_activity_test)
+        setContentViewBar(R.layout.base_activity_test)
     }
 
-    override fun initData() {
+    override fun lazyData() {
         article.setOnClickListener { vmDemo3.getArticle() }
         chapters.setOnClickListener { vmDemo3.getChapters() }
         login.setOnClickListener {

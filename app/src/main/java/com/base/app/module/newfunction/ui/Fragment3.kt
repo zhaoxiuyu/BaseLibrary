@@ -10,11 +10,9 @@ class Fragment3 : VMFragment() {
 
     override fun initArgs(bundle: Bundle?) = null
 
-    override fun initView(bundle: Bundle?) {
-        setContentView(R.layout.item_vp2)
-    }
+    override fun getContentView() = R.layout.item_vp2
 
-    override fun initData() {
+    override fun initData(bundle: Bundle?) {
         itemTv.text = "Fragment3"
         itemTv.setOnClickListener {
         }

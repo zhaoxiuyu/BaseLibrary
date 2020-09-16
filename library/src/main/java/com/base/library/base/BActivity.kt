@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.base.library.R
 import com.base.library.interfaces.MyXPopupListener
 import com.base.library.mvvm.core.VMViewModel
-import com.base.library.view.BTitlebar
+import com.base.library.view.BTitleBar
 import com.blankj.utilcode.util.BusUtils
 import com.blankj.utilcode.util.CacheDiskStaticUtils
 import com.blankj.utilcode.util.LogUtils
@@ -21,13 +21,13 @@ import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.functions.Consumer
 import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.android.synthetic.main.base_activity_layout.*
-import kotlinx.android.synthetic.main.base_titlebar.*
 
 abstract class BActivity : AppCompatActivity() {
 
     abstract fun initArgs(intent: Intent?): VMViewModel?
     abstract fun initView()
-    abstract fun initData()
+    abstract fun immersion(): Boolean
+    abstract fun lazyData()
 
     var vm: VMViewModel? = null
     val mApplication: BApplication by lazy { application as BApplication }
@@ -37,8 +37,9 @@ abstract class BActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         vm = initArgs(intent)
+
         initView()
-        ImmersionBar.with(this).titleBar(bFL).init() // 沉浸式
+        if (immersion()) ImmersionBar.with(this).titleBar(bTitleBar).init() // 沉浸式
 
         // window.decorView 获取到DecorView后,调用post方法,此时DecorView的attachInfo为空,
         // 会将这个Runnable放置runQueue中。runQueue内的任务会在ViewRootImpl.performTraversals的开始阶段被依次取出执行,
@@ -46,19 +47,19 @@ abstract class BActivity : AppCompatActivity() {
         // window.decorView.post { mHandler.post { initData() } }
         // IdleHandler在线程处于空闲的时候被执行,false 该回调进行移除,true 以后会多次调用
         Looper.myQueue().addIdleHandler {
-            initData()
+            lazyData()
             false
         }
 
         BusUtils.register(this)
     }
 
-    fun getBar(): BTitlebar = bTitlebar
+    fun getBar(): BTitleBar = bTitleBar
 
-    open fun initContentView(layoutResID: Int) {
+    open fun setContentViewBar(layoutResID: Int) {
         setContentView(R.layout.base_activity_layout)
-        val contentView = LayoutInflater.from(this).inflate(layoutResID, baseLayout, false)
-        baseLayout.addView(contentView)
+        val contentView = LayoutInflater.from(this).inflate(layoutResID, bLLayout, false)
+        bLLayout.addView(contentView)
     }
 
     override fun onNewIntent(intent: Intent?) {

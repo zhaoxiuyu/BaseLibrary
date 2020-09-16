@@ -23,8 +23,8 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 abstract class BFragment : Fragment() {
 
     abstract fun initArgs(bundle: Bundle?): VMViewModel?
-    abstract fun initView(bundle: Bundle?)
-    abstract fun initData()
+    abstract fun initData(bundle: Bundle?)
+    abstract fun getContentView(): Int
 
     var vm: VMViewModel? = null
     private var mView: View? = null
@@ -43,17 +43,14 @@ abstract class BFragment : Fragment() {
         this.container = container
 
         vm = initArgs(arguments)
-        initView(savedInstanceState)
+
+        mView = inflater.inflate(getContentView(), container, false)
         return mView
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initData()
-    }
-
-    open fun setContentView(layout: Int) {
-        mView = inflater?.inflate(layout, container, false)
+        initData(savedInstanceState)
     }
 
     /**

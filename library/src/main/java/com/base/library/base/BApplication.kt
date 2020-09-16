@@ -22,7 +22,7 @@ open class BApplication : MultiDexApplication() {
 
         utilcode()
         LitePal.initialize(this)
-        XPopup.setPrimaryColor(ContextCompat.getColor(this, R.color.base_sb_pressed))
+        XPopup.setPrimaryColor(ContextCompat.getColor(this, R.color.color_03A9F4))
 
     }
 

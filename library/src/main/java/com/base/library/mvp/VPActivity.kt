@@ -17,6 +17,10 @@ abstract class VPActivity<T : VPPresenter> : BActivity(), VPView {
 
     var mPresenter: T? = null
 
+    override fun immersion(): Boolean {
+        return true
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mPresenter?.let { lifecycle.addObserver(it) }

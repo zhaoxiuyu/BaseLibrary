@@ -23,7 +23,8 @@ class ViewPage2 : VMActivity() {
     override fun initArgs(intent: Intent?) = null
 
     override fun initView() {
-        initContentView(R.layout.activity_viewpage2)
+        super.initView()
+        setContentViewBar(R.layout.activity_viewpage2)
 
         butVertical.setOnClickListener { vp2.orientation = ViewPager2.ORIENTATION_VERTICAL }
         butHorizontal.setOnClickListener { vp2.orientation = ViewPager2.ORIENTATION_HORIZONTAL }
@@ -39,7 +40,7 @@ class ViewPage2 : VMActivity() {
 //        vp2.isUserInputEnabled = false // 禁止 ViewPage2 滑动
     }
 
-    override fun initData() {
+    override fun lazyData() {
 //        vp2.adapter = vP2Adapter // 和 RecyclerView 的适配器一样使用
         vp2.adapter = AdapterFragmentPage(this) // 使用 Fragment
 
