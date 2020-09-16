@@ -16,7 +16,12 @@ class BResponse<T> {
     var code: String = ""
     var msg: String = ""
 
-    // 是否包含收押金额
-    var containFlag: Boolean = false
+    fun isSuccess(): Boolean {
+        return status == 200 || errorCode == 0 || code == "200"
+    }
+
+    fun isMsg(): String {
+        return message ?: errorMsg ?: msg
+    }
 
 }

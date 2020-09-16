@@ -13,7 +13,7 @@ import java.lang.reflect.Type
 /**
  * 自定义解析Response<T>类型数据
  */
-@Parser(name = "Response", wrappers = [MutableList::class, BPageList::class])
+@Parser(name = "Response", wrappers = [List::class, BPageList::class])
 open class RxHttpParser<T> : AbstractParser<BResponse<T>> {
 
     /**

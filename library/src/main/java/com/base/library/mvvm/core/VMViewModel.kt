@@ -3,19 +3,22 @@ package com.base.library.mvvm.core
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.base.library.rxhttp.RxRequest
 import com.base.library.entitys.BResponse
 import com.base.library.mvp.core.SuccessCall
 import com.base.library.rxhttp.RxHttpState
+import com.base.library.rxhttp.RxRequest
 import com.blankj.utilcode.util.GsonUtils
-import com.bumptech.glide.load.HttpException
+import com.blankj.utilcode.util.NetworkUtils
+import com.google.gson.JsonSyntaxException
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
 import rxhttp.wrapper.exception.HttpStatusCodeException
+import rxhttp.wrapper.exception.ParseException
 import java.net.ConnectException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
+import java.util.concurrent.TimeoutException
 
 /**
  * 作用：基础的 ViewModel 类，封装了网络请求 返回 取消等处理
@@ -27,7 +30,7 @@ open class VMViewModel : ViewModel() {
     val dialogState = MutableLiveData<RxHttpState>()
 
     /**
-     * ----------------------------- data 为单个实体对象 ----------------------------------------------------
+     * ----------------------------- 响应数据 直接分发给 LiveData ----------------------------------------------------
      */
     fun <T> getData(bRequest: RxRequest, liveData: MutableLiveData<BResponse<T>>, clas: Class<T>) {
         val disposable = bRequest.getRxHttp().asResponse(clas)
@@ -54,20 +57,17 @@ open class VMViewModel : ViewModel() {
     open fun <T> success(req: RxRequest, live: MutableLiveData<BResponse<T>>, res: BResponse<T>) {
         Log.d("VMViewModel", "请求成功")
 
-        // 成功就进行回调，否则走状态回调
-        val msg = res.message ?: res.errorMsg ?: res.msg
-        if (res.status == 200 || res.errorCode == 0) {
-            dialogState.value = RxHttpState.Success(msg, req.url, req.isFinish, req.silence)
+        if (res.isSuccess()) {
+            dialogState.value = RxHttpState.Success(res.isMsg(), req.url, req.isFinish, req.silence)
             live.value = res
         } else {
-            dialogState.value = RxHttpState.Error(msg, req.url, req.isFinish, req.silence)
+            dialogState.value = RxHttpState.Error(res.isMsg(), req.url, req.isFinish, req.silence)
         }
     }
 
     /**
-     * ----------------------------- data 为 List ----------------------------------------------------
+     * ----------------------------- 响应数据 通过接口进行回调 ----------------------------------------------------
      */
-
     fun <T> getData(bRequest: RxRequest, clas: Class<T>, sc: SuccessCall<BResponse<T>>) {
         val disposable = bRequest.getRxHttp().asResponse(clas)
             .observeOn(AndroidSchedulers.mainThread())
@@ -95,18 +95,16 @@ open class VMViewModel : ViewModel() {
      */
     fun <T> success(req: RxRequest, res: BResponse<T>, sc: SuccessCall<BResponse<T>>) {
         Log.d("VMViewModel", "请求成功")
-        // 成功就进行回调，否则走状态回调
-        val msg = res.message ?: res.errorMsg ?: res.msg
-        if (res.status == 200 || res.errorCode == 0) {
-            dialogState.value = RxHttpState.Success(msg, req.url, req.isFinish, req.silence)
+        if (res.isSuccess()) {
+            dialogState.value = RxHttpState.Success(res.isMsg(), req.url, req.isFinish, req.silence)
             sc.accept(res)
         } else {
-            dialogState.value = RxHttpState.Error(msg, req.url, req.isFinish, req.silence)
+            dialogState.value = RxHttpState.Error(res.isMsg(), req.url, req.isFinish, req.silence)
         }
     }
 
     /**
-     * ---------------------------------------------------------------------------------
+     * ----------------------------- 响应数据 String 通过LiveData 或 接口直接返回 ----------------------------------------------------
      */
     fun getDataString(bRequest: RxRequest, liveData: MutableLiveData<String>) {
         val disposable = bRequest.getRxHttp().asString()
@@ -143,8 +141,8 @@ open class VMViewModel : ViewModel() {
     }
 
     private fun doFinally(bRequest: RxRequest) {
-        Log.d("VMViewModel", "请求结束")
-        dialogState.value = RxHttpState.Completed("请求结束", bRequest.url)
+        Log.d("VMViewModel", "请求结束,不进行回调")
+//        dialogState.value = RxHttpState.Completed("请求结束", bRequest.url)
     }
 
     /**
@@ -153,24 +151,31 @@ open class VMViewModel : ViewModel() {
     open fun error(req: RxRequest, throwable: Throwable?) {
         Log.d("VMViewModel", "请求失败")
 
-        val msg = if (throwable is UnknownHostException || throwable is ConnectException) {
-            "网络连接失败,请连接网络"
-        } else if (throwable is SocketTimeoutException) {
-            "网络请求超时"
-        } else if (throwable is HttpException) {
-            "响应码404和500,服务器内部错误"
+        val msg = if (throwable is UnknownHostException) {
+            // 通过 OkHttpClient 设置的超时 引发的异常
+            if (NetworkUtils.isConnected()) "网络连接不可用" else "当前无网络"
+        } else if (throwable is SocketTimeoutException || throwable is TimeoutException) {
+            // 对单个请求调用 timeout 方法引发的超时异常
+            "连接超时,请稍后再试"
+        } else if (throwable is ConnectException) {
+            "网络不给力,请稍候重试"
         } else if (throwable is HttpStatusCodeException) {
             val result = throwable.result
             try {
                 val bResponse = GsonUtils.getGson().fromJson(result, BResponse::class.java)
-                bResponse.message ?: "返回异常 解析错误"
+                bResponse.message ?: "请求异常"
             } catch (e: Exception) {
-                result ?: "返回异常 解析错误"
+                throwable.message ?: "请求异常"
             }
+        } else if (throwable is JsonSyntaxException) {
+            //  请求成功,但Json语法异常,导致解析失败
+            "数据解析失败,请稍后再试"
+        } else if (throwable is ParseException) {
+            //  ParseException异常表明请求成功，但是数据不正确
+            throwable.message ?: throwable.localizedMessage ?: ""
         } else {
             throwable?.message ?: "出现异常"
         }
-
         dialogState.value = RxHttpState.Error(msg, req.url, req.isFinish, req.silence)
 
         throwable?.printStackTrace()
