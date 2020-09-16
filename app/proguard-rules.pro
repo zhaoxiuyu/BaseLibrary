@@ -18,7 +18,6 @@
 ################################## 没有找到 ##################################
 # ShadowLayout
 # smart-swipe
-# SuperTextView
 # PinnedSectionItemDecoration
 # FlexItemDecoration
 # permission
@@ -39,6 +38,9 @@
     private static *** mmkvLogImp(...);
     private static *** onContentChangedByOuterProcess(***);
 }
+
+# SuperTextView
+-keep class com.coorchice.library.gifdecoder.JNI { *; }
 
 # 代码家 androidanimations
 -keep class com.daimajia.** { *; }
