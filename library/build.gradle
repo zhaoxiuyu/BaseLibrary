@@ -137,13 +137,13 @@ dependencies {
     api 'com.scwang.smart:refresh-footer-classics:2.0.1'    //经典加载
 
     // 性能优化 检测工具,LeakCanary 已经在 doraemonkit 中动态集成
-    debugApi 'com.didichuxing.doraemonkit:doraemonkit:3.1.8'
-    releaseApi 'com.didichuxing.doraemonkit:doraemonkit-no-op:3.1.8'
-    debugApi 'com.didichuxing.doraemonkit:doraemonkit-leakcanary:3.1.8'
+    debugApi 'com.didichuxing.doraemonkit:doraemonkit:3.2.0'
+    releaseApi 'com.didichuxing.doraemonkit:doraemonkit-no-op:3.2.0'
+    debugApi 'com.didichuxing.doraemonkit:doraemonkit-leakcanary:3.2.0'
 
     // 网络请求相关
-    api 'com.ljx.rxhttp:rxhttp:2.3.5'
-    kapt 'com.ljx.rxhttp:rxhttp-compiler:2.3.5'
+    api 'com.ljx.rxhttp:rxhttp:2.4.0'
+    kapt 'com.ljx.rxhttp:rxhttp-compiler:2.4.0'
     api 'com.squareup.okhttp3:okhttp:4.8.1'
     api 'io.reactivex.rxjava3:rxjava:3.0.2'
     api 'io.reactivex.rxjava3:rxandroid:3.0.0'

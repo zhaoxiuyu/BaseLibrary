@@ -4,6 +4,8 @@ import androidx.core.content.ContextCompat
 import androidx.multidex.MultiDexApplication
 import com.base.library.BuildConfig
 import com.base.library.R
+import com.base.library.rxhttp.RxHttpDecoder
+import com.base.library.rxhttp.RxHttpParamAssembly
 import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.Utils
 import com.lxj.xpopup.XPopup
@@ -44,7 +46,12 @@ open class BApplication : MultiDexApplication() {
      * 初始化R下Http
      */
     open fun initRxHttp() {
+        // 初始化
         RxHttp.setDebug(BuildConfig.DEBUG)
+        // 为所有的请求添加公共参数/请求头
+        RxHttp.setOnParamAssembly(RxHttpParamAssembly())
+        // 设置数据解密/解码器
+        RxHttp.setResultDecoder(RxHttpDecoder())
         // 目录为 Android/data/{app包名目录}/cache/RxHttpCache
         val cacheDir = File(Utils.getApp().externalCacheDir, "RxHttpCache")
         // 目录,缓存大小10M,默认不缓存,且缓存永久有效

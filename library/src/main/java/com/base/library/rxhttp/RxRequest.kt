@@ -10,9 +10,10 @@ class RxRequest(val url: String, val httpType: Int = GET) {
 
     // url 请求的标志,用来唯一指定请求
     var silence = false //是否静默加载
-
     var isFinish = false//请求失败 确定 提示框 是否销毁当前页面
+
     var assemblyEnabled = true  // 是否使用公共参数/请求头
+    var decoderEnabled = false  // 本次请求是否需要进行解密
 
     var cacheMode = CacheMode.ONLY_NETWORK //缓存模式
     var cacheTime = -1L  //缓存时长-1永不过期
@@ -61,7 +62,8 @@ class RxRequest(val url: String, val httpType: Int = GET) {
     }
 
     private fun PostJsonArray(): RxRequest {
-        val http = RxHttp.postJsonArray(url)
+        val http = RxHttp.postJsonArrayEncrypt(url)
+//        val http = RxHttp.postJsonArray(url)
         paramMap?.let { http.addAll(it) }
         jsonObj?.let { http.addAll(it) }
         objArray?.let { http.addAll(it) }
@@ -72,6 +74,7 @@ class RxRequest(val url: String, val httpType: Int = GET) {
     private fun HttpSetting(http: RxHttp<*, *>): RxRequest {
         RXHttp = http
         RXHttp.isAssemblyEnabled = assemblyEnabled
+        RXHttp.setDecoderEnabled(decoderEnabled)
         RXHttp.addAllHeader(headMap)
         RXHttp.setCacheValidTime(cacheTime)
         RXHttp.setCacheMode(cacheMode)
