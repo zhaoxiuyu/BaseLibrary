@@ -13,7 +13,7 @@ class RxHttpParamAssembly : Function<Param<*>, Param<*>> {
         // 此方法在子线程中执行，即请求发起线程
 
         // 请求方法，GET、POST等
-        val method = t?.method
+        val method = t?.getMethod()
 
         // 可根据请求类型添加不同的参数
         when {
