@@ -3,7 +3,7 @@ package com.base.library.util
 import com.blankj.utilcode.util.StringUtils
 import java.math.BigDecimal
 
-object MathTool {
+object MathUtils {
 
     //默认除法运算精度
     private const val DEF_DIV_SCALE = 10

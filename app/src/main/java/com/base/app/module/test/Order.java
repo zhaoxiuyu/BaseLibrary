@@ -6,6 +6,7 @@ public class Order {
     private String end;
     private int day;
     private String roomId;
+    private boolean isRemove;
 
     public Order(String start, String end, int day, String roomId) {
         this.start = start;
@@ -46,6 +47,14 @@ public class Order {
         this.roomId = roomId;
     }
 
+    public boolean isRemove() {
+        return isRemove;
+    }
+
+    public void setRemove(boolean remove) {
+        isRemove = remove;
+    }
+
     @Override
     public String toString() {
         return "Order{" +
@@ -53,6 +62,7 @@ public class Order {
                 ", end='" + end + '\'' +
                 ", day=" + day +
                 ", roomId='" + roomId + '\'' +
+                ", isRemove='" + isRemove + '\'' +
                 '}';
     }
 }

@@ -10,11 +10,8 @@ import java.util.ArrayList;
 public class Test {
 
     public static void main(final String[] args) {
-
         ArrayList<Order> orders = getOrderList();
-
         ArrayList<Order> list = new ArrayList<Order>();
-
         for (Order order : orders) {
             if (list.size() == 0) {
                 list.add(order);
@@ -38,13 +35,10 @@ public class Test {
                 }
             }
         }
-
         for (int i = 0; i < list.size(); i++) {
             System.out.println(list.get(i).toString());
         }
-
     }
-
 
     private static ArrayList<Order> getOrderList() {
         ArrayList<Order> orders = new ArrayList<>();

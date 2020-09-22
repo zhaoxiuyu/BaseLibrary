@@ -37,5 +37,4 @@ class RxHttpParamAssembly : Function<Param<*>, Param<*>> {
         return t
     }
 
-
 }
