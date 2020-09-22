@@ -1,9 +1,9 @@
 package com.base.library.mvp.template.presenter
 
-import com.base.library.rxhttp.RxRequest
 import com.base.library.mvp.core.SuccessCall
 import com.base.library.mvp.core.VPPresenterImpl
 import com.base.library.mvp.template.contract.CommonContract
+import com.base.library.rxhttp.RxRequest
 
 /**
  * 作用: 通用的P层实现

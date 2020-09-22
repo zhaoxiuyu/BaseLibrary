@@ -9,11 +9,15 @@ import rxhttpLibrary.RxHttp
 class RxRequest(val url: String, val httpType: Int = GET) {
 
     // url 请求的标志,用来唯一指定请求
-    var silence = false //是否静默加载
-    var isFinish = false//请求失败 确定 提示框 是否销毁当前页面
+    var silence = false // 是否静默加载
+    var finally = false // 是否弹出成功失败提示框
+    var isFinish = false// 成功失败提示框,确定按钮是否销毁当前页面
+    var directFinish = false// 成功失败 是否直接退出当前页面(当 finally = false 时,不弹提示框时,该属性才能生效)
+    var method = url    // 用来判断当前是哪个请求接口,默认设置为url
+    var msg = "请稍候..."    // 提示信息,加载 成功 失败 都用这个字段
 
     var assemblyEnabled = true  // 是否使用公共参数/请求头
-    var decoderEnabled = false  // 本次请求是否需要进行解密
+    var decoderEnabled = true  // 本次请求是否需要进行解密
 
     var cacheMode = CacheMode.ONLY_NETWORK //缓存模式
     var cacheTime = -1L  //缓存时长-1永不过期
@@ -81,11 +85,17 @@ class RxRequest(val url: String, val httpType: Int = GET) {
         return this
     }
 
+    // 打印基本信息
+    fun toBasicString(): String {
+        return "RxRequest(url='$url', httpType=$httpType, silence=$silence, finally=$finally, isFinish=$isFinish, directFinish=$directFinish, method='$method', msg='$msg', assemblyEnabled=$assemblyEnabled, decoderEnabled=$decoderEnabled, cacheMode=$cacheMode, cacheTime=$cacheTime)"
+    }
+
     companion object {
         const val GET = 0x100000
         const val PostForm = 0x100001
         const val PostJson = 0x100002
         const val PostJsonArray = 0x100003
     }
+
 
 }

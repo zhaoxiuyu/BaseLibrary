@@ -1,5 +1,6 @@
 package com.base.library.mvvm.core
 
+import android.graphics.Bitmap
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,6 +12,7 @@ import com.blankj.utilcode.util.GsonUtils
 import com.blankj.utilcode.util.NetworkUtils
 import com.google.gson.JsonSyntaxException
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.ObservableTransformer
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
 import rxhttp.wrapper.exception.HttpStatusCodeException
@@ -30,119 +32,127 @@ open class VMViewModel : ViewModel() {
     val dialogState = MutableLiveData<RxHttpState>()
 
     /**
-     * ----------------------------- 响应数据 直接分发给 LiveData ----------------------------------------------------
+     * 响应数据 BResponse<Student.class>
      */
-    fun <T> getData(bRequest: RxRequest, liveData: MutableLiveData<BResponse<T>>, clas: Class<T>) {
-        val disposable = bRequest.getRxHttp().asResponse(clas)
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe { doOnSubscribe(bRequest.silence) }
-            .doFinally { doFinally(bRequest) }
-            .subscribe({ success(bRequest, liveData, it) }, { error(bRequest, it) })
-        addDisposable(disposable)
-    }
-
-    fun <T> getDatas(
-        bRequest: RxRequest,
-        liveData: MutableLiveData<BResponse<MutableList<T>>>,
-        clas: Class<T>
+    fun <T> getResponse(
+        bRequest: RxRequest, clas: Class<T>,
+        liveData: MutableLiveData<BResponse<T>>? = null, call: SuccessCall<BResponse<T>>? = null
     ) {
-        val disposable = bRequest.getRxHttp().asResponseList(clas)
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe { doOnSubscribe(bRequest.silence) }
-            .doFinally { doFinally(bRequest) }
-            .subscribe({ success(bRequest, liveData, it) }, { error(bRequest, it) })
-        addDisposable(disposable)
-    }
-
-    open fun <T> success(req: RxRequest, live: MutableLiveData<BResponse<T>>, res: BResponse<T>) {
-        Log.d("VMViewModel", "请求成功")
-
-        if (res.isSuccess()) {
-            dialogState.value = RxHttpState.Success(res.isMsg(), req.url, req.isFinish, req.silence)
-            live.value = res
-        } else {
-            dialogState.value = RxHttpState.Error(res.isMsg(), req.url, req.isFinish, req.silence)
-        }
-    }
-
-    /**
-     * ----------------------------- 响应数据 通过接口进行回调 ----------------------------------------------------
-     */
-    fun <T> getData(bRequest: RxRequest, clas: Class<T>, sc: SuccessCall<BResponse<T>>) {
         val disposable = bRequest.getRxHttp().asResponse(clas)
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe { doOnSubscribe(bRequest.silence) }
-            .doFinally { doFinally(bRequest) }
-            .subscribe({ success(bRequest, it, sc) }, { error(bRequest, it) })
-        addDisposable(disposable)
-    }
-
-    fun <T> getDatas(
-        bRequest: RxRequest,
-        clas: Class<T>,
-        sc: SuccessCall<BResponse<MutableList<T>>>
-    ) {
-        val disposable = bRequest.getRxHttp().asResponseList(clas)
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe { doOnSubscribe(bRequest.silence) }
-            .doFinally { doFinally(bRequest) }
-            .subscribe({ success(bRequest, it, sc) }, { error(bRequest, it) })
-        addDisposable(disposable)
-    }
-
-    /**
-     * 根据状态判断走成功还是失败的回调，可以重写这个方法单独进行处理
-     */
-    fun <T> success(req: RxRequest, res: BResponse<T>, sc: SuccessCall<BResponse<T>>) {
-        Log.d("VMViewModel", "请求成功")
-        if (res.isSuccess()) {
-            dialogState.value = RxHttpState.Success(res.isMsg(), req.url, req.isFinish, req.silence)
-            sc.accept(res)
-        } else {
-            dialogState.value = RxHttpState.Error(res.isMsg(), req.url, req.isFinish, req.silence)
-        }
-    }
-
-    /**
-     * ----------------------------- 响应数据 String 通过LiveData 或 接口直接返回 ----------------------------------------------------
-     */
-    fun getDataString(bRequest: RxRequest, liveData: MutableLiveData<String>) {
-        val disposable = bRequest.getRxHttp().asString()
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe { doOnSubscribe(bRequest.silence) }
-            .doFinally { doFinally(bRequest) }
+            .compose(transformer(bRequest))
             .subscribe({
-                success(bRequest)
-                liveData.value = it
+                if (it.isSuccess()) {
+                    success(bRequest, it, liveData, call)
+                } else {
+                    error(bRequest, Throwable(it.isMsg()))
+                }
             }, { error(bRequest, it) })
         addDisposable(disposable)
     }
 
-    fun getDataString(bRequest: RxRequest, sc: SuccessCall<String>) {
-        val disposable = bRequest.getRxHttp().asString()
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe { doOnSubscribe(bRequest.silence) }
-            .doFinally { doFinally(bRequest) }
+    /**
+     * 响应数据 BResponse<MutableList<Student.class>>
+     */
+    fun <T> getResponseList(
+        bRequest: RxRequest, clas: Class<T>,
+        liveData: MutableLiveData<BResponse<MutableList<T>>>? = null,
+        call: SuccessCall<BResponse<MutableList<T>>>? = null
+    ) {
+        val disposable = bRequest.getRxHttp().asResponseList(clas)
+            .compose(transformer(bRequest))
             .subscribe({
-                success(bRequest)
-                sc.accept(it)
+                if (it.isSuccess()) {
+                    success(bRequest, it, liveData, call)
+                } else {
+                    error(bRequest, Throwable(it.isMsg()))
+                }
             }, { error(bRequest, it) })
         addDisposable(disposable)
     }
 
-    open fun success(req: RxRequest) {
-        Log.d("VMViewModel", "请求成功")
-        dialogState.value = RxHttpState.Success("操作完成", req.url, req.isFinish, req.silence)
+
+    /**
+     * 响应数据 Student.class
+     */
+    fun <T> getDataClass(
+        bRequest: RxRequest, clas: Class<T>,
+        liveData: MutableLiveData<T>? = null, call: SuccessCall<T>? = null
+    ) {
+        val disposable = bRequest.getRxHttp().asClass(clas)
+            .compose(transformer(bRequest))
+            .subscribe({ success(bRequest, it, liveData, call) }, { error(bRequest, it) })
+        addDisposable(disposable)
     }
 
-    private fun doOnSubscribe(silence: Boolean = false) {
+    /**
+     * 响应数据 MutableList<Student.class>
+     */
+    fun <T> getDataList(
+        bRequest: RxRequest, clas: Class<T>,
+        liveData: MutableLiveData<MutableList<T>>? = null, call: SuccessCall<MutableList<T>>? = null
+    ) {
+        val disposable = bRequest.getRxHttp().asList(clas)
+            .compose(transformer(bRequest))
+            .subscribe({ success(bRequest, it, liveData, call) }, { error(bRequest, it) })
+        addDisposable(disposable)
+    }
+
+    /**
+     * 响应数据 String
+     */
+    fun getDataString(
+        bRequest: RxRequest,
+        liveData: MutableLiveData<String>? = null, call: SuccessCall<String>? = null
+    ) {
+        val disposable = bRequest.getRxHttp().asString()
+            .compose(transformer(bRequest))
+            .subscribe({ success(bRequest, it, liveData, call) }, { error(bRequest, it) })
+        addDisposable(disposable)
+    }
+
+    /**
+     * 响应数据 Bitmap
+     */
+    fun <T> getDataBitmap(
+        bRequest: RxRequest,
+        liveData: MutableLiveData<Bitmap>? = null, call: SuccessCall<Bitmap>? = null
+    ) {
+        val disposable = bRequest.getRxHttp().asBitmap<Bitmap>()
+            .compose(transformer(bRequest))
+            .subscribe({ success(bRequest, it, liveData, call) }, { error(bRequest, it) })
+        addDisposable(disposable)
+    }
+
+    /**
+     * 响应数据 MutableList<Student.class>
+     */
+    fun <T> getDataMap(
+        bRequest: RxRequest, clas: Class<T>,
+        liveData: MutableLiveData<Map<T, T>>? = null, call: SuccessCall<Map<T, T>>? = null
+    ) {
+        val disposable = bRequest.getRxHttp().asMap(clas)
+            .compose(transformer(bRequest))
+            .subscribe({ success(bRequest, it, liveData, call) }, { error(bRequest, it) })
+        addDisposable(disposable)
+    }
+
+    private fun doOnSubscribe(bRequest: RxRequest) {
         Log.d("VMViewModel", "请求开始")
-        dialogState.value = RxHttpState.Loading(silence = silence)
+        dialogState.value = RxHttpState.Loading(bRequest)
     }
 
-    private fun doFinally(bRequest: RxRequest) {
-        Log.d("VMViewModel", "请求结束,不进行回调")
-//        dialogState.value = RxHttpState.Completed("请求结束", bRequest.url)
+    private fun doFinally() {
+        Log.d("VMViewModel", "请求结束,Completed 不进行回调")
+    }
+
+    open fun <T> success(
+        req: RxRequest, res: T, live: MutableLiveData<T>? = null, call: SuccessCall<T>? = null
+    ) {
+        Log.d("VMViewModel", "请求成功")
+        req.msg = "成功"
+        dialogState.value = RxHttpState.Success(req)
+        live?.value = res
+        call?.accept(res)
     }
 
     /**
@@ -176,7 +186,8 @@ open class VMViewModel : ViewModel() {
         } else {
             throwable?.message ?: "出现异常"
         }
-        dialogState.value = RxHttpState.Error(msg, req.url, req.isFinish, req.silence)
+        req.msg = msg
+        dialogState.value = RxHttpState.Error(req)
 
         throwable?.printStackTrace()
     }
@@ -189,6 +200,17 @@ open class VMViewModel : ViewModel() {
             compositeDisposable = CompositeDisposable()
         }
         compositeDisposable?.add(disposable)
+    }
+
+    /**
+     * 变换 IO线程 -> Main线程
+     */
+    private fun <T> transformer(bRequest: RxRequest): ObservableTransformer<T, T> {
+        return ObservableTransformer {
+            it.observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe { doOnSubscribe(bRequest) }
+                .doFinally { doFinally() }
+        }
     }
 
     /**

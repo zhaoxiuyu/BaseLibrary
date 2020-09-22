@@ -47,13 +47,11 @@ open class RxHttpParser<T> : AbstractParser<BResponse<T>> {
         newResponse.msg = oidResponse.msg
         newResponse.code = oidResponse.code
 
-        /**
-         * data 不为空 并且 泛型不是 String，就转换成对应的泛型数据
-         */
         if (!StringUtils.isEmpty(oidResponse.data)
             && oidResponse.data?.length ?: 0 > 5
             && mType != String::class.java
         ) {
+            // data 不为空 并且 泛型不是 String，就转换成对应的泛型数据
             newResponse.data = GsonUtils.fromJson<T>(oidResponse.data, mType)
         }
 

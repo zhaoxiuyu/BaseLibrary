@@ -1,5 +1,6 @@
 package com.base.library.mvvm.core
 
+import com.base.library.rxhttp.RxRequest
 import rxhttp.wrapper.entity.Progress
 
 /**
@@ -7,23 +8,13 @@ import rxhttp.wrapper.entity.Progress
  */
 interface OnHandleCallback {
 
-    fun onLoading(msg: String, isSilence: Boolean = false)
+    fun onSuccess(mRequest: RxRequest)
 
-    fun onSuccess(
-        msg: String,
-        url: String? = "",
-        isFinish: Boolean = false,
-        isSilence: Boolean = false
-    )
+    fun onError(mRequest: RxRequest)
 
-    fun onError(
-        msg: String,
-        url: String? = "",
-        isFinish: Boolean = false,
-        isSilence: Boolean = false
-    )
+    fun onLoading(mRequest: RxRequest)
 
-    fun onCompleted(msg: String, url: String? = "")
+    fun onCompleted()
 
     fun onProgress(progress: Progress?)
 

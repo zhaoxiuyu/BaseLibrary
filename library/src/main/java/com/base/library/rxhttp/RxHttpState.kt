@@ -6,22 +6,20 @@ import rxhttp.wrapper.entity.Progress
 /**
  * 请求状态的回调
  */
-class RxHttpState(var state: Int, var message: String) {
+class RxHttpState(var state: Int) {
 
     // 当前这个对象的状态
-    var isFinish = false//请求失败 确定 提示框 是否销毁当前页面
-    var isSilence = false//是否静默加载
     var progress: Progress? = null
-    var throwable: Throwable? = null
-    var url: String? = null
+
+    var mRequest: RxRequest? = null
 
     // Activity 回调处理
     fun handler(callback: OnHandleCallback) {
         when (state) {
-            LOADING -> callback.onLoading(message, isSilence)
-            SUCCESS -> callback.onSuccess(message, url, isFinish, isSilence)
-            ERROR -> callback.onError(message, url, isFinish, isSilence)
-            COMPLETED -> callback.onCompleted(message, url)
+            LOADING -> mRequest?.let { callback.onLoading(it) }
+            SUCCESS -> mRequest?.let { callback.onSuccess(it) }
+            ERROR -> mRequest?.let { callback.onError(it) }
+            COMPLETED -> callback.onCompleted()
             PROGRESS -> callback.onProgress(progress)
         }
     }
@@ -34,42 +32,34 @@ class RxHttpState(var state: Int, var message: String) {
         val COMPLETED: Int = 3 // 完成
         val PROGRESS: Int = 4 // 进度，下载或者上传
 
-        // 加载状态的对象
-        fun Loading(msg: String = "请稍候...", silence: Boolean = false): RxHttpState =
-            RxHttpState(LOADING, msg).apply {
-                isSilence = silence
-            }
 
-        // 失败
-        fun Error(
-            msg: String,
-            url: String = "",
-            finish: Boolean,
-            silence: Boolean
-        ): RxHttpState =
-            RxHttpState(ERROR, msg).apply {
-                this.url = url
-                isFinish = finish
-                isSilence = silence
-            }
+        // 加载状态的对象
+        fun Loading(mRequest: RxRequest): RxHttpState {
+            val mRxHttpState = RxHttpState(LOADING)
+            mRxHttpState.mRequest = mRequest
+            return mRxHttpState
+        }
 
         // 成功
-        fun Success(msg: String, url: String = "", finish: Boolean, silence: Boolean): RxHttpState =
-            RxHttpState(SUCCESS, msg).apply {
-                this.url = url
-                isFinish = finish
-                isSilence = silence
-            }
+        fun Success(mRequest: RxRequest): RxHttpState {
+            val mRxHttpState = RxHttpState(SUCCESS)
+            mRxHttpState.mRequest = mRequest
+            return mRxHttpState
+        }
+
+        // 失败
+        fun Error(mRequest: RxRequest): RxHttpState {
+            val mRxHttpState = RxHttpState(ERROR)
+            mRxHttpState.mRequest = mRequest
+            return mRxHttpState
+        }
 
         // 完成
-        fun Completed(msg: String, url: String = ""): RxHttpState =
-            RxHttpState(COMPLETED, msg).apply {
-                this.url = url
-            }
+        fun Completed(): RxHttpState = RxHttpState(COMPLETED)
 
         // 进度，下载或者上传
-        fun Progress(pr: Progress?, msg: String = "进度"): RxHttpState =
-            RxHttpState(PROGRESS, msg).apply { progress = pr }
+        fun Progress(pr: Progress?): RxHttpState = RxHttpState(PROGRESS).apply { progress = pr }
+
     }
 
 }

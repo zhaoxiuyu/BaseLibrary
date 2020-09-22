@@ -26,6 +26,10 @@
             </intent-filter>
         </activity>
 
+        <activity android:name="com.base.library.mvp.template.ui.Demo1Activity">
+
+        </activity>
+
         <!-- 沉浸式,全面屏 -->
         <meta-data
                 android:name="android.max_aspect"

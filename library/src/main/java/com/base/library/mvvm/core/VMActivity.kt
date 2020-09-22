@@ -3,6 +3,7 @@ package com.base.library.mvvm.core
 import android.util.Log
 import androidx.lifecycle.Observer
 import com.base.library.base.BActivity
+import com.base.library.rxhttp.RxRequest
 import rxhttp.wrapper.entity.Progress
 
 /**
@@ -29,36 +30,47 @@ abstract class VMActivity : BActivity(), OnHandleCallback {
         vm?.dialogState?.observe(this, Observer { it.handler(this) })
     }
 
-    override fun onLoading(msg: String, isSilence: Boolean) {
-        Log.v("OnCallback", "onLoading - msg=$msg - isSilence=$isSilence")
-        if (!isSilence) {
-            showLoading(null, msg)
+    override fun onLoading(mRequest: RxRequest) {
+        Log.v("OnHandleCallback", "onLoading \n" + mRequest.toBasicString())
+        if (!mRequest.silence) {
+            showLoading(null, mRequest.msg)
         }
     }
 
-    override fun onSuccess(msg: String, url: String?, isFinish: Boolean, isSilence: Boolean) {
-        val log = "onSuccess - msg=$msg - url=$url - isFinish=$isFinish - isSilence=$isSilence"
-        Log.v("OnCallback", log)
-        if (!isSilence) {
-            dismissDialog(false)
-        }
+    override fun onSuccess(mRequest: RxRequest) {
+        Log.v("OnHandleCallback", "onSuccess \n" + mRequest.toBasicString())
+        handleDialog(mRequest)
     }
 
-    override fun onError(msg: String, url: String?, isFinish: Boolean, isSilence: Boolean) {
-        val log = "onError - msg=$msg - url=$url - isFinish=$isFinish - isSilence=$isSilence"
-        Log.v("OnCallback", log)
-        if (!isSilence) {
-            val df = getDismissFinish(isFinish = isFinish) // 点击确定 是否销毁当前页面
-            showDialog(content = msg, confirmLi = df)
-        }
+    override fun onError(mRequest: RxRequest) {
+        Log.v("OnHandleCallback", "onError \n" + mRequest.toBasicString())
+        handleDialog(mRequest)
     }
 
-    override fun onCompleted(msg: String, url: String?) {
-        Log.v("OnCallback", "onCompleted - msg=$msg - url=$url")
+    override fun onCompleted() {
+        Log.v("OnHandleCallback", "onCompleted")
     }
 
     override fun onProgress(progress: Progress?) {
-        Log.v("OnCallback", "onProgress")
+        Log.v("OnHandleCallback", "onProgress")
+    }
+
+    // 成功失败的回调，处理Dialog的逻辑是一样的
+    private fun handleDialog(mRequest: RxRequest) {
+        if (!mRequest.silence) {
+            // 不是静默加载 才调用关闭Dialog
+            dismissDialog()
+        }
+
+        // 成功失败 是否弹出提示
+        if (mRequest.finally) {
+            // 点击确定是否销毁页面
+            val df = getDismissFinish(mRequest.isFinish)
+            showDialog(content = mRequest.msg, confirmLi = df)
+        } else if (!mRequest.finally && mRequest.directFinish) {
+            // 不弹出提示框 并且 直接销毁页面
+            finish()
+        }
     }
 
     // 放到Base里面，父类可以统一操作，也可以留给子类重写
