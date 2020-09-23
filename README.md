@@ -2,8 +2,6 @@
 
 ==以下暂未补全==
 
-==JsonUtils Json数据序列化==
-
 ==CockroachUtil 异常拦截==
 
 使用如下：
@@ -14,10 +12,16 @@
 			maven { url 'https://jitpack.io' }
 		}
 	}
-
+	
 	dependencies {
 	        implementation 'com.github.zhaoxiuyu:BaseLibrary:Tag'
 	}
+
+
+### 库
+
+
+
 
 ### 工具类相关:
 
@@ -158,6 +162,22 @@ removeValuesForKeys | MMKV 中移除多个 Key
 putCache | 缓存中写入数据
 getCacheString | 缓存中读取 String
 
+- JsonTool -> Json解析,拼装类
+
+方法名1 | 说明
+---|---
+getGson | 获取Gson实例
+getClass | 将数据解析成指定泛型并返回
+getJsonString | 将指定类变成Json型数据返回
+getMap | 将数据解析成Map
+getMapObj | 将数据解析成为Map 对象
+getList | 将数据解析成为List<Map<String, Any>>
+
+- EncryptUtils -> 加密解密相关的工具类
+
+方法名1 | 说明
+---|---
+string2MD5 | 生成32位md5码
 
 ### View相关
 
