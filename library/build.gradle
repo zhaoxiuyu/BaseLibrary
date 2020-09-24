@@ -43,16 +43,34 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            consumerProguardFiles file('.').listFiles(new FilenameFilter() {
+                @Override
+                boolean accept(File file, String s) {
+                    return s.endsWith('.pro')
+                }
+            })
+//            minifyEnabled false
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            consumerProguardFiles file('.').listFiles(new FilenameFilter() {
+                @Override
+                boolean accept(File file, String s) {
+                    return s.endsWith('.pro')
+                }
+            })
+//            minifyEnabled false
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         unsigned {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            consumerProguardFiles file('.').listFiles(new FilenameFilter() {
+                @Override
+                boolean accept(File file, String s) {
+                    return s.endsWith('.pro')
+                }
+            })
+//            minifyEnabled false
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 
@@ -136,11 +154,6 @@ dependencies {
     api 'com.scwang.smart:refresh-footer-ball:2.0.1'        //球脉冲加载
     api 'com.scwang.smart:refresh-footer-classics:2.0.1'    //经典加载
 
-    // 性能优化 检测工具,LeakCanary 已经在 doraemonkit 中动态集成
-    debugApi 'com.didichuxing.doraemonkit:doraemonkit:3.2.0'
-    releaseApi 'com.didichuxing.doraemonkit:doraemonkit-no-op:3.2.0'
-    debugApi 'com.didichuxing.doraemonkit:doraemonkit-leakcanary:3.2.0'
-
     // 网络请求相关
     api 'com.ljx.rxhttp:rxhttp:2.4.0'
     kapt 'com.ljx.rxhttp:rxhttp-compiler:2.4.0'
@@ -204,5 +217,8 @@ dependencies {
     // 日历
     api 'com.haibin:calendarview:3.6.9'
     api 'com.squareup:android-times-square:1.6.5@aar'
+
+    // 混淆库
+    api 'com.github.zhaoxiuyu:Proguards:v1.0.4'
 
 }
