@@ -1,4 +1,4 @@
-package com.base.app.module.newfunction.viewmodel
+package com.base.app.module.views.viewmodel
 
 import com.base.library.mvvm.core.VMViewModel
 

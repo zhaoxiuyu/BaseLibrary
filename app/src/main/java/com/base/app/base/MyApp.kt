@@ -15,7 +15,7 @@ class MyApp : BApplication() {
         super.onCreate()
 
         DoraemonKit.install(this, "0f0894d53fe597a618cb4e0c31e2f536")
-        initCockroach()
+//        initCockroach()
         initRxHttp()
 
         // 启动 Koin

@@ -1,4 +1,4 @@
-package com.base.app.module.newfunction.ui
+package com.base.app.module.views.ui
 
 import android.os.Bundle
 import com.base.app.R

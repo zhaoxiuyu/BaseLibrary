@@ -1,4 +1,4 @@
-package com.base.app.module.newfunction.ui
+package com.base.app.module.views.ui
 
 import android.content.Intent
 import androidx.recyclerview.widget.RecyclerView
@@ -7,10 +7,10 @@ import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import com.base.app.R
 import com.base.app.base.MyConstant
-import com.base.app.module.newfunction.adapter.AdapterFragmentPage
-import com.base.app.module.newfunction.adapter.VP2Adapter
-import com.base.app.module.newfunction.transformer.ScaleInTransformer
-import com.base.app.utils.TestDatas
+import com.base.app.module.views.adapter.AdapterFragmentPage
+import com.base.app.module.views.adapter.VP2Adapter
+import com.base.app.module.views.transformer.ScaleInTransformer
+import com.base.app.utils.MethodDatas
 import com.base.library.mvvm.core.VMActivity
 import com.blankj.utilcode.util.BusUtils
 import com.blankj.utilcode.util.LogUtils
@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.activity_viewpage2.*
 
 class ViewPage2 : VMActivity() {
 
-    private val vP2Adapter by lazy { VP2Adapter(TestDatas.getStrs(5)) }
+    private val vP2Adapter by lazy { VP2Adapter(MethodDatas.getStrs(5)) }
 
     override fun initArgs(intent: Intent?) = null
 

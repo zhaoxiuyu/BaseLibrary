@@ -1,12 +1,12 @@
-package com.base.app.module.newfunction.adapter
+package com.base.app.module.views.adapter
 
 import android.util.SparseArray
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.base.app.module.newfunction.ui.Fragment1
-import com.base.app.module.newfunction.ui.Fragment2
-import com.base.app.module.newfunction.ui.Fragment3
+import com.base.app.module.views.ui.Fragment1
+import com.base.app.module.views.ui.Fragment2
+import com.base.app.module.views.ui.Fragment3
 import com.base.library.base.BFragment
 
 class AdapterFragmentPage(fragmentActivity: FragmentActivity) :

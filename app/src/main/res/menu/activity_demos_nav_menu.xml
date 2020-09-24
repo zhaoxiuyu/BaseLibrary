@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_utils"
+            android:icon="@drawable/ic_svg_utils"
+            android:title="Utils" />
+
+        <item
+            android:id="@+id/nav_views"
+            android:icon="@drawable/ic_svg_views"
+            android:title="Views" />
+
+        <item
+            android:id="@+id/nav_function"
+            android:icon="@drawable/ic_svg_function"
+            android:title="Views" />
+
+    </group>
+
+</menu>

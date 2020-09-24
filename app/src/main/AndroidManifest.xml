@@ -1,23 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        package="com.base.app">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.base.app">
 
     <application
-            android:name=".base.MyApp"
-            android:allowBackup="true"
-            android:icon="@mipmap/ic_launcher"
-            android:label="@string/app_name"
-            android:roundIcon="@mipmap/ic_launcher_round"
-            android:supportsRtl="true"
-            android:theme="@style/AppTheme"
-            tools:replace="android:icon">
+        android:name=".base.MyApp"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        tools:replace="android:icon">
 
-        <activity android:name=".module.newfunction.ui.ViewPage2">
-
-        </activity>
-
-        <activity android:name="com.base.library.mvvm.template.ui.Demo3Activity">
+        <activity android:name=".module.demos.ui.DemosActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
@@ -26,23 +22,25 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.base.library.mvp.template.ui.Demo1Activity">
-
-        </activity>
+        <activity android:name=".module.views.ui.ViewPage2" />
+        <activity android:name=".module.views.ui.DynamicActivity" />
+        <activity android:name="com.base.library.mvvm.template.ui.Demo3Activity" />
+        <activity android:name="com.base.library.mvp.template.ui.Demo1Activity" />
 
         <!-- 沉浸式,全面屏 -->
         <meta-data
-                android:name="android.max_aspect"
-                android:value="2.4" />
+            android:name="android.max_aspect"
+            android:value="2.4" />
 
-        <!--适配华为（huawei）刘海屏-->
+        <!-- 适配华为（huawei）刘海屏 -->
         <meta-data
-                android:name="android.notch_support"
-                android:value="true" />
-        <!--适配小米（xiaomi）刘海屏-->
+            android:name="android.notch_support"
+            android:value="true" />
+
+        <!-- 适配小米（xiaomi）刘海屏 -->
         <meta-data
-                android:name="notch.config"
-                android:value="portrait|landscape" />
+            android:name="notch.config"
+            android:value="portrait|landscape" />
 
     </application>
 

@@ -31,7 +31,7 @@ open class BApplication : MultiDexApplication() {
     /**
      * 初始化打印日志
      */
-    private fun utilcode() {
+    open fun utilcode() {
         Utils.init(this)
         LogUtils.getConfig().setLogSwitch(BuildConfig.DEBUG)//总开关
             .setConsoleSwitch(BuildConfig.DEBUG)//控制台开关

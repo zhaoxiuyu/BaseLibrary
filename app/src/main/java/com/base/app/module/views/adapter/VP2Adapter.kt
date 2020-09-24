@@ -1,4 +1,4 @@
-package com.base.app.module.newfunction.adapter
+package com.base.app.module.views.adapter
 
 import android.view.LayoutInflater
 import android.view.View

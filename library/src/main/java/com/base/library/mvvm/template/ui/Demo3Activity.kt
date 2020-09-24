@@ -21,6 +21,8 @@ class Demo3Activity : VMActivity() {
     }
 
     override fun lazyData() {
+        getBar().setTvCenterText("MVVM 测试网络请求")
+
         article.setOnClickListener { vmDemo3.getArticle() }
         chapters.setOnClickListener { vmDemo3.getChapters() }
         login.setOnClickListener {
