@@ -1,7 +1,5 @@
 package com.base.app.entitys
 
-import android.app.Activity
-
 class UtilsDescribe {
 
     var name = ""

@@ -1,6 +1,7 @@
 package com.base.app.module.views.ui
 
 import android.content.Intent
+import android.widget.TextView
 import com.base.app.R
 import com.base.library.mvvm.core.VMActivity
 
@@ -18,6 +19,9 @@ class DynamicActivity : VMActivity() {
 
     override fun lazyData() {
         getBar().setTvCenterText("可设置宽高比的图片")
+
+        val tv = TextView(this)
+
     }
 
 }

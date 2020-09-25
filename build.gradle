@@ -23,9 +23,6 @@ buildscript {
         // didichuxing 流量监控以及其他AOP功能
         classpath 'com.didichuxing.doraemonkit:doraemonkit-plugin:3.2.0'
 
-        // koin 注入
-        classpath "org.koin:koin-gradle-plugin:2.1.5"
-
         // 事件总线
         classpath 'com.blankj:bus-gradle-plugin:2.6'
 
