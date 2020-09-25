@@ -23,10 +23,11 @@
     implementation(project(':library')) {
         exclude group: 'com.daimajia.androidanimations', module: 'library'
     }
-
+    
     在你的project build.gradle 中加入插件
     // 事件总线
     classpath 'com.blankj:bus-gradle-plugin:2.6'
+---
 
     // 已经整合的库
     // 卡片
