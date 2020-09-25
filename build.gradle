@@ -7,9 +7,6 @@ buildscript {
         maven { url 'https://maven.fabric.io/public' }
     }
 
-    ext.versionCode = 100
-    ext.versionName = "1.0.0"
-
     dependencies {
         //此处是 android 的插件 gradle 及其版本号
         classpath 'com.android.tools.build:gradle:4.0.1'

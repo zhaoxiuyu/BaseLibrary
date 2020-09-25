@@ -22,6 +22,7 @@ class DynamicActivity : VMActivity() {
 
         val tv = TextView(this)
 
+
     }
 
 }

@@ -21,8 +21,8 @@ android {
         targetSdkVersion 29 //目标版本
         minSdkVersion 21 //最低兼容Android版本
 
-        versionCode rootProject.versionCode
-        versionName rootProject.versionName
+        versionCode 108
+        versionName "1.0.8"
 
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true

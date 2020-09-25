@@ -17,8 +17,8 @@ android {
         targetSdkVersion 29 //目标版本
         minSdkVersion 21 //最低兼容Android版本
 
-        versionCode rootProject.versionCode //版本号
-        versionName rootProject.versionName //版本名
+        versionCode 100 //版本号
+        versionName "1.0.0" //版本名
 
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
@@ -122,9 +122,11 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.3.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
-    implementation(project(':library')) {
-        exclude group: 'com.daimajia.androidanimations', module: 'library'
-    }
+    implementation 'com.github.zhaoxiuyu:BaseLibrary:1.0.8'
+
+//    implementation(project(':library')) {
+//        exclude group: 'com.daimajia.androidanimations', module: 'library'
+//    }
 
     // 性能优化 检测工具,LeakCanary 已经在 doraemonkit 中动态集成
     debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:3.2.0'
