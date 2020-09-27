@@ -1,4 +1,4 @@
-package com.base.app.module.views.adapter
+package com.base.app.module.views.viewpage2.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -11,8 +11,10 @@ class VP2Adapter(private val mStrs: MutableList<String>) :
     RecyclerView.Adapter<VP2Adapter.PageViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PageViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_vp2, parent, false)
-        return PageViewHolder(itemView)
+        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.fragment123_viewpage2, parent, false)
+        return PageViewHolder(
+            itemView
+        )
     }
 
     override fun getItemCount(): Int {

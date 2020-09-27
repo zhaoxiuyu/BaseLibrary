@@ -1,4 +1,4 @@
-package com.base.app.module.views.transformer
+package com.base.app.module.views.viewpage2.transformer
 
 import android.view.View
 import androidx.viewpager2.widget.ViewPager2

@@ -15,9 +15,6 @@ abstract class VMActivity : BActivity(), OnHandleCallback {
 //abstract class VMActivity<VM : VMViewModel> : BActivity() {
 //    protected var vm: VM? = null
 
-    // 是否使用沉浸式
-    override fun immersion() = true
-
     /**
      * 默认走这个里面的提示框流程和样式
      * 实现类可以重写这个方法进行定制

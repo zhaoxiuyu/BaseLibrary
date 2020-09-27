@@ -1,4 +1,4 @@
-package com.base.app.module.views.ui
+package com.base.app.module.views.imageview.ui
 
 import android.content.Intent
 import android.widget.TextView

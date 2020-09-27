@@ -18,7 +18,7 @@
         <item
             android:id="@+id/nav_function"
             android:icon="@drawable/ic_svg_function"
-            android:title="Views" />
+            android:title="Test" />
 
     </group>
 

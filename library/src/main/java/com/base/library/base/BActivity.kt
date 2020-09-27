@@ -12,7 +12,6 @@ import com.base.library.view.BTitleBar
 import com.blankj.utilcode.util.BusUtils
 import com.blankj.utilcode.util.CacheDiskStaticUtils
 import com.blankj.utilcode.util.LogUtils
-import com.gyf.immersionbar.ImmersionBar
 import com.lxj.xpopup.XPopup
 import com.lxj.xpopup.core.BasePopupView
 import com.lxj.xpopup.interfaces.XPopupCallback
@@ -26,7 +25,6 @@ abstract class BActivity : AppCompatActivity() {
 
     abstract fun initArgs(intent: Intent?): VMViewModel?
     abstract fun initView()
-    abstract fun immersion(): Boolean
     abstract fun lazyData()
 
     var vm: VMViewModel? = null
@@ -39,7 +37,6 @@ abstract class BActivity : AppCompatActivity() {
         vm = initArgs(intent)
 
         initView()
-        if (immersion()) ImmersionBar.with(this).titleBar(bTitleBar).init() // 沉浸式
 
         // window.decorView 获取到DecorView后,调用post方法,此时DecorView的attachInfo为空,
         // 会将这个Runnable放置runQueue中。runQueue内的任务会在ViewRootImpl.performTraversals的开始阶段被依次取出执行,

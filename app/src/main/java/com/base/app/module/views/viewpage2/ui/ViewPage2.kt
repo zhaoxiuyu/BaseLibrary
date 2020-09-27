@@ -1,4 +1,4 @@
-package com.base.app.module.views.ui
+package com.base.app.module.views.viewpage2.ui
 
 import android.content.Intent
 import androidx.recyclerview.widget.RecyclerView
@@ -7,9 +7,9 @@ import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import com.base.app.R
 import com.base.app.base.MyConstant
-import com.base.app.module.views.adapter.AdapterFragmentPage
-import com.base.app.module.views.adapter.VP2Adapter
-import com.base.app.module.views.transformer.ScaleInTransformer
+import com.base.app.module.views.viewpage2.adapter.AdapterFragmentPage
+import com.base.app.module.views.viewpage2.adapter.VP2Adapter
+import com.base.app.module.views.viewpage2.transformer.ScaleInTransformer
 import com.base.app.utils.MethodDatas
 import com.base.library.mvvm.core.VMActivity
 import com.blankj.utilcode.util.BusUtils
@@ -18,7 +18,11 @@ import kotlinx.android.synthetic.main.activity_viewpage2.*
 
 class ViewPage2 : VMActivity() {
 
-    private val vP2Adapter by lazy { VP2Adapter(MethodDatas.getStrs(5)) }
+    private val vP2Adapter by lazy {
+        VP2Adapter(
+            MethodDatas.getStrs(5)
+        )
+    }
 
     override fun initArgs(intent: Intent?) = null
 
@@ -42,7 +46,8 @@ class ViewPage2 : VMActivity() {
 
     override fun lazyData() {
 //        vp2.adapter = vP2Adapter // 和 RecyclerView 的适配器一样使用
-        vp2.adapter = AdapterFragmentPage(this) // 使用 Fragment
+        vp2.adapter =
+            AdapterFragmentPage(this) // 使用 Fragment
 
         // 实现一屏多页的效果,通过 RecyclerView 设置 Padding 来实现
         vp2.apply {
