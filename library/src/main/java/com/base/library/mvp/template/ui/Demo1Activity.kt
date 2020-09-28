@@ -24,7 +24,7 @@ class Demo1Activity : VPActivity<Demo1Contract.Presenter>(), Demo1Contract.View 
     }
 
     override fun lazyData() {
-        getBar().setTvCenterText("MVP 测试网络请求")
+        getBTitleBar()?.setTvCenterText("MVP 测试网络请求")
 
         article.setOnClickListener { mPresenter?.getArticle() }
         chapters.setOnClickListener { mPresenter?.getChapters() }

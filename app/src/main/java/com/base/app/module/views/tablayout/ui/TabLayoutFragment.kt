@@ -5,7 +5,9 @@ import com.base.app.R
 import com.base.app.base.MyConstant
 import com.base.library.mvvm.core.VMFragment
 import com.base.library.mvvm.core.VMViewModel
+import com.blankj.utilcode.util.ColorUtils
 import com.blankj.utilcode.util.LogUtils
+import com.gyf.immersionbar.ImmersionBar
 import kotlinx.android.synthetic.main.fragment_tab_layout.*
 
 class TabLayoutFragment : VMFragment() {
@@ -23,8 +25,19 @@ class TabLayoutFragment : VMFragment() {
 
     override fun initData(bundle: Bundle?) {
         tv.text = "$param1"
-        tv.setOnClickListener {
+        when (param1) {
+            "概况" -> tv.setBackgroundColor(ColorUtils.getColor(R.color.color_21B4A7))
+            "日租房" -> tv.setBackgroundColor(ColorUtils.getColor(R.color.color_018B9E))
+            "钟点房" -> tv.setBackgroundColor(ColorUtils.getColor(R.color.colorAccent))
+            "出租率" -> tv.setBackgroundColor(ColorUtils.getColor(R.color.color_FFC301))
+            "渠道1" -> tv.setBackgroundColor(ColorUtils.getColor(R.color.color_2771E1))
+            "渠道2" -> tv.setBackgroundColor(ColorUtils.getColor(R.color.color_F0720C))
+            "渠道3" -> tv.setBackgroundColor(ColorUtils.getColor(R.color.color_F34A00))
         }
+    }
+
+    override fun initImmersionBar() {
+        ImmersionBar.with(this).titleBar(tv).init()
     }
 
     override fun onStart() {

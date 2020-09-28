@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.base.library.R
 import com.base.library.mvvm.core.VMActivity
 import com.base.library.mvvm.template.viewmodel.Demo3ViewModel
+import com.base.library.view.BTitleBar
 import com.blankj.utilcode.util.LogUtils
 import kotlinx.android.synthetic.main.base_activity_test.*
 
@@ -21,7 +22,7 @@ class Demo3Activity : VMActivity() {
     }
 
     override fun lazyData() {
-        getBar().setTvCenterText("MVVM 测试网络请求")
+        getBTitleBar()?.setTvCenterText("MVVM 测试网络请求")
 
         article.setOnClickListener { vmDemo3.getArticle() }
         chapters.setOnClickListener { vmDemo3.getChapters() }

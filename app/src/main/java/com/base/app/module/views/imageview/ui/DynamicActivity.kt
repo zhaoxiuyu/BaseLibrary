@@ -18,7 +18,7 @@ class DynamicActivity : VMActivity() {
     }
 
     override fun lazyData() {
-        getBar().setTvCenterText("可设置宽高比的图片")
+        getBTitleBar()?.setTvCenterText("可设置宽高比的图片")
 
         val tv = TextView(this)
 

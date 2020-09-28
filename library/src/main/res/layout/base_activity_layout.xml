@@ -1,69 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/bLLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bLLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <!-- ImmersionBar.titleBar(bFLayout)的根布局不是能相对和约束布局,所以在外面套一层FrameLayout -->
     <com.base.library.view.BTitleBar
-            android:id="@+id/bTitleBar"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_44"
-            android:background="@color/color_03A9F4"
-            android:paddingStart="@dimen/dp_8"
-            android:paddingEnd="@dimen/dp_8">
+        android:id="@+id/bTitleBar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_44"
+        android:background="@color/color_03A9F4"
+        android:paddingStart="@dimen/dp_8"
+        android:paddingEnd="@dimen/dp_8">
 
         <ImageView
-                android:id="@+id/iv_left"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:src="@drawable/ic_baseline_arrow_back_24" />
+            android:id="@+id/iv_left"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_baseline_arrow_back_24" />
 
         <TextView
-                android:id="@+id/tv_left"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:textColor="#FFFFFF"
-                android:visibility="gone"
-                tools:text="返回" />
+            android:id="@+id/tv_left"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textColor="#FFFFFF"
+            android:visibility="gone"
+            tools:text="返回" />
 
         <ImageView
-                android:id="@+id/iv_center"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:visibility="gone"
-                tools:src="@drawable/ic_baseline_arrow_back_24" />
+            android:id="@+id/iv_center"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            tools:src="@drawable/ic_baseline_arrow_back_24" />
 
         <TextView
-                android:id="@+id/tv_center"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:text="首页"
-                android:textColor="#FFFFFF"
-                android:textSize="@dimen/sp_16" />
+            android:id="@+id/tv_center"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="首页"
+            android:textColor="#FFFFFF"
+            android:textSize="@dimen/sp_16" />
 
         <ImageView
-                android:id="@+id/iv_end"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="end"
-                android:visibility="gone"
-                tools:src="@drawable/ic_baseline_arrow_back_24" />
+            android:id="@+id/iv_end"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:visibility="gone"
+            tools:src="@drawable/ic_baseline_arrow_back_24" />
 
         <TextView
-                android:id="@+id/tv_end"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="end"
-                android:gravity="center"
-                android:textColor="#FFFFFF"
-                android:visibility="gone"
-                tools:text="设置" />
+            android:id="@+id/tv_end"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:gravity="center"
+            android:textColor="#FFFFFF"
+            android:visibility="gone"
+            tools:text="设置" />
     </com.base.library.view.BTitleBar>
 </LinearLayout>

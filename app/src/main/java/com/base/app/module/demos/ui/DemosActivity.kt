@@ -25,20 +25,20 @@ class DemosActivity : VMActivity() {
     }
 
     override fun lazyData() {
-        getBar().getIvLeft().visibility = View.GONE
+        getBTitleBar()?.getIvLeft()?.visibility = View.GONE
 
         bnv.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.nav_utils -> {
-                    getBar().setTvCenterText("工具类")
+                    getBTitleBar()?.setTvCenterText("工具类")
                     showFragment(mUtilsFragment, "mUtilsFragment")
                 }
                 R.id.nav_views -> {
-                    getBar().setTvCenterText("控件")
+                    getBTitleBar()?.setTvCenterText("控件")
                     showFragment(mViewsFragment, "mViewsFragment")
                 }
                 R.id.nav_function -> {
-                    getBar().setTvCenterText("测试功能")
+                    getBTitleBar()?.setTvCenterText("测试功能")
                     showFragment(mFunctionFragment, "mFunctionFragment")
                 }
             }

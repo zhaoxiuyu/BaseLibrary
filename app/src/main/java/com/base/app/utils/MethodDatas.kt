@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.base.app.R
 import com.base.app.entitys.UtilsDescribe
 import com.base.app.module.views.imageview.ui.DynamicActivity
-import com.base.app.module.views.tablayout.ui.TabLayout
+import com.base.app.module.views.tablayout.ui.TabLayoutActivity
 import com.base.library.mvp.template.ui.Demo1Activity
 import com.base.library.mvvm.template.ui.Demo3Activity
 import com.ckr.decoration.DividerLinearItemDecoration
@@ -47,7 +47,7 @@ object MethodDatas {
 
         datas.add(UtilsDescribe("DynamicHeightImageView", "可设置宽高比的图片", DynamicActivity::class.java))
         datas.add(UtilsDescribe("BTitleBar", "自定义操作栏", null))
-        datas.add(UtilsDescribe("TabLayout", "导航栏-Fragment沉浸式", TabLayout::class.java))
+        datas.add(UtilsDescribe("TabLayout", "导航栏-Fragment沉浸式", TabLayoutActivity::class.java))
 
         return datas
     }
