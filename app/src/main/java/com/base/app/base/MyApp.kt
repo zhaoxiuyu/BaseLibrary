@@ -10,10 +10,9 @@ class MyApp : BApplication() {
     override fun onCreate() {
         super.onCreate()
 
-        DoraemonKit.install(this, "0f0894d53fe597a618cb4e0c31e2f536")
-//        initCockroach()
         initRxHttp()
-
+//        initCockroach()
+        DoraemonKit.install(this, "0f0894d53fe597a618cb4e0c31e2f536")
     }
 
     /**

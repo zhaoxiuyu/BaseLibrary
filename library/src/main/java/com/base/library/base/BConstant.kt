@@ -12,9 +12,9 @@ object BConstant {
     @DefaultDomain
     const val baseUrl = "https://www.baidu.com/"
 
-    // 子域名
+    // 子域名,这个主要用来测试网络请求的
     @Domain(name = "wanandroid")
-    const val baiduUrl = "https://www.wanandroid.com/"
+    const val wanandroidUrl = "https://www.wanandroid.com/"
 
     /**
      * 接口
