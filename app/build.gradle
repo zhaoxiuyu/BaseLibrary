@@ -24,21 +24,6 @@ android {
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        //依赖库多的时候可能出现重复文件,通过 exclude 将重复的文件剔除
-        packagingOptions {
-            exclude "lib/mips/libRSSupport.so"
-            exclude 'lib/arm64-v8a/libRSSupport.so'
-            exclude 'lib/armeabi-v7a/librsjni.so'
-            exclude 'lib/x86/libRSSupport.so'
-            exclude 'lib/x86_64/libRSSupport.so'
-            exclude 'lib/armeabi-v7a/libRSSupport.so'
-            exclude 'lib/arm64-v8a/librsjni.so'
-            exclude 'lib/x86/librsjni.so'
-            exclude 'lib/x86_64/librsjni.so'
-            exclude 'META-INF/rxjava.properties'
-            exclude 'META-INF/library_release.kotlin_module0'
-        }
-
         ndk {
             abiFilters 'armeabi-v7a'
 //            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a', 'x86', "x86_64"
@@ -46,8 +31,19 @@ android {
 
     }
 
-    //打包时的相关配置
+    //依赖库多的时候可能出现重复文件,通过 exclude 将重复的文件剔除
     packagingOptions {
+        exclude 'lib/x86/librsjni.so'
+        exclude 'lib/x86_64/librsjni.so'
+        exclude 'lib/x86/libRSSupport.so'
+        exclude "lib/mips/libRSSupport.so"
+        exclude 'lib/arm64-v8a/librsjni.so'
+        exclude 'lib/x86_64/libRSSupport.so'
+        exclude 'META-INF/rxjava.properties'
+        exclude 'lib/armeabi-v7a/librsjni.so'
+        exclude 'lib/arm64-v8a/libRSSupport.so'
+        exclude 'lib/armeabi-v7a/libRSSupport.so'
+        exclude 'META-INF/library_release.kotlin_module0'
         exclude 'META-INF/proguard/androidx-annotations.pro'
     }
 
