@@ -129,7 +129,7 @@ dependencies {
     api "androidx.lifecycle:lifecycle-process:2.2.0"
 
     // sqlite 数据库
-    api 'org.litepal.guolindev:core:3.2.1'
+    api 'org.litepal.guolindev:core:3.2.2'
 
     // 工具类
     api 'com.blankj:utilcodex:1.29.0'// 柯基 AndroidUtilCode
