@@ -273,7 +273,7 @@ getCacheString | 缓存中读取 String
 
 - JsonTool -> Json解析,拼装类
 
-方法名1 | 说明
+方法名 | 说明
 ---|---
 getGson | 获取Gson实例
 getClass | 将数据解析成指定泛型并返回
@@ -284,9 +284,15 @@ getList | 将数据解析成为List<Map<String, Any>>
 
 - EncryptUtils -> 加密解密相关的工具类
 
-方法名1 | 说明
+方法名 | 说明
 ---|---
 string2MD5 | 生成32位md5码
+
+- HandlerLifecycle -> 自动在onDestroy的时候移除Handler的消息，避免内存泄漏
+
+方法名 | 说明
+---|---
+HandlerLifecycle(this) | 初始化
 
 ### View相关
 

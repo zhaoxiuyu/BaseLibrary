@@ -64,4 +64,5 @@ class DemosActivity : VMActivity() {
             FragmentUtils.add(supportFragmentManager, fragment, R.id.frameLayout, tag)
         }
     }
+
 }
