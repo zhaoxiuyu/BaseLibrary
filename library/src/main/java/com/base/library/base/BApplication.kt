@@ -47,7 +47,7 @@ open class BApplication : MultiDexApplication() {
      */
     open fun initRxHttp() {
         // 初始化
-        RxHttp.setDebug(BuildConfig.DEBUG)
+        RxHttp.setDebug(BuildConfig.DEBUG, true)
         // 为所有的请求添加公共参数/请求头
         RxHttp.setOnParamAssembly(RxHttpParamAssembly())
         // 设置数据解密/解码器

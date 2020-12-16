@@ -1,18 +1,19 @@
 package com.base.app.module.demos.ui
 
 import android.content.Intent
-import android.view.View
 import androidx.fragment.app.Fragment
 import com.base.app.R
+import com.base.app.databinding.ActivityDemosBinding
 import com.base.library.mvvm.core.VMActivity
 import com.blankj.utilcode.util.FragmentUtils
 import com.blankj.utilcode.util.LogUtils
-import kotlinx.android.synthetic.main.activity_demos.*
 
 /**
  * 功能展示
  */
 class DemosActivity : VMActivity() {
+
+    private val mBind by lazy { ActivityDemosBinding.inflate(layoutInflater) }
 
     private val mUtilsFragment by lazy { UtilsFragment.newInstance("", "") }
     private val mViewsFragment by lazy { ViewsFragment.newInstance("", "") }
@@ -21,30 +22,37 @@ class DemosActivity : VMActivity() {
     override fun initArgs(intent: Intent?) = null
 
     override fun initView() {
-        setContentViewBar(R.layout.activity_demos)
+        setContentView(mBind.root)
+
+        val sb = StringBuilder()
+        for (i in 1..10) {
+            val startTime1 = System.currentTimeMillis() //获取开始时间
+            ActivityDemosBinding.inflate(layoutInflater)
+            val endTime1 = System.currentTimeMillis() //获取结束时间
+            sb.append("ms2 = ${(endTime1 - startTime1)} \n")
+        }
+        LogUtils.d(sb)
     }
 
-    override fun lazyData() {
-        getBTitleBar()?.getIvLeft()?.visibility = View.GONE
-
-        bnv.setOnNavigationItemSelectedListener {
+    override fun initData() {
+        mBind.bnv.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.nav_utils -> {
-                    getBTitleBar()?.setTvCenterText("工具类")
+                    mBind.titleBar.title = "工具类"
                     showFragment(mUtilsFragment, "mUtilsFragment")
                 }
                 R.id.nav_views -> {
-                    getBTitleBar()?.setTvCenterText("控件")
+                    mBind.titleBar.title = "控件"
                     showFragment(mViewsFragment, "mViewsFragment")
                 }
                 R.id.nav_function -> {
-                    getBTitleBar()?.setTvCenterText("测试功能")
+                    mBind.titleBar.title = "测试功能"
                     showFragment(mFunctionFragment, "mFunctionFragment")
                 }
             }
             true
         }
-        bnv.setOnNavigationItemReselectedListener {
+        mBind.bnv.setOnNavigationItemReselectedListener {
             when (it.itemId) {
                 R.id.nav_utils -> LogUtils.d("重复点击")
                 R.id.nav_views -> LogUtils.d("重复点击")

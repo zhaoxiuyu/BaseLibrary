@@ -7,6 +7,7 @@ import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import com.base.app.R
 import com.base.app.base.MyConstant
+import com.base.app.databinding.ActivityViewpage2Binding
 import com.base.app.module.views.viewpage2.adapter.AdapterFragmentPage
 import com.base.app.module.views.viewpage2.adapter.VP2Adapter
 import com.base.app.module.views.viewpage2.transformer.ScaleInTransformer
@@ -14,9 +15,10 @@ import com.base.app.utils.MethodDatas
 import com.base.library.mvvm.core.VMActivity
 import com.blankj.utilcode.util.BusUtils
 import com.blankj.utilcode.util.LogUtils
-import kotlinx.android.synthetic.main.activity_viewpage2.*
 
 class ViewPage2 : VMActivity() {
+
+    private val mBind by lazy { ActivityViewpage2Binding.inflate(layoutInflater) }
 
     private val vP2Adapter by lazy {
         VP2Adapter(
@@ -28,29 +30,33 @@ class ViewPage2 : VMActivity() {
 
     override fun initView() {
         super.initView()
-        setContentViewBar(R.layout.activity_viewpage2)
+        setContentView(mBind.root)
 
-        butVertical.setOnClickListener { vp2.orientation = ViewPager2.ORIENTATION_VERTICAL }
-        butHorizontal.setOnClickListener { vp2.orientation = ViewPager2.ORIENTATION_HORIZONTAL }
+        mBind?.butVertical?.setOnClickListener {
+            mBind?.vp2?.orientation = ViewPager2.ORIENTATION_VERTICAL
+        }
+        mBind?.butHorizontal?.setOnClickListener {
+            mBind?.vp2?.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+        }
 
         // 模拟拖拽,想前一个页面滑动 -300f
-        butDrag.setOnClickListener {
-            vp2.beginFakeDrag()
-            if (vp2.fakeDragBy(-300f)) {
-                vp2.endFakeDrag()
+        mBind?.butDrag?.setOnClickListener {
+            mBind?.vp2?.beginFakeDrag()
+            if (mBind?.vp2?.fakeDragBy(-300f)!!) {
+                mBind?.vp2?.endFakeDrag()
             }
         }
 
 //        vp2.isUserInputEnabled = false // 禁止 ViewPage2 滑动
     }
 
-    override fun lazyData() {
+    override fun initData() {
 //        vp2.adapter = vP2Adapter // 和 RecyclerView 的适配器一样使用
-        vp2.adapter =
+        mBind?.vp2?.adapter =
             AdapterFragmentPage(this) // 使用 Fragment
 
         // 实现一屏多页的效果,通过 RecyclerView 设置 Padding 来实现
-        vp2.apply {
+        mBind?.vp2?.apply {
             // 在VP2中,这个属性默认为-1,不会加载两边的Fragment,默认懒加载,
             // 可以设置预加载多少个Fragment,但只会执行到onStart(),只有可见时才会执行到onResume(),onResume中判断是否第一次加载数据就可以了
             // 如果Fragment数量多,由于缓存大小原因,来回滑动会频繁创建销毁Fragment,这个参数可以直接设置为 fragments.size()
@@ -68,10 +74,10 @@ class ViewPage2 : VMActivity() {
         cpt.addTransformer(MarginPageTransformer(10))  // 设置页面的间距
         cpt.addTransformer(ScaleInTransformer()) // 切换效果
 
-        vp2.setPageTransformer(cpt)
+        mBind?.vp2?.setPageTransformer(cpt)
 
         // 滑动事件监听根据需要重写,OnPageChangeCallback是个抽象类
-        vp2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+        mBind?.vp2?.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
             }

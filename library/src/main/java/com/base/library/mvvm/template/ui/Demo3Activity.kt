@@ -3,33 +3,33 @@ package com.base.library.mvvm.template.ui
 import android.content.Intent
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.base.library.R
+import com.base.library.databinding.BaseActivityTestBinding
 import com.base.library.mvvm.core.VMActivity
 import com.base.library.mvvm.template.viewmodel.Demo3ViewModel
-import com.base.library.view.BTitleBar
 import com.blankj.utilcode.util.LogUtils
-import kotlinx.android.synthetic.main.base_activity_test.*
 
 class Demo3Activity : VMActivity() {
 
     private val vmDemo3 by lazy { ViewModelProvider(this).get(Demo3ViewModel::class.java) }
 
+    private val mBind by lazy { BaseActivityTestBinding.inflate(layoutInflater) }
+
     override fun initArgs(intent: Intent?) = vmDemo3
 
     override fun initView() {
         super.initView()
-        setContentViewBar(R.layout.base_activity_test)
+        setContentView(mBind.root)
     }
 
-    override fun lazyData() {
-        getBTitleBar()?.setTvCenterText("MVVM 测试网络请求")
+    override fun initData() {
+        mBind.titleBar.title = "MVVM 测试网络请求"
 
-        article.setOnClickListener { vmDemo3.getArticle() }
-        chapters.setOnClickListener { vmDemo3.getChapters() }
-        login.setOnClickListener {
+        mBind?.article?.setOnClickListener { vmDemo3.getArticle() }
+        mBind?.chapters?.setOnClickListener { vmDemo3.getChapters() }
+        mBind?.login?.setOnClickListener {
             val map = mapOf(
-                "username" to userName.text.toString(),
-                "password" to passWord.text.toString()
+                "username" to mBind?.userName?.text.toString(),
+                "password" to mBind?.passWord?.text.toString()
             )
             vmDemo3.getLogin(map)
         }

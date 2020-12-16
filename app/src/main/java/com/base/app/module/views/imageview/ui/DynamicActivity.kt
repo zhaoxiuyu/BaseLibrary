@@ -2,7 +2,7 @@ package com.base.app.module.views.imageview.ui
 
 import android.content.Intent
 import android.widget.TextView
-import com.base.app.R
+import com.base.app.databinding.ActivityDynamicBinding
 import com.base.library.mvvm.core.VMActivity
 
 /**
@@ -10,18 +10,19 @@ import com.base.library.mvvm.core.VMActivity
  */
 class DynamicActivity : VMActivity() {
 
+    private val mBind by lazy { ActivityDynamicBinding.inflate(layoutInflater) }
+
     override fun initArgs(intent: Intent?) = null
 
     override fun initView() {
         super.initView()
-        setContentViewBar(R.layout.activity_dynamic)
+        setContentView(mBind.root)
     }
 
-    override fun lazyData() {
-        getBTitleBar()?.setTvCenterText("可设置宽高比的图片")
+    override fun initData() {
+        mBind.titleBar.title = "可设置宽高比的图片"
 
         val tv = TextView(this)
-
 
     }
 

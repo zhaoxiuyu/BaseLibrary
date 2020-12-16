@@ -2,10 +2,15 @@ package com.base.library.mvvm.core
 
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import androidx.viewbinding.ViewBinding
 import com.base.library.base.BFragment
 import com.base.library.rxhttp.RxRequest
 import rxhttp.wrapper.entity.Progress
+import java.lang.reflect.ParameterizedType
 
 abstract class VMFragment : BFragment(), OnHandleCallback {
 
@@ -13,9 +18,26 @@ abstract class VMFragment : BFragment(), OnHandleCallback {
 //abstract class VMFragment<VM : VMViewModel> : BFragment() {
 //    protected var vm: VM? = null
 
+//    lateinit var rootView: VB
+
     override fun initData(bundle: Bundle?) {
         dialogState()
     }
+
+    // 使用反射得到 ViewBinding 的 class
+//    private fun instantiation(parent: ViewGroup?) {
+//        val type = javaClass.genericSuperclass
+//        if (type is ParameterizedType) {
+//            val clazz = type.actualTypeArguments[0] as Class<VB>
+//            val method = clazz.getMethod(
+//                "inflate",
+//                LayoutInflater::class.java,
+//                ViewGroup::class.java,
+//                Boolean::class.java
+//            )
+//            rootView = method.invoke(null, layoutInflater, parent, false) as VB
+//        }
+//    }
 
     /**
      * 默认走这个里面的提示框流程和样式,实现类可以重写这个方法进行定制

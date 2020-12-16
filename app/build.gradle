@@ -1,6 +1,5 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.didi.dokit' //DoraemonKit插件
 apply plugin: "com.blankj.bus"
@@ -29,6 +28,11 @@ android {
 //            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a', 'x86', "x86_64"
         }
 
+    }
+
+    // 启用 viewBinding 来帮我们进行findviewbyid
+    buildFeatures {
+        viewBinding = true
     }
 
     //依赖库多的时候可能出现重复文件,通过 exclude 将重复的文件剔除

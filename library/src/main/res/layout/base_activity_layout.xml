@@ -66,4 +66,5 @@
             android:visibility="gone"
             tools:text="设置" />
     </com.base.library.view.BTitleBar>
+
 </LinearLayout>

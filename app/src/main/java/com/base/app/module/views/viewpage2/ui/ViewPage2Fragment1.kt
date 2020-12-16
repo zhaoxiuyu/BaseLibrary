@@ -1,20 +1,21 @@
 package com.base.app.module.views.viewpage2.ui
 
 import android.os.Bundle
-import com.base.app.R
+import com.base.app.databinding.Fragment123Viewpage2Binding
 import com.base.library.mvvm.core.VMFragment
 import com.blankj.utilcode.util.LogUtils
-import kotlinx.android.synthetic.main.fragment123_viewpage2.*
 
 class ViewPage2Fragment1 : VMFragment() {
 
+    private val mBind by lazy { Fragment123Viewpage2Binding.inflate(layoutInflater) }
+
     override fun initArgs(bundle: Bundle?) = null
 
-    override fun getContentView() = R.layout.fragment123_viewpage2
+    override fun initView() = mBind.root
 
     override fun initData(bundle: Bundle?) {
-        itemTv.text = "Fragment1"
-        itemTv.setOnClickListener {
+        mBind.itemTv.text = "Fragment1"
+        mBind.itemTv.setOnClickListener {
         }
     }
 

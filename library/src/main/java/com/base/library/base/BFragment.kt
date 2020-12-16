@@ -4,11 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.base.library.interfaces.MyXPopupListener
 import com.base.library.mvvm.core.VMViewModel
 import com.blankj.utilcode.util.CacheDiskStaticUtils
 import com.blankj.utilcode.util.LogUtils
-import com.gyf.immersionbar.components.ImmersionFragment
 import com.lxj.xpopup.XPopup
 import com.lxj.xpopup.core.BasePopupView
 import com.lxj.xpopup.interfaces.XPopupCallback
@@ -20,16 +20,13 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 /**
  * ImmersionOwner 用来在Fragment中实现沉浸式
  */
-abstract class BFragment : ImmersionFragment() {
+abstract class BFragment : Fragment() {
 
     abstract fun initArgs(bundle: Bundle?): VMViewModel?
     abstract fun initData(bundle: Bundle?)
-    abstract fun getContentView(): Int
+    abstract fun initView(): View
 
     var vm: VMViewModel? = null
-    private var mView: View? = null
-    private var container: ViewGroup? = null
-    private var inflater: LayoutInflater? = null
 
     val mApplication: BApplication by lazy { activity?.application as BApplication }
     private var xPopup: BasePopupView? = null
@@ -39,22 +36,13 @@ abstract class BFragment : ImmersionFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        this.inflater = inflater
-        this.container = container
-
         vm = initArgs(arguments)
-
-        mView = inflater.inflate(getContentView(), container, false)
-        return mView
+        return initView()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initData(savedInstanceState)
-    }
-
-    override fun initImmersionBar() {
-        // 在这里实现沉浸式代码
     }
 
     /**

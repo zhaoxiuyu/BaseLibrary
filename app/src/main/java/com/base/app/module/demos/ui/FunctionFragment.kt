@@ -4,24 +4,24 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.base.app.R
 import com.base.app.base.MyConstant
+import com.base.app.databinding.FragmentFunctionBinding
 import com.base.app.module.demos.adapter.FragmentAdapter
 import com.base.app.utils.MethodDatas
 import com.base.library.mvvm.core.VMFragment
 import com.base.library.mvvm.core.VMViewModel
+import com.blankj.utilcode.util.LogUtils
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemClickListener
-import kotlinx.android.synthetic.main.fragment_function.*
 
 class FunctionFragment : VMFragment(), OnItemClickListener {
+
+    private val mBind by lazy { FragmentFunctionBinding.inflate(layoutInflater) }
 
     private var param1: String? = null
     private var param2: String? = null
 
     private val mAdapter by lazy { FragmentAdapter() }
-
-    override fun getContentView() = R.layout.fragment_function
 
     override fun initArgs(bundle: Bundle?): VMViewModel? {
         arguments?.let {
@@ -31,14 +31,22 @@ class FunctionFragment : VMFragment(), OnItemClickListener {
         return null
     }
 
+    override fun initView() = mBind.root
+
     override fun initData(bundle: Bundle?) {
-        demos_function_fragment_rv.layoutManager = LinearLayoutManager(requireActivity())
-        demos_function_fragment_rv.adapter = mAdapter
-        demos_function_fragment_rv.addItemDecoration(MethodDatas.getDividerLinear(requireActivity()))
+        mBind.demosFunctionFragmentRv?.layoutManager = LinearLayoutManager(requireActivity())
+        mBind.demosFunctionFragmentRv?.adapter = mAdapter
+        mBind.demosFunctionFragmentRv?.addItemDecoration(
+            MethodDatas.getDividerLinear(
+                requireActivity()
+            )
+        )
 
         mAdapter.animationEnable = true
         mAdapter.setOnItemClickListener(this)
         mAdapter.setNewInstance(MethodDatas.getFunctionDescribe())
+
+        LogUtils.d("FunctionFragment")
     }
 
     override fun onItemClick(adapter: BaseQuickAdapter<*, *>, view: View, position: Int) {

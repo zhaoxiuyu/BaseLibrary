@@ -6,6 +6,7 @@ import com.base.library.base.BActivity
 import com.base.library.rxhttp.RxRequest
 import rxhttp.wrapper.entity.Progress
 
+
 /**
  * MVVM 模式的基础 Activity
  */
@@ -69,6 +70,19 @@ abstract class VMActivity : BActivity(), OnHandleCallback {
             finish()
         }
     }
+
+    // 使用反射得到 ViewBinding 的 class
+//    private fun instantiation(parent: ViewGroup?) {
+//        val type = javaClass.genericSuperclass
+//        val clazz = (type as ParameterizedType).actualTypeArguments[0] as Class<VB>
+//        val method = clazz.getMethod(
+//            "inflate",
+//            LayoutInflater::class.java,
+//            ViewGroup::class.java,
+//            Boolean::class.java
+//        )
+//        rootView = method.invoke(null, layoutInflater, parent, false) as VB
+//    }
 
     // 放到Base里面，父类可以统一操作，也可以留给子类重写
 //    abstract inner class OnCallback : OnHandleCallback {

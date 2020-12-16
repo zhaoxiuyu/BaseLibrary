@@ -1,7 +1,7 @@
 package com.base.library.mvp.template.ui
 
 import android.content.Intent
-import com.base.library.R
+import com.base.library.databinding.BaseActivityTestBinding
 import com.base.library.entitys.response.WanArticle
 import com.base.library.entitys.response.WanChapters
 import com.base.library.entitys.response.WanLogin
@@ -16,15 +16,17 @@ import kotlinx.android.synthetic.main.base_activity_test.*
  */
 class Demo1Activity : VPActivity<Demo1Contract.Presenter>(), Demo1Contract.View {
 
+    private val mBind by lazy { BaseActivityTestBinding.inflate(layoutInflater) }
+
     override fun initArgs(intent: Intent?) = null
 
     override fun initView() {
-        setContentViewBar(R.layout.base_activity_test)
+        setContentView(mBind.root)
         mPresenter = Demo1Presenter(this)
     }
 
-    override fun lazyData() {
-        getBTitleBar()?.setTvCenterText("MVP 测试网络请求")
+    override fun initData() {
+        mBind.titleBar.title = "MVP 测试网络请求"
 
         article.setOnClickListener { mPresenter?.getArticle() }
         chapters.setOnClickListener { mPresenter?.getChapters() }
