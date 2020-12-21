@@ -4,14 +4,14 @@ import android.content.Intent
 import androidx.fragment.app.Fragment
 import com.base.app.R
 import com.base.app.databinding.ActivityDemosBinding
-import com.base.library.mvvm.core.VMActivity
+import com.base.library.base.BActivity
 import com.blankj.utilcode.util.FragmentUtils
 import com.blankj.utilcode.util.LogUtils
 
 /**
  * 功能展示
  */
-class DemosActivity : VMActivity() {
+class DemosActivity : BActivity() {
 
     private val mBind by lazy { ActivityDemosBinding.inflate(layoutInflater) }
 
@@ -62,6 +62,8 @@ class DemosActivity : VMActivity() {
 
         showFragment(mUtilsFragment, "mUtilsFragment")
     }
+
+    override fun initObserve() = null
 
     private fun showFragment(fragment: Fragment, tag: String) {
         val findFragment = FragmentUtils.findFragment(supportFragmentManager, tag)

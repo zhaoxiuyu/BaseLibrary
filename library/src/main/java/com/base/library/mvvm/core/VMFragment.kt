@@ -2,15 +2,10 @@ package com.base.library.mvvm.core
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.lifecycle.Observer
-import androidx.viewbinding.ViewBinding
 import com.base.library.base.BFragment
 import com.base.library.rxhttp.RxRequest
 import rxhttp.wrapper.entity.Progress
-import java.lang.reflect.ParameterizedType
 
 abstract class VMFragment : BFragment(), OnHandleCallback {
 
@@ -20,9 +15,9 @@ abstract class VMFragment : BFragment(), OnHandleCallback {
 
 //    lateinit var rootView: VB
 
-    override fun initData(bundle: Bundle?) {
-        dialogState()
-    }
+//    override fun initData(bundle: Bundle?) {
+//        dialogState()
+//    }
 
     // 使用反射得到 ViewBinding 的 class
 //    private fun instantiation(parent: ViewGroup?) {
@@ -43,53 +38,47 @@ abstract class VMFragment : BFragment(), OnHandleCallback {
      * 默认走这个里面的提示框流程和样式,实现类可以重写这个方法进行定制
      * 如果Fragment和Activity公用同一个ViewModel,如果都注册了这个监听,那么Fragment和Activity都会收到回调
      */
-    open fun dialogState() {
-        vm?.dialogState?.observe(this, Observer { it.handler(this) })
-//        vm?.dialogState?.observe(this, Observer { it.handler(object : OnCallback() {}) })
-    }
-
-    override fun onLoading(mRequest: RxRequest) {
-        Log.v("OnHandleCallback", "onLoading \n" + mRequest.toBasicString())
-        if (!mRequest.silence) {
-            showLoading(null, mRequest.msg)
-        }
-    }
-
-    override fun onSuccess(mRequest: RxRequest) {
-        Log.v("OnHandleCallback", "onSuccess \n" + mRequest.toBasicString())
-        handleDialog(mRequest)
-    }
-
-    override fun onError(mRequest: RxRequest) {
-        Log.v("OnHandleCallback", "onError \n" + mRequest.toBasicString())
-        handleDialog(mRequest)
-    }
-
-    override fun onCompleted() {
-        Log.v("OnHandleCallback", "onCompleted")
-    }
-
-    override fun onProgress(progress: Progress?) {
-        Log.v("OnHandleCallback", "onProgress")
-    }
-
-    // 成功失败的回调，处理Dialog的逻辑是一样的
-    private fun handleDialog(mRequest: RxRequest) {
-        if (!mRequest.silence) {
-            // 不是静默加载 才调用关闭Dialog
-            dismissDialog()
-        }
-
-        // 成功失败 是否弹出提示
-        if (mRequest.finally) {
-            // 点击确定是否销毁页面
-            val df = getDismissFinish(mRequest.isFinish)
-            showDialog(content = mRequest.msg, confirmLi = df)
-        } else if (!mRequest.finally && mRequest.directFinish) {
-            // 不弹出提示框 并且 直接销毁页面
-            requireActivity().finish()
-        }
-    }
+//    open fun dialogState() {
+//        BViewModel()?.getState()?.observe(this, Observer { it.handler(this) })
+////        vm?.dialogState?.observe(this, Observer { it.handler(object : OnCallback() {}) })
+//    }
+//
+//    override fun onLoading(mRequest: RxRequest) {
+//        Log.v("OnHandleCallback", "onLoading")
+//        if (mRequest.showLoading) {
+//            showLoading(null, mRequest.msg)
+//        }
+//    }
+//
+//    override fun onSuccess(mRequest: RxRequest) {
+//        Log.v("OnHandleCallback", "onSuccess")
+//        // 网络请求是否弹出加载框，就对应的关闭
+//        if (mRequest.showLoading) dismissDialog()
+//        // 请求成功，是否弹窗提示
+//        if (mRequest.showSuccess) {
+//            val mListener = getDismissFinish(mRequest.successClickFinish)
+//            showDialog(content = mRequest.msg, confirmLi = mListener)
+//        }
+//    }
+//
+//    override fun onError(mRequest: RxRequest) {
+//        Log.v("OnHandleCallback", "onError")
+//        // 网络请求是否弹出加载框，就对应的关闭
+//        if (mRequest.showLoading) dismissDialog()
+//        // 请求失败，是否弹窗提示
+//        if (mRequest.showFail) {
+//            val mListener = getDismissFinish(mRequest.failClickFinish)
+//            showDialog(content = mRequest.msg, confirmLi = mListener)
+//        }
+//    }
+//
+//    override fun onCompleted() {
+//        Log.v("OnHandleCallback", "onCompleted")
+//    }
+//
+//    override fun onProgress(progress: Progress?) {
+//        Log.v("OnHandleCallback", "onProgress")
+//    }
 
     // 放到Base里面，父类可以统一操作，也可以留给子类重写
 //    abstract inner class OnCallback : OnHandleCallback {

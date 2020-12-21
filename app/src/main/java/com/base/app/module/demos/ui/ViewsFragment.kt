@@ -5,12 +5,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.base.app.base.MyConstant
-import com.base.app.databinding.FragmentUtilsBinding
 import com.base.app.databinding.FragmentViewsBinding
 import com.base.app.module.demos.adapter.FragmentAdapter
 import com.base.app.utils.MethodDatas
-import com.base.library.mvvm.core.VMFragment
-import com.base.library.mvvm.core.VMViewModel
+import com.base.library.base.BFragment
 import com.blankj.utilcode.util.LogUtils
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemClickListener
@@ -18,7 +16,7 @@ import com.chad.library.adapter.base.listener.OnItemClickListener
 /**
  * Views 控件类列表
  */
-class ViewsFragment : VMFragment(), OnItemClickListener {
+class ViewsFragment : BFragment(), OnItemClickListener {
 
     private val mBind by lazy { FragmentViewsBinding.inflate(layoutInflater) }
 
@@ -27,12 +25,11 @@ class ViewsFragment : VMFragment(), OnItemClickListener {
 
     private val mAdapter by lazy { FragmentAdapter() }
 
-    override fun initArgs(bundle: Bundle?): VMViewModel? {
+    override fun initArgs(bundle: Bundle?) {
         arguments?.let {
             param1 = it.getString(MyConstant.ARG_PARAM1)
             param2 = it.getString(MyConstant.ARG_PARAM2)
         }
-        return null
     }
 
     override fun initView() = mBind.root
@@ -48,6 +45,8 @@ class ViewsFragment : VMFragment(), OnItemClickListener {
 
         LogUtils.d("ViewsFragment")
     }
+
+    override fun initObserve() = null
 
     override fun onItemClick(adapter: BaseQuickAdapter<*, *>, view: View, position: Int) {
         mAdapter.getItem(position).cls?.let {

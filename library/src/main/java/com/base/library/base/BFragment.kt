@@ -1,12 +1,16 @@
 package com.base.library.base
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import com.base.library.interfaces.MyXPopupListener
-import com.base.library.mvvm.core.VMViewModel
+import com.base.library.mvvm.core.BViewModel
+import com.base.library.mvvm.core.OnHandleCallback
+import com.base.library.rxhttp.RxRequest
 import com.blankj.utilcode.util.CacheDiskStaticUtils
 import com.blankj.utilcode.util.LogUtils
 import com.lxj.xpopup.XPopup
@@ -16,17 +20,14 @@ import com.rxjava.rxlife.lifeOnMain
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.functions.Consumer
 import io.reactivex.rxjava3.schedulers.Schedulers
+import rxhttp.wrapper.entity.Progress
 
-/**
- * ImmersionOwner 用来在Fragment中实现沉浸式
- */
-abstract class BFragment : Fragment() {
+abstract class BFragment : Fragment(), OnHandleCallback {
 
-    abstract fun initArgs(bundle: Bundle?): VMViewModel?
+    abstract fun initArgs(bundle: Bundle?)
     abstract fun initData(bundle: Bundle?)
     abstract fun initView(): View
-
-    var vm: VMViewModel? = null
+    abstract fun initObserve(): MutableList<BViewModel>?
 
     val mApplication: BApplication by lazy { activity?.application as BApplication }
     private var xPopup: BasePopupView? = null
@@ -36,7 +37,12 @@ abstract class BFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        vm = initArgs(arguments)
+        initArgs(arguments)
+        initObserve()?.forEach { bViewModel ->
+            bViewModel.getState().observe(viewLifecycleOwner, Observer { state ->
+                state.handler(this)
+            })
+        }
         return initView()
     }
 
@@ -111,6 +117,46 @@ abstract class BFragment : Fragment() {
                 activity?.finish()
             }
         }
+    }
+
+    /**
+     * 状态的回调
+     */
+    override fun onLoading(mRequest: RxRequest) {
+        Log.v("OnHandleCallback", "onLoading")
+        if (mRequest.showLoading) {
+            showLoading(null, mRequest.msg)
+        }
+    }
+
+    override fun onSuccess(mRequest: RxRequest) {
+        Log.v("OnHandleCallback", "onSuccess")
+        // 网络请求是否弹出加载框，就对应的关闭
+        if (mRequest.showLoading) dismissDialog()
+        // 请求成功，是否弹窗提示
+        if (mRequest.showSuccess) {
+            val mListener = getDismissFinish(mRequest.successClickFinish)
+            showDialog(content = mRequest.msg, confirmLi = mListener)
+        }
+    }
+
+    override fun onError(mRequest: RxRequest) {
+        Log.v("OnHandleCallback", "onError")
+        // 网络请求是否弹出加载框，就对应的关闭
+        if (mRequest.showLoading) dismissDialog()
+        // 请求失败，是否弹窗提示
+        if (mRequest.showFail) {
+            val mListener = getDismissFinish(mRequest.failClickFinish)
+            showDialog(content = mRequest.msg, confirmLi = mListener)
+        }
+    }
+
+    override fun onCompleted() {
+        Log.v("OnHandleCallback", "onCompleted")
+    }
+
+    override fun onProgress(progress: Progress?) {
+        Log.v("OnHandleCallback", "onProgress")
     }
 
     /**

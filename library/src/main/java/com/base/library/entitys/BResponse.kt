@@ -20,8 +20,8 @@ class BResponse<T> {
         return status == 200 || errorCode == 0 || code == "200"
     }
 
-    fun isMsg(): String {
-        return message ?: errorMsg ?: msg
+    fun showMsg(): String {
+        return message ?: errorMsg ?: msg ?: ""
     }
 
 }

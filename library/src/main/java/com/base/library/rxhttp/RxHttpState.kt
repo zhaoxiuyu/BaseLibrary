@@ -32,7 +32,6 @@ class RxHttpState(var state: Int) {
         val COMPLETED: Int = 3 // 完成
         val PROGRESS: Int = 4 // 进度，下载或者上传
 
-
         // 加载状态的对象
         fun Loading(mRequest: RxRequest): RxHttpState {
             val mRxHttpState = RxHttpState(LOADING)

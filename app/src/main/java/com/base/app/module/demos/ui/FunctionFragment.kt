@@ -8,13 +8,12 @@ import com.base.app.base.MyConstant
 import com.base.app.databinding.FragmentFunctionBinding
 import com.base.app.module.demos.adapter.FragmentAdapter
 import com.base.app.utils.MethodDatas
-import com.base.library.mvvm.core.VMFragment
-import com.base.library.mvvm.core.VMViewModel
+import com.base.library.base.BFragment
 import com.blankj.utilcode.util.LogUtils
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemClickListener
 
-class FunctionFragment : VMFragment(), OnItemClickListener {
+class FunctionFragment : BFragment(), OnItemClickListener {
 
     private val mBind by lazy { FragmentFunctionBinding.inflate(layoutInflater) }
 
@@ -23,12 +22,11 @@ class FunctionFragment : VMFragment(), OnItemClickListener {
 
     private val mAdapter by lazy { FragmentAdapter() }
 
-    override fun initArgs(bundle: Bundle?): VMViewModel? {
+    override fun initArgs(bundle: Bundle?) {
         arguments?.let {
             param1 = it.getString(MyConstant.ARG_PARAM1)
             param2 = it.getString(MyConstant.ARG_PARAM2)
         }
-        return null
     }
 
     override fun initView() = mBind.root
@@ -48,6 +46,8 @@ class FunctionFragment : VMFragment(), OnItemClickListener {
 
         LogUtils.d("FunctionFragment")
     }
+
+    override fun initObserve() = null
 
     override fun onItemClick(adapter: BaseQuickAdapter<*, *>, view: View, position: Int) {
         mAdapter.getItem(position).cls?.let {

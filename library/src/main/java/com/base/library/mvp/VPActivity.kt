@@ -5,6 +5,7 @@ import com.base.library.base.BActivity
 import com.base.library.interfaces.MyXPopupListener
 import com.base.library.mvp.core.VPPresenter
 import com.base.library.mvp.core.VPView
+import com.base.library.mvvm.core.BViewModel
 import com.lxj.xpopup.interfaces.OnCancelListener
 import com.lxj.xpopup.interfaces.OnConfirmListener
 import com.lxj.xpopup.interfaces.XPopupCallback
@@ -21,6 +22,8 @@ abstract class VPActivity<T : VPPresenter> : BActivity(), VPView {
         super.onCreate(savedInstanceState)
         mPresenter?.let { lifecycle.addObserver(it) }
     }
+
+    override fun initObserve() = null
 
     override fun getContext() = this
 

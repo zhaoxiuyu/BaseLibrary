@@ -4,11 +4,11 @@ import android.content.Intent
 import androidx.viewpager2.widget.ViewPager2
 import com.base.app.databinding.ActivityTabLayoutBinding
 import com.base.app.module.views.tablayout.adapter.StatisticsVp2Adapter
-import com.base.library.mvvm.core.VMActivity
+import com.base.library.base.BActivity
 import com.blankj.utilcode.util.LogUtils
 import com.google.android.material.tabs.TabLayoutMediator
 
-class TabLayoutActivity : VMActivity() {
+class TabLayoutActivity : BActivity() {
 
     private val titles = mutableListOf("概况", "日租房", "钟点房", "出租率", "渠道")
     private val fragments by lazy {
@@ -56,5 +56,7 @@ class TabLayoutActivity : VMActivity() {
         }
 
     }
+
+    override fun initObserve() = null
 
 }

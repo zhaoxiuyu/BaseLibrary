@@ -12,11 +12,11 @@ import com.base.app.module.views.viewpage2.adapter.AdapterFragmentPage
 import com.base.app.module.views.viewpage2.adapter.VP2Adapter
 import com.base.app.module.views.viewpage2.transformer.ScaleInTransformer
 import com.base.app.utils.MethodDatas
-import com.base.library.mvvm.core.VMActivity
+import com.base.library.base.BActivity
 import com.blankj.utilcode.util.BusUtils
 import com.blankj.utilcode.util.LogUtils
 
-class ViewPage2 : VMActivity() {
+class ViewPage2 : BActivity() {
 
     private val mBind by lazy { ActivityViewpage2Binding.inflate(layoutInflater) }
 
@@ -29,7 +29,6 @@ class ViewPage2 : VMActivity() {
     override fun initArgs(intent: Intent?) = null
 
     override fun initView() {
-        super.initView()
         setContentView(mBind.root)
 
         mBind?.butVertical?.setOnClickListener {
@@ -83,6 +82,8 @@ class ViewPage2 : VMActivity() {
             }
         })
     }
+
+    override fun initObserve() = null
 
     @BusUtils.Bus(tag = MyConstant.TAG_NO_PARAM)
     fun oneParamFun(triple: Triple<String, Boolean, Any>) {

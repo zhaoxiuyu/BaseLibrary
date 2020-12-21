@@ -6,8 +6,8 @@ import okhttp3.FormBody
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
+import rxhttp.wrapper.param.RxHttp
 import rxhttp.wrapper.parse.SimpleParser
-import rxhttpLibrary.RxHttp
 import java.io.IOException
 
 /**

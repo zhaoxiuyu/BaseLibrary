@@ -3,7 +3,6 @@ package com.base.library.mvvm.core
 import android.graphics.Bitmap
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.base.library.entitys.BResponse
 import com.base.library.mvp.core.SuccessCall
 import com.base.library.rxhttp.RxHttpState
@@ -22,10 +21,7 @@ import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 import java.util.concurrent.TimeoutException
 
-/**
- * 作用：基础的 ViewModel 类，封装了网络请求 返回 取消等处理
- */
-open class VMViewModel : ViewModel() {
+open class BRepository {
 
     private var compositeDisposable: CompositeDisposable? = null
 
@@ -35,18 +31,20 @@ open class VMViewModel : ViewModel() {
      * 响应数据 BResponse<Student.class>
      */
     fun <T> getResponse(
-        bRequest: RxRequest, clas: Class<T>,
-        liveData: MutableLiveData<BResponse<T>>? = null, call: SuccessCall<BResponse<T>>? = null
+        request: RxRequest,
+        clas: Class<T>,
+        liveData: MutableLiveData<BResponse<T>>? = null,
+        call: SuccessCall<BResponse<T>>? = null
     ) {
-        val disposable = bRequest.getRxHttp().asResponse(clas)
-            .compose(transformer(bRequest))
+        val disposable = request.getRxHttp().asResponse(clas)
+            .compose(transformer(request))
             .subscribe({
                 if (it.isSuccess()) {
-                    success(bRequest, it, liveData, call)
+                    success(request, it, liveData, call)
                 } else {
-                    error(bRequest, Throwable(it.isMsg()))
+                    error(request, Throwable(it.showMsg()))
                 }
-            }, { error(bRequest, it) })
+            }, { error(request, it) })
         addDisposable(disposable)
     }
 
@@ -54,19 +52,19 @@ open class VMViewModel : ViewModel() {
      * 响应数据 BResponse<MutableList<Student.class>>
      */
     fun <T> getResponseList(
-        bRequest: RxRequest, clas: Class<T>,
+        request: RxRequest, clas: Class<T>,
         liveData: MutableLiveData<BResponse<MutableList<T>>>? = null,
         call: SuccessCall<BResponse<MutableList<T>>>? = null
     ) {
-        val disposable = bRequest.getRxHttp().asResponseList(clas)
-            .compose(transformer(bRequest))
+        val disposable = request.getRxHttp().asResponseList(clas)
+            .compose(transformer(request))
             .subscribe({
                 if (it.isSuccess()) {
-                    success(bRequest, it, liveData, call)
+                    success(request, it, liveData, call)
                 } else {
-                    error(bRequest, Throwable(it.isMsg()))
+                    error(request, Throwable(it.showMsg()))
                 }
-            }, { error(bRequest, it) })
+            }, { error(request, it) })
         addDisposable(disposable)
     }
 
@@ -75,12 +73,13 @@ open class VMViewModel : ViewModel() {
      * 响应数据 Student.class
      */
     fun <T> getDataClass(
-        bRequest: RxRequest, clas: Class<T>,
-        liveData: MutableLiveData<T>? = null, call: SuccessCall<T>? = null
+        request: RxRequest, clas: Class<T>,
+        liveData: MutableLiveData<T>? = null,
+        call: SuccessCall<T>? = null
     ) {
-        val disposable = bRequest.getRxHttp().asClass(clas)
-            .compose(transformer(bRequest))
-            .subscribe({ success(bRequest, it, liveData, call) }, { error(bRequest, it) })
+        val disposable = request.getRxHttp().asClass(clas)
+            .compose(transformer(request))
+            .subscribe({ success(request, it, liveData, call) }, { error(request, it) })
         addDisposable(disposable)
     }
 
@@ -88,12 +87,13 @@ open class VMViewModel : ViewModel() {
      * 响应数据 MutableList<Student.class>
      */
     fun <T> getDataList(
-        bRequest: RxRequest, clas: Class<T>,
-        liveData: MutableLiveData<MutableList<T>>? = null, call: SuccessCall<MutableList<T>>? = null
+        request: RxRequest, clas: Class<T>,
+        liveData: MutableLiveData<MutableList<T>>? = null,
+        call: SuccessCall<MutableList<T>>? = null
     ) {
-        val disposable = bRequest.getRxHttp().asList(clas)
-            .compose(transformer(bRequest))
-            .subscribe({ success(bRequest, it, liveData, call) }, { error(bRequest, it) })
+        val disposable = request.getRxHttp().asList(clas)
+            .compose(transformer(request))
+            .subscribe({ success(request, it, liveData, call) }, { error(request, it) })
         addDisposable(disposable)
     }
 
@@ -101,12 +101,13 @@ open class VMViewModel : ViewModel() {
      * 响应数据 String
      */
     fun getDataString(
-        bRequest: RxRequest,
-        liveData: MutableLiveData<String>? = null, call: SuccessCall<String>? = null
+        request: RxRequest,
+        liveData: MutableLiveData<String>? = null,
+        call: SuccessCall<String>? = null
     ) {
-        val disposable = bRequest.getRxHttp().asString()
-            .compose(transformer(bRequest))
-            .subscribe({ success(bRequest, it, liveData, call) }, { error(bRequest, it) })
+        val disposable = request.getRxHttp().asString()
+            .compose(transformer(request))
+            .subscribe({ success(request, it, liveData, call) }, { error(request, it) })
         addDisposable(disposable)
     }
 
@@ -114,12 +115,13 @@ open class VMViewModel : ViewModel() {
      * 响应数据 Bitmap
      */
     fun <T> getDataBitmap(
-        bRequest: RxRequest,
-        liveData: MutableLiveData<Bitmap>? = null, call: SuccessCall<Bitmap>? = null
+        request: RxRequest,
+        liveData: MutableLiveData<Bitmap>? = null,
+        call: SuccessCall<Bitmap>? = null
     ) {
-        val disposable = bRequest.getRxHttp().asBitmap<Bitmap>()
-            .compose(transformer(bRequest))
-            .subscribe({ success(bRequest, it, liveData, call) }, { error(bRequest, it) })
+        val disposable = request.getRxHttp().asBitmap<Bitmap>()
+            .compose(transformer(request))
+            .subscribe({ success(request, it, liveData, call) }, { error(request, it) })
         addDisposable(disposable)
     }
 
@@ -127,39 +129,53 @@ open class VMViewModel : ViewModel() {
      * 响应数据 MutableList<Student.class>
      */
     fun <T> getDataMap(
-        bRequest: RxRequest, clas: Class<T>,
-        liveData: MutableLiveData<Map<T, T>>? = null, call: SuccessCall<Map<T, T>>? = null
+        request: RxRequest,
+        clas: Class<T>,
+        liveData: MutableLiveData<Map<T, T>>? = null,
+        call: SuccessCall<Map<T, T>>? = null
     ) {
-        val disposable = bRequest.getRxHttp().asMap(clas)
-            .compose(transformer(bRequest))
-            .subscribe({ success(bRequest, it, liveData, call) }, { error(bRequest, it) })
+        val disposable = request.getRxHttp().asMap(clas)
+            .compose(transformer(request))
+            .subscribe({ success(request, it, liveData, call) }, { error(request, it) })
         addDisposable(disposable)
     }
 
     private fun doOnSubscribe(bRequest: RxRequest) {
-        Log.d("VMViewModel", "请求开始")
+        Log.d("BRepository", "请求开始")
+        Log.d("BRepository", bRequest.print())
         dialogState.value = RxHttpState.Loading(bRequest)
     }
 
     private fun doFinally() {
-        Log.d("VMViewModel", "请求结束,Completed 不进行回调")
+        Log.d("BRepository", "请求结束,Completed 不进行回调")
     }
 
     open fun <T> success(
-        req: RxRequest, res: T, live: MutableLiveData<T>? = null, call: SuccessCall<T>? = null
+        request: RxRequest,
+        response: T,
+        live: MutableLiveData<T>? = null,
+        call: SuccessCall<T>? = null
     ) {
-        Log.d("VMViewModel", "请求成功")
-        req.msg = "成功"
-        dialogState.value = RxHttpState.Success(req)
-        live?.value = res
-        call?.accept(res)
+        Log.d("BRepository", "请求成功")
+        request.msg = "成功"
+
+        // 状态 通知
+        dialogState.value = RxHttpState.Success(request)
+        // LiveData 通知
+        response?.let { live?.value = it }
+        // 回调接口
+        call?.accept(response)
     }
 
     /**
      * 组织错误信息
      */
-    open fun error(req: RxRequest, throwable: Throwable?) {
-        Log.d("VMViewModel", "请求失败")
+    open fun error(
+        request: RxRequest,
+        throwable: Throwable?,
+        call: SuccessCall<RxRequest>? = null
+    ) {
+        Log.d("BRepository", "请求失败")
 
         val msg = if (throwable is UnknownHostException) {
             // 通过 OkHttpClient 设置的超时 引发的异常
@@ -186,20 +202,13 @@ open class VMViewModel : ViewModel() {
         } else {
             throwable?.message ?: "出现异常"
         }
-        req.msg = msg
-        dialogState.value = RxHttpState.Error(req)
+        request.msg = msg
+        // 状态 通知
+        dialogState.value = RxHttpState.Error(request)
+        // 回调接口
+        call?.accept(request)
 
         throwable?.printStackTrace()
-    }
-
-    /**
-     * 添加一个订阅事件
-     */
-    private fun addDisposable(disposable: Disposable) {
-        if (compositeDisposable == null) {
-            compositeDisposable = CompositeDisposable()
-        }
-        compositeDisposable?.add(disposable)
     }
 
     /**
@@ -214,12 +223,22 @@ open class VMViewModel : ViewModel() {
     }
 
     /**
+     * 添加一个订阅事件
+     */
+    private fun addDisposable(disposable: Disposable) {
+        if (compositeDisposable == null) {
+            compositeDisposable = CompositeDisposable()
+        }
+        compositeDisposable?.add(disposable)
+    }
+
+    /**
      * 页面销毁,切断所有订阅事件
      */
-    override fun onCleared() {
-        super.onCleared()
-        Log.d("VMViewModel", "onCleared")
+    fun cleared() {
+        Log.d("BRepository", "cleared")
         compositeDisposable?.dispose()
+        compositeDisposable = null
     }
 
 }

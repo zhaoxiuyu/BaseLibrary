@@ -18,8 +18,12 @@ class Demo1Presenter(view: Demo1Contract.View) : VPPresenterImpl<Demo1Contract.V
 
     // 首页文章列表
     override fun getArticle() {
-        val request = RxRequest(BConstant.article).build()
-        request.getRxHttp().setDomainTowanandroidIfAbsent()
+//        val request = RxRequest(BConstant.article).build()
+//        request.getRxHttp().setDomainTowanandroidIfAbsent()
+
+        val request = RxRequest(BConstant.article)
+        request.httpGet().setDomainTowanandroidIfAbsent()
+
         getResponse(request, WanArticle::class.java, object : SuccessCall<BResponse<WanArticle>> {
             override fun accept(bResponse: BResponse<WanArticle>) {
                 bResponse.data?.let { mView?.articleSuccess(it) }
@@ -30,8 +34,12 @@ class Demo1Presenter(view: Demo1Contract.View) : VPPresenterImpl<Demo1Contract.V
 
     // 获取公众号列表
     override fun getChapters() {
-        val request = RxRequest(BConstant.chapters).build()
-        request.getRxHttp().setDomainTowanandroidIfAbsent()
+//        val request = RxRequest(BConstant.chapters).build()
+//        request.getRxHttp().setDomainTowanandroidIfAbsent()
+
+        val request = RxRequest(BConstant.chapters)
+        request.httpGet().setDomainTowanandroidIfAbsent()
+
         getResponseList(
             request,
             WanChapters::class.java,
@@ -45,12 +53,16 @@ class Demo1Presenter(view: Demo1Contract.View) : VPPresenterImpl<Demo1Contract.V
 
     // 登录
     override fun getLogin(map: Map<String, String>) {
-        val request = RxRequest(
-            BConstant.login,
-            RxRequest.PostForm
-        ).apply {
-            paramMap = map
-        }.build()
+//        val request = RxRequest(
+//            BConstant.login,
+//            RxRequest.PostForm
+//        ).apply {
+//            paramMap = map
+//        }.build()
+
+        val request = RxRequest(BConstant.login)
+        request.httpPostForm().setDomainTowanandroidIfAbsent().addAll(map)
+
         request.getRxHttp().setDomainTowanandroidIfAbsent()
         getResponse(request, WanLogin::class.java, object : SuccessCall<BResponse<WanLogin>> {
             override fun accept(bResponse: BResponse<WanLogin>) {

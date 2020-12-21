@@ -3,9 +3,13 @@ package com.base.library.base
 import android.content.Intent
 import android.os.Bundle
 import android.os.Looper
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import com.base.library.interfaces.MyXPopupListener
-import com.base.library.mvvm.core.VMViewModel
+import com.base.library.mvvm.core.BViewModel
+import com.base.library.mvvm.core.OnHandleCallback
+import com.base.library.rxhttp.RxRequest
 import com.blankj.utilcode.util.CacheDiskStaticUtils
 import com.blankj.utilcode.util.LogUtils
 import com.lxj.xpopup.XPopup
@@ -15,21 +19,26 @@ import com.rxjava.rxlife.lifeOnMain
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.functions.Consumer
 import io.reactivex.rxjava3.schedulers.Schedulers
+import rxhttp.wrapper.entity.Progress
 
-abstract class BActivity : AppCompatActivity() {
+abstract class BActivity : AppCompatActivity(), OnHandleCallback {
 
-    abstract fun initArgs(intent: Intent?): VMViewModel?
+    abstract fun initArgs(intent: Intent?): BViewModel?
     abstract fun initView()
     abstract fun initData()
+    abstract fun initObserve(): MutableList<BViewModel>?
 
-    var vm: VMViewModel? = null
     val mApplication: BApplication by lazy { application as BApplication }
     private var xPopup: BasePopupView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        vm = initArgs(intent)
+        initArgs(intent)
+
+        initObserve()?.forEach { bViewModel ->
+            bViewModel.getState().observe(this, Observer { state -> state.handler(this) })
+        }
 
         initView()
 
@@ -112,6 +121,46 @@ abstract class BActivity : AppCompatActivity() {
                 finish()
             }
         }
+    }
+
+    /**
+     * 状态的回调
+     */
+    override fun onLoading(mRequest: RxRequest) {
+        Log.d("OnHandleCallback", "onLoading")
+        if (mRequest.showLoading) {
+            showLoading(null, mRequest.msg)
+        }
+    }
+
+    override fun onSuccess(mRequest: RxRequest) {
+        Log.d("OnHandleCallback", "onSuccess")
+        // 网络请求是否弹出加载框，就对应的关闭
+        if (mRequest.showLoading) dismissDialog()
+        // 请求成功，是否弹窗提示
+        if (mRequest.showSuccess) {
+            val mListener = getDismissFinish(mRequest.successClickFinish)
+            showDialog(content = mRequest.msg, confirmLi = mListener)
+        }
+    }
+
+    override fun onError(mRequest: RxRequest) {
+        Log.d("OnHandleCallback", "onError")
+        // 网络请求是否弹出加载框，就对应的关闭
+        if (mRequest.showLoading) dismissDialog()
+        // 请求失败，是否弹窗提示
+        if (mRequest.showFail) {
+            val mListener = getDismissFinish(mRequest.failClickFinish)
+            showDialog(content = mRequest.msg, confirmLi = mListener)
+        }
+    }
+
+    override fun onCompleted() {
+        Log.d("OnHandleCallback", "onCompleted")
+    }
+
+    override fun onProgress(progress: Progress?) {
+        Log.d("OnHandleCallback", "onProgress")
     }
 
     override fun onDestroy() {

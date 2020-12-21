@@ -9,10 +9,16 @@ import com.base.library.rxhttp.RxHttpParamAssembly
 import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.Utils
 import com.lxj.xpopup.XPopup
+import okhttp3.OkHttpClient
 import org.litepal.LitePal
 import rxhttp.RxHttpPlugins
-import rxhttpLibrary.RxHttp
+import rxhttp.wrapper.cahce.CacheMode
+import rxhttp.wrapper.cookie.CookieStore
+import rxhttp.wrapper.param.RxHttp
+import rxhttp.wrapper.ssl.HttpsUtils
 import java.io.File
+import java.util.concurrent.TimeUnit
+import javax.net.ssl.HostnameVerifier
 
 /**
  * 作用: 程序的入口
@@ -46,7 +52,19 @@ open class BApplication : MultiDexApplication() {
      * 初始化R下Http
      */
     open fun initRxHttp() {
+        val sslParams = HttpsUtils.getSslSocketFactory()
+        val client = OkHttpClient.Builder()
+            .cookieJar(CookieStore())
+            .connectTimeout(10, TimeUnit.SECONDS)
+            .readTimeout(10, TimeUnit.SECONDS)
+            .writeTimeout(10, TimeUnit.SECONDS)
+            .sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager) // 添加信任证书
+            .hostnameVerifier(HostnameVerifier { _, _ -> true }) // 忽略 host 验证
+            .build()
+
         // 初始化
+        RxHttp.init(client, BuildConfig.DEBUG)
+        // DEBUG 模式，分段打印内容
         RxHttp.setDebug(BuildConfig.DEBUG, true)
         // 为所有的请求添加公共参数/请求头
         RxHttp.setOnParamAssembly(RxHttpParamAssembly())
@@ -54,8 +72,8 @@ open class BApplication : MultiDexApplication() {
         RxHttp.setResultDecoder(RxHttpDecoder())
         // 目录为 Android/data/{app包名目录}/cache/RxHttpCache
         val cacheDir = File(Utils.getApp().externalCacheDir, "RxHttpCache")
-        // 目录,缓存大小10M,默认不缓存,且缓存永久有效
-        RxHttpPlugins.setCache(cacheDir, 10 * 1024 * 1024)
+        // 目录,缓存10M 超过10M根据LRU算法自动清除最近最少使用缓存,默认不缓存,且缓存永久有效
+        RxHttpPlugins.setCache(cacheDir, 10 * 1024 * 1024, CacheMode.ONLY_NETWORK, -1)
     }
 
 }

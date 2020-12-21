@@ -9,7 +9,6 @@ import com.base.library.mvp.VPActivity
 import com.base.library.mvp.template.contract.Demo1Contract
 import com.base.library.mvp.template.presenter.Demo1Presenter
 import com.blankj.utilcode.util.LogUtils
-import kotlinx.android.synthetic.main.base_activity_test.*
 
 /**
  * 作用: 使用案例,Activity使用自己定义的Contract和Presenter
@@ -28,12 +27,12 @@ class Demo1Activity : VPActivity<Demo1Contract.Presenter>(), Demo1Contract.View 
     override fun initData() {
         mBind.titleBar.title = "MVP 测试网络请求"
 
-        article.setOnClickListener { mPresenter?.getArticle() }
-        chapters.setOnClickListener { mPresenter?.getChapters() }
-        login.setOnClickListener {
+        mBind.article.setOnClickListener { mPresenter?.getArticle() }
+        mBind.chapters.setOnClickListener { mPresenter?.getChapters() }
+        mBind.login.setOnClickListener {
             val map = mapOf(
-                "username" to userName.text.toString(),
-                "password" to passWord.text.toString()
+                "username" to mBind.userName.text.toString(),
+                "password" to mBind.passWord.text.toString()
             )
             mPresenter?.getLogin(map)
         }

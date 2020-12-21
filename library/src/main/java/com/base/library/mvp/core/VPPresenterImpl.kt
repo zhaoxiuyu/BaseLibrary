@@ -37,12 +37,12 @@ open class VPPresenterImpl<T : VPView?>(var mView: T?) : VPPresenter, VPCallback
         call: SuccessCall<BResponse<T>>?
     ) {
         val disposable = bRequest.getRxHttp().asResponse(clas)
-            .compose(transformer(bRequest.silence))
+            .compose(transformer(bRequest.showLoading))
             .subscribe({
                 if (it.isSuccess()) {
                     success(bRequest, it, call)
                 } else {
-                    error(bRequest, Throwable(it.isMsg()))
+                    error(bRequest, Throwable(it.showMsg()))
                 }
             }, { error(bRequest, it) })
         addDisposable(disposable)
@@ -57,12 +57,12 @@ open class VPPresenterImpl<T : VPView?>(var mView: T?) : VPPresenter, VPCallback
         call: SuccessCall<BResponse<MutableList<T>>>?
     ) {
         val disposable = bRequest.getRxHttp().asResponseList(clas)
-            .compose(transformer(bRequest.silence))
+            .compose(transformer(bRequest.showLoading))
             .subscribe({
                 if (it.isSuccess()) {
                     success(bRequest, it, call)
                 } else {
-                    error(bRequest, Throwable(it.isMsg()))
+                    error(bRequest, Throwable(it.showMsg()))
                 }
             }, { error(bRequest, it) })
         addDisposable(disposable)
@@ -73,7 +73,7 @@ open class VPPresenterImpl<T : VPView?>(var mView: T?) : VPPresenter, VPCallback
      */
     override fun <T> getDataClass(bRequest: RxRequest, clas: Class<T>, call: SuccessCall<T>?) {
         val disposable = bRequest.getRxHttp().asClass(clas)
-            .compose(transformer(bRequest.silence))
+            .compose(transformer(bRequest.showLoading))
             .subscribe({ success(bRequest, it, call) }, { error(bRequest, it) })
         addDisposable(disposable)
     }
@@ -87,7 +87,7 @@ open class VPPresenterImpl<T : VPView?>(var mView: T?) : VPPresenter, VPCallback
         call: SuccessCall<MutableList<T>>?
     ) {
         val disposable = bRequest.getRxHttp().asList(clas)
-            .compose(transformer(bRequest.silence))
+            .compose(transformer(bRequest.showLoading))
             .subscribe({ success(bRequest, it, call) }, { error(bRequest, it) })
         addDisposable(disposable)
     }
@@ -97,7 +97,7 @@ open class VPPresenterImpl<T : VPView?>(var mView: T?) : VPPresenter, VPCallback
      */
     override fun getDataString(bRequest: RxRequest, call: SuccessCall<String>?) {
         val disposable = bRequest.getRxHttp().asString()
-            .compose(transformer(bRequest.silence))
+            .compose(transformer(bRequest.showLoading))
             .subscribe({ success(bRequest, it, call) }, { error(bRequest, it) })
         addDisposable(disposable)
     }
@@ -107,7 +107,7 @@ open class VPPresenterImpl<T : VPView?>(var mView: T?) : VPPresenter, VPCallback
      */
     override fun getDataBitmap(bRequest: RxRequest, call: SuccessCall<Bitmap>?) {
         val disposable = bRequest.getRxHttp().asBitmap<Bitmap>()
-            .compose(transformer(bRequest.silence))
+            .compose(transformer(bRequest.showLoading))
             .subscribe({ success(bRequest, it, call) }, { error(bRequest, it) })
         addDisposable(disposable)
     }
@@ -121,7 +121,7 @@ open class VPPresenterImpl<T : VPView?>(var mView: T?) : VPPresenter, VPCallback
         call: SuccessCall<Map<T, T>>?
     ) {
         val disposable = bRequest.getRxHttp().asMap(clas)
-            .compose(transformer(bRequest.silence))
+            .compose(transformer(bRequest.showLoading))
             .subscribe({ success(bRequest, it, call) }, { error(bRequest, it) })
         addDisposable(disposable)
     }
@@ -176,8 +176,8 @@ open class VPPresenterImpl<T : VPView?>(var mView: T?) : VPPresenter, VPCallback
         /**
          * 不属于静默加载才弹窗
          */
-        if (!bRequest.silence) {
-            val fl = if (bRequest.isFinish) mView?.getDismissFinishListener() else null
+        if (bRequest.showLoading) {
+            val fl = if (bRequest.showFail) mView?.getDismissFinishListener() else null
             mView?.showDialog(title = "异常提示", content = msg, confirmLi = fl)
         }
 
