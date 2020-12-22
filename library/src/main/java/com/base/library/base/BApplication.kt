@@ -4,8 +4,10 @@ import androidx.core.content.ContextCompat
 import androidx.multidex.MultiDexApplication
 import com.base.library.BuildConfig
 import com.base.library.R
+import com.base.library.custom.GlobalAdapter
 import com.base.library.rxhttp.RxHttpDecoder
 import com.base.library.rxhttp.RxHttpParamAssembly
+import com.billy.android.loading.Gloading
 import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.Utils
 import com.lxj.xpopup.XPopup
@@ -32,6 +34,8 @@ open class BApplication : MultiDexApplication() {
         LitePal.initialize(this)
         XPopup.setPrimaryColor(ContextCompat.getColor(this, R.color.color_03A9F4))
 
+        Gloading.debug(true)
+        Gloading.initDefault(GlobalAdapter())
     }
 
     /**

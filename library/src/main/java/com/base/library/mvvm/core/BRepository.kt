@@ -114,7 +114,7 @@ open class BRepository {
     /**
      * 响应数据 Bitmap
      */
-    fun <T> getDataBitmap(
+    fun getDataBitmap(
         request: RxRequest,
         liveData: MutableLiveData<Bitmap>? = null,
         call: SuccessCall<Bitmap>? = null

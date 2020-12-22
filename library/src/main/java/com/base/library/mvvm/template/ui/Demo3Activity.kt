@@ -1,6 +1,7 @@
 package com.base.library.mvvm.template.ui
 
 import android.content.Intent
+import android.os.Handler
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.base.library.base.BActivity
@@ -17,11 +18,19 @@ class Demo3Activity : BActivity() {
     override fun initArgs(intent: Intent?) = null
 
     override fun initView() {
-        setContentView(mBind.root)
+        setContentViewBar(mBind.root)
+        setGloading(mBind.root)
+
+        getGloadingHolder()?.showLoading()
+
+        Handler().postDelayed({
+            getGloadingHolder()?.showLoadSuccess()
+        }, 2000)
+
     }
 
     override fun initData() {
-        mBind.titleBar.title = "MVVM 测试网络请求"
+        getTitleBar().title = "MVVM 测试网络请求"
 
         mBind.article?.setOnClickListener {
             mViewModel.getArticle()

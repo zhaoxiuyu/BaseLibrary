@@ -10,7 +10,7 @@ interface VPCallback {
     /**
      * 请求之前调用
      */
-    fun doOnSubscribe(silence: Boolean)
+    fun doOnSubscribe(request: RxRequest)
 
     /**
      * 请求结束

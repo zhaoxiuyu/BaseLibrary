@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import android.util.Log
 import androidx.lifecycle.LifecycleOwner
 import com.base.library.entitys.BResponse
+import com.base.library.interfaces.MyLifecycle
 import com.base.library.rxhttp.RxRequest
 import com.blankj.utilcode.util.GsonUtils
 import com.blankj.utilcode.util.LogUtils
@@ -24,27 +25,28 @@ import java.util.concurrent.TimeoutException
  * 作用：P层的基础实现类
  * 实现了网络请求 返回 取消等处理
  */
-open class VPPresenterImpl<T : VPView?>(var mView: T?) : VPPresenter, VPCallback {
+open class VPPresenterImpl<T : VPView?>(var mView: T?) : VPPresenter, VPCallback, MyLifecycle {
 
     private var compositeDisposable: CompositeDisposable? = null
 
     /**
      * 响应数据 BResponse<Student.class>
      */
+
     override fun <T> getResponse(
-        bRequest: RxRequest,
+        request: RxRequest,
         clas: Class<T>,
         call: SuccessCall<BResponse<T>>?
     ) {
-        val disposable = bRequest.getRxHttp().asResponse(clas)
-            .compose(transformer(bRequest.showLoading))
+        val disposable = request.getRxHttp().asResponse(clas)
+            .compose(transformer(request))
             .subscribe({
                 if (it.isSuccess()) {
-                    success(bRequest, it, call)
+                    success(request, it, call)
                 } else {
-                    error(bRequest, Throwable(it.showMsg()))
+                    error(request, Throwable(it.showMsg()))
                 }
-            }, { error(bRequest, it) })
+            }, { error(request, it) })
         addDisposable(disposable)
     }
 
@@ -52,29 +54,32 @@ open class VPPresenterImpl<T : VPView?>(var mView: T?) : VPPresenter, VPCallback
      * 响应数据 BResponse<MutableList<Student.class>>
      */
     override fun <T> getResponseList(
-        bRequest: RxRequest,
-        clas: Class<T>,
+        request: RxRequest, clas: Class<T>,
         call: SuccessCall<BResponse<MutableList<T>>>?
     ) {
-        val disposable = bRequest.getRxHttp().asResponseList(clas)
-            .compose(transformer(bRequest.showLoading))
+        val disposable = request.getRxHttp().asResponseList(clas)
+            .compose(transformer(request))
             .subscribe({
                 if (it.isSuccess()) {
-                    success(bRequest, it, call)
+                    success(request, it, call)
                 } else {
-                    error(bRequest, Throwable(it.showMsg()))
+                    error(request, Throwable(it.showMsg()))
                 }
-            }, { error(bRequest, it) })
+            }, { error(request, it) })
         addDisposable(disposable)
     }
+
 
     /**
      * 响应数据 Student.class
      */
-    override fun <T> getDataClass(bRequest: RxRequest, clas: Class<T>, call: SuccessCall<T>?) {
-        val disposable = bRequest.getRxHttp().asClass(clas)
-            .compose(transformer(bRequest.showLoading))
-            .subscribe({ success(bRequest, it, call) }, { error(bRequest, it) })
+    override fun <T> getDataClass(
+        request: RxRequest, clas: Class<T>,
+        call: SuccessCall<T>?
+    ) {
+        val disposable = request.getRxHttp().asClass(clas)
+            .compose(transformer(request))
+            .subscribe({ success(request, it, call) }, { error(request, it) })
         addDisposable(disposable)
     }
 
@@ -82,33 +87,35 @@ open class VPPresenterImpl<T : VPView?>(var mView: T?) : VPPresenter, VPCallback
      * 响应数据 MutableList<Student.class>
      */
     override fun <T> getDataList(
-        bRequest: RxRequest,
-        clas: Class<T>,
+        request: RxRequest, clas: Class<T>,
         call: SuccessCall<MutableList<T>>?
     ) {
-        val disposable = bRequest.getRxHttp().asList(clas)
-            .compose(transformer(bRequest.showLoading))
-            .subscribe({ success(bRequest, it, call) }, { error(bRequest, it) })
+        val disposable = request.getRxHttp().asList(clas)
+            .compose(transformer(request))
+            .subscribe({ success(request, it, call) }, { error(request, it) })
         addDisposable(disposable)
     }
 
     /**
      * 响应数据 String
      */
-    override fun getDataString(bRequest: RxRequest, call: SuccessCall<String>?) {
-        val disposable = bRequest.getRxHttp().asString()
-            .compose(transformer(bRequest.showLoading))
-            .subscribe({ success(bRequest, it, call) }, { error(bRequest, it) })
+    override fun getDataString(
+        request: RxRequest,
+        call: SuccessCall<String>?
+    ) {
+        val disposable = request.getRxHttp().asString()
+            .compose(transformer(request))
+            .subscribe({ success(request, it, call) }, { error(request, it) })
         addDisposable(disposable)
     }
 
     /**
      * 响应数据 Bitmap
      */
-    override fun getDataBitmap(bRequest: RxRequest, call: SuccessCall<Bitmap>?) {
-        val disposable = bRequest.getRxHttp().asBitmap<Bitmap>()
-            .compose(transformer(bRequest.showLoading))
-            .subscribe({ success(bRequest, it, call) }, { error(bRequest, it) })
+    override fun getDataBitmap(request: RxRequest, call: SuccessCall<Bitmap>?) {
+        val disposable = request.getRxHttp().asBitmap<Bitmap>()
+            .compose(transformer(request))
+            .subscribe({ success(request, it, call) }, { error(request, it) })
         addDisposable(disposable)
     }
 
@@ -116,19 +123,21 @@ open class VPPresenterImpl<T : VPView?>(var mView: T?) : VPPresenter, VPCallback
      * 响应数据 MutableList<Student.class>
      */
     override fun <T> getDataMap(
-        bRequest: RxRequest,
+        request: RxRequest,
         clas: Class<T>,
         call: SuccessCall<Map<T, T>>?
     ) {
-        val disposable = bRequest.getRxHttp().asMap(clas)
-            .compose(transformer(bRequest.showLoading))
-            .subscribe({ success(bRequest, it, call) }, { error(bRequest, it) })
+        val disposable = request.getRxHttp().asMap(clas)
+            .compose(transformer(request))
+            .subscribe({ success(request, it, call) }, { error(request, it) })
         addDisposable(disposable)
     }
 
-    override fun doOnSubscribe(silence: Boolean) {
-        Log.d("VPPresenterImpl", "请求开始 是否静默加载 $silence")
-        if (!silence) {
+    override fun doOnSubscribe(request: RxRequest) {
+        Log.d("VPPresenterImpl", "请求开始")
+        Log.d("VPPresenterImpl", request.print())
+
+        if (request.showLoading) {
             mView?.showDialog()
         }
     }
@@ -201,10 +210,10 @@ open class VPPresenterImpl<T : VPView?>(var mView: T?) : VPPresenter, VPCallback
     /**
      * 变换 IO线程 -> Main线程
      */
-    private fun <T> transformer(silence: Boolean): ObservableTransformer<T, T> {
+    private fun <T> transformer(bRequest: RxRequest): ObservableTransformer<T, T> {
         return ObservableTransformer {
             it.observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe { doOnSubscribe(silence) }
+                .doOnSubscribe { doOnSubscribe(bRequest) }
                 .doFinally { doFinally() }
         }
     }
@@ -212,6 +221,7 @@ open class VPPresenterImpl<T : VPView?>(var mView: T?) : VPPresenter, VPCallback
     override fun onDestroy(owner: LifecycleOwner) {
         Log.d("VPPresenterImpl", "onDestroy")
         compositeDisposable?.dispose()
+        compositeDisposable = null
     }
 
 }

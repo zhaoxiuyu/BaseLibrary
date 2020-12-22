@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import com.base.library.databinding.BaseFragmentBinding
 import com.base.library.interfaces.MyXPopupListener
 import com.base.library.mvvm.core.BViewModel
 import com.base.library.mvvm.core.OnHandleCallback
@@ -29,6 +30,8 @@ abstract class BFragment : Fragment(), OnHandleCallback {
     abstract fun initView(): View
     abstract fun initObserve(): MutableList<BViewModel>?
 
+    private val bBind by lazy { BaseFragmentBinding.inflate(layoutInflater) }
+
     val mApplication: BApplication by lazy { activity?.application as BApplication }
     private var xPopup: BasePopupView? = null
 
@@ -49,6 +52,22 @@ abstract class BFragment : Fragment(), OnHandleCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initData(savedInstanceState)
+    }
+
+    /**
+     * --------------------- 通用的 TitleBar，避免每个 Fragment 都复写一遍 ---------------------
+     * 使用如下 ：  override fun initView() = setContentViewBar(mBind.root)
+     */
+    fun getTitleBar() = bBind.titleBar
+
+    fun setContentViewBar(view: View): View {
+        val lp = ViewGroup.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.MATCH_PARENT
+        )
+        view.layoutParams = lp
+        bBind.root.addView(view)
+        return bBind.root
     }
 
     /**

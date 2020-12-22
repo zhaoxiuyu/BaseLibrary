@@ -2,12 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/color_03A9F4"
     android:orientation="vertical">
-
-    <com.hjq.bar.TitleBar
-        android:id="@+id/titleBar"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_56" />
 
     <Button
         android:id="@+id/article"
@@ -26,6 +22,36 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="登录,操作异常" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/cg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="成功" />
+
+        <Button
+            android:id="@+id/sb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="失败" />
+
+        <Button
+            android:id="@+id/ksj"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="空" />
+
+        <Button
+            android:id="@+id/jzz"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="加载中" />
+    </LinearLayout>
 
     <EditText
         android:id="@+id/userName"

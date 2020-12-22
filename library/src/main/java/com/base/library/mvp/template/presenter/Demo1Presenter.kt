@@ -18,9 +18,6 @@ class Demo1Presenter(view: Demo1Contract.View) : VPPresenterImpl<Demo1Contract.V
 
     // 首页文章列表
     override fun getArticle() {
-//        val request = RxRequest(BConstant.article).build()
-//        request.getRxHttp().setDomainTowanandroidIfAbsent()
-
         val request = RxRequest(BConstant.article)
         request.httpGet().setDomainTowanandroidIfAbsent()
 
@@ -34,9 +31,6 @@ class Demo1Presenter(view: Demo1Contract.View) : VPPresenterImpl<Demo1Contract.V
 
     // 获取公众号列表
     override fun getChapters() {
-//        val request = RxRequest(BConstant.chapters).build()
-//        request.getRxHttp().setDomainTowanandroidIfAbsent()
-
         val request = RxRequest(BConstant.chapters)
         request.httpGet().setDomainTowanandroidIfAbsent()
 
@@ -53,13 +47,6 @@ class Demo1Presenter(view: Demo1Contract.View) : VPPresenterImpl<Demo1Contract.V
 
     // 登录
     override fun getLogin(map: Map<String, String>) {
-//        val request = RxRequest(
-//            BConstant.login,
-//            RxRequest.PostForm
-//        ).apply {
-//            paramMap = map
-//        }.build()
-
         val request = RxRequest(BConstant.login)
         request.httpPostForm().setDomainTowanandroidIfAbsent().addAll(map)
 

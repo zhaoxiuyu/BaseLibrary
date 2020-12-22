@@ -9,9 +9,6 @@ import rxhttp.wrapper.param.*
 class RxRequest(val url: String) {
 
     // 网络请求是否弹出加载框
-    var silence = true
-
-    // 网络请求是否弹出加载框
     var showLoading = true
 
     // 请求失败，是否弹窗提示
@@ -73,7 +70,7 @@ class RxRequest(val url: String) {
 
     fun print(): String {
         return if (BuildConfig.DEBUG) {
-            "RxRequest(url='$url', silence=$silence, showFail=$showFail, showSuccess=$showSuccess, failClickFinish=$failClickFinish, successClickFinish=$successClickFinish, method='$method', msg='$msg')"
+            "RxRequest(url='$url', showFail=$showFail, showSuccess=$showSuccess, failClickFinish=$failClickFinish, successClickFinish=$successClickFinish, method='$method', msg='$msg')"
         } else {
             ""
         }

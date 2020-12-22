@@ -1,10 +1,12 @@
 package com.base.library.mvvm.core
 
+import com.base.library.base.BActivity
+
 
 /**
  * MVVM 模式的基础 Activity
  */
-abstract class VMActivity() {
+abstract class VMActivity() : BActivity() {
 //abstract class VMActivity : BActivity(), OnHandleCallback {
 
     // 旧的使用方式

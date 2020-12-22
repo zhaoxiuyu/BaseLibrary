@@ -22,31 +22,22 @@ class DemosActivity : BActivity() {
     override fun initArgs(intent: Intent?) = null
 
     override fun initView() {
-        setContentView(mBind.root)
-
-        val sb = StringBuilder()
-        for (i in 1..10) {
-            val startTime1 = System.currentTimeMillis() //获取开始时间
-            ActivityDemosBinding.inflate(layoutInflater)
-            val endTime1 = System.currentTimeMillis() //获取结束时间
-            sb.append("ms2 = ${(endTime1 - startTime1)} \n")
-        }
-        LogUtils.d(sb)
+        setContentViewBar(mBind.root)
     }
 
     override fun initData() {
         mBind.bnv.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.nav_utils -> {
-                    mBind.titleBar.title = "工具类"
+                    getTitleBar().title = "工具类"
                     showFragment(mUtilsFragment, "mUtilsFragment")
                 }
                 R.id.nav_views -> {
-                    mBind.titleBar.title = "控件"
+                    getTitleBar().title = "控件"
                     showFragment(mViewsFragment, "mViewsFragment")
                 }
                 R.id.nav_function -> {
-                    mBind.titleBar.title = "测试功能"
+                    getTitleBar().title = "测试功能"
                     showFragment(mFunctionFragment, "mFunctionFragment")
                 }
             }

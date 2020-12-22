@@ -3,9 +3,7 @@ package com.base.library.mvp
 import android.os.Bundle
 import com.base.library.base.BActivity
 import com.base.library.interfaces.MyXPopupListener
-import com.base.library.mvp.core.VPPresenter
 import com.base.library.mvp.core.VPView
-import com.base.library.mvvm.core.BViewModel
 import com.lxj.xpopup.interfaces.OnCancelListener
 import com.lxj.xpopup.interfaces.OnConfirmListener
 import com.lxj.xpopup.interfaces.XPopupCallback
@@ -14,13 +12,13 @@ import io.reactivex.rxjava3.functions.Consumer
 /**
  * MVP 模式的基础 Activity
  */
-abstract class VPActivity<T : VPPresenter> : BActivity(), VPView {
+abstract class VPActivity : BActivity(), VPView {
 
-    var mPresenter: T? = null
+//    var mPresenter: T? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mPresenter?.let { lifecycle.addObserver(it) }
+//        mPresenter?.let { lifecycle.addObserver(it) }
     }
 
     override fun initObserve() = null

@@ -6,23 +6,20 @@ import android.view.View
 import android.view.ViewGroup
 import com.base.library.base.BFragment
 import com.base.library.interfaces.MyXPopupListener
-import com.base.library.mvp.core.VPPresenter
 import com.base.library.mvp.core.VPView
 import com.lxj.xpopup.interfaces.OnCancelListener
 import com.lxj.xpopup.interfaces.OnConfirmListener
 import com.lxj.xpopup.interfaces.XPopupCallback
 import io.reactivex.rxjava3.functions.Consumer
 
-abstract class VPFragment<T : VPPresenter> : BFragment(), VPView {
-
-    var mPresenter: T? = null
+abstract class VPFragment : BFragment(), VPView {
+//abstract class VPFragment<T : VPPresenter> : BFragment(), VPView {
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        mPresenter?.let { lifecycle.addObserver(it) }
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 

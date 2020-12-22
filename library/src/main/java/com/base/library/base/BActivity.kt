@@ -4,12 +4,16 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Looper
 import android.util.Log
+import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import com.base.library.databinding.BaseActivityBinding
 import com.base.library.interfaces.MyXPopupListener
 import com.base.library.mvvm.core.BViewModel
 import com.base.library.mvvm.core.OnHandleCallback
 import com.base.library.rxhttp.RxRequest
+import com.billy.android.loading.Gloading
 import com.blankj.utilcode.util.CacheDiskStaticUtils
 import com.blankj.utilcode.util.LogUtils
 import com.lxj.xpopup.XPopup
@@ -27,6 +31,8 @@ abstract class BActivity : AppCompatActivity(), OnHandleCallback {
     abstract fun initView()
     abstract fun initData()
     abstract fun initObserve(): MutableList<BViewModel>?
+
+    private val bBind by lazy { BaseActivityBinding.inflate(layoutInflater) }
 
     val mApplication: BApplication by lazy { application as BApplication }
     private var xPopup: BasePopupView? = null
@@ -53,13 +59,41 @@ abstract class BActivity : AppCompatActivity(), OnHandleCallback {
         }
     }
 
+    /**
+     * --------------------- 通用的 TitleBar，避免每个 Activity 都复写一遍 ---------------------
+     */
+    fun getTitleBar() = bBind.titleBar
+
+    fun setContentViewBar(view: View) {
+        val lp = ViewGroup.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.MATCH_PARENT
+        )
+        view.layoutParams = lp
+        bBind.root.addView(view)
+        setContentView(bBind.root)
+    }
+
+    /**
+     * --------------------- 为指定 View 设置各种状态布局 ---------------------
+     */
+    var mGloadingHolder: Gloading.Holder? = null
+    fun getGloadingHolder() = mGloadingHolder
+
+    fun setGloading(view: View) {
+        mGloadingHolder = Gloading.getDefault().wrap(view)
+    }
+
+    /**
+     * --------------------- 获取新的值需要重新 setIntent ---------------------
+     */
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         setIntent(intent)
     }
 
     /**
-     * ------------- 文件缓存 -------------
+     * --------------------- 文件缓存 ---------------------
      */
     open fun getCacheDisk(key: String, consumer: Consumer<String>) {
         Observable.just("获取缓存").map { CacheDiskStaticUtils.getString(key, "") }
@@ -76,7 +110,7 @@ abstract class BActivity : AppCompatActivity(), OnHandleCallback {
     }
 
     /**
-     * ------------- 提示框 -------------
+     * --------------------- 提示框 ---------------------
      */
     fun showLoading(xPopupCallback: XPopupCallback? = null, msg: String? = "请稍候") {
         xPopup?.dismiss()
@@ -124,7 +158,7 @@ abstract class BActivity : AppCompatActivity(), OnHandleCallback {
     }
 
     /**
-     * 状态的回调
+     * --------------------- 状态的回调 ---------------------
      */
     override fun onLoading(mRequest: RxRequest) {
         Log.d("OnHandleCallback", "onLoading")
@@ -164,8 +198,8 @@ abstract class BActivity : AppCompatActivity(), OnHandleCallback {
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         dismissDialog(false)
+        super.onDestroy()
     }
 
 }

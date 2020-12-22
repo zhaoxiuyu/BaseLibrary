@@ -13,22 +13,28 @@ import com.blankj.utilcode.util.LogUtils
 /**
  * 作用: 使用案例,Activity使用自己定义的Contract和Presenter
  */
-class Demo1Activity : VPActivity<Demo1Contract.Presenter>(), Demo1Contract.View {
+class Demo1Activity : VPActivity(), Demo1Contract.View {
+//class Demo1Activity : VPActivity<Demo1Contract.Presenter>(), Demo1Contract.View {
 
+    private val mPresenter by lazy { Demo1Presenter(this) }
     private val mBind by lazy { BaseActivityTestBinding.inflate(layoutInflater) }
 
     override fun initArgs(intent: Intent?) = null
 
     override fun initView() {
         setContentView(mBind.root)
-        mPresenter = Demo1Presenter(this)
+        lifecycle.addObserver(mPresenter)
     }
 
     override fun initData() {
-        mBind.titleBar.title = "MVP 测试网络请求"
+//        mBind.titleBar.title = "MVP 测试网络请求"
 
-        mBind.article.setOnClickListener { mPresenter?.getArticle() }
-        mBind.chapters.setOnClickListener { mPresenter?.getChapters() }
+        mBind.article.setOnClickListener {
+            mPresenter?.getArticle()
+        }
+        mBind.chapters.setOnClickListener {
+            mPresenter?.getChapters()
+        }
         mBind.login.setOnClickListener {
             val map = mapOf(
                 "username" to mBind.userName.text.toString(),
