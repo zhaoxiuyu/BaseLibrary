@@ -1,6 +1,7 @@
 package com.base.app.module.views.tablayout.ui
 
 import android.content.Intent
+import android.os.Bundle
 import androidx.viewpager2.widget.ViewPager2
 import com.base.app.databinding.ActivityTabLayoutBinding
 import com.base.app.module.views.tablayout.adapter.StatisticsVp2Adapter
@@ -23,13 +24,13 @@ class TabLayoutActivity : BActivity() {
 
     private val mBind by lazy { ActivityTabLayoutBinding.inflate(layoutInflater) }
 
-    override fun initArgs(intent: Intent?) = null
+    override fun initArgs(intent: Intent?) {}
 
     override fun initView() {
         setContentView(mBind.root)
     }
 
-    override fun initData() {
+    override fun initData(savedInstanceState: Bundle?) {
         titles.forEach {
             mBind?.let { bind ->
                 bind.tabLayout.addTab(bind.tabLayout.newTab().setText(it))
@@ -57,6 +58,6 @@ class TabLayoutActivity : BActivity() {
 
     }
 
-    override fun initObserve() = null
+    override fun initObserve(): Nothing? = null
 
 }

@@ -1,6 +1,7 @@
 package com.base.library.base
 
 import android.content.Intent
+import android.content.res.Resources
 import android.os.Bundle
 import android.os.Looper
 import android.util.Log
@@ -14,6 +15,7 @@ import com.base.library.mvvm.core.BViewModel
 import com.base.library.mvvm.core.OnHandleCallback
 import com.base.library.rxhttp.RxRequest
 import com.billy.android.loading.Gloading
+import com.blankj.utilcode.util.AdaptScreenUtils
 import com.blankj.utilcode.util.CacheDiskStaticUtils
 import com.blankj.utilcode.util.LogUtils
 import com.lxj.xpopup.XPopup
@@ -27,9 +29,9 @@ import rxhttp.wrapper.entity.Progress
 
 abstract class BActivity : AppCompatActivity(), OnHandleCallback {
 
-    abstract fun initArgs(intent: Intent?): BViewModel?
+    abstract fun initArgs(mIntent: Intent?)
     abstract fun initView()
-    abstract fun initData()
+    abstract fun initData(savedInstanceState: Bundle?)
     abstract fun initObserve(): MutableList<BViewModel>?
 
     private val bBind by lazy { BaseActivityBinding.inflate(layoutInflater) }
@@ -54,13 +56,20 @@ abstract class BActivity : AppCompatActivity(), OnHandleCallback {
         // window.decorView.post { mHandler.post { initData() } }
         // IdleHandler在线程处于空闲的时候被执行,false 该回调进行移除,true 以后会多次调用
         Looper.myQueue().addIdleHandler {
-            initData()
+            initData(savedInstanceState)
             false
         }
     }
 
     /**
-     * --------------------- 通用的 TitleBar，避免每个 Activity 都复写一遍 ---------------------
+     * --------------------- 屏幕适配
+     */
+    override fun getResources(): Resources {
+        return AdaptScreenUtils.adaptWidth(super.getResources(), 1080)
+    }
+
+    /**
+     * --------------------- 通用的 TitleBar，避免每个 Activity 都复写一遍
      */
     fun getTitleBar() = bBind.titleBar
 
@@ -75,7 +84,7 @@ abstract class BActivity : AppCompatActivity(), OnHandleCallback {
     }
 
     /**
-     * --------------------- 为指定 View 设置各种状态布局 ---------------------
+     * --------------------- 为指定 View 设置各种状态布局
      */
     var mGloadingHolder: Gloading.Holder? = null
     fun getGloadingHolder() = mGloadingHolder
@@ -85,7 +94,7 @@ abstract class BActivity : AppCompatActivity(), OnHandleCallback {
     }
 
     /**
-     * --------------------- 获取新的值需要重新 setIntent ---------------------
+     * --------------------- 获取新的值需要重新 setIntent
      */
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
@@ -93,7 +102,7 @@ abstract class BActivity : AppCompatActivity(), OnHandleCallback {
     }
 
     /**
-     * --------------------- 文件缓存 ---------------------
+     * --------------------- 文件缓存
      */
     open fun getCacheDisk(key: String, consumer: Consumer<String>) {
         Observable.just("获取缓存").map { CacheDiskStaticUtils.getString(key, "") }
@@ -110,7 +119,7 @@ abstract class BActivity : AppCompatActivity(), OnHandleCallback {
     }
 
     /**
-     * --------------------- 提示框 ---------------------
+     * --------------------- 提示框
      */
     fun showLoading(xPopupCallback: XPopupCallback? = null, msg: String? = "请稍候") {
         xPopup?.dismiss()
@@ -158,7 +167,7 @@ abstract class BActivity : AppCompatActivity(), OnHandleCallback {
     }
 
     /**
-     * --------------------- 状态的回调 ---------------------
+     * --------------------- 状态的回调
      */
     override fun onLoading(mRequest: RxRequest) {
         Log.d("OnHandleCallback", "onLoading")

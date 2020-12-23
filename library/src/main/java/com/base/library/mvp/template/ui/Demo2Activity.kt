@@ -1,6 +1,7 @@
 package com.base.library.mvp.template.ui
 
 import android.content.Intent
+import android.os.Bundle
 import com.base.library.mvp.VPActivity
 import com.base.library.mvp.template.contract.CommonContract
 import com.base.library.mvp.template.presenter.CommonPresenter
@@ -13,17 +14,17 @@ class Demo2Activity : VPActivity(), CommonContract.View {
 
     private val mPresenter by lazy { CommonPresenter(this) }
 
-    override fun initArgs(intent: Intent?) = null
+    override fun initArgs(mIntent: Intent?) {
+    }
 
     override fun initView() {
     }
 
-    override fun initData() {
+    override fun initData(savedInstanceState: Bundle?) {
         lifecycle.addObserver(mPresenter)
     }
 
     override fun responseData(data: String) {
-
     }
 
 }

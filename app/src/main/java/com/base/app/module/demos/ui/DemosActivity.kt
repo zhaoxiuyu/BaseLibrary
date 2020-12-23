@@ -1,6 +1,7 @@
 package com.base.app.module.demos.ui
 
 import android.content.Intent
+import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.base.app.R
 import com.base.app.databinding.ActivityDemosBinding
@@ -19,13 +20,13 @@ class DemosActivity : BActivity() {
     private val mViewsFragment by lazy { ViewsFragment.newInstance("", "") }
     private val mFunctionFragment by lazy { FunctionFragment.newInstance("", "") }
 
-    override fun initArgs(intent: Intent?) = null
+    override fun initArgs(mIntent: Intent?) {}
 
     override fun initView() {
         setContentViewBar(mBind.root)
     }
 
-    override fun initData() {
+    override fun initData(savedInstanceState: Bundle?) {
         mBind.bnv.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.nav_utils -> {
@@ -54,7 +55,7 @@ class DemosActivity : BActivity() {
         showFragment(mUtilsFragment, "mUtilsFragment")
     }
 
-    override fun initObserve() = null
+    override fun initObserve(): Nothing? = null
 
     private fun showFragment(fragment: Fragment, tag: String) {
         val findFragment = FragmentUtils.findFragment(supportFragmentManager, tag)

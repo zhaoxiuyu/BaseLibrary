@@ -1,6 +1,7 @@
 package com.base.app.module.views.viewpage2.ui
 
 import android.content.Intent
+import android.os.Bundle
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
@@ -26,7 +27,7 @@ class ViewPage2 : BActivity() {
         )
     }
 
-    override fun initArgs(intent: Intent?) = null
+    override fun initArgs(intent: Intent?) {}
 
     override fun initView() {
         setContentView(mBind.root)
@@ -49,7 +50,7 @@ class ViewPage2 : BActivity() {
 //        vp2.isUserInputEnabled = false // 禁止 ViewPage2 滑动
     }
 
-    override fun initData() {
+    override fun initData(savedInstanceState: Bundle?) {
 //        vp2.adapter = vP2Adapter // 和 RecyclerView 的适配器一样使用
         mBind?.vp2?.adapter =
             AdapterFragmentPage(this) // 使用 Fragment
@@ -62,7 +63,7 @@ class ViewPage2 : BActivity() {
 //            offscreenPageLimit = 1
             val rv = getChildAt(0) as RecyclerView
             rv.apply {
-                val padding = resources.getDimensionPixelOffset(R.dimen.dp_20)
+                val padding = resources.getDimensionPixelOffset(R.dimen.pt_20)
                 setPadding(padding, 0, padding, 0)
                 clipToPadding = false
             }
@@ -83,7 +84,7 @@ class ViewPage2 : BActivity() {
         })
     }
 
-    override fun initObserve() = null
+    override fun initObserve(): Nothing? = null
 
     @BusUtils.Bus(tag = MyConstant.TAG_NO_PARAM)
     fun oneParamFun(triple: Triple<String, Boolean, Any>) {

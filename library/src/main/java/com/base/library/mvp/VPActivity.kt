@@ -21,7 +21,7 @@ abstract class VPActivity : BActivity(), VPView {
 //        mPresenter?.let { lifecycle.addObserver(it) }
     }
 
-    override fun initObserve() = null
+    override fun initObserve(): Nothing? = null
 
     override fun getContext() = this
 

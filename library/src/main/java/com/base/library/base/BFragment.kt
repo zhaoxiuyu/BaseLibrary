@@ -25,12 +25,13 @@ import rxhttp.wrapper.entity.Progress
 
 abstract class BFragment : Fragment(), OnHandleCallback {
 
-    abstract fun initArgs(bundle: Bundle?)
-    abstract fun initData(bundle: Bundle?)
-    abstract fun initView(): View
+    abstract fun initArgs(mArguments: Bundle?)
+    abstract fun initView()
+    abstract fun initData(savedInstanceState: Bundle?)
     abstract fun initObserve(): MutableList<BViewModel>?
 
     private val bBind by lazy { BaseFragmentBinding.inflate(layoutInflater) }
+    private var bView: View? = null
 
     val mApplication: BApplication by lazy { activity?.application as BApplication }
     private var xPopup: BasePopupView? = null
@@ -40,13 +41,18 @@ abstract class BFragment : Fragment(), OnHandleCallback {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         initArgs(arguments)
+
         initObserve()?.forEach { bViewModel ->
             bViewModel.getState().observe(viewLifecycleOwner, Observer { state ->
                 state.handler(this)
             })
         }
-        return initView()
+
+        initView()
+
+        return bView
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -56,18 +62,21 @@ abstract class BFragment : Fragment(), OnHandleCallback {
 
     /**
      * --------------------- 通用的 TitleBar，避免每个 Fragment 都复写一遍 ---------------------
-     * 使用如下 ：  override fun initView() = setContentViewBar(mBind.root)
      */
     fun getTitleBar() = bBind.titleBar
 
-    fun setContentViewBar(view: View): View {
+    fun setContentView(view: View) {
+        this.bView = view
+    }
+
+    fun setContentViewBar(view: View) {
         val lp = ViewGroup.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.MATCH_PARENT
         )
         view.layoutParams = lp
         bBind.root.addView(view)
-        return bBind.root
+        this.bView = bBind.root
     }
 
     /**

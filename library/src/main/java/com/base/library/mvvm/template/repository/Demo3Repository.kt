@@ -1,4 +1,4 @@
-package com.base.library.mvvm.template.viewmodel
+package com.base.library.mvvm.template.repository
 
 import androidx.lifecycle.MutableLiveData
 import com.base.library.base.BConstant

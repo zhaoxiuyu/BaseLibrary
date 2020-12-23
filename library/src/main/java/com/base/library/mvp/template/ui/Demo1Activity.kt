@@ -1,6 +1,7 @@
 package com.base.library.mvp.template.ui
 
 import android.content.Intent
+import android.os.Bundle
 import com.base.library.databinding.BaseActivityTestBinding
 import com.base.library.entitys.response.WanArticle
 import com.base.library.entitys.response.WanChapters
@@ -19,14 +20,14 @@ class Demo1Activity : VPActivity(), Demo1Contract.View {
     private val mPresenter by lazy { Demo1Presenter(this) }
     private val mBind by lazy { BaseActivityTestBinding.inflate(layoutInflater) }
 
-    override fun initArgs(intent: Intent?) = null
+    override fun initArgs(mIntent: Intent?) {}
 
     override fun initView() {
         setContentView(mBind.root)
         lifecycle.addObserver(mPresenter)
     }
 
-    override fun initData() {
+    override fun initData(savedInstanceState: Bundle?) {
 //        mBind.titleBar.title = "MVP 测试网络请求"
 
         mBind.article.setOnClickListener {

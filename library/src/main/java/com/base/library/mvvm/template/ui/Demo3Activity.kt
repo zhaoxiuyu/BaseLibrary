@@ -1,6 +1,7 @@
 package com.base.library.mvvm.template.ui
 
 import android.content.Intent
+import android.os.Bundle
 import android.os.Handler
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -15,7 +16,7 @@ class Demo3Activity : BActivity() {
     private val mViewModel by lazy { ViewModelProvider(this).get(Demo3ViewModel::class.java) }
     private val mBind by lazy { BaseActivityTestBinding.inflate(layoutInflater) }
 
-    override fun initArgs(intent: Intent?) = null
+    override fun initArgs(mIntent: Intent?) {}
 
     override fun initView() {
         setContentViewBar(mBind.root)
@@ -29,19 +30,19 @@ class Demo3Activity : BActivity() {
 
     }
 
-    override fun initData() {
+    override fun initData(savedInstanceState: Bundle?) {
         getTitleBar().title = "MVVM 测试网络请求"
 
-        mBind.article?.setOnClickListener {
+        mBind.article.setOnClickListener {
             mViewModel.getArticle()
         }
-        mBind.chapters?.setOnClickListener {
+        mBind.chapters.setOnClickListener {
             mViewModel.getChapters()
         }
-        mBind.login?.setOnClickListener {
+        mBind.login.setOnClickListener {
             val map = mapOf(
-                "username" to mBind?.userName?.text.toString(),
-                "password" to mBind?.passWord?.text.toString()
+                "username" to mBind.userName.text.toString(),
+                "password" to mBind.passWord.text.toString()
             )
             mViewModel.getLogin(map)
         }

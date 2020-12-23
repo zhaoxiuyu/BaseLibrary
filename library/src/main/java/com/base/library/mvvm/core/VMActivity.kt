@@ -2,7 +2,6 @@ package com.base.library.mvvm.core
 
 import com.base.library.base.BActivity
 
-
 /**
  * MVVM 模式的基础 Activity
  */

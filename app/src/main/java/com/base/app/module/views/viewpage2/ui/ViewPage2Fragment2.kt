@@ -11,12 +11,14 @@ class ViewPage2Fragment2 : BFragment() {
 
     private val mBind by lazy { Fragment123Viewpage2Binding.inflate(layoutInflater) }
 
-    override fun initArgs(bundle: Bundle?) {
+    override fun initArgs(mArguments: Bundle?) {
     }
 
-    override fun initView() = mBind.root
+    override fun initView() {
+        setContentView(mBind.root)
+    }
 
-    override fun initData(bundle: Bundle?) {
+    override fun initData(savedInstanceState: Bundle?) {
         mBind.itemTv.text = "Fragment2"
         mBind.itemTv.setOnClickListener {
             val triple = Triple<String, Boolean, Any>("Fragment2", true, "Fragment2")
@@ -24,7 +26,7 @@ class ViewPage2Fragment2 : BFragment() {
         }
     }
 
-    override fun initObserve() = null
+    override fun initObserve(): Nothing? = null
 
     override fun onStart() {
         super.onStart()

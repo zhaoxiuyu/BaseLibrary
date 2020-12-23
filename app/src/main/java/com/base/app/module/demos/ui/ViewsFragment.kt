@@ -25,16 +25,18 @@ class ViewsFragment : BFragment(), OnItemClickListener {
 
     private val mAdapter by lazy { FragmentAdapter() }
 
-    override fun initArgs(bundle: Bundle?) {
-        arguments?.let {
+    override fun initArgs(mArguments: Bundle?) {
+        mArguments?.let {
             param1 = it.getString(MyConstant.ARG_PARAM1)
             param2 = it.getString(MyConstant.ARG_PARAM2)
         }
     }
 
-    override fun initView() = mBind.root
+    override fun initView() {
+        setContentView(mBind.root)
+    }
 
-    override fun initData(bundle: Bundle?) {
+    override fun initData(savedInstanceState: Bundle?) {
         mBind.demosViewsFragmentRv.layoutManager = LinearLayoutManager(requireActivity())
         mBind.demosViewsFragmentRv.adapter = mAdapter
         mBind.demosViewsFragmentRv.addItemDecoration(MethodDatas.getDividerLinear(requireActivity()))
@@ -46,7 +48,7 @@ class ViewsFragment : BFragment(), OnItemClickListener {
         LogUtils.d("ViewsFragment")
     }
 
-    override fun initObserve() = null
+    override fun initObserve(): Nothing? = null
 
     override fun onItemClick(adapter: BaseQuickAdapter<*, *>, view: View, position: Int) {
         mAdapter.getItem(position).cls?.let {

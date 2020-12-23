@@ -14,17 +14,17 @@ class TabLayoutFragment : BFragment() {
 
     private var param1: String? = null
 
-    override fun initArgs(bundle: Bundle?) {
-        arguments?.let {
+    override fun initArgs(mArguments: Bundle?) {
+        mArguments?.let {
             param1 = it.getString(MyConstant.ARG_PARAM1)
         }
     }
 
-    override fun initView() = mBind.root
+    override fun initView() {
+        setContentView(mBind.root)
+    }
 
-    override fun initObserve() = null
-
-    override fun initData(bundle: Bundle?) {
+    override fun initData(savedInstanceState: Bundle?) {
         mBind.tv.text = "$param1"
         when (param1) {
             "概况" -> mBind.tv.setBackgroundColor(ColorUtils.getColor(R.color.color_21B4A7))
@@ -36,6 +36,8 @@ class TabLayoutFragment : BFragment() {
             "渠道3" -> mBind.tv.setBackgroundColor(ColorUtils.getColor(R.color.color_F34A00))
         }
     }
+
+    override fun initObserve(): Nothing? = null
 
     override fun onStart() {
         super.onStart()

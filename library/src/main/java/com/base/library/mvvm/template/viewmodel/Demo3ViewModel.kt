@@ -6,10 +6,15 @@ import com.base.library.entitys.response.WanArticle
 import com.base.library.entitys.response.WanChapters
 import com.base.library.entitys.response.WanLogin
 import com.base.library.mvvm.core.BViewModel
+import com.base.library.mvvm.template.repository.Demo3Repository
 
 class Demo3ViewModel : BViewModel() {
 
-    private val mRepository by lazy { Demo3Repository(getRepository()) }
+    private val mRepository by lazy {
+        Demo3Repository(
+            getRepository()
+        )
+    }
 
     /**
      * 获取首页文章列表

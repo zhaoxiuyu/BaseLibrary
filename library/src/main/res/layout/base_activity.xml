@@ -7,7 +7,7 @@
     <com.hjq.bar.TitleBar
         android:id="@+id/titleBar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_48"
+        android:layout_height="@dimen/pt_48"
         android:background="@color/color_03A9F4" />
 
 </LinearLayout>

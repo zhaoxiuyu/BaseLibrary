@@ -25,16 +25,18 @@ class UtilsFragment : BFragment(), OnItemClickListener {
 
     private val mAdapter by lazy { FragmentAdapter() }
 
-    override fun initArgs(bundle: Bundle?) {
-        arguments?.let {
+    override fun initArgs(mArguments: Bundle?) {
+        mArguments?.let {
             param1 = it.getString(MyConstant.ARG_PARAM1)
             param2 = it.getString(MyConstant.ARG_PARAM2)
         }
     }
 
-    override fun initView() = mBind.root
+    override fun initView() {
+        setContentView(mBind.root)
+    }
 
-    override fun initData(bundle: Bundle?) {
+    override fun initData(savedInstanceState: Bundle?) {
         mBind.demosUtilsFragmentRv.layoutManager = LinearLayoutManager(requireActivity())
         mBind.demosUtilsFragmentRv.adapter = mAdapter
         mBind.demosUtilsFragmentRv.addItemDecoration(
@@ -51,7 +53,7 @@ class UtilsFragment : BFragment(), OnItemClickListener {
     }
 
 
-    override fun initObserve() = null
+    override fun initObserve(): Nothing? = null
 
     override fun onItemClick(adapter: BaseQuickAdapter<*, *>, view: View, position: Int) {
         mAdapter.getItem(position).cls?.let {

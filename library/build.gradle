@@ -203,10 +203,11 @@ dependencies {
     api 'com.youth.banner:banner:2.1.0'
 
     // 提示框
-    api 'com.lxj:xpopup:2.2.11'
+    api 'com.lxj:xpopup:2.2.12'
 
     // SuperTextView
     api 'com.github.chenBingX:SuperTextView:3.2.5.99'
+
     // RWidgetHelper : 圆角，边框，Gradient背景渐变，控件State各个状态UI样式，阴影，水波纹
     api 'com.ruffian.library:RWidgetHelper-AndroidX:0.0.7'
 
@@ -214,10 +215,7 @@ dependencies {
     api 'com.billy.android:smart-swipe-x:1.1.0'
 
     // 沉浸式
-//    api 'com.gyf.immersionbar:immersionbar:3.0.0'
-//    api 'com.gyf.immersionbar:immersionbar-components:3.0.0'
-//    api 'com.gyf.immersionbar:immersionbar-ktx:3.0.0'
-    api 'com.zackratos.ultimatebarx:ultimatebarx:0.3.2'
+    api 'com.zackratos.ultimatebarx:ultimatebarx:0.3.3'
 
     // 底部导航栏
     api 'com.ashokvarma.android:bottom-navigation-bar:2.2.0'

@@ -1,11 +1,6 @@
 package com.base.library.mvvm.core
 
-import android.os.Bundle
-import android.util.Log
-import androidx.lifecycle.Observer
 import com.base.library.base.BFragment
-import com.base.library.rxhttp.RxRequest
-import rxhttp.wrapper.entity.Progress
 
 abstract class VMFragment : BFragment(), OnHandleCallback {
 
