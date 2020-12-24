@@ -25,56 +25,63 @@ project build.gradle 中的配置项可[参考](https://github.com/zhaoxiuyu/Pro
     implementation(project(':library')) {
         exclude group: 'com.daimajia.androidanimations', module: 'library'
 
-    // 已经整合的库
-    // 卡片
-    api 'androidx.cardview:cardview:1.0.0'
-    // 多dex
-    api 'androidx.multidex:multidex:2.0.1'
-    api "androidx.viewpager2:viewpager2:1.1.0-alpha01"
-    //v7
-    api 'androidx.appcompat:appcompat:1.3.0-alpha02'
-    // api 'androidx.appcompat:appcompat:1.1.0-rc01'
-    //v4
-    api 'androidx.legacy:legacy-support-v4:1.0.0'
-    api 'androidx.recyclerview:recyclerview:1.2.0-beta01'
-    //design
-    api 'com.google.android.material:material:1.2.1'
-    //百分比布局
-    api 'androidx.percentlayout:percentlayout:1.0.0'
-    //矢量
-    api 'androidx.vectordrawable:vectordrawable:1.1.0'
-    //约束布局
-    api 'androidx.constraintlayout:constraintlayout:2.0.4'
-    // activity
-    api "androidx.activity:activity-ktx:1.2.0-beta01"
-    // fragment
-    api "androidx.fragment:fragment-ktx:1.3.0-beta01"
 
     // Jetpack
+
+    // 多 dex
+    api 'androidx.multidex:multidex:2.0.1'
+    //design
+    api 'com.google.android.material:material:1.2.1'
+    //矢量
+    api 'androidx.vectordrawable:vectordrawable:1.1.0'
+    api "androidx.vectordrawable:vectordrawable-seekable:1.0.0-alpha02"
+    // 约束
+    api 'androidx.constraintlayout:constraintlayout:2.0.4'
+    // 旧版本API 访问新API
+    api 'androidx.appcompat:appcompat:1.3.0-alpha02'
+
+    api 'androidx.cardview:cardview:1.0.0'
+    api "androidx.viewpager2:viewpager2:1.1.0-alpha01"
+    api 'androidx.recyclerview:recyclerview:1.2.0-beta01'
+
+    api 'androidx.core:core-ktx:1.3.2'
+    api "androidx.activity:activity-ktx:1.2.0-beta01"
+    api "androidx.fragment:fragment-ktx:1.3.0-beta01"
+    // 生命周期管理相关
+    api "androidx.lifecycle:lifecycle-service:2.2.0"
+    api "androidx.lifecycle:lifecycle-process:2.2.0"
+    api "androidx.lifecycle:lifecycle-common-java8:2.2.0"
     api "androidx.lifecycle:lifecycle-runtime-ktx:2.2.0"
     api "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0"
-    api "androidx.lifecycle:lifecycle-common-java8:2.2.0"
     api "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
     api "androidx.lifecycle:lifecycle-viewmodel-savedstate:2.2.0"
-    // 用于在 Service 中实现 LifecycleOwner 的帮助程序
-    api "androidx.lifecycle:lifecycle-service:2.2.0"
-    // ProcessLifecycleOwner 为整个应用程序进程 Application 提供了一个生命周期
-    api "androidx.lifecycle:lifecycle-process:2.2.0"
+    // 降低集合对内存的影响
+    api "androidx.collection:collection-ktx:1.1.0"
+    // 应用中目标函数导航
+    api "androidx.navigation:navigation-ui-ktx:2.3.1"
+    api "androidx.navigation:navigation-fragment-ktx:2.3.1"
+    api "androidx.navigation:navigation-compose:1.0.0-alpha04"
+
+    // 使用 WorkManager 调度那些必须可靠地运行的可延期异步任务
+    api "androidx.work:work-runtime-ktx:2.5.0-beta01"
+
+    // Paging 更轻松地在 RecyclerView 中逐步妥善地加载数据
+    api "androidx.paging:paging-runtime:3.0.0-alpha09"
+    api "androidx.paging:paging-compose:1.0.0-alpha04"
 
     // sqlite 数据库
     api 'org.litepal.guolindev:core:3.2.2'
 
-    // 工具类
-    api 'com.blankj:utilcodex:1.30.5'// 柯基 AndroidUtilCode
+    // 工具类 AndroidUtilCode
+    api 'com.blankj:utilcodex:1.30.5'
 
     // MMKV
     api 'com.tencent:mmkv-static:1.2.6'
 
     // Kotlin
-    api 'androidx.core:core-ktx:1.3.2'
-    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.4.0"
-    api 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.9'
-    api 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9'
+    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.4.20"
+    api 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2'
+    api 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.2'
 
     // 智能刷新框架：分包之后不会有默认的Header和Footer需要手动添加！还是原来的三种方法！
     api 'com.scwang.smart:refresh-layout-kernel:2.0.1'      //核心必须依赖
@@ -330,3 +337,26 @@ HandlerLifecycle(this) | 初始化
 setHeightRatio | 设置ImageView的宽高尺寸比例
 getHeightRatio | 获取设置的宽高比例
 
+- BadgeDrawable -> 徽章：小红点，数字，文字。[参考](https://github.com/nekocode/Badge)
+
+```
+val drawable = BadgeDrawable.Builder()
+    .type(BadgeDrawable.TYPE_NUMBER)
+    .number("9") // 空串 "" 就是小圆点，通过 size 设置大小
+    .text1("text1")
+    .text2("text2")
+    .textSize(12f)
+    .textColor(0xFFFFFF)
+    .typeFace(Typeface.DEFAULT_BOLD)
+    .cornerRadius(10f)
+    .strokeWidth(1)
+    .badgeColor(0xFFFFFF)
+    .padding(0f, 0f, 0f, 0f)
+    .build()
+
+通过调用toSpannable方法转为SpannableString,可以用来显示到TextView上
+val ss = SpannableString(
+    TextUtils.concat("TextView ", drawable.toSpannable(), " ", drawable.toSpannable(), " ")
+        )
+textView.text = ss
+```
