@@ -11,6 +11,7 @@ import com.base.library.mvvm.core.BViewModel
 import com.base.library.mvvm.template.viewmodel.Demo3ViewModel
 import com.blankj.utilcode.util.LogUtils
 
+
 class Demo3Activity : BActivity() {
 
     private val mViewModel by lazy { ViewModelProvider(this).get(Demo3ViewModel::class.java) }

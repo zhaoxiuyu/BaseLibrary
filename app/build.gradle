@@ -6,14 +6,14 @@ apply plugin: "com.blankj.bus"
 
 //配置项目构建的各种属性
 android {
-    compileSdkVersion 29 //编译时使用 Android版本
-    buildToolsVersion = '29.0.3' //编译时使用的构建工具的版本
+    compileSdkVersion 30 //编译时使用 Android版本
+    buildToolsVersion = '30.0.2' //编译时使用的构建工具的版本
 
     //默认配置项
     defaultConfig {
         applicationId "com.base.app" //项目包名
 
-        targetSdkVersion 29 //目标版本
+        targetSdkVersion 30 //目标版本
         minSdkVersion 21 //最低兼容Android版本
 
         versionCode 100 //版本号
@@ -37,6 +37,8 @@ android {
 
     //依赖库多的时候可能出现重复文件,通过 exclude 将重复的文件剔除
     packagingOptions {
+        // kotlinx-coroutines-core 需要排除这个 DebugProbesKt.bin
+        exclude "DebugProbesKt.bin"
         exclude 'lib/x86/librsjni.so'
         exclude 'lib/x86_64/librsjni.so'
         exclude 'lib/x86/libRSSupport.so'
