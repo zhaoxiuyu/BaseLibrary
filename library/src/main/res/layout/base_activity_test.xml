@@ -30,25 +30,25 @@
         <Button
             android:id="@+id/cg"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:text="成功" />
 
         <Button
             android:id="@+id/sb"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:text="失败" />
 
         <Button
             android:id="@+id/ksj"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:text="空" />
 
         <Button
             android:id="@+id/jzz"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:text="加载中" />
     </LinearLayout>
 

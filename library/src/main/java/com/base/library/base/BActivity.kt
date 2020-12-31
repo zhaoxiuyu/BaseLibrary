@@ -22,6 +22,8 @@ import com.lxj.xpopup.XPopup
 import com.lxj.xpopup.core.BasePopupView
 import com.lxj.xpopup.interfaces.XPopupCallback
 import com.rxjava.rxlife.lifeOnMain
+import com.zackratos.ultimatebarx.library.UltimateBarX
+import com.zackratos.ultimatebarx.library.bean.BarConfig
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.functions.Consumer
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -49,6 +51,7 @@ abstract class BActivity : AppCompatActivity(), OnHandleCallback {
         }
 
         initView()
+        immersionBar()
 
         // window.decorView 获取到DecorView后,调用post方法,此时DecorView的attachInfo为空,
         // 会将这个Runnable放置runQueue中。runQueue内的任务会在ViewRootImpl.performTraversals的开始阶段被依次取出执行,
@@ -62,10 +65,19 @@ abstract class BActivity : AppCompatActivity(), OnHandleCallback {
     }
 
     /**
-     * --------------------- 屏幕适配
+     * 沉浸式
      */
-    override fun getResources(): Resources {
-        return AdaptScreenUtils.adaptWidth(super.getResources(), 1080)
+    fun immersionBar() {
+        val config = BarConfig.newInstance()
+            .fitWindow(true) // 布局是否侵入状态栏
+
+        // 对当前 Activity 或 Fragment 生效,应用到状态栏
+        UltimateBarX.with(this)
+            .config(config).applyStatusBar()
+
+        // 对当前 Activity 或 Fragment 生效,应用到导航栏栏
+        UltimateBarX.with(this)
+            .config(config).applyNavigationBar()
     }
 
     /**
@@ -99,6 +111,13 @@ abstract class BActivity : AppCompatActivity(), OnHandleCallback {
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         setIntent(intent)
+    }
+
+    /**
+     * --------------------- 用来做屏幕适配用的
+     */
+    override fun getResources(): Resources {
+        return AdaptScreenUtils.adaptWidth(super.getResources(), 1080)
     }
 
     /**

@@ -27,23 +27,23 @@ class ViewPage2 : BActivity() {
         )
     }
 
-    override fun initArgs(intent: Intent?) {}
+    override fun initArgs(mIntent: Intent?) {}
 
     override fun initView() {
         setContentView(mBind.root)
 
-        mBind?.butVertical?.setOnClickListener {
-            mBind?.vp2?.orientation = ViewPager2.ORIENTATION_VERTICAL
+        mBind.butVertical.setOnClickListener {
+            mBind.vp2.orientation = ViewPager2.ORIENTATION_VERTICAL
         }
-        mBind?.butHorizontal?.setOnClickListener {
-            mBind?.vp2?.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+        mBind.butHorizontal.setOnClickListener {
+            mBind.vp2.orientation = ViewPager2.ORIENTATION_HORIZONTAL
         }
 
         // 模拟拖拽,想前一个页面滑动 -300f
-        mBind?.butDrag?.setOnClickListener {
-            mBind?.vp2?.beginFakeDrag()
-            if (mBind?.vp2?.fakeDragBy(-300f)!!) {
-                mBind?.vp2?.endFakeDrag()
+        mBind.butDrag.setOnClickListener {
+            mBind.vp2.beginFakeDrag()
+            if (mBind.vp2.fakeDragBy(-300f)!!) {
+                mBind.vp2.endFakeDrag()
             }
         }
 
@@ -52,18 +52,18 @@ class ViewPage2 : BActivity() {
 
     override fun initData(savedInstanceState: Bundle?) {
 //        vp2.adapter = vP2Adapter // 和 RecyclerView 的适配器一样使用
-        mBind?.vp2?.adapter =
+        mBind.vp2.adapter =
             AdapterFragmentPage(this) // 使用 Fragment
 
         // 实现一屏多页的效果,通过 RecyclerView 设置 Padding 来实现
-        mBind?.vp2?.apply {
+        mBind.vp2.apply {
             // 在VP2中,这个属性默认为-1,不会加载两边的Fragment,默认懒加载,
             // 可以设置预加载多少个Fragment,但只会执行到onStart(),只有可见时才会执行到onResume(),onResume中判断是否第一次加载数据就可以了
             // 如果Fragment数量多,由于缓存大小原因,来回滑动会频繁创建销毁Fragment,这个参数可以直接设置为 fragments.size()
 //            offscreenPageLimit = 1
             val rv = getChildAt(0) as RecyclerView
             rv.apply {
-                val padding = resources.getDimensionPixelOffset(R.dimen.pt_20)
+                val padding = resources.getDimensionPixelOffset(R.dimen.dp_10)
                 setPadding(padding, 0, padding, 0)
                 clipToPadding = false
             }
@@ -74,10 +74,10 @@ class ViewPage2 : BActivity() {
         cpt.addTransformer(MarginPageTransformer(10))  // 设置页面的间距
         cpt.addTransformer(ScaleInTransformer()) // 切换效果
 
-        mBind?.vp2?.setPageTransformer(cpt)
+        mBind.vp2.setPageTransformer(cpt)
 
         // 滑动事件监听根据需要重写,OnPageChangeCallback是个抽象类
-        mBind?.vp2?.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+        mBind.vp2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
             }

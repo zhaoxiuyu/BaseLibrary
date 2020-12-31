@@ -26,8 +26,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:gravity="center_horizontal"
-        android:text="texttexttexttext"
-        android:textSize="16sp" />
+        android:text="稍候"
+        android:textSize="@dimen/sp_16" />
 </merge>
 
     <!--</LinearLayout>-->
