@@ -9,7 +9,10 @@ import com.base.library.base.BActivity
 import com.base.library.databinding.BaseActivityTestBinding
 import com.base.library.mvvm.core.BViewModel
 import com.base.library.mvvm.template.viewmodel.Demo3ViewModel
+import com.base.library.rxhttp.RxRequest
 import com.blankj.utilcode.util.LogUtils
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.ObservableTransformer
 
 
 class Demo3Activity : BActivity() {
@@ -32,7 +35,7 @@ class Demo3Activity : BActivity() {
     }
 
     override fun initData(savedInstanceState: Bundle?) {
-        getTitleBar().title = "MVVM 测试网络请求"
+        setTitleBarOperation("MVVM 测试网络请求")
 
         mBind.article.setOnClickListener {
             mViewModel.getArticle()
@@ -47,6 +50,9 @@ class Demo3Activity : BActivity() {
             )
             mViewModel.getLogin(map)
         }
+        mBind.parallel.setOnClickListener {
+            mViewModel.getParallel()
+        }
     }
 
     override fun initObserve(): MutableList<BViewModel> {
@@ -60,6 +66,17 @@ class Demo3Activity : BActivity() {
             LogUtils.d(it.errorCode)
         })
         return mutableListOf(mViewModel)
+    }
+
+    /**
+     * 变换 IO线程 -> Main线程
+     */
+    private fun <T> transformer(bRequest: RxRequest): ObservableTransformer<T, T> {
+        return ObservableTransformer {
+            it.observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe { }
+                .doFinally { }
+        }
     }
 
 }

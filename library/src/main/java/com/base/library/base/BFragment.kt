@@ -8,16 +8,20 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.base.library.databinding.BaseFragmentBinding
+import com.base.library.interfaces.MyTitleBarListener
 import com.base.library.interfaces.MyXPopupListener
 import com.base.library.mvvm.core.BViewModel
 import com.base.library.mvvm.core.OnHandleCallback
 import com.base.library.rxhttp.RxRequest
+import com.blankj.utilcode.util.BarUtils
 import com.blankj.utilcode.util.CacheDiskStaticUtils
 import com.blankj.utilcode.util.LogUtils
+import com.hjq.bar.TitleBar
 import com.lxj.xpopup.XPopup
 import com.lxj.xpopup.core.BasePopupView
 import com.lxj.xpopup.interfaces.XPopupCallback
 import com.rxjava.rxlife.lifeOnMain
+import com.zackratos.ultimatebarx.library.UltimateBarX
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.functions.Consumer
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -32,6 +36,9 @@ abstract class BFragment : Fragment(), OnHandleCallback {
 
     private val bBind by lazy { BaseFragmentBinding.inflate(layoutInflater) }
     private var bView: View? = null
+
+    // 是否使用沉浸式
+    private var immersionBar = true
 
     val mApplication: BApplication by lazy { activity?.application as BApplication }
     private var xPopup: BasePopupView? = null
@@ -57,6 +64,7 @@ abstract class BFragment : Fragment(), OnHandleCallback {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if (immersionBar) immersionBar()
         initData(savedInstanceState)
     }
 
@@ -69,14 +77,44 @@ abstract class BFragment : Fragment(), OnHandleCallback {
         this.bView = view
     }
 
-    fun setContentViewBar(view: View) {
+    fun setContentViewBar(view: View, immersionBar: Boolean = true) {
         val lp = ViewGroup.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.MATCH_PARENT
         )
         view.layoutParams = lp
         bBind.root.addView(view)
+
         this.bView = bBind.root
+        this.immersionBar = immersionBar
+    }
+
+    /**
+     * 默认有返回功能，如果不要返回 传listener实例 空实现就可以了。
+     */
+    fun setTitleBarOperation(
+        title: String,
+        listener: MyTitleBarListener? = null,
+    ): TitleBar {
+        getTitleBar().title = title
+        if (listener == null) {
+            getTitleBar().setOnTitleBarListener(object : MyTitleBarListener() {
+                override fun onLeftClick(v: View?) {
+                    requireActivity().finish()
+                }
+            })
+        } else {
+            getTitleBar().setOnTitleBarListener(listener)
+        }
+        return getTitleBar()
+    }
+
+    fun immersionBar() {
+        val stateBarLp = bBind.stateBar.layoutParams
+        stateBarLp.height = BarUtils.getStatusBarHeight()
+        bBind.stateBar.layoutParams = stateBarLp
+
+        UltimateBarX.with(this).fitWindow(false).light(true).applyStatusBar()
     }
 
     /**

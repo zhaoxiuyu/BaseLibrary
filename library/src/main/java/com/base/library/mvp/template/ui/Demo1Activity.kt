@@ -23,7 +23,8 @@ class Demo1Activity : VPActivity(), Demo1Contract.View {
     override fun initArgs(mIntent: Intent?) {}
 
     override fun initView() {
-        setContentView(mBind.root)
+        setContentViewBar(mBind.root)
+        setTitleBarOperation("MVP 测试网络请求")
         lifecycle.addObserver(mPresenter)
     }
 
@@ -31,17 +32,17 @@ class Demo1Activity : VPActivity(), Demo1Contract.View {
 //        mBind.titleBar.title = "MVP 测试网络请求"
 
         mBind.article.setOnClickListener {
-            mPresenter?.getArticle()
+            mPresenter.getArticle()
         }
         mBind.chapters.setOnClickListener {
-            mPresenter?.getChapters()
+            mPresenter.getChapters()
         }
         mBind.login.setOnClickListener {
             val map = mapOf(
                 "username" to mBind.userName.text.toString(),
                 "password" to mBind.passWord.text.toString()
             )
-            mPresenter?.getLogin(map)
+            mPresenter.getLogin(map)
         }
     }
 

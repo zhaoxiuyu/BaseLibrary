@@ -10,20 +10,22 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.base.library.databinding.BaseActivityBinding
+import com.base.library.interfaces.MyTitleBarListener
 import com.base.library.interfaces.MyXPopupListener
 import com.base.library.mvvm.core.BViewModel
 import com.base.library.mvvm.core.OnHandleCallback
 import com.base.library.rxhttp.RxRequest
 import com.billy.android.loading.Gloading
 import com.blankj.utilcode.util.AdaptScreenUtils
+import com.blankj.utilcode.util.BarUtils
 import com.blankj.utilcode.util.CacheDiskStaticUtils
 import com.blankj.utilcode.util.LogUtils
+import com.hjq.bar.TitleBar
 import com.lxj.xpopup.XPopup
 import com.lxj.xpopup.core.BasePopupView
 import com.lxj.xpopup.interfaces.XPopupCallback
 import com.rxjava.rxlife.lifeOnMain
 import com.zackratos.ultimatebarx.library.UltimateBarX
-import com.zackratos.ultimatebarx.library.bean.BarConfig
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.functions.Consumer
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -51,7 +53,6 @@ abstract class BActivity : AppCompatActivity(), OnHandleCallback {
         }
 
         initView()
-        immersionBar()
 
         // window.decorView 获取到DecorView后,调用post方法,此时DecorView的attachInfo为空,
         // 会将这个Runnable放置runQueue中。runQueue内的任务会在ViewRootImpl.performTraversals的开始阶段被依次取出执行,
@@ -65,33 +66,46 @@ abstract class BActivity : AppCompatActivity(), OnHandleCallback {
     }
 
     /**
-     * 沉浸式
-     */
-    fun immersionBar() {
-        val config = BarConfig.newInstance()
-            .fitWindow(true) // 布局是否侵入状态栏
-
-        // 对当前 Activity 或 Fragment 生效,应用到状态栏
-        UltimateBarX.with(this)
-            .config(config).applyStatusBar()
-
-        // 对当前 Activity 或 Fragment 生效,应用到导航栏栏
-        UltimateBarX.with(this)
-            .config(config).applyNavigationBar()
-    }
-
-    /**
      * --------------------- 通用的 TitleBar，避免每个 Activity 都复写一遍
      */
     fun getTitleBar() = bBind.titleBar
 
-    fun setContentViewBar(view: View) {
+    /**
+     * 默认有返回功能，如果不要返回 传listener实例 空实现就可以了。
+     */
+    fun setTitleBarOperation(
+        title: String,
+        listener: MyTitleBarListener? = null,
+    ): TitleBar {
+        getTitleBar().title = title
+        if (listener == null) {
+            getTitleBar().setOnTitleBarListener(object : MyTitleBarListener() {
+                override fun onLeftClick(v: View?) {
+                    finish()
+                }
+            })
+        } else {
+            getTitleBar().setOnTitleBarListener(listener)
+        }
+        return getTitleBar()
+    }
+
+    fun setContentViewBar(view: View, immersionBar: Boolean = true) {
         val lp = ViewGroup.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.MATCH_PARENT
         )
         view.layoutParams = lp
         bBind.root.addView(view)
+
+        if (immersionBar) {
+            val stateBarLp = bBind.stateBar.layoutParams
+            stateBarLp.height = BarUtils.getStatusBarHeight()
+            bBind.stateBar.layoutParams = stateBarLp
+
+            UltimateBarX.with(this).fitWindow(false).light(true).applyStatusBar()
+        }
+
         setContentView(bBind.root)
     }
 
@@ -108,10 +122,10 @@ abstract class BActivity : AppCompatActivity(), OnHandleCallback {
     /**
      * --------------------- 获取新的值需要重新 setIntent
      */
-    override fun onNewIntent(intent: Intent?) {
-        super.onNewIntent(intent)
-        setIntent(intent)
-    }
+//    override fun onNewIntent(intent: Intent?) {
+//        super.onNewIntent(intent)
+//        setIntent(intent)
+//    }
 
     /**
      * --------------------- 用来做屏幕适配用的

@@ -33,7 +33,9 @@ class UtilsFragment : BFragment(), OnItemClickListener {
     }
 
     override fun initView() {
-        setContentView(mBind.root)
+        setContentViewBar(mBind.root)
+        setTitleBarOperation("工具类")
+        getTitleBar().leftIcon = null
     }
 
     override fun initData(savedInstanceState: Bundle?) {

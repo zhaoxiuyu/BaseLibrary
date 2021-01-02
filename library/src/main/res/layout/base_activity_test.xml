@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     android:orientation="vertical">
 
     <Button
@@ -20,7 +21,13 @@
         android:id="@+id/login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="登录,操作异常" />
+        android:text="登录" />
+
+    <Button
+        android:id="@+id/parallel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="协程 - 并行获取列表" />
 
     <LinearLayout
         android:layout_width="match_parent"

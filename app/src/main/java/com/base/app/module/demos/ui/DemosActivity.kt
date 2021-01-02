@@ -23,22 +23,19 @@ class DemosActivity : BActivity() {
     override fun initArgs(mIntent: Intent?) {}
 
     override fun initView() {
-        setContentViewBar(mBind.root)
+        setContentView(mBind.root)
     }
 
     override fun initData(savedInstanceState: Bundle?) {
         mBind.bnv.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.nav_utils -> {
-                    getTitleBar().title = "工具类"
                     showFragment(mUtilsFragment, "mUtilsFragment")
                 }
                 R.id.nav_views -> {
-                    getTitleBar().title = "控件"
                     showFragment(mViewsFragment, "mViewsFragment")
                 }
                 R.id.nav_function -> {
-                    getTitleBar().title = "测试功能"
                     showFragment(mFunctionFragment, "mFunctionFragment")
                 }
             }

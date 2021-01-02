@@ -27,6 +27,7 @@
         <activity android:name=".module.views.imageview.ui.DynamicActivity" />
         <activity android:name="com.base.library.mvvm.template.ui.Demo3Activity" />
         <activity android:name="com.base.library.mvp.template.ui.Demo1Activity" />
+        <activity android:name=".module.demos.ui.CoroutinesActivity" />
 
     </application>
 

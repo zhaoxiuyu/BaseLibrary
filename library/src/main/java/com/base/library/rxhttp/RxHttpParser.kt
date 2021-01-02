@@ -60,32 +60,6 @@ open class RxHttpParser<T> : AbstractParser<BResponse<T>> {
             newResponse.data = oidResponse.data as T
         }
         return newResponse
-
-        //  获取泛型类型
-//        val type: Type = ParameterizedTypeImpl[BResponse::class.java, mType]
-//        val data: BResponse<T> = convert(response, type)
-//
-//        return data
-
-        //  获取泛型类型
-//        val type: Type = ParameterizedTypeImpl[BResponse::class.java, mType]
-//        val data: BResponse<T> = convert(response, type)
-
-        // 获取 data 字段
-//        var t = data.data
-//        /**
-//         * 考虑到有些时候服务端会返回：{"code":0,"msg":"成功"}  类似没有data的数据
-//         * 此时code正确，但是data字段为空，直接返回data的话，会报空指针错误，
-//         * 所以，判断泛型为String类型时，重新赋值，并确保赋值不为null
-//         */
-//        if (t == null && mType == String::class.java) {
-//            t = data.message as T
-//        }
-//        // 不等于0 说明数据不正确,抛出异常
-//        if (data.code != 0 || t == null) {
-//            throw ParseException(data.code.toString(), data.message, response)
-//        }
-//        return t
     }
 
 }

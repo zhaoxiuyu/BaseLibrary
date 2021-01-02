@@ -30,7 +30,9 @@ class FunctionFragment : BFragment(), OnItemClickListener {
     }
 
     override fun initView() {
-        setContentView(mBind.root)
+        setContentViewBar(mBind.root)
+        setTitleBarOperation("测试功能")
+        getTitleBar().leftIcon = null
     }
 
     override fun initData(savedInstanceState: Bundle?) {
