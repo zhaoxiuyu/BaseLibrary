@@ -17,154 +17,15 @@
 	        implementation 'com.github.zhaoxiuyu:BaseLibrary:Tag'
 	}
 
-project build.gradle 中的配置项可[参考](https://github.com/zhaoxiuyu/Proguards/blob/master/proguardslibrary/proguard-rules.pro)
+[project build.gradle](https://github.com/zhaoxiuyu/Proguards/blob/master/proguardslibrary/proguard-rules.pro)
+
+[依赖库清单](https://github.com/zhaoxiuyu/BaseLibrary/blob/master/library/build.gradle)
 
 ### 库
 
-    平常项目中用到的都集成进来了，如果用不上，可以排除依赖，比如：
+    用不上的依赖库，可以排除依赖：
     implementation(project(':library')) {
         exclude group: 'com.daimajia.androidanimations', module: 'library'
-
-
-    // Jetpack
-
-    // 多 dex
-    api 'androidx.multidex:multidex:2.0.1'
-    //design
-    api 'com.google.android.material:material:1.2.1'
-    //矢量
-    api 'androidx.vectordrawable:vectordrawable:1.1.0'
-    api "androidx.vectordrawable:vectordrawable-seekable:1.0.0-alpha02"
-    // 约束
-    api 'androidx.constraintlayout:constraintlayout:2.0.4'
-    // 旧版本API 访问新API
-    api 'androidx.appcompat:appcompat:1.3.0-alpha02'
-
-    api 'androidx.cardview:cardview:1.0.0'
-    api "androidx.viewpager2:viewpager2:1.1.0-alpha01"
-    api 'androidx.recyclerview:recyclerview:1.2.0-beta01'
-
-    api 'androidx.core:core-ktx:1.3.2'
-    api "androidx.activity:activity-ktx:1.2.0-beta01"
-    api "androidx.fragment:fragment-ktx:1.3.0-beta01"
-    // 生命周期管理相关
-    api "androidx.lifecycle:lifecycle-service:2.2.0"
-    api "androidx.lifecycle:lifecycle-process:2.2.0"
-    api "androidx.lifecycle:lifecycle-common-java8:2.2.0"
-    api "androidx.lifecycle:lifecycle-runtime-ktx:2.2.0"
-    api "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0"
-    api "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
-    api "androidx.lifecycle:lifecycle-viewmodel-savedstate:2.2.0"
-    // 降低集合对内存的影响
-    api "androidx.collection:collection-ktx:1.1.0"
-    // 应用中目标函数导航
-    api "androidx.navigation:navigation-ui-ktx:2.3.1"
-    api "androidx.navigation:navigation-fragment-ktx:2.3.1"
-    api "androidx.navigation:navigation-compose:1.0.0-alpha04"
-
-    // 使用 WorkManager 调度那些必须可靠地运行的可延期异步任务
-    api "androidx.work:work-runtime-ktx:2.5.0-beta01"
-
-    // Paging 更轻松地在 RecyclerView 中逐步妥善地加载数据
-    api "androidx.paging:paging-runtime:3.0.0-alpha09"
-    api "androidx.paging:paging-compose:1.0.0-alpha04"
-
-    // sqlite 数据库
-    api 'org.litepal.guolindev:core:3.2.2'
-
-    // 工具类 AndroidUtilCode
-    api 'com.blankj:utilcodex:1.30.5'
-
-    // MMKV
-    api 'com.tencent:mmkv-static:1.2.6'
-
-    // Kotlin
-    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.4.20"
-    api 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2'
-    api 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.2'
-
-    // 智能刷新框架：分包之后不会有默认的Header和Footer需要手动添加！还是原来的三种方法！
-    api 'com.scwang.smart:refresh-layout-kernel:2.0.1'      //核心必须依赖
-    api 'com.scwang.smart:refresh-header-classics:2.0.1'    //经典刷新头
-    api 'com.scwang.smart:refresh-header-radar:2.0.1'       //雷达刷新头
-    api 'com.scwang.smart:refresh-header-falsify:2.0.1'     //虚拟刷新头
-    api 'com.scwang.smart:refresh-header-material:2.0.1'    //谷歌刷新头
-    api 'com.scwang.smart:refresh-header-two-level:2.0.1'   //二级刷新头
-    api 'com.scwang.smart:refresh-footer-ball:2.0.1'        //球脉冲加载
-    api 'com.scwang.smart:refresh-footer-classics:2.0.1'    //经典加载
-
-    // 网络请求相关
-    api 'com.ljx.rxhttp:rxhttp:2.5.2'
-    kapt 'com.ljx.rxhttp:rxhttp-compiler:2.5.2'
-    api 'com.squareup.okhttp3:okhttp:4.9.0'
-    api 'io.reactivex.rxjava3:rxjava:3.0.6'
-    api 'io.reactivex.rxjava3:rxandroid:3.0.0'
-
-    // 解决RxJava内存泄漏
-    api 'com.ljx.rxlife3:rxlife-rxjava:3.0.0'
-
-    // 图片配置
-    api 'com.github.bumptech.glide:glide:4.11.0'
-    kapt 'com.github.bumptech.glide:compiler:4.11.0'
-    api 'com.github.bumptech.glide:okhttp3-integration:4.10.0'
-    api 'jp.wasabeef:glide-transformations:4.1.0'
-
-    // View动画效果大集合
-    api 'com.daimajia.easing:library:2.0@aar'
-    api 'com.daimajia.androidanimations:library:2.3@aar'
-
-    // 低耦合方式显示程序的全局加载状态视图
-    api 'com.billy.android:gloading:1.1.0'
-
-    // lottie
-    api 'com.airbnb.android:lottie:3.5.0'
-
-    // RecyclerView 列表动画
-    api 'jp.wasabeef:recyclerview-animators:3.0.0'
-
-    // 动画工具类
-    api 'com.github.florent37:viewanimator:1.1.2'
-
-    // Json相关
-    api 'com.google.code.gson:gson:2.8.6'
-
-    // 适配器
-    api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.6'
-
-    // 分割线
-    api 'ckrjfrog.FlexItemDecoration:Decoration:1.1.3'
-
-    // banner 轮播图
-    api 'com.youth.banner:banner:2.1.0'
-
-    // 提示框
-    api 'com.lxj:xpopup:2.2.12'
-
-    // SuperTextView
-    api 'com.github.chenBingX:SuperTextView:3.2.5.99'
-
-    // RWidgetHelper : 圆角，边框，Gradient背景渐变，控件State各个状态UI样式，阴影，水波纹
-    api 'com.ruffian.library:RWidgetHelper-AndroidX:0.0.7'
-
-    // 侧滑一个就够了
-    api 'com.billy.android:smart-swipe-x:1.1.0'
-
-    // 沉浸式
-    api 'com.zackratos.ultimatebarx:ultimatebarx:0.3.3'
-
-    // 底部导航栏
-    api 'com.ashokvarma.android:bottom-navigation-bar:2.2.0'
-
-    // 顶部导航栏
-    api 'com.hjq:titlebar:8.2'
-
-    // 日历
-    api 'com.haibin:calendarview:3.6.9'
-    api 'com.squareup:android-times-square:1.6.5@aar'
-
-    // 混淆库
-    api 'com.github.zhaoxiuyu:Proguards:1.0.5'
-
 
 ### 工具类相关:
 
