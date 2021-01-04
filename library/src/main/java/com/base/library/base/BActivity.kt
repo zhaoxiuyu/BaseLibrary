@@ -9,7 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import com.base.library.databinding.BaseActivityBinding
+import com.base.library.databinding.BaseLayoutBinding
 import com.base.library.interfaces.MyTitleBarListener
 import com.base.library.interfaces.MyXPopupListener
 import com.base.library.mvvm.core.BViewModel
@@ -32,7 +32,7 @@ abstract class BActivity : AppCompatActivity(), OnHandleCallback {
     abstract fun initData(savedInstanceState: Bundle?)
     abstract fun initObserve(): MutableList<BViewModel>?
 
-    private val bBind by lazy { BaseActivityBinding.inflate(layoutInflater) }
+    private val bBind by lazy { BaseLayoutBinding.inflate(layoutInflater) }
 
     val mApplication: BApplication by lazy { application as BApplication }
     private var xPopup: BasePopupView? = null

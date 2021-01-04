@@ -39,14 +39,9 @@ class TabLayoutFragment : BFragment() {
 
     override fun initObserve(): Nothing? = null
 
-    override fun onStart() {
-        super.onStart()
-        LogUtils.d("Fragment1 + onStart")
-    }
-
     override fun onResume() {
         super.onResume()
-        LogUtils.d("Fragment1 + onResume")
+        LogUtils.d("Fragment1 + onResume = $param1")
     }
 
     companion object {

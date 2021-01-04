@@ -8,80 +8,92 @@
     <Button
         android:id="@+id/article"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="首页文章列表" />
+        android:layout_height="@dimen/pt_130"
+        android:text="首页文章列表"
+        android:textSize="@dimen/pt_40" />
 
     <Button
         android:id="@+id/chapters"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="获取公众号列表" />
+        android:layout_height="@dimen/pt_130"
+        android:text="获取公众号列表"
+        android:textSize="@dimen/pt_40" />
 
     <Button
         android:id="@+id/login"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="登录" />
+        android:layout_height="@dimen/pt_130"
+        android:text="登录"
+        android:textSize="@dimen/pt_40" />
 
     <Button
         android:id="@+id/parallel"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="协程 - 并行获取列表" />
+        android:layout_height="@dimen/pt_130"
+        android:text="协程 - 并行获取列表"
+        android:textSize="@dimen/pt_40" />
 
     <Button
         android:id="@+id/putCache"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="协程 - 添加缓存" />
+        android:layout_height="@dimen/pt_130"
+        android:text="协程 - 添加缓存"
+        android:textSize="@dimen/pt_40" />
 
     <Button
         android:id="@+id/getCache"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="协程 - 获取缓存" />
+        android:layout_height="@dimen/pt_130"
+        android:text="协程 - 获取缓存"
+        android:textSize="@dimen/pt_40" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/pt_130"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/cg"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/pt_270"
             android:layout_height="match_parent"
-            android:text="成功" />
+            android:text="成功"
+            android:textSize="@dimen/pt_40" />
 
         <Button
             android:id="@+id/sb"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/pt_270"
             android:layout_height="match_parent"
-            android:text="失败" />
+            android:text="失败"
+            android:textSize="@dimen/pt_40" />
 
         <Button
             android:id="@+id/ksj"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/pt_270"
             android:layout_height="match_parent"
-            android:text="空" />
+            android:text="空"
+            android:textSize="@dimen/pt_40" />
 
         <Button
             android:id="@+id/jzz"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/pt_270"
             android:layout_height="match_parent"
-            android:text="加载中" />
+            android:text="加载中"
+            android:textSize="@dimen/pt_40" />
     </LinearLayout>
 
     <EditText
         android:id="@+id/userName"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="zxy_it@yeah.net" />
+        android:layout_height="@dimen/pt_130"
+        android:text="zxy_it@yeah.net"
+        android:textSize="@dimen/pt_40" />
 
     <EditText
         android:id="@+id/passWord"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="111111" />
+        android:layout_height="@dimen/pt_130"
+        android:text="111111"
+        android:textSize="@dimen/pt_40" />
 
     <TextView
         android:id="@+id/tvInfo"

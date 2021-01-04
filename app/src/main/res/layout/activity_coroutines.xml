@@ -8,9 +8,10 @@
     <com.ruffian.library.widget.RTextView
         android:id="@+id/tvLoadImg"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_40"
+        android:layout_height="@dimen/pt_130"
         android:gravity="center"
-        android:text="加载一张图片" />
+        android:text="加载一张图片"
+        android:textSize="@dimen/pt_40" />
 
     <com.ruffian.library.widget.RTextView
         android:id="@+id/tvContent"

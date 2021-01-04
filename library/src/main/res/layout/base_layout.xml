@@ -9,17 +9,17 @@
     <Space
         android:id="@+id/stateBar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_0" />
+        android:layout_height="@dimen/pt_0" />
 
     <com.hjq.bar.TitleBar
         android:id="@+id/titleBar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_46"
+        android:layout_height="@dimen/pt_128"
         app:barStyle="ripple"
-        app:drawableSize="@dimen/dp_25"
+        app:drawableSize="@dimen/pt_70"
         app:leftColor="#FFFFFF"
         app:title="首页"
         app:titleColor="#FFFFFF"
-        app:titleSize="@dimen/sp_15" />
+        app:titleSize="@dimen/pt_50" />
 
 </LinearLayout>

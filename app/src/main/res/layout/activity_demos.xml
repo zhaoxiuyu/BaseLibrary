@@ -14,7 +14,7 @@
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bnv"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_48"
+        android:layout_height="@dimen/pt_141"
         app:menu="@menu/activity_demos_nav_menu" />
 
 </LinearLayout>

@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import com.base.library.databinding.BaseFragmentBinding
+import com.base.library.databinding.BaseLayoutBinding
 import com.base.library.interfaces.MyTitleBarListener
 import com.base.library.interfaces.MyXPopupListener
 import com.base.library.mvvm.core.BViewModel
@@ -28,7 +28,7 @@ abstract class BFragment : Fragment(), OnHandleCallback {
     abstract fun initData(savedInstanceState: Bundle?)
     abstract fun initObserve(): MutableList<BViewModel>?
 
-    private val bBind by lazy { BaseFragmentBinding.inflate(layoutInflater) }
+    private val bBind by lazy { BaseLayoutBinding.inflate(layoutInflater) }
     private var bView: View? = null
 
     // 是否使用沉浸式
