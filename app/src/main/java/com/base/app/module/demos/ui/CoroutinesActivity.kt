@@ -177,7 +177,6 @@ class CoroutinesActivity : BActivity() {
         }
     }
 
-
     // 非 Fragment Activity ViewModel 环境下
     private fun job() {
         val job = RxLifeScope().launch({

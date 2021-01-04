@@ -3,6 +3,7 @@ package com.base.library.mvvm.template.ui
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.base.library.base.BActivity
@@ -13,21 +14,20 @@ import com.base.library.rxhttp.RxRequest
 import com.blankj.utilcode.util.LogUtils
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.ObservableTransformer
-import io.reactivex.rxjava3.functions.Consumer
 
 class Demo3Activity : BActivity() {
 
     private val mViewModel by lazy { ViewModelProvider(this).get(Demo3ViewModel::class.java) }
+
     private val mBind by lazy { BaseActivityTestBinding.inflate(layoutInflater) }
 
     override fun initArgs(mIntent: Intent?) {}
 
     override fun initView() {
         setContentViewBar(mBind.root)
+
         setGloading(mBind.root)
-
         getGloadingHolder()?.showLoading()
-
         Handler().postDelayed({
             getGloadingHolder()?.showLoadSuccess()
         }, 2000)
