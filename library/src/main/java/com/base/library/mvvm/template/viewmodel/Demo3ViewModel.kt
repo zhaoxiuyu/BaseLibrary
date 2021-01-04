@@ -11,14 +11,13 @@ import com.base.library.mvp.core.SuccessCall
 import com.base.library.mvvm.core.BViewModel
 import com.base.library.mvvm.template.repository.Demo3Repository
 import com.base.library.rxhttp.RxRequest
+import com.base.library.util.OtherUtils
 import com.blankj.utilcode.util.LogUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
 import rxhttp.async
+import rxhttp.onErrorReturn
 import rxhttp.onErrorReturnItem
-import rxhttp.toClass
-import rxhttp.tryAwait
-import rxhttp.wrapper.param.RxHttp
 import rxhttp.wrapper.param.toResponse
 
 class Demo3ViewModel : BViewModel() {
@@ -92,7 +91,7 @@ class Demo3ViewModel : BViewModel() {
     private suspend fun getBanners(scope: CoroutineScope): Deferred<BResponse<WanArticle>> {
         val request = RxRequest(BConstant.article)
         return request.httpGet().setDomainTowanandroidIfAbsent()
-            .toClass<BResponse<WanArticle>>()
+            .toResponse<WanArticle>()
             .onErrorReturnItem(BResponse()) // 如果出错了就给出默认值，不影响其他请求的执行
             .async(scope)
     }
@@ -101,8 +100,13 @@ class Demo3ViewModel : BViewModel() {
     private suspend fun getStudents(scope: CoroutineScope): Deferred<BResponse<MutableList<WanChapters>>> {
         val request = RxRequest(BConstant.chapters)
         return request.httpGet().setDomainTowanandroidIfAbsent()
-            .toClass<BResponse<MutableList<WanChapters>>>()
-            .onErrorReturnItem(BResponse()) // 如果出错了就给出默认值，不影响其他请求的执行
+            .toResponse<MutableList<WanChapters>>()
+            .onErrorReturn {
+                // 这里可以根据不同的错误类型判断进行不同的返回
+                val mBResponse = BResponse<MutableList<WanChapters>>()
+                mBResponse.errorMsg = OtherUtils.getThrowableMessage(it)
+                mBResponse
+            }
             .async(scope)
     }
 

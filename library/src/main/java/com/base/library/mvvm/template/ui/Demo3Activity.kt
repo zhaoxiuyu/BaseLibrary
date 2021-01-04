@@ -13,7 +13,7 @@ import com.base.library.rxhttp.RxRequest
 import com.blankj.utilcode.util.LogUtils
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.ObservableTransformer
-
+import io.reactivex.rxjava3.functions.Consumer
 
 class Demo3Activity : BActivity() {
 
@@ -53,6 +53,12 @@ class Demo3Activity : BActivity() {
         mBind.parallel.setOnClickListener {
             mViewModel.getParallel()
         }
+        mBind.putCache.setOnClickListener {
+            mViewModel.putCache("123", "456")
+        }
+        mBind.getCache.setOnClickListener {
+            mViewModel.getCache("123")
+        }
     }
 
     override fun initObserve(): MutableList<BViewModel> {
@@ -64,6 +70,9 @@ class Demo3Activity : BActivity() {
         })
         mViewModel.loginLiveData.observe(this, Observer {
             LogUtils.d(it.errorCode)
+        })
+        mViewModel.cacheLiveData.observe(this, Observer {
+            LogUtils.d(it)
         })
         return mutableListOf(mViewModel)
     }

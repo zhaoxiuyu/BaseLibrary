@@ -54,16 +54,6 @@ abstract class VPActivity : BActivity(), VPView {
         dismissDialog(finish)
     }
 
-    //获取缓存
-    override fun getCache(key: String, consumer: Consumer<String>) {
-        getCacheDisk(key, consumer)
-    }
-
-    //保存缓存
-    override fun putCache(key: String, content: String, time: Int) {
-        putCacheDisk(key, content, time)
-    }
-
     //P层的数据回调,可以做一些日志保存
     override fun other(content: String, behavior: String, level: String) {
     }

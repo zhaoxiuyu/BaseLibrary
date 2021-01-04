@@ -29,6 +29,18 @@
         android:layout_height="wrap_content"
         android:text="协程 - 并行获取列表" />
 
+    <Button
+        android:id="@+id/putCache"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="协程 - 添加缓存" />
+
+    <Button
+        android:id="@+id/getCache"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="协程 - 获取缓存" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

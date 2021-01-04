@@ -54,7 +54,6 @@ class UtilsFragment : BFragment(), OnItemClickListener {
         LogUtils.d("UtilsFragment")
     }
 
-
     override fun initObserve(): Nothing? = null
 
     override fun onItemClick(adapter: BaseQuickAdapter<*, *>, view: View, position: Int) {

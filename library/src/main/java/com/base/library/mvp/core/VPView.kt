@@ -5,7 +5,6 @@ import com.base.library.interfaces.MyXPopupListener
 import com.lxj.xpopup.interfaces.OnCancelListener
 import com.lxj.xpopup.interfaces.OnConfirmListener
 import com.lxj.xpopup.interfaces.XPopupCallback
-import io.reactivex.rxjava3.functions.Consumer
 
 /**
  * 作用: 基于MVP架构的View 视图基类
@@ -33,13 +32,6 @@ interface VPView {
      * Activity获取当前this，Fragment获取getActivity
      */
     fun getContext(): Context
-
-    /**
-     * 添加 获取 缓存
-     */
-    fun putCache(key: String, content: String, time: Int = -1)
-
-    fun getCache(key: String, consumer: Consumer<String>)
 
     /**
      * 可以用来保存日志

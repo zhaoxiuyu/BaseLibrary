@@ -10,7 +10,6 @@ import com.base.library.mvp.core.VPView
 import com.lxj.xpopup.interfaces.OnCancelListener
 import com.lxj.xpopup.interfaces.OnConfirmListener
 import com.lxj.xpopup.interfaces.XPopupCallback
-import io.reactivex.rxjava3.functions.Consumer
 
 abstract class VPFragment : BFragment(), VPView {
 //abstract class VPFragment<T : VPPresenter> : BFragment(), VPView {
@@ -52,16 +51,6 @@ abstract class VPFragment : BFragment(), VPView {
     // 关闭提示框,是否销毁页面
     override fun disDialog(finish: Boolean) {
         dismissDialog(finish)
-    }
-
-    //获取缓存
-    override fun getCache(key: String, consumer: Consumer<String>) {
-        getCacheDisk(key, consumer)
-    }
-
-    //保存缓存
-    override fun putCache(key: String, content: String, time: Int) {
-        putCacheDisk(key, content, time)
     }
 
     //P层的数据回调,可以做一些日志保存

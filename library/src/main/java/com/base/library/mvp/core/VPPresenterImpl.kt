@@ -6,20 +6,19 @@ import androidx.lifecycle.LifecycleOwner
 import com.base.library.entitys.BResponse
 import com.base.library.interfaces.MyLifecycle
 import com.base.library.rxhttp.RxRequest
-import com.blankj.utilcode.util.GsonUtils
+import com.base.library.util.OtherUtils
+import com.blankj.utilcode.util.CacheDiskStaticUtils
 import com.blankj.utilcode.util.LogUtils
-import com.blankj.utilcode.util.NetworkUtils
-import com.google.gson.JsonSyntaxException
+import com.rxlife.coroutine.RxLifeScope
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.ObservableTransformer
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
-import rxhttp.wrapper.exception.HttpStatusCodeException
-import rxhttp.wrapper.exception.ParseException
-import java.net.ConnectException
-import java.net.SocketTimeoutException
-import java.net.UnknownHostException
-import java.util.concurrent.TimeoutException
+import io.reactivex.rxjava3.functions.Consumer
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
  * 作用：P层的基础实现类
@@ -32,7 +31,6 @@ open class VPPresenterImpl<T : VPView?>(var mView: T?) : VPPresenter, VPCallback
     /**
      * 响应数据 BResponse<Student.class>
      */
-
     override fun <T> getResponse(
         request: RxRequest,
         clas: Class<T>,
@@ -68,7 +66,6 @@ open class VPPresenterImpl<T : VPView?>(var mView: T?) : VPPresenter, VPCallback
             }, { error(request, it) })
         addDisposable(disposable)
     }
-
 
     /**
      * 响应数据 Student.class
@@ -133,6 +130,31 @@ open class VPPresenterImpl<T : VPView?>(var mView: T?) : VPPresenter, VPCallback
         addDisposable(disposable)
     }
 
+    /**
+     * 获取缓存
+     */
+    private var getCacheJob: Job? = null
+    fun getCache(key: String, consumer: Consumer<String>) {
+        getCacheJob = RxLifeScope().launch({
+            val cache = withContext(Dispatchers.IO) { CacheDiskStaticUtils.getString(key, "") }
+            consumer.accept(cache)
+        }, {
+            LogUtils.e("获取缓存 $key 出错了,${it.message}")
+        })
+    }
+
+    /**
+     * 保存缓存
+     */
+    private var putCacheJob: Job? = null
+    fun putCache(key: String, content: String, time: Int = -1) {
+        putCacheJob = RxLifeScope().launch({
+            launch(Dispatchers.IO) { CacheDiskStaticUtils.put(key, content, time) }
+        }, {
+            LogUtils.e("添加缓存 $key 出错了,${it.message}")
+        })
+    }
+
     override fun doOnSubscribe(request: RxRequest) {
         Log.d("VPPresenterImpl", "请求开始")
         Log.d("VPPresenterImpl", request.print())
@@ -155,31 +177,7 @@ open class VPPresenterImpl<T : VPView?>(var mView: T?) : VPPresenter, VPCallback
     override fun error(bRequest: RxRequest, throwable: Throwable?) {
         mView?.disDialog()
 
-        val msg = if (throwable is UnknownHostException) {
-            // 通过 OkHttpClient 设置的超时 引发的异常
-            if (NetworkUtils.isConnected()) "网络连接不可用" else "当前无网络"
-        } else if (throwable is SocketTimeoutException || throwable is TimeoutException) {
-            // 对单个请求调用 timeout 方法引发的超时异常
-            "连接超时,请稍后再试"
-        } else if (throwable is ConnectException) {
-            "网络不给力,请稍候重试"
-        } else if (throwable is HttpStatusCodeException) {
-            val result = throwable.result
-            try {
-                val bResponse = GsonUtils.getGson().fromJson(result, BResponse::class.java)
-                bResponse.message ?: "请求异常"
-            } catch (e: Exception) {
-                throwable.message ?: "请求异常"
-            }
-        } else if (throwable is JsonSyntaxException) {
-            //  请求成功,但Json语法异常,导致解析失败
-            "数据解析失败,请稍后再试"
-        } else if (throwable is ParseException) {
-            //  ParseException异常表明请求成功，但是数据不正确
-            throwable.message ?: throwable.localizedMessage ?: ""
-        } else {
-            throwable?.message ?: "出现异常"
-        }
+        val msg = OtherUtils.getThrowableMessage(throwable)
         LogUtils.e(msg)
 
         /**
@@ -222,6 +220,9 @@ open class VPPresenterImpl<T : VPView?>(var mView: T?) : VPPresenter, VPCallback
         Log.d("VPPresenterImpl", "onDestroy")
         compositeDisposable?.dispose()
         compositeDisposable = null
+
+        getCacheJob?.cancel()
+        putCacheJob?.cancel()
     }
 
 }

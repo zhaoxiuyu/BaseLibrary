@@ -18,17 +18,11 @@ import com.base.library.rxhttp.RxRequest
 import com.billy.android.loading.Gloading
 import com.blankj.utilcode.util.AdaptScreenUtils
 import com.blankj.utilcode.util.BarUtils
-import com.blankj.utilcode.util.CacheDiskStaticUtils
-import com.blankj.utilcode.util.LogUtils
 import com.hjq.bar.TitleBar
 import com.lxj.xpopup.XPopup
 import com.lxj.xpopup.core.BasePopupView
 import com.lxj.xpopup.interfaces.XPopupCallback
-import com.rxjava.rxlife.lifeOnMain
 import com.zackratos.ultimatebarx.library.UltimateBarX
-import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.functions.Consumer
-import io.reactivex.rxjava3.schedulers.Schedulers
 import rxhttp.wrapper.entity.Progress
 
 abstract class BActivity : AppCompatActivity(), OnHandleCallback {
@@ -90,6 +84,9 @@ abstract class BActivity : AppCompatActivity(), OnHandleCallback {
         return getTitleBar()
     }
 
+    /**
+     * 给 ContentView 的外面添加一个 通用的顶部导航栏
+     */
     fun setContentViewBar(view: View, immersionBar: Boolean = true) {
         val lp = ViewGroup.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT,
@@ -98,15 +95,18 @@ abstract class BActivity : AppCompatActivity(), OnHandleCallback {
         view.layoutParams = lp
         bBind.root.addView(view)
 
-        if (immersionBar) {
-            val stateBarLp = bBind.stateBar.layoutParams
-            stateBarLp.height = BarUtils.getStatusBarHeight()
-            bBind.stateBar.layoutParams = stateBarLp
-
-            UltimateBarX.with(this).fitWindow(false).light(true).applyStatusBar()
-        }
+        // 如果是沉浸式，就把空白View的高度设置为状态栏的高度延伸上去
+        if (immersionBar) immersionBar()
 
         setContentView(bBind.root)
+    }
+
+    fun immersionBar() {
+        val stateBarLp = bBind.stateBar.layoutParams
+        stateBarLp.height = BarUtils.getStatusBarHeight()
+        bBind.stateBar.layoutParams = stateBarLp
+
+        UltimateBarX.with(this).fitWindow(false).light(true).applyStatusBar()
     }
 
     /**
@@ -132,23 +132,6 @@ abstract class BActivity : AppCompatActivity(), OnHandleCallback {
      */
     override fun getResources(): Resources {
         return AdaptScreenUtils.adaptWidth(super.getResources(), 1080)
-    }
-
-    /**
-     * --------------------- 文件缓存
-     */
-    open fun getCacheDisk(key: String, consumer: Consumer<String>) {
-        Observable.just("获取缓存").map { CacheDiskStaticUtils.getString(key, "") }
-            .subscribeOn(Schedulers.io()).lifeOnMain(this).subscribe(consumer)
-    }
-
-    open fun putCacheDisk(key: String, content: String, time: Int) {
-        Observable.just("保存缓存")
-            .map {
-                CacheDiskStaticUtils.put(key, content, time)
-                "$key 缓存成功"
-            }
-            .subscribeOn(Schedulers.io()).lifeOnMain(this).subscribe { LogUtils.d(it) }
     }
 
     /**
@@ -239,6 +222,9 @@ abstract class BActivity : AppCompatActivity(), OnHandleCallback {
         Log.d("OnHandleCallback", "onProgress")
     }
 
+    /**
+     * --------------------- 结束,清理
+     */
     override fun onDestroy() {
         dismissDialog(false)
         super.onDestroy()

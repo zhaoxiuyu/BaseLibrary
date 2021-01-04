@@ -14,17 +14,11 @@ import com.base.library.mvvm.core.BViewModel
 import com.base.library.mvvm.core.OnHandleCallback
 import com.base.library.rxhttp.RxRequest
 import com.blankj.utilcode.util.BarUtils
-import com.blankj.utilcode.util.CacheDiskStaticUtils
-import com.blankj.utilcode.util.LogUtils
 import com.hjq.bar.TitleBar
 import com.lxj.xpopup.XPopup
 import com.lxj.xpopup.core.BasePopupView
 import com.lxj.xpopup.interfaces.XPopupCallback
-import com.rxjava.rxlife.lifeOnMain
 import com.zackratos.ultimatebarx.library.UltimateBarX
-import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.functions.Consumer
-import io.reactivex.rxjava3.schedulers.Schedulers
 import rxhttp.wrapper.entity.Progress
 
 abstract class BFragment : Fragment(), OnHandleCallback {
@@ -73,22 +67,6 @@ abstract class BFragment : Fragment(), OnHandleCallback {
      */
     fun getTitleBar() = bBind.titleBar
 
-    fun setContentView(view: View) {
-        this.bView = view
-    }
-
-    fun setContentViewBar(view: View, immersionBar: Boolean = true) {
-        val lp = ViewGroup.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.MATCH_PARENT
-        )
-        view.layoutParams = lp
-        bBind.root.addView(view)
-
-        this.bView = bBind.root
-        this.immersionBar = immersionBar
-    }
-
     /**
      * 默认有返回功能，如果不要返回 传listener实例 空实现就可以了。
      */
@@ -109,29 +87,29 @@ abstract class BFragment : Fragment(), OnHandleCallback {
         return getTitleBar()
     }
 
+    fun setContentView(view: View) {
+        this.bView = view
+    }
+
+    fun setContentViewBar(view: View, immersionBar: Boolean = true) {
+        val lp = ViewGroup.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.MATCH_PARENT
+        )
+        view.layoutParams = lp
+
+        this.bView = bBind.root
+        this.immersionBar = immersionBar
+
+        bBind.root.addView(view)
+    }
+
     fun immersionBar() {
         val stateBarLp = bBind.stateBar.layoutParams
         stateBarLp.height = BarUtils.getStatusBarHeight()
         bBind.stateBar.layoutParams = stateBarLp
 
         UltimateBarX.with(this).fitWindow(false).light(true).applyStatusBar()
-    }
-
-    /**
-     * ------------- 文件缓存 -------------
-     */
-    open fun getCacheDisk(key: String, consumer: Consumer<String>) {
-        Observable.just("获取缓存").map { CacheDiskStaticUtils.getString(key, "") }
-            .subscribeOn(Schedulers.io()).lifeOnMain(this).subscribe(consumer)
-    }
-
-    open fun putCacheDisk(key: String, content: String, time: Int) {
-        Observable.just("保存缓存")
-            .map {
-                CacheDiskStaticUtils.put(key, content, time)
-                "$key 缓存成功"
-            }
-            .subscribeOn(Schedulers.io()).lifeOnMain(this).subscribe { LogUtils.d(it) }
     }
 
     /**

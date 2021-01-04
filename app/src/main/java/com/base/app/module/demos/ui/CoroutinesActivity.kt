@@ -152,7 +152,7 @@ class CoroutinesActivity : BActivity() {
 
             sb.appendLine("1 ${Thread.currentThread().name}")
 
-            async {
+            async(Dispatchers.IO) {
                 sb.appendLine("11 ${Thread.currentThread().name}")
             }.await()
 
