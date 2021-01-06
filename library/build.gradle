@@ -162,8 +162,8 @@ dependencies {
     api 'com.squareup.okhttp3:okhttp:4.9.0'
     api 'io.reactivex.rxjava3:rxjava:3.0.6'
     api 'io.reactivex.rxjava3:rxandroid:3.0.0'
-    api 'com.ljx.rxhttp:rxhttp:2.5.2'
-    kapt 'com.ljx.rxhttp:rxhttp-compiler:2.5.2'
+    api 'com.ljx.rxhttp:rxhttp:2.5.3'
+    kapt 'com.ljx.rxhttp:rxhttp-compiler:2.5.3'
 
     // 解决RxJava内存泄漏
     api 'com.ljx.rxlife3:rxlife-rxjava:3.0.0'
