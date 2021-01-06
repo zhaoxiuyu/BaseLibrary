@@ -20,8 +20,8 @@ android {
         targetSdkVersion 30 //目标版本
         minSdkVersion 21 //最低兼容Android版本
 
-        versionCode 109
-        versionName "1.0.9"
+        versionCode 111
+        versionName "1.1.1"
 
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
