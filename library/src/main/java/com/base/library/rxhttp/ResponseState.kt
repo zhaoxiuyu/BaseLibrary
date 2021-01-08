@@ -6,7 +6,7 @@ import rxhttp.wrapper.entity.Progress
 /**
  * 请求状态的回调
  */
-class RxHttpState(var state: Int) {
+class ResponseState(var state: Int) {
 
     // 当前这个对象的状态
     var progress: Progress? = null
@@ -33,31 +33,31 @@ class RxHttpState(var state: Int) {
         val PROGRESS: Int = 4 // 进度，下载或者上传
 
         // 加载状态的对象
-        fun Loading(mRequest: RxRequest): RxHttpState {
-            val mRxHttpState = RxHttpState(LOADING)
+        fun Loading(mRequest: RxRequest): ResponseState {
+            val mRxHttpState = ResponseState(LOADING)
             mRxHttpState.mRequest = mRequest
             return mRxHttpState
         }
 
         // 成功
-        fun Success(mRequest: RxRequest): RxHttpState {
-            val mRxHttpState = RxHttpState(SUCCESS)
+        fun Success(mRequest: RxRequest): ResponseState {
+            val mRxHttpState = ResponseState(SUCCESS)
             mRxHttpState.mRequest = mRequest
             return mRxHttpState
         }
 
         // 失败
-        fun Error(mRequest: RxRequest): RxHttpState {
-            val mRxHttpState = RxHttpState(ERROR)
+        fun Error(mRequest: RxRequest): ResponseState {
+            val mRxHttpState = ResponseState(ERROR)
             mRxHttpState.mRequest = mRequest
             return mRxHttpState
         }
 
         // 完成
-        fun Completed(): RxHttpState = RxHttpState(COMPLETED)
+        fun Completed(): ResponseState = ResponseState(COMPLETED)
 
         // 进度，下载或者上传
-        fun Progress(pr: Progress?): RxHttpState = RxHttpState(PROGRESS).apply { progress = pr }
+        fun Progress(pr: Progress?): ResponseState = ResponseState(PROGRESS).apply { progress = pr }
 
     }
 

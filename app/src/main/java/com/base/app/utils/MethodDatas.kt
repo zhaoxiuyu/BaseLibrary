@@ -5,10 +5,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.base.app.R
 import com.base.app.entitys.UtilsDescribe
 import com.base.app.module.demos.ui.CoroutinesActivity
+import com.base.app.module.demos.ui.FlowActivity
 import com.base.app.module.views.imageview.ui.DynamicActivity
 import com.base.app.module.views.tablayout.ui.TabLayoutActivity
 import com.base.library.mvp.template.ui.Demo1Activity
 import com.base.library.mvvm.template.ui.Demo3Activity
+import com.base.library.mvvm.template.ui.Demo4Activity
 import com.ckr.decoration.DividerLinearItemDecoration
 
 object MethodDatas {
@@ -56,8 +58,10 @@ object MethodDatas {
     fun getFunctionDescribe(): MutableList<UtilsDescribe> {
         val datas = mutableListOf<UtilsDescribe>()
         datas.add(UtilsDescribe("Demo3Activity", "测试 MVVM 网络请求", Demo3Activity::class.java))
+        datas.add(UtilsDescribe("Demo3Activity", "测试 MVVM 协程请求", Demo4Activity::class.java))
         datas.add(UtilsDescribe("Demo1Activity", "测试 MVP 网络请求", Demo1Activity::class.java))
         datas.add(UtilsDescribe("协程", "练手 协程 相关操作", CoroutinesActivity::class.java))
+        datas.add(UtilsDescribe("异步流", "练手 异步流 相关操作", FlowActivity::class.java))
         return datas
     }
 

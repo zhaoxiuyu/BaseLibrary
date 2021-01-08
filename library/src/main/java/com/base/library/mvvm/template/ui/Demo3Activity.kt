@@ -3,7 +3,6 @@ package com.base.library.mvvm.template.ui
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.base.library.base.BActivity
@@ -50,15 +49,6 @@ class Demo3Activity : BActivity() {
             )
             mViewModel.getLogin(map)
         }
-        mBind.parallel.setOnClickListener {
-            mViewModel.getParallel()
-        }
-        mBind.putCache.setOnClickListener {
-            mViewModel.putCache("123", "456")
-        }
-        mBind.getCache.setOnClickListener {
-            mViewModel.getCache("123")
-        }
     }
 
     override fun initObserve(): MutableList<BViewModel> {
@@ -70,9 +60,6 @@ class Demo3Activity : BActivity() {
         })
         mViewModel.loginLiveData.observe(this, Observer {
             LogUtils.d(it.errorCode)
-        })
-        mViewModel.cacheLiveData.observe(this, Observer {
-            LogUtils.d(it)
         })
         return mutableListOf(mViewModel)
     }

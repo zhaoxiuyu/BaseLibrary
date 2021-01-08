@@ -8,6 +8,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
@@ -26,8 +27,10 @@
         <activity android:name=".module.views.tablayout.ui.TabLayoutActivity" />
         <activity android:name=".module.views.imageview.ui.DynamicActivity" />
         <activity android:name="com.base.library.mvvm.template.ui.Demo3Activity" />
+        <activity android:name="com.base.library.mvvm.template.ui.Demo4Activity" />
         <activity android:name="com.base.library.mvp.template.ui.Demo1Activity" />
         <activity android:name=".module.demos.ui.CoroutinesActivity" />
+        <activity android:name=".module.demos.ui.FlowActivity" />
 
     </application>
 

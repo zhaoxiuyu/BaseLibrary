@@ -27,10 +27,31 @@
         android:textSize="@dimen/pt_40" />
 
     <Button
+        android:id="@+id/collectLogin"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/pt_130"
+        android:text="协程 - 登录"
+        android:textSize="@dimen/pt_40" />
+
+    <Button
+        android:id="@+id/collectArticle"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/pt_130"
+        android:text="协程 - 首页文章列表"
+        android:textSize="@dimen/pt_40" />
+
+    <Button
         android:id="@+id/parallel"
         android:layout_width="match_parent"
         android:layout_height="@dimen/pt_130"
-        android:text="协程 - 并行获取列表"
+        android:text="协程 - 公众号列表和文章列表一起同步获取"
+        android:textSize="@dimen/pt_40" />
+
+    <Button
+        android:id="@+id/loginChaptersInfo"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/pt_130"
+        android:text="协程 - 登录成功之后获取公众号列表"
         android:textSize="@dimen/pt_40" />
 
     <Button
@@ -45,6 +66,13 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/pt_130"
         android:text="协程 - 获取缓存"
+        android:textSize="@dimen/pt_40" />
+
+    <Button
+        android:id="@+id/getFlow"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/pt_130"
+        android:text="协程 - 流吧"
         android:textSize="@dimen/pt_40" />
 
     <LinearLayout

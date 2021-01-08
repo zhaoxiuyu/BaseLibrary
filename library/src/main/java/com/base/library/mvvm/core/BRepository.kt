@@ -5,19 +5,28 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.base.library.entitys.BResponse
 import com.base.library.mvp.core.SuccessCall
-import com.base.library.rxhttp.RxHttpState
+import com.base.library.rxhttp.ResponseState
 import com.base.library.rxhttp.RxRequest
 import com.base.library.util.OtherUtils
+import com.blankj.utilcode.util.CacheDiskStaticUtils
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.ObservableTransformer
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 
 open class BRepository {
 
     private var compositeDisposable: CompositeDisposable? = null
 
-    val dialogState = MutableLiveData<RxHttpState>()
+    val dialogState = MutableLiveData<ResponseState>()
+
+    /**
+     * -------------- 测试方法结束
+     */
 
     /**
      * 响应数据 BResponse<Student.class>
@@ -135,7 +144,7 @@ open class BRepository {
     private fun doOnSubscribe(bRequest: RxRequest) {
         Log.d("BRepository", "请求开始")
         Log.d("BRepository", bRequest.print())
-        dialogState.value = RxHttpState.Loading(bRequest)
+        dialogState.value = ResponseState.Loading(bRequest)
     }
 
     private fun doFinally() {
@@ -152,7 +161,7 @@ open class BRepository {
         request.msg = "成功"
 
         // 状态 通知
-        dialogState.value = RxHttpState.Success(request)
+        dialogState.value = ResponseState.Success(request)
         // LiveData 通知
         response?.let { live?.value = it }
         // 回调接口
@@ -171,7 +180,7 @@ open class BRepository {
 
         request.msg = OtherUtils.getThrowableMessage(throwable)
         // 状态 通知
-        dialogState.value = RxHttpState.Error(request)
+        dialogState.value = ResponseState.Error(request)
         // 回调接口
         call?.accept(request)
 

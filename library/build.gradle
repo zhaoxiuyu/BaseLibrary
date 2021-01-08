@@ -171,6 +171,10 @@ dependencies {
     api 'com.ljx.rxlife:rxlife-coroutine:2.0.1'
 
     // 图片配置
+    api 'io.coil-kt:coil:1.1.0'
+    api 'io.coil-kt:coil-gif:1.1.0'
+    api 'io.coil-kt:coil-svg:1.1.0'
+
     api 'com.github.bumptech.glide:glide:4.11.0'
     kapt 'com.github.bumptech.glide:compiler:4.11.0'
     api 'com.github.bumptech.glide:okhttp3-integration:4.10.0'
@@ -228,6 +232,9 @@ dependencies {
     // 日历
     api 'com.haibin:calendarview:3.6.9'
     api 'com.squareup:android-times-square:1.6.5@aar'
+
+    // 权限请求
+    api 'com.hjq:xxpermissions:9.6'
 
     // 混淆库
     api 'com.github.zhaoxiuyu:Proguards:1.0.5'
