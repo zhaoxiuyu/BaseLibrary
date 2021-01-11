@@ -7,10 +7,15 @@ import com.base.library.entitys.response.WanArticle
 import com.base.library.entitys.response.WanChapters
 import com.base.library.entitys.response.WanLogin
 import com.base.library.mvp.core.SuccessCall
+import com.base.library.mvvm.core.BRepository
 import com.base.library.mvvm.core.BViewModel
 import com.base.library.rxhttp.RxRequest
 
 class Demo3ViewModel : BViewModel() {
+
+    private val mBRepository by lazy { BRepository() }
+
+    override fun getRepository() = mBRepository
 
     /**
      * 获取首页文章列表

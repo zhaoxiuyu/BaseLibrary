@@ -13,13 +13,17 @@ class ResponseState(var state: Int) {
 
     var mRequest: RxRequest? = null
 
+    var method: String = ""
+    var msg: String = ""
+
     // Activity 回调处理
     fun handler(callback: OnHandleCallback) {
         when (state) {
-            LOADING -> mRequest?.let { callback.onLoading(it) }
+            LOADING -> callback.onLoading(method, msg)
+//            LOADING -> mRequest?.let { callback.onLoading(method, msg) }
             SUCCESS -> mRequest?.let { callback.onSuccess(it) }
             ERROR -> mRequest?.let { callback.onError(it) }
-            COMPLETED -> callback.onCompleted()
+            COMPLETED -> callback.onCompleted(method)
             PROGRESS -> callback.onProgress(progress)
         }
     }
@@ -27,15 +31,17 @@ class ResponseState(var state: Int) {
     // 一次操作的状态
     companion object {
         val LOADING: Int = 0 // 加载中
+
         val SUCCESS: Int = 1 // 成功
         val ERROR: Int = 2 // 失败
         val COMPLETED: Int = 3 // 完成
         val PROGRESS: Int = 4 // 进度，下载或者上传
 
         // 加载状态的对象
-        fun Loading(mRequest: RxRequest): ResponseState {
+        fun Loading(method: String, msg: String = "正在加载..."): ResponseState {
             val mRxHttpState = ResponseState(LOADING)
-            mRxHttpState.mRequest = mRequest
+            mRxHttpState.method = method
+            mRxHttpState.msg = msg
             return mRxHttpState
         }
 
@@ -54,7 +60,8 @@ class ResponseState(var state: Int) {
         }
 
         // 完成
-        fun Completed(): ResponseState = ResponseState(COMPLETED)
+        fun Completed(method: String): ResponseState =
+            ResponseState(COMPLETED).apply { this.method = method }
 
         // 进度，下载或者上传
         fun Progress(pr: Progress?): ResponseState = ResponseState(PROGRESS).apply { progress = pr }

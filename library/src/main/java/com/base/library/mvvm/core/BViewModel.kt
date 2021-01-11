@@ -1,7 +1,9 @@
 package com.base.library.mvvm.core
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.rxLifeScope
+import com.base.library.rxhttp.ResponseState
 import com.blankj.utilcode.util.CacheDiskStaticUtils
 import com.blankj.utilcode.util.LogUtils
 import kotlinx.coroutines.Dispatchers
@@ -12,11 +14,17 @@ import kotlinx.coroutines.launch
  */
 open class BViewModel : ViewModel() {
 
-    private val mRepository by lazy { BRepository() }
-    val cRepository by lazy { CRepository() }
+    // 一个ViewModel只有一个 网络请求弹窗状态 ，所有的ViewModel实现类和数据仓库公用这一个
+    private val dialogState = MutableLiveData<ResponseState>()
 
-    fun getRepository() = mRepository
-    fun getState() = mRepository.dialogState
+    open fun getRepository(): BRepository? = null
+    open fun getRepositorys(): MutableList<out BRepository>? = null
+
+    open fun getState(): MutableLiveData<ResponseState>? {
+        getRepository()?.dialogState = dialogState
+        getRepositorys()?.forEach { it.dialogState = dialogState }
+        return dialogState
+    }
 
     /**
      * 添加缓存
@@ -34,7 +42,7 @@ open class BViewModel : ViewModel() {
      */
     override fun onCleared() {
         super.onCleared()
-        mRepository.cleared()
+        getRepository()?.cleared()
     }
 
 }

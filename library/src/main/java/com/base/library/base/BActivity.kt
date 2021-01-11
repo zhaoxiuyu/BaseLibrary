@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.base.library.databinding.BaseLayoutBinding
 import com.base.library.interfaces.MyTitleBarListener
-import com.base.library.interfaces.MyXPopupListener
+import com.base.library.interfaces.MyXPopListener
 import com.base.library.mvvm.core.BViewModel
 import com.base.library.mvvm.core.OnHandleCallback
 import com.base.library.rxhttp.RxRequest
@@ -37,13 +37,16 @@ abstract class BActivity : AppCompatActivity(), OnHandleCallback {
     val mApplication: BApplication by lazy { application as BApplication }
     private var xPopup: BasePopupView? = null
 
+    // 加载提示框
+    private var loadingPopup: BasePopupView? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         initArgs(intent)
 
         initObserve()?.forEach { bViewModel ->
-            bViewModel.getState().observe(this, Observer { state -> state.handler(this) })
+            bViewModel.getState()?.observe(this, Observer { it.handler(this) })
         }
 
         initView()
@@ -137,85 +140,67 @@ abstract class BActivity : AppCompatActivity(), OnHandleCallback {
     /**
      * --------------------- 提示框
      */
-    fun showLoading(xPopupCallback: XPopupCallback? = null, msg: String? = "请稍候") {
-        xPopup?.dismiss()
-
-        xPopup = XPopup.Builder(this)
-            .dismissOnBackPressed(false)
-            .dismissOnTouchOutside(false)
-            .setPopupCallback(xPopupCallback).asLoading(msg)
-
-        if (xPopup?.isDismiss == true) xPopup?.show()
-    }
-
     fun showDialog(
         title: String? = "提示",
         content: String? = "暂无内容",
         cancelTx: String? = "取消",
         confirmTx: String? = "确定",
-        confirmLi: MyXPopupListener? = null,
-        cancelLi: MyXPopupListener? = null,
+        confirmLi: MyXPopListener? = null,
+        cancelLi: MyXPopListener? = null,
         isHideCancel: Boolean = true,
         callback: XPopupCallback? = null
     ) {
         xPopup?.dismiss()
 
         xPopup = XPopup.Builder(this).setPopupCallback(callback)
-            .dismissOnBackPressed(false).dismissOnTouchOutside(false)
+            .dismissOnBackPressed(false)
+            .dismissOnTouchOutside(false)
             .asConfirm(title, content, cancelTx, confirmTx, confirmLi, cancelLi, isHideCancel)
-        xPopup?.show()
+            .show()
     }
 
-    fun getDismissFinish(isFinish: Boolean, runnable: Runnable? = null): MyXPopupListener =
-        object : MyXPopupListener {
-            override fun onDis() {
-                dismissDialog(isFinish, runnable)
-            }
+    fun getXPopupListener(isFinish: Boolean, runnable: Runnable? = null) = object : MyXPopListener {
+        override fun onDis() {
+            dismissDialog(isFinish, runnable)
         }
+    }
 
     fun dismissDialog(isFinish: Boolean = false, runnable: Runnable? = null) {
         xPopup?.dismissWith {
             runnable?.run()
-            if (isFinish) {
-                finish()
-            }
+            if (isFinish) finish()
         }
     }
 
     /**
      * --------------------- 状态的回调
      */
-    override fun onLoading(mRequest: RxRequest) {
+    override fun onLoading(method: String, msg: String) {
         Log.d("OnHandleCallback", "onLoading")
-        if (mRequest.showLoading) {
-            showLoading(null, mRequest.msg)
-        }
+        loadingPopup?.dismiss()
+        loadingPopup = XPopup.Builder(this)
+            .dismissOnBackPressed(false)
+            .dismissOnTouchOutside(false)
+            .asLoading(msg).show()
     }
 
     override fun onSuccess(mRequest: RxRequest) {
         Log.d("OnHandleCallback", "onSuccess")
-        // 网络请求是否弹出加载框，就对应的关闭
-        if (mRequest.showLoading) dismissDialog()
-        // 请求成功，是否弹窗提示
-        if (mRequest.showSuccess) {
-            val mListener = getDismissFinish(mRequest.successClickFinish)
-            showDialog(content = mRequest.msg, confirmLi = mListener)
-        }
+        dismissDialog()
+        val mListener = getXPopupListener(mRequest.successClickFinish)
+        showDialog(content = mRequest.msg, confirmLi = mListener)
     }
 
     override fun onError(mRequest: RxRequest) {
         Log.d("OnHandleCallback", "onError")
-        // 网络请求是否弹出加载框，就对应的关闭
-        if (mRequest.showLoading) dismissDialog()
-        // 请求失败，是否弹窗提示
-        if (mRequest.showFail) {
-            val mListener = getDismissFinish(mRequest.failClickFinish)
-            showDialog(content = mRequest.msg, confirmLi = mListener)
-        }
+        dismissDialog()
+        val mListener = getXPopupListener(mRequest.failClickFinish)
+        showDialog(content = mRequest.msg, confirmLi = mListener)
     }
 
-    override fun onCompleted() {
+    override fun onCompleted(method: String) {
         Log.d("OnHandleCallback", "onCompleted")
+        loadingPopup?.dismiss()
     }
 
     override fun onProgress(progress: Progress?) {
@@ -226,6 +211,7 @@ abstract class BActivity : AppCompatActivity(), OnHandleCallback {
      * --------------------- 结束,清理
      */
     override fun onDestroy() {
+        loadingPopup?.dismiss()
         dismissDialog(false)
         super.onDestroy()
     }

@@ -4,10 +4,16 @@ import androidx.lifecycle.MutableLiveData
 import com.base.library.base.BConstant
 import com.base.library.entitys.BResponse
 import com.base.library.entitys.response.WanArticle
+import com.base.library.mvvm.core.BRepository
 import com.base.library.mvvm.core.BViewModel
+import com.base.library.mvvm.template.repository.Demo4Repository
 import com.base.library.rxhttp.RxRequest
 
 class DetailViewModel : BViewModel() {
+
+    private val mBResponse by lazy { BRepository() }
+
+    override fun getRepository() = mBResponse
 
     /**
      * 获取首页文章列表
@@ -19,6 +25,5 @@ class DetailViewModel : BViewModel() {
         request.httpGet().setDomainTowanandroidIfAbsent()
         getRepository().getResponse(request, WanArticle::class.java, articleLiveData)
     }
-
 
 }

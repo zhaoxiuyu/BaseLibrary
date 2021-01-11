@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.base.library.databinding.BaseLayoutBinding
 import com.base.library.interfaces.MyTitleBarListener
-import com.base.library.interfaces.MyXPopupListener
+import com.base.library.interfaces.MyXPopListener
 import com.base.library.mvvm.core.BViewModel
 import com.base.library.mvvm.core.OnHandleCallback
 import com.base.library.rxhttp.RxRequest
@@ -46,7 +46,7 @@ abstract class BFragment : Fragment(), OnHandleCallback {
         initArgs(arguments)
 
         initObserve()?.forEach { bViewModel ->
-            bViewModel.getState().observe(viewLifecycleOwner, Observer { state ->
+            bViewModel.getState()?.observe(viewLifecycleOwner, Observer { state ->
                 state.handler(this)
             })
         }
@@ -131,8 +131,8 @@ abstract class BFragment : Fragment(), OnHandleCallback {
         content: String? = "",
         cancelTx: String? = "取消",
         confirmTx: String? = "确定",
-        confirmLi: MyXPopupListener? = null,
-        cancelLi: MyXPopupListener? = null,
+        confirmLi: MyXPopListener? = null,
+        cancelLi: MyXPopListener? = null,
         isHideCancel: Boolean = true,
         callback: XPopupCallback? = null
     ) {
@@ -146,8 +146,8 @@ abstract class BFragment : Fragment(), OnHandleCallback {
     }
 
     // 提供一个接口,关闭 Dialog 的同时是否关闭页面
-    fun getDismissFinish(isFinish: Boolean = false, runnable: Runnable? = null): MyXPopupListener =
-        object : MyXPopupListener {
+    fun getDismissFinish(isFinish: Boolean = false, runnable: Runnable? = null): MyXPopListener =
+        object : MyXPopListener {
             override fun onDis() {
                 dismissDialog(isFinish, runnable)
             }
@@ -166,11 +166,12 @@ abstract class BFragment : Fragment(), OnHandleCallback {
     /**
      * 状态的回调
      */
-    override fun onLoading(mRequest: RxRequest) {
+    override fun onLoading(method: String, msg: String) {
         Log.v("OnHandleCallback", "onLoading")
-        if (mRequest.showLoading) {
-            showLoading(null, mRequest.msg)
-        }
+        showLoading(null, msg)
+//        if (mRequest.showLoading) {
+//            showLoading(null, mRequest.msg)
+//        }
     }
 
     override fun onSuccess(mRequest: RxRequest) {
@@ -195,7 +196,7 @@ abstract class BFragment : Fragment(), OnHandleCallback {
         }
     }
 
-    override fun onCompleted() {
+    override fun onCompleted(method: String) {
         Log.v("OnHandleCallback", "onCompleted")
     }
 

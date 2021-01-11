@@ -2,12 +2,11 @@ package com.base.library.mvp
 
 import android.os.Bundle
 import com.base.library.base.BActivity
-import com.base.library.interfaces.MyXPopupListener
+import com.base.library.interfaces.MyXPopListener
 import com.base.library.mvp.core.VPView
 import com.lxj.xpopup.interfaces.OnCancelListener
 import com.lxj.xpopup.interfaces.OnConfirmListener
 import com.lxj.xpopup.interfaces.XPopupCallback
-import io.reactivex.rxjava3.functions.Consumer
 
 /**
  * MVP 模式的基础 Activity
@@ -26,7 +25,7 @@ abstract class VPActivity : BActivity(), VPView {
     override fun getContext() = this
 
     override fun showDialog(xPopupCallback: XPopupCallback?, loading: String?) {
-        showLoading(xPopupCallback, loading)
+//        showLoading(xPopupCallback, loading)
     }
 
     override fun showDialog(
@@ -43,7 +42,7 @@ abstract class VPActivity : BActivity(), VPView {
     }
 
     // 关闭提示框 并且 销毁页面
-    override fun getDismissFinishListener(): MyXPopupListener = object : MyXPopupListener {
+    override fun getDismissFinishListener(): MyXPopListener = object : MyXPopListener {
         override fun onDis() {
             dismissDialog(true)
         }

@@ -8,13 +8,13 @@ import rxhttp.wrapper.entity.Progress
  */
 interface OnHandleCallback {
 
+    fun onLoading(method: String, msg: String)
+
     fun onSuccess(mRequest: RxRequest)
 
     fun onError(mRequest: RxRequest)
 
-    fun onLoading(mRequest: RxRequest)
-
-    fun onCompleted()
+    fun onCompleted(method: String)
 
     fun onProgress(progress: Progress?)
 

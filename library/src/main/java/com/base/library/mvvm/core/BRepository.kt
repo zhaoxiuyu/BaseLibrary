@@ -8,25 +8,16 @@ import com.base.library.mvp.core.SuccessCall
 import com.base.library.rxhttp.ResponseState
 import com.base.library.rxhttp.RxRequest
 import com.base.library.util.OtherUtils
-import com.blankj.utilcode.util.CacheDiskStaticUtils
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.ObservableTransformer
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
 
 open class BRepository {
 
     private var compositeDisposable: CompositeDisposable? = null
 
-    val dialogState = MutableLiveData<ResponseState>()
-
-    /**
-     * -------------- 测试方法结束
-     */
+    var dialogState: MutableLiveData<ResponseState>? = null
 
     /**
      * 响应数据 BResponse<Student.class>
@@ -68,7 +59,6 @@ open class BRepository {
             }, { error(request, it) })
         addDisposable(disposable)
     }
-
 
     /**
      * 响应数据 Student.class
@@ -142,13 +132,13 @@ open class BRepository {
     }
 
     private fun doOnSubscribe(bRequest: RxRequest) {
-        Log.d("BRepository", "请求开始")
-        Log.d("BRepository", bRequest.print())
-        dialogState.value = ResponseState.Loading(bRequest)
+        Log.d("BRepository", "doOnSubscribe 请求开始")
+        dialogState?.value = ResponseState.Loading("bRequest", "")
     }
 
     private fun doFinally() {
-        Log.d("BRepository", "请求结束,Completed 不进行回调")
+        Log.d("BRepository", "doFinally 请求结束")
+        dialogState?.value = ResponseState.Completed("bRequest")
     }
 
     open fun <T> success(
@@ -158,10 +148,13 @@ open class BRepository {
         call: SuccessCall<T>? = null
     ) {
         Log.d("BRepository", "请求成功")
+
         request.msg = "成功"
 
-        // 状态 通知
-        dialogState.value = ResponseState.Success(request)
+        // 请求成功是否弹窗
+        if (request.showSuccess) {
+            dialogState?.value = ResponseState.Success(request)
+        }
         // LiveData 通知
         response?.let { live?.value = it }
         // 回调接口
@@ -179,11 +172,13 @@ open class BRepository {
         Log.d("BRepository", "请求失败")
 
         request.msg = OtherUtils.getThrowableMessage(throwable)
-        // 状态 通知
-        dialogState.value = ResponseState.Error(request)
+
+        // 请求失败是否弹窗
+        if (request.showFail) {
+            dialogState?.value = ResponseState.Error(request)
+        }
         // 回调接口
         call?.accept(request)
-
         throwable?.printStackTrace()
     }
 

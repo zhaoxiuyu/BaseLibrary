@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.base.library.base.BFragment
-import com.base.library.interfaces.MyXPopupListener
+import com.base.library.interfaces.MyXPopListener
 import com.base.library.mvp.core.VPView
 import com.lxj.xpopup.interfaces.OnCancelListener
 import com.lxj.xpopup.interfaces.OnConfirmListener
@@ -42,7 +42,7 @@ abstract class VPFragment : BFragment(), VPView {
     }
 
     // 关闭提示框 并且 销毁页面
-    override fun getDismissFinishListener(): MyXPopupListener = object : MyXPopupListener {
+    override fun getDismissFinishListener(): MyXPopListener = object : MyXPopListener {
         override fun onDis() {
             dismissDialog(true)
         }

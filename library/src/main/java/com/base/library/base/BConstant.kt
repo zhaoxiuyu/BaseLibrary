@@ -28,6 +28,9 @@ object BConstant {
     // 登录
     const val login = "/user/login"
 
+    // 首页banner
+    const val banner = "/banner/json"
+
     /**
      * 参数 key
      */

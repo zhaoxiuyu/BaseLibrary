@@ -3,8 +3,8 @@ package com.base.library.mvvm.template.ui
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import androidx.activity.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.base.library.base.BActivity
 import com.base.library.databinding.BaseActivityTestBinding
 import com.base.library.mvvm.core.BViewModel
@@ -16,7 +16,9 @@ import io.reactivex.rxjava3.core.ObservableTransformer
 
 class Demo3Activity : BActivity() {
 
-    private val mViewModel by lazy { ViewModelProvider(this).get(Demo3ViewModel::class.java) }
+    private val mViewModel: Demo3ViewModel by viewModels()
+
+//    private val mViewModel by lazy { ViewModelProvider(this).get(Demo3ViewModel::class.java) }
 
     private val mBind by lazy { BaseActivityTestBinding.inflate(layoutInflater) }
 

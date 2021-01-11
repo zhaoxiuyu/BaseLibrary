@@ -1,7 +1,7 @@
 package com.base.library.mvp.core
 
 import android.content.Context
-import com.base.library.interfaces.MyXPopupListener
+import com.base.library.interfaces.MyXPopListener
 import com.lxj.xpopup.interfaces.OnCancelListener
 import com.lxj.xpopup.interfaces.OnConfirmListener
 import com.lxj.xpopup.interfaces.XPopupCallback
@@ -24,7 +24,7 @@ interface VPView {
         callback: XPopupCallback? = null // 提示框 显示和隐藏监听
     )
 
-    fun getDismissFinishListener(): MyXPopupListener
+    fun getDismissFinishListener(): MyXPopListener
 
     fun disDialog(finish: Boolean = false)
 

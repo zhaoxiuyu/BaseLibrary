@@ -2,8 +2,8 @@ package com.base.library.mvvm.template.ui
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.base.library.base.BActivity
 import com.base.library.databinding.BaseActivityTestBinding
 import com.base.library.mvvm.core.BViewModel
@@ -12,7 +12,9 @@ import com.blankj.utilcode.util.LogUtils
 
 class Demo4Activity : BActivity() {
 
-    private val mViewModel by lazy { ViewModelProvider(this).get(Demo4ViewModel::class.java) }
+    private val mViewModel: Demo4ViewModel by viewModels()
+
+//    private val mViewModel by lazy { ViewModelProvider(this).get(Demo4ViewModel::class.java) }
 
     private val mBind by lazy { BaseActivityTestBinding.inflate(layoutInflater) }
 
@@ -25,17 +27,23 @@ class Demo4Activity : BActivity() {
     }
 
     override fun initData(savedInstanceState: Bundle?) {
-        mBind.collectArticle.setOnClickListener { getArticle() }
+        // 获取缓存
         mBind.getCache.setOnClickListener { getCache() }
-        mBind.parallel.setOnClickListener { getChapters() }
-        mBind.collectLogin.setOnClickListener { getChapters() }
-        mBind.loginChaptersInfo.setOnClickListener {
-            getLoginChaptersInfo(mBind.userName.text.toString(), mBind.passWord.text.toString())
+
+        // 登录
+        mBind.collectLogin.setOnClickListener {
+            collectLogin(mBind.userName.text.toString(), mBind.passWord.text.toString())
         }
+        // 登录 -> 首页banner
+        mBind.collectLoginBanner.setOnClickListener {
+            loginBanner(mBind.userName.text.toString(), mBind.passWord.text.toString())
+        }
+        // 公众号 文章 列表同步获取
+        mBind.parallel.setOnClickListener { parallel() }
     }
 
     override fun initObserve(): MutableList<BViewModel>? {
-        return null
+        return mutableListOf(mViewModel)
     }
 
     // 获取缓存
@@ -45,27 +53,25 @@ class Demo4Activity : BActivity() {
         })
     }
 
-    // 获取首页文章列表
-    private fun getArticle() {
-//        mViewModel.getArticle().observe(this, Observer {
-//        })
-    }
-
-    // 公众号列表和文章列表一起同步获取
-    private fun getChapters() {
-        mViewModel.getChapters().observe(this, Observer {
-        })
-    }
-
     // 登录
     private fun collectLogin(username: String, password: String) {
         mViewModel.collectLogin(username, password).observe(this, Observer {
+            mBind.tvInfo.text = "登录状态 ${it.showMsg()}"
         })
     }
 
-    private fun getLoginChaptersInfo(username: String, password: String) {
-//        mViewModel.getLoginChaptersInfo(username, password).observe(this, Observer {
-//        })
+    // 登录 -> 首页banner
+    private fun loginBanner(username: String, password: String) {
+        mViewModel.getLoginBanner(username, password).observe(this, Observer {
+            mBind.tvInfo.text = "登录 -> 首页banner 状态 ${it.showMsg()}"
+        })
+    }
+
+    // 公众号 文章 列表同步获取
+    private fun parallel() {
+        mViewModel.getParallel().observe(this, Observer {
+            LogUtils.d("${it.first.errorCode} = ${it.second.errorCode}")
+        })
     }
 
 }

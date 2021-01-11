@@ -1,18 +1,22 @@
 package com.base.app.module.test
 
+import android.content.Intent
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.base.app.databinding.DetailsBinding
-import com.base.library.base.BFragment
+import com.base.library.base.BActivity
 import com.base.library.mvvm.core.BViewModel
 
-class DetailActivity : BFragment() {
+class DetailActivity : BActivity() {
 
     private val mBind by lazy { DetailsBinding.inflate(layoutInflater) }
-    private val mViewModel by lazy { ViewModelProvider(this).get(DetailViewModel::class.java) }
 
-    override fun initArgs(mArguments: Bundle?) {
+    private val mViewModel: DetailViewModel by viewModels()
+
+//    private val mViewModel by lazy { ViewModelProvider(this).get(DetailViewModel::class.java) }
+
+    override fun initArgs(mIntent: Intent?) {
     }
 
     override fun initView() {
