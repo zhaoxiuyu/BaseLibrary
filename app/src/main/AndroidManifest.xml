@@ -14,7 +14,7 @@
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
 
-        <activity android:name=".module.demos.ui.DemosActivity">
+        <activity android:name=".module.common.ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
@@ -23,11 +23,14 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".module.demos.ui.DemosActivity">
+
+        </activity>
+
         <activity android:name=".module.views.viewpage2.ui.ViewPage2" />
         <activity android:name=".module.views.tablayout.ui.TabLayoutActivity" />
         <activity android:name=".module.views.imageview.ui.DynamicActivity" />
         <activity android:name="com.base.library.mvvm.template.ui.Demo3Activity" />
-        <activity android:name="com.base.library.mvvm.template.ui.Demo4Activity" />
         <activity android:name="com.base.library.mvp.template.ui.Demo1Activity" />
         <activity android:name=".module.demos.ui.CoroutinesActivity" />
         <activity android:name=".module.demos.ui.FlowActivity" />

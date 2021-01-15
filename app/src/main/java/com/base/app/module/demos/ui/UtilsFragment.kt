@@ -3,9 +3,11 @@ package com.base.app.module.demos.ui
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.addCallback
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.base.app.base.MyConstant
 import com.base.app.databinding.FragmentUtilsBinding
+import com.base.app.module.common.ui.MainActivity
 import com.base.app.module.demos.adapter.FragmentAdapter
 import com.base.app.utils.MethodDatas
 import com.base.library.base.BFragment
@@ -29,16 +31,23 @@ class UtilsFragment : BFragment(), OnItemClickListener {
         mArguments?.let {
             param1 = it.getString(MyConstant.ARG_PARAM1)
             param2 = it.getString(MyConstant.ARG_PARAM2)
+            LogUtils.d(mArguments.getString("topBarTitle"))
         }
     }
 
     override fun initView() {
-        setContentViewBar(mBind.root)
+        setContentView(mBind.root)
         setTitleBarOperation("工具类")
         getTitleBar().leftIcon = null
     }
 
     override fun initData(savedInstanceState: Bundle?) {
+        (activity as MainActivity).getMainBnv(true)
+        requireActivity().onBackPressedDispatcher.addCallback {
+            isEnabled = true
+            (activity as MainActivity).backMain("UtilsFragment")
+        }
+
         mBind.demosUtilsFragmentRv.layoutManager = LinearLayoutManager(requireActivity())
         mBind.demosUtilsFragmentRv.adapter = mAdapter
         mBind.demosUtilsFragmentRv.addItemDecoration(
@@ -50,8 +59,6 @@ class UtilsFragment : BFragment(), OnItemClickListener {
         mAdapter.animationEnable = true
         mAdapter.setOnItemClickListener(this)
         mAdapter.setNewInstance(MethodDatas.getUtilsDescribe())
-
-        LogUtils.d("UtilsFragment")
     }
 
     override fun initObserve(): Nothing? = null
@@ -72,4 +79,5 @@ class UtilsFragment : BFragment(), OnItemClickListener {
                 }
             }
     }
+
 }

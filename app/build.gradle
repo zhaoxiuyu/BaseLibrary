@@ -3,6 +3,8 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.didi.dokit' //DoraemonKit插件
 apply plugin: "com.blankj.bus"
+apply plugin: "androidx.navigation.safeargs.kotlin"
+
 
 //配置项目构建的各种属性
 android {
@@ -32,6 +34,7 @@ android {
 
     // 启用 viewBinding 来帮我们进行findviewbyid
     buildFeatures {
+        dataBinding true
         viewBinding = true
     }
 
@@ -120,6 +123,8 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test:runner:1.3.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'

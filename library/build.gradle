@@ -2,6 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.github.dcendents.android-maven' // JitPack Maven
+apply plugin: "androidx.navigation.safeargs.kotlin"
 group = 'com.github.zhaoxiuyu'
 
 repositories {
@@ -194,7 +195,7 @@ dependencies {
     api 'com.airbnb.android:lottie:3.5.0'
 
     // RecyclerView 列表动画
-    api 'jp.wasabeef:recyclerview-animators:3.0.0'
+    api 'jp.wasabeef:recyclerview-animators:4.0.1'
 
     // 动画工具类
     api 'com.github.florent37:viewanimator:1.1.2'

@@ -1,16 +1,18 @@
 package com.base.library.mvvm.template.ui
 
-import android.content.Intent
 import android.os.Bundle
-import androidx.activity.viewModels
+import android.view.View
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import com.base.library.base.BActivity
+import androidx.navigation.Navigation
+import com.base.library.base.BFragment
 import com.base.library.databinding.BaseActivityTestBinding
+import com.base.library.interfaces.MyTitleBarListener
 import com.base.library.mvvm.core.BViewModel
 import com.base.library.mvvm.template.viewmodel.Demo4ViewModel
 import com.blankj.utilcode.util.LogUtils
 
-class Demo4Activity : BActivity() {
+class Demo4Fragment : BFragment() {
 
     private val mViewModel: Demo4ViewModel by viewModels()
 
@@ -18,12 +20,22 @@ class Demo4Activity : BActivity() {
 
     private val mBind by lazy { BaseActivityTestBinding.inflate(layoutInflater) }
 
-    override fun initArgs(mIntent: Intent?) {
+    override fun initArgs(mArguments: Bundle?) {
+        mArguments?.let {
+            LogUtils.d(it.getString("fujia"))
+        }
     }
 
     override fun initView() {
         setContentViewBar(mBind.root)
-        setTitleBarOperation("MVVM 协程")
+        getTitleBar().title = "MVVM 协程"
+        getTitleBar().setOnTitleBarListener(object : MyTitleBarListener() {
+            override fun onLeftClick(v: View?) {
+                v?.let {
+                    Navigation.findNavController(v).navigateUp()
+                }
+            }
+        })
     }
 
     override fun initData(savedInstanceState: Bundle?) {

@@ -42,23 +42,19 @@ abstract class BFragment : Fragment(), OnHandleCallback {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         initArgs(arguments)
-
         initObserve()?.forEach { bViewModel ->
             bViewModel.getState()?.observe(viewLifecycleOwner, Observer { state ->
                 state.handler(this)
             })
         }
-
         initView()
-
         return bView
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (immersionBar) immersionBar()
+        immersionBar()
         initData(savedInstanceState)
     }
 
@@ -87,8 +83,9 @@ abstract class BFragment : Fragment(), OnHandleCallback {
         return getTitleBar()
     }
 
-    fun setContentView(view: View) {
+    fun setContentView(view: View, immersionBar: Boolean = true) {
         this.bView = view
+        this.immersionBar = immersionBar
     }
 
     fun setContentViewBar(view: View, immersionBar: Boolean = true) {
@@ -98,18 +95,23 @@ abstract class BFragment : Fragment(), OnHandleCallback {
         )
         view.layoutParams = lp
 
-        this.bView = bBind.root
-        this.immersionBar = immersionBar
+        // 沉浸式,把stateBar设置为状态栏的高度,用来延伸到状态栏
+        if (immersionBar) {
+            val stateBarLp = bBind.stateBar.layoutParams
+            stateBarLp.height = BarUtils.getStatusBarHeight()
+            bBind.stateBar.layoutParams = stateBarLp
+        }
 
         bBind.root.addView(view)
+
+        this.bView = bBind.root
+        this.immersionBar = immersionBar
     }
 
     fun immersionBar() {
-        val stateBarLp = bBind.stateBar.layoutParams
-        stateBarLp.height = BarUtils.getStatusBarHeight()
-        bBind.stateBar.layoutParams = stateBarLp
-
-        UltimateBarX.with(this).fitWindow(false).light(true).applyStatusBar()
+        if (immersionBar) {
+            UltimateBarX.with(this).fitWindow(false).light(true).applyStatusBar()
+        }
     }
 
     /**
@@ -210,6 +212,7 @@ abstract class BFragment : Fragment(), OnHandleCallback {
     override fun onDestroyView() {
         super.onDestroyView()
         dismissDialog()
+        (bView?.parent as ViewGroup).removeView(bView)
     }
 
 }
