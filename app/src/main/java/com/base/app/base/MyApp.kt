@@ -4,7 +4,9 @@ import com.base.library.base.BApplication
 import com.base.library.util.CockroachUtil
 import com.blankj.utilcode.util.LogUtils
 import com.didichuxing.doraemonkit.DoraemonKit
+import dagger.hilt.android.HiltAndroidApp
 
+@HiltAndroidApp
 class MyApp : BApplication() {
 
     override fun onCreate() {

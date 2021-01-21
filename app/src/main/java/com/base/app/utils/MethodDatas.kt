@@ -4,12 +4,12 @@ import android.content.Context
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.base.app.R
 import com.base.app.entitys.UtilsDescribe
-import com.base.app.module.demos.ui.CoroutinesActivity
-import com.base.app.module.demos.ui.FlowActivity
-import com.base.app.module.views.imageview.ui.DynamicActivity
-import com.base.app.module.views.tablayout.ui.TabLayoutActivity
+import com.base.app.module.demos.ui.CoroutinesFragment
+import com.base.app.module.demos.ui.FlowFragment
+import com.base.app.module.views.imageview.ui.DynamicFragment
+import com.base.app.module.views.tablayout.ui.TabPage2Fragment
 import com.base.library.mvp.template.ui.Demo1Activity
-import com.base.library.mvvm.template.ui.Demo3Activity
+import com.base.library.mvvm.template.ui.Demo3Fragment
 import com.base.library.mvvm.template.ui.Demo4Fragment
 import com.ckr.decoration.DividerLinearItemDecoration
 
@@ -48,20 +48,26 @@ object MethodDatas {
     fun getViewsDescribe(): MutableList<UtilsDescribe> {
         val datas = mutableListOf<UtilsDescribe>()
 
-        datas.add(UtilsDescribe("DynamicHeightImageView", "可设置宽高比的图片", DynamicActivity::class.java))
+        datas.add(UtilsDescribe("DynamicHeightImageView", "可设置宽高比的图片", DynamicFragment::class.java))
         datas.add(UtilsDescribe("BTitleBar", "自定义操作栏", null))
-        datas.add(UtilsDescribe("TabLayout", "导航栏-Fragment沉浸式", TabLayoutActivity::class.java))
+        datas.add(
+            UtilsDescribe(
+                "TabLayout ViewPage2",
+                "导航栏-Fragment沉浸式",
+                TabPage2Fragment::class.java
+            )
+        )
 
         return datas
     }
 
     fun getFunctionDescribe(): MutableList<UtilsDescribe> {
         val datas = mutableListOf<UtilsDescribe>()
-        datas.add(UtilsDescribe("Demo3Activity", "测试 MVVM 网络请求", Demo3Activity::class.java))
+        datas.add(UtilsDescribe("Demo3Activity", "测试 MVVM 网络请求", Demo3Fragment::class.java))
         datas.add(UtilsDescribe("Demo4Fragment", "测试 MVVM 协程请求", Demo4Fragment::class.java))
         datas.add(UtilsDescribe("Demo1Activity", "测试 MVP 网络请求", Demo1Activity::class.java))
-        datas.add(UtilsDescribe("协程", "练手 协程 相关操作", CoroutinesActivity::class.java))
-        datas.add(UtilsDescribe("异步流", "练手 异步流 相关操作", FlowActivity::class.java))
+        datas.add(UtilsDescribe("协程", "练手 协程 相关操作", CoroutinesFragment::class.java))
+        datas.add(UtilsDescribe("异步流", "练手 异步流 相关操作", FlowFragment::class.java))
         return datas
     }
 

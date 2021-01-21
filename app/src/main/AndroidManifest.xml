@@ -28,12 +28,8 @@
         </activity>
 
         <activity android:name=".module.views.viewpage2.ui.ViewPage2" />
-        <activity android:name=".module.views.tablayout.ui.TabLayoutActivity" />
-        <activity android:name=".module.views.imageview.ui.DynamicActivity" />
-        <activity android:name="com.base.library.mvvm.template.ui.Demo3Activity" />
+        <activity android:name=".module.views.tablayout.ui.TabPage2Fragment" />
         <activity android:name="com.base.library.mvp.template.ui.Demo1Activity" />
-        <activity android:name=".module.demos.ui.CoroutinesActivity" />
-        <activity android:name=".module.demos.ui.FlowActivity" />
 
     </application>
 

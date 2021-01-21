@@ -1,11 +1,13 @@
 package com.base.app.module.demos.ui
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.lifecycle.rxLifeScope
-import com.base.app.databinding.ActivityFlowBinding
-import com.base.library.base.BActivity
+import androidx.navigation.fragment.findNavController
+import com.base.app.databinding.FragmentFlowBinding
+import com.base.library.base.BFragment
+import com.base.library.interfaces.MyTitleBarListener
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
@@ -13,16 +15,20 @@ import kotlinx.coroutines.flow.*
 /**
  * 异步流
  */
-class FlowActivity : BActivity() {
+class FlowFragment : BFragment() {
 
-    val mBind by lazy { ActivityFlowBinding.inflate(layoutInflater) }
+    val mBind by lazy { FragmentFlowBinding.inflate(layoutInflater) }
 
-    override fun initArgs(mIntent: Intent?) {
+    override fun initArgs(mArguments: Bundle?) {
     }
 
     override fun initView() {
         setContentViewBar(mBind.root)
-        setTitleBarOperation("异步流")
+        setTitleBarOperation("异步流", object : MyTitleBarListener() {
+            override fun onLeftClick(v: View?) {
+                findNavController().navigateUp()
+            }
+        })
     }
 
     override fun initData(savedInstanceState: Bundle?) {

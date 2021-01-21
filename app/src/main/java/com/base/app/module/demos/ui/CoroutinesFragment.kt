@@ -1,10 +1,12 @@
 package com.base.app.module.demos.ui
 
-import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.rxLifeScope
-import com.base.app.databinding.ActivityCoroutinesBinding
-import com.base.library.base.BActivity
+import androidx.navigation.fragment.findNavController
+import com.base.app.databinding.FragmentCoroutinesBinding
+import com.base.library.base.BFragment
+import com.base.library.interfaces.MyTitleBarListener
 import com.rxlife.coroutine.RxLifeScope
 import kotlinx.coroutines.*
 
@@ -14,18 +16,22 @@ import kotlinx.coroutines.*
  * 挂起的非阻塞式指的是它能用看起来阻塞的代码写出非阻塞的操作
  */
 
-class CoroutinesActivity : BActivity() {
+class CoroutinesFragment : BFragment() {
 
-    private val mBind by lazy { ActivityCoroutinesBinding.inflate(layoutInflater) }
+    private val mBind by lazy { FragmentCoroutinesBinding.inflate(layoutInflater) }
 
     private val sb = StringBuilder()
 
-    override fun initArgs(mIntent: Intent?) {
+    override fun initArgs(mArguments: Bundle?) {
     }
 
     override fun initView() {
         setContentViewBar(mBind.root)
-        setTitleBarOperation("协程-练手")
+        setTitleBarOperation("协程-练手", object : MyTitleBarListener() {
+            override fun onLeftClick(v: View?) {
+                findNavController().navigateUp()
+            }
+        })
     }
 
     override fun initData(savedInstanceState: Bundle?) {

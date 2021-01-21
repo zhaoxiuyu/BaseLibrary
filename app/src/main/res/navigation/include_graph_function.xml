@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph_function"
+    app:startDestination="@id/nav_function">
+
+    <!-- 其他测试 列表 -->
+    <fragment
+        android:id="@+id/nav_function"
+        android:name="com.base.app.module.demos.ui.FunctionFragment"
+        android:label="Utils"
+        app:defaultNavHost="false">
+
+        <action
+            android:id="@+id/action_function_to_demo4"
+            app:destination="@id/nav_demo4_fragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+        <action
+            android:id="@+id/action_function_to_demo3"
+            app:destination="@id/nav_demo3_fragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+        <action
+            android:id="@+id/action_function_to_coroutines"
+            app:destination="@id/nav_coroutines_fragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+        <action
+            android:id="@+id/action_function_to_flow"
+            app:destination="@id/nav_flow_fragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_demo4_fragment"
+        android:name="com.base.library.mvvm.template.ui.Demo4Fragment"
+        android:label="Demo4"
+        app:defaultNavHost="false" />
+
+    <fragment
+        android:id="@+id/nav_demo3_fragment"
+        android:name="com.base.library.mvvm.template.ui.Demo3Fragment"
+        android:label="Demo3"
+        app:defaultNavHost="false" />
+
+    <fragment
+        android:id="@+id/nav_coroutines_fragment"
+        android:name="com.base.app.module.demos.ui.CoroutinesFragment"
+        android:label="Coroutines"
+        app:defaultNavHost="false" />
+
+    <fragment
+        android:id="@+id/nav_flow_fragment"
+        android:name="com.base.app.module.demos.ui.FlowFragment"
+        android:label="Flow"
+        app:defaultNavHost="false" />
+
+</navigation>

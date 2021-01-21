@@ -3,6 +3,7 @@ package com.base.app.module.common.ui
 import android.os.Bundle
 import android.os.CountDownTimer
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.base.app.R
 import com.base.app.databinding.FragmentSplashBinding
 import com.base.library.base.BFragment
@@ -34,7 +35,7 @@ class SplashFragment : BFragment() {
      */
     private val mCountDownTimer = object : CountDownTimer(3000, 1000) {
         override fun onFinish() {
-            Navigation.findNavController(mBind.lottie).navigate(R.id.action_splash_to_utils)
+            findNavController().navigate(R.id.action_splash_to_utils)
         }
 
         override fun onTick(millisUntilFinished: Long) {

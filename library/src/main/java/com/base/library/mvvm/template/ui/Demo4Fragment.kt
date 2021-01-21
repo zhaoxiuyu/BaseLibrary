@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.base.library.base.BFragment
 import com.base.library.databinding.BaseActivityTestBinding
 import com.base.library.interfaces.MyTitleBarListener
@@ -16,8 +16,6 @@ class Demo4Fragment : BFragment() {
 
     private val mViewModel: Demo4ViewModel by viewModels()
 
-//    private val mViewModel by lazy { ViewModelProvider(this).get(Demo4ViewModel::class.java) }
-
     private val mBind by lazy { BaseActivityTestBinding.inflate(layoutInflater) }
 
     override fun initArgs(mArguments: Bundle?) {
@@ -28,12 +26,9 @@ class Demo4Fragment : BFragment() {
 
     override fun initView() {
         setContentViewBar(mBind.root)
-        getTitleBar().title = "MVVM 协程"
-        getTitleBar().setOnTitleBarListener(object : MyTitleBarListener() {
+        setTitleBarOperation("MVVM 协程", object : MyTitleBarListener() {
             override fun onLeftClick(v: View?) {
-                v?.let {
-                    Navigation.findNavController(v).navigateUp()
-                }
+                findNavController().navigateUp()
             }
         })
     }

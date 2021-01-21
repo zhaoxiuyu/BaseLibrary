@@ -13,6 +13,7 @@ import com.base.library.interfaces.MyXPopListener
 import com.base.library.mvvm.core.BViewModel
 import com.base.library.mvvm.core.OnHandleCallback
 import com.base.library.rxhttp.RxRequest
+import com.billy.android.loading.Gloading
 import com.blankj.utilcode.util.BarUtils
 import com.hjq.bar.TitleBar
 import com.lxj.xpopup.XPopup
@@ -88,12 +89,16 @@ abstract class BFragment : Fragment(), OnHandleCallback {
         this.immersionBar = immersionBar
     }
 
-    fun setContentViewBar(view: View, immersionBar: Boolean = true) {
+    fun setContentViewBar(view: View, title: Boolean = true, immersionBar: Boolean = true) {
         val lp = ViewGroup.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.MATCH_PARENT
         )
         view.layoutParams = lp
+
+        // 是否显示 顶部导航栏
+        val isShow = if (title) View.VISIBLE else View.GONE
+        bBind.titleBar.visibility = isShow
 
         // 沉浸式,把stateBar设置为状态栏的高度,用来延伸到状态栏
         if (immersionBar) {
@@ -102,6 +107,7 @@ abstract class BFragment : Fragment(), OnHandleCallback {
             bBind.stateBar.layoutParams = stateBarLp
         }
 
+        bBind.root.removeView(view)
         bBind.root.addView(view)
 
         this.bView = bBind.root
@@ -112,6 +118,16 @@ abstract class BFragment : Fragment(), OnHandleCallback {
         if (immersionBar) {
             UltimateBarX.with(this).fitWindow(false).light(true).applyStatusBar()
         }
+    }
+
+    /**
+     * --------------------- 为指定 View 设置各种状态布局
+     */
+    var mGloadingHolder: Gloading.Holder? = null
+    fun getGloadingHolder() = mGloadingHolder
+
+    fun setGloading(view: View) {
+        mGloadingHolder = Gloading.getDefault().wrap(view)
     }
 
     /**

@@ -90,7 +90,7 @@ abstract class BActivity : AppCompatActivity(), OnHandleCallback {
     /**
      * 给 ContentView 的外面添加一个 通用的顶部导航栏
      */
-    fun setContentViewBar(view: View, immersionBar: Boolean = true) {
+    fun setContentViewBar(view: View, title: Boolean = true, immersion: Boolean = true) {
         val lp = ViewGroup.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.MATCH_PARENT
@@ -98,18 +98,24 @@ abstract class BActivity : AppCompatActivity(), OnHandleCallback {
         view.layoutParams = lp
         bBind.root.addView(view)
 
+        // 是否显示 顶部导航栏
+        val isShow = if (title) View.VISIBLE else View.GONE
+        bBind.titleBar.visibility = isShow
+
         // 如果是沉浸式，就把空白View的高度设置为状态栏的高度延伸上去
-        if (immersionBar) immersionBar()
+        immersionBar(immersion)
 
         setContentView(bBind.root)
     }
 
-    fun immersionBar() {
-        val stateBarLp = bBind.stateBar.layoutParams
-        stateBarLp.height = BarUtils.getStatusBarHeight()
-        bBind.stateBar.layoutParams = stateBarLp
+    fun immersionBar(immersion: Boolean = true) {
+        if (immersion) {
+            val stateBarLp = bBind.stateBar.layoutParams
+            stateBarLp.height = BarUtils.getStatusBarHeight()
+            bBind.stateBar.layoutParams = stateBarLp
 
-        UltimateBarX.with(this).fitWindow(false).light(true).applyStatusBar()
+            UltimateBarX.with(this).fitWindow(false).light(true).applyStatusBar()
+        }
     }
 
     /**

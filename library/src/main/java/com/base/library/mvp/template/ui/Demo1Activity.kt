@@ -1,11 +1,14 @@
 package com.base.library.mvp.template.ui
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import com.base.library.databinding.BaseActivityTestBinding
 import com.base.library.entitys.response.WanArticle
 import com.base.library.entitys.response.WanChapters
 import com.base.library.entitys.response.WanLogin
+import com.base.library.interfaces.MyTitleBarListener
 import com.base.library.mvp.VPActivity
 import com.base.library.mvp.template.contract.Demo1Contract
 import com.base.library.mvp.template.presenter.Demo1Presenter
@@ -24,7 +27,12 @@ class Demo1Activity : VPActivity(), Demo1Contract.View {
 
     override fun initView() {
         setContentViewBar(mBind.root)
-        setTitleBarOperation("MVP 测试网络请求")
+        setTitleBarOperation("MVP 测试网络请求", object : MyTitleBarListener() {
+            override fun onLeftClick(v: View?) {
+                setResult(Activity.RESULT_OK, Intent().putExtra("msg", "传个msg吧"))
+                finish()
+            }
+        })
         lifecycle.addObserver(mPresenter)
     }
 

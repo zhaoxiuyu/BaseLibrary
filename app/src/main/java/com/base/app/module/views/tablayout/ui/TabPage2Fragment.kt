@@ -1,20 +1,22 @@
 package com.base.app.module.views.tablayout.ui
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.viewpager2.widget.ViewPager2
-import com.base.app.databinding.ActivityTabLayoutBinding
+import com.base.app.databinding.ActivityTabPage2Binding
 import com.base.app.module.views.tablayout.adapter.StatisticsVp2Adapter
-import com.base.library.base.BActivity
+import com.base.library.base.BFragment
 import com.google.android.material.tabs.TabLayoutMediator
 
-class TabLayoutActivity : BActivity() {
+/**
+ * TabLayout ViewPage2 使用
+ */
+class TabPage2Fragment : BFragment() {
 
     private val titles = mutableListOf("概况", "日租房", "钟点房", "出租率", "渠道")
 
-    private val mBind by lazy { ActivityTabLayoutBinding.inflate(layoutInflater) }
+    private val mBind by lazy { ActivityTabPage2Binding.inflate(layoutInflater) }
 
-    override fun initArgs(mIntent: Intent?) {}
+    override fun initArgs(mArguments: Bundle?) {}
 
     override fun initView() {
         setContentView(mBind.root)
@@ -28,7 +30,7 @@ class TabLayoutActivity : BActivity() {
         // 设置 Fragment 适配器
         val vp2Adapter = StatisticsVp2Adapter(this, titles)
         mBind.viewPager2.adapter = vp2Adapter
-//        mBind.viewPager2.offscreenPageLimit = 3
+
         mBind.viewPager2.registerOnPageChangeCallback(object :
             ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {

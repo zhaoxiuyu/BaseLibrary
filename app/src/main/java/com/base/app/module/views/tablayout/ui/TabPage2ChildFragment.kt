@@ -3,14 +3,14 @@ package com.base.app.module.views.tablayout.ui
 import android.os.Bundle
 import com.base.app.R
 import com.base.app.base.MyConstant
-import com.base.app.databinding.FragmentTabLayoutBinding
+import com.base.app.databinding.FragmentTabPage2ChildBinding
 import com.base.library.base.BFragment
 import com.blankj.utilcode.util.ColorUtils
 import com.blankj.utilcode.util.LogUtils
 
-class TabLayoutFragment : BFragment() {
+class TabPage2ChildFragment : BFragment() {
 
-    private val mBind by lazy { FragmentTabLayoutBinding.inflate(layoutInflater) }
+    private val mBind by lazy { FragmentTabPage2ChildBinding.inflate(layoutInflater) }
 
     private var param1: String? = null
 
@@ -41,12 +41,13 @@ class TabLayoutFragment : BFragment() {
 
     override fun onResume() {
         super.onResume()
+
         LogUtils.d("Fragment1 + onResume = $param1")
     }
 
     companion object {
         fun newInstance(param1: String) =
-            TabLayoutFragment().apply {
+            TabPage2ChildFragment().apply {
                 arguments = Bundle().apply {
                     putString(MyConstant.ARG_PARAM1, param1)
                 }
