@@ -11,8 +11,13 @@ import com.base.library.interfaces.MyTitleBarListener
 import com.base.library.mvvm.core.BViewModel
 import com.base.library.mvvm.template.viewmodel.Demo4ViewModel
 import com.blankj.utilcode.util.LogUtils
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class Demo4Fragment : BFragment() {
+
+//    @Inject
+//    lateinit var mViewModel: Demo4ViewModel
 
     private val mViewModel: Demo4ViewModel by viewModels()
 

@@ -165,7 +165,7 @@ abstract class BActivity : AppCompatActivity(), OnHandleCallback {
             .show()
     }
 
-    fun getXPopupListener(isFinish: Boolean, runnable: Runnable? = null) = object : MyXPopListener {
+    fun getDismissFinish(isFinish: Boolean, runnable: Runnable? = null) = object : MyXPopListener {
         override fun onDis() {
             dismissDialog(isFinish, runnable)
         }
@@ -193,14 +193,14 @@ abstract class BActivity : AppCompatActivity(), OnHandleCallback {
     override fun onSuccess(mRequest: RxRequest) {
         Log.d("OnHandleCallback", "onSuccess")
         dismissDialog()
-        val mListener = getXPopupListener(mRequest.successClickFinish)
+        val mListener = getDismissFinish(mRequest.successClickFinish)
         showDialog(content = mRequest.msg, confirmLi = mListener)
     }
 
     override fun onError(mRequest: RxRequest) {
         Log.d("OnHandleCallback", "onError")
         dismissDialog()
-        val mListener = getXPopupListener(mRequest.failClickFinish)
+        val mListener = getDismissFinish(mRequest.failClickFinish)
         showDialog(content = mRequest.msg, confirmLi = mListener)
     }
 

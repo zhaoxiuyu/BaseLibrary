@@ -1,23 +1,30 @@
 package com.base.library.mvvm.template.viewmodel
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.rxLifeScope
+import com.base.library.base.BConstant
 import com.base.library.entitys.BResponse
 import com.base.library.entitys.response.WanArticle
 import com.base.library.entitys.response.WanChapters
 import com.base.library.mvvm.core.BViewModel
 import com.base.library.mvvm.template.repository.Demo4Repository
+import com.base.library.rxhttp.ResponseState
 import com.blankj.utilcode.util.LogUtils
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.*
 
-class Demo4ViewModel : BViewModel() {
+/**
+ * 使用 ViewModelInject ，数据仓库要在构造方法里面初始化
+ *
+ */
+class Demo4ViewModel @ViewModelInject constructor(val mRepository: Demo4Repository) : BViewModel() {
 
-    private val mDemo4Repository by lazy { Demo4Repository() }
-
-    override fun getRepository() = mDemo4Repository
+    /**
+     * 如果变量声明方式初始化，ViewModel需要用 @ActivityRetainedScoped
+     */
+//    @Inject
+//    lateinit var mRepository: Demo4Repository
 
     /**
      * liveData{ }协程代码块,产生一个不可变LiveData
@@ -25,7 +32,7 @@ class Demo4ViewModel : BViewModel() {
      * collectLatest末端操作符,一段时间内只接受最新的发射过来的数据
      */
     fun getCache(key: String) = liveData<String> {
-        getRepository().getCacheFlow(key)
+        mRepository.getCacheFlow(key)
             .catch { LogUtils.e("出异常了 = ${it.message}") }
             .collectLatest { emit(it) }
     }
@@ -34,17 +41,20 @@ class Demo4ViewModel : BViewModel() {
      * 登录
      */
     fun collectLogin(username: String, password: String) = liveData {
-        getRepository().getLogin2(username, password)
-            .collectLatest {
-                emit(it)
-            }
+        mRepository.getLogin2(username, password)
+            .onStart { sendState(ResponseState.Loading(BConstant.login)) }
+            .onCompletion { sendState(ResponseState.Completed(BConstant.login)) }
+            .collectLatest { emit(it) }
     }
 
     /**
      * 登录 -> 首页banner
      */
     fun getLoginBanner(username: String, password: String) = liveData {
-        getRepository().getLoginBanner(username, password).collect { emit(it) }
+        mRepository.getLoginBanner(username, password)
+            .onStart { sendState(ResponseState.Loading(BConstant.login)) }
+            .onCompletion { sendState(ResponseState.Completed(BConstant.login)) }
+            .collect { emit(it) }
     }
 
     /**
@@ -54,9 +64,10 @@ class Demo4ViewModel : BViewModel() {
         val liveData =
             MutableLiveData<Pair<BResponse<MutableList<WanChapters>>, BResponse<WanArticle>>>()
         rxLifeScope.launch {
-            getRepository().getChaptersInfo(this).collect {
-                liveData.value = it
-            }
+            mRepository.getChaptersInfo(this)
+                .onStart { sendState(ResponseState.Loading(BConstant.login)) }
+                .onCompletion { sendState(ResponseState.Completed(BConstant.login)) }
+                .collect { liveData.value = it }
         }
         return liveData
     }

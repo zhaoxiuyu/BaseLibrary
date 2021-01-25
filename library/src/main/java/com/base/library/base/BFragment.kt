@@ -38,6 +38,9 @@ abstract class BFragment : Fragment(), OnHandleCallback {
     val mApplication: BApplication by lazy { activity?.application as BApplication }
     private var xPopup: BasePopupView? = null
 
+    // 加载提示框
+    private var loadingPopup: BasePopupView? = null
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -159,8 +162,7 @@ abstract class BFragment : Fragment(), OnHandleCallback {
         xPopup = XPopup.Builder(activity).setPopupCallback(callback)
             .dismissOnBackPressed(false).dismissOnTouchOutside(false)
             .asConfirm(title, content, cancelTx, confirmTx, confirmLi, cancelLi, isHideCancel)
-
-        xPopup?.show()
+            .show()
     }
 
     // 提供一个接口,关闭 Dialog 的同时是否关闭页面
@@ -182,40 +184,34 @@ abstract class BFragment : Fragment(), OnHandleCallback {
     }
 
     /**
-     * 状态的回调
+     * --------------------- 状态的回调
      */
     override fun onLoading(method: String, msg: String) {
         Log.v("OnHandleCallback", "onLoading")
-        showLoading(null, msg)
-//        if (mRequest.showLoading) {
-//            showLoading(null, mRequest.msg)
-//        }
+        loadingPopup?.dismiss()
+        loadingPopup = XPopup.Builder(requireActivity())
+            .dismissOnBackPressed(false)
+            .dismissOnTouchOutside(false)
+            .asLoading(msg).show()
     }
 
     override fun onSuccess(mRequest: RxRequest) {
         Log.v("OnHandleCallback", "onSuccess")
-        // 网络请求是否弹出加载框，就对应的关闭
-        if (mRequest.showLoading) dismissDialog()
-        // 请求成功，是否弹窗提示
-        if (mRequest.showSuccess) {
-            val mListener = getDismissFinish(mRequest.successClickFinish)
-            showDialog(content = mRequest.msg, confirmLi = mListener)
-        }
+        dismissDialog()
+        val mListener = getDismissFinish(mRequest.successClickFinish)
+        showDialog(content = mRequest.msg, confirmLi = mListener)
     }
 
     override fun onError(mRequest: RxRequest) {
         Log.v("OnHandleCallback", "onError")
-        // 网络请求是否弹出加载框，就对应的关闭
-        if (mRequest.showLoading) dismissDialog()
-        // 请求失败，是否弹窗提示
-        if (mRequest.showFail) {
-            val mListener = getDismissFinish(mRequest.failClickFinish)
-            showDialog(content = mRequest.msg, confirmLi = mListener)
-        }
+        dismissDialog()
+        val mListener = getDismissFinish(mRequest.failClickFinish)
+        showDialog(content = mRequest.msg, confirmLi = mListener)
     }
 
     override fun onCompleted(method: String) {
         Log.v("OnHandleCallback", "onCompleted")
+        loadingPopup?.dismiss()
     }
 
     override fun onProgress(progress: Progress?) {

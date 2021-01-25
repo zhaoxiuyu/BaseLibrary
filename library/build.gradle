@@ -31,7 +31,7 @@ android {
 
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = [
+                arguments += [
                         //使用asXxx方法时必须，告知RxHttp你依赖的rxjava版本，可传入rxjava2、rxjava3
                         rxhttp_rxjava: 'rxjava3',
                 ]
@@ -132,12 +132,11 @@ dependencies {
     api "androidx.navigation:navigation-compose:1.0.0-alpha04"
     // 使用 WorkManager 调度那些必须可靠地运行的可延期异步任务
     api "androidx.work:work-runtime-ktx:2.5.0-beta01"
-    // hilt 依赖注入
-    api "com.google.dagger:hilt-android:2.28-alpha"
-    kapt "com.google.dagger:hilt-android-compiler:2.28-alpha"
-    // Hilt 和 Jetpack 集成
-    api 'androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha02'
-    kapt 'androidx.hilt:hilt-compiler:1.0.0-alpha02'
+    // hilt Jetpack 集成
+    api "com.google.dagger:hilt-android:2.30.1-alpha"
+    kapt "com.google.dagger:hilt-android-compiler:2.30.1-alpha"
+    api "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha02"
+    kapt "androidx.hilt:hilt-compiler:1.0.0-alpha02"
 
     // 生命周期管理相关
     api "androidx.lifecycle:lifecycle-common-java8:2.3.0-beta01"

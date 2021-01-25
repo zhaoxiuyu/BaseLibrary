@@ -5,23 +5,24 @@ import com.base.library.entitys.BResponse
 import com.base.library.entitys.response.WanArticle
 import com.base.library.entitys.response.WanChapters
 import com.base.library.entitys.response.WanLogin
-import com.base.library.mvvm.core.BRepository
 import com.base.library.mvvm.core.WanAndroid
-import com.base.library.rxhttp.ResponseState
 import com.base.library.rxhttp.RxRequest
 import com.base.library.util.OtherUtils
 import com.blankj.utilcode.util.CacheDiskStaticUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import rxhttp.async
 import rxhttp.flowOn
 import rxhttp.onErrorReturn
 import rxhttp.onErrorReturnItem
 import rxhttp.wrapper.param.toResponse
+import javax.inject.Inject
 
-class Demo4Repository : BRepository() {
+class Demo4Repository @Inject constructor() {
 
     /**
      * 获取缓存
@@ -42,10 +43,6 @@ class Demo4Repository : BRepository() {
             if (mLogin.isSuccess()) {
                 emit(mLogin)
             }
-        }.onStart {
-            dialogState?.value = ResponseState.Loading(BConstant.login)
-        }.onCompletion {
-            dialogState?.value = ResponseState.Completed(BConstant.login)
         }
     }
 
@@ -58,10 +55,6 @@ class Demo4Repository : BRepository() {
             val login = getLogin(u, p)
             // 首页banner
             emit(getBanner())
-        }.onStart {
-            dialogState?.value = ResponseState.Loading(BConstant.login)
-        }.onCompletion {
-            dialogState?.value = ResponseState.Completed(BConstant.login)
         }
     }
 
@@ -78,10 +71,6 @@ class Demo4Repository : BRepository() {
             // 两个一起返回
             val pair = Pair(chapters.await(), articleNew.await())
             emit(pair)
-        }.onStart {
-            dialogState?.value = ResponseState.Loading(BConstant.login)
-        }.onCompletion {
-            dialogState?.value = ResponseState.Completed(BConstant.login)
         }
     }
 

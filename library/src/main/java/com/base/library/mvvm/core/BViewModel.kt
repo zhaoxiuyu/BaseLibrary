@@ -15,15 +15,20 @@ import kotlinx.coroutines.launch
 open class BViewModel : ViewModel() {
 
     // 一个ViewModel只有一个 网络请求弹窗状态 ，所有的ViewModel实现类和数据仓库公用这一个
-    private val dialogState = MutableLiveData<ResponseState>()
+    // 所以在getState方法里面会循环对其进行赋值
+    private val requestState = MutableLiveData<ResponseState>()
 
     open fun getRepository(): BRepository? = null
     open fun getRepositorys(): MutableList<out BRepository>? = null
 
     open fun getState(): MutableLiveData<ResponseState>? {
-        getRepository()?.dialogState = dialogState
-        getRepositorys()?.forEach { it.dialogState = dialogState }
-        return dialogState
+        getRepository()?.dialogState = requestState
+        getRepositorys()?.forEach { it.dialogState = requestState }
+        return requestState
+    }
+
+    fun sendState(mResponseState: ResponseState) {
+        requestState.value = mResponseState
     }
 
     /**

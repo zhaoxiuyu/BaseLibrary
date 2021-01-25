@@ -20,6 +20,7 @@ import com.base.app.module.demos.adapter.FragmentAdapter
 import com.base.app.utils.MethodDatas
 import com.base.library.base.BFragment
 import com.base.library.mvvm.core.BViewModel
+import com.base.library.mvvm.template.repository.Demo4Repository
 import com.blankj.utilcode.util.LogUtils
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemClickListener
