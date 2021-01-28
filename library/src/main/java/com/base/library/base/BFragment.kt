@@ -224,7 +224,9 @@ abstract class BFragment : Fragment(), OnHandleCallback {
     override fun onDestroyView() {
         super.onDestroyView()
         dismissDialog()
-        (bView?.parent as ViewGroup).removeView(bView)
+        if (bView?.parent != null) {
+            (bView?.parent as ViewGroup).removeView(bView)
+        }
     }
 
 }

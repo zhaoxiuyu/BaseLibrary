@@ -21,7 +21,7 @@ buildscript {
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
 
         // didichuxing 流量监控以及其他AOP功能
-        classpath 'com.didichuxing.doraemonkit:doraemonkit-plugin:3.2.0'
+        classpath 'com.didichuxing.doraemonkit:dokitx-plugin:3.3.5'
 
         // 事件总线
         classpath 'com.blankj:bus-gradle-plugin:2.6'
@@ -31,6 +31,9 @@ buildscript {
 
         // hilt 依赖注入
         classpath 'com.google.dagger:hilt-android-gradle-plugin:2.30.1-alpha'
+
+        // Gradle 插件实现路由表的自动加载
+        classpath "com.alibaba:arouter-register:1.0.2"
 
     }
 }

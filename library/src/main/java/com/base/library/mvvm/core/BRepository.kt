@@ -12,8 +12,9 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.ObservableTransformer
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
+import javax.inject.Inject
 
-open class BRepository {
+open class BRepository @Inject constructor() {
 
     private var compositeDisposable: CompositeDisposable? = null
 

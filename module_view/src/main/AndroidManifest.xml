@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.base.module.view">
+
+    <application>
+
+        <activity android:name=".ui.ViewPage2">
+
+        </activity>
+
+        <activity android:name=".ui.TabPage2Activity">
+
+        </activity>
+
+    </application>
+
+</manifest>

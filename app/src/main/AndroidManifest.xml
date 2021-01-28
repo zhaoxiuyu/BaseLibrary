@@ -15,6 +15,10 @@
         tools:replace="android:icon">
 
         <activity android:name=".module.common.ui.MainActivity">
+
+        </activity>
+
+        <activity android:name=".module.demos.ui.DemosActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
@@ -23,12 +27,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".module.demos.ui.DemosActivity">
-
-        </activity>
-
         <activity android:name=".module.views.viewpage2.ui.ViewPage2" />
-        <activity android:name="com.base.library.mvp.template.ui.Demo1Activity" />
+        <activity android:name="com.base.module.function.mvp.ui.Demo1Activity" />
 
     </application>
 

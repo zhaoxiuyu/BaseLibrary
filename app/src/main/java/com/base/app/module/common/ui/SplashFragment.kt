@@ -35,7 +35,7 @@ class SplashFragment : BFragment() {
      */
     private val mCountDownTimer = object : CountDownTimer(3000, 1000) {
         override fun onFinish() {
-            findNavController().navigate(R.id.action_splash_to_utils)
+//            findNavController().navigate(R.id.action_splash_to_utils)
         }
 
         override fun onTick(millisUntilFinished: Long) {

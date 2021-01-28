@@ -6,7 +6,6 @@ import com.base.library.entitys.BResponse
 import com.base.library.entitys.response.WanArticle
 import com.base.library.mvvm.core.BRepository
 import com.base.library.mvvm.core.BViewModel
-import com.base.library.mvvm.template.repository.Demo4Repository
 import com.base.library.rxhttp.RxRequest
 
 class DetailViewModel : BViewModel() {

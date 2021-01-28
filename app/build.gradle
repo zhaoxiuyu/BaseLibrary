@@ -1,10 +1,11 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'com.didi.dokit' //DoraemonKit插件
+apply plugin: 'com.didi.dokit'
 apply plugin: "com.blankj.bus"
 apply plugin: "androidx.navigation.safeargs.kotlin" // navigation 导航
 apply plugin: 'dagger.hilt.android.plugin' // hilt 注入
+apply plugin: 'com.alibaba.arouter' // Gradle 插件实现路由表的自动加载
 
 //配置项目构建的各种属性
 android {
@@ -29,12 +30,15 @@ android {
             abiFilters 'armeabi-v7a'
 //            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a', 'x86', "x86_64"
         }
-
     }
-
+    // 路由需要
+    kapt {
+        arguments {
+            arg("AROUTER_MODULE_NAME", project.getName())
+        }
+    }
     // 启用 viewBinding 来帮我们进行findviewbyid
     buildFeatures {
-        dataBinding true
         viewBinding = true
     }
 
@@ -88,10 +92,6 @@ android {
             signingConfig signingConfigs.config
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-        unsigned {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
     }
 
     // 多渠道打包
@@ -123,8 +123,6 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test:runner:1.3.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
@@ -132,15 +130,18 @@ dependencies {
 //    implementation('com.github.zhaoxiuyu:BaseLibrary:1.0.9') {
 //        exclude group: 'com.daimajia.androidanimations', module: 'library'
 //    }
+//    implementation(project(':library')) {
+//        exclude group: 'com.daimajia.androidanimations', module: 'library'
+//    }
 
-    implementation(project(':library')) {
-        exclude group: 'com.daimajia.androidanimations', module: 'library'
-    }
+    implementation(project(':module_common'))
+    if (!isModuleFunction.toBoolean()) implementation(project(':module_function'))
+    if (!isModuleUtils.toBoolean()) implementation(project(':module_utils'))
+    if (!isModuleView.toBoolean()) implementation(project(':module_view'))
 
     // 性能优化 检测工具,LeakCanary 已经在 doraemonkit 中动态集成
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:3.2.0'
-    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:3.2.0'
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-leakcanary:3.2.0'
+    debugImplementation 'com.didichuxing.doraemonkit:dokitx:3.3.5'
+    releaseImplementation 'com.didichuxing.doraemonkit:dokitx-no-op:3.3.5'
 
     // hilt Jetpack 集成
     api "com.google.dagger:hilt-android:2.30.1-alpha"
@@ -149,6 +150,9 @@ dependencies {
     kapt "androidx.hilt:hilt-compiler:1.0.0-alpha02"
 
     kapt 'com.github.bumptech.glide:compiler:4.11.0'
+
+    // 路由
+    kapt 'com.alibaba:arouter-compiler:1.5.1'
 
 }
 
@@ -161,7 +165,6 @@ static def getDate() {
     return new Date().format("yyyyMMdd HH-mm-ss", TimeZone.getTimeZone("UTC"))
 }
 
-// dokit 配置项
 dokitExt {
     //通用设置
     comm {
@@ -171,20 +174,30 @@ dokitExt {
         networkSwitch true
         //大图开关
         bigImgSwitch true
+        //webView js 抓包
+        webViewSwitch true
     }
 
     slowMethod {
+        //0:默认模式 打印函数调用栈 需添加指定入口  默认为application onCreate 和attachBaseContext
+        //1:普通模式 运行时打印某个函数的耗时 全局业务代码函数插入
+        strategy 0
+        //函数功能开关
+        methodSwitch true
+
         //调用栈模式配置
         stackMethod {
             //默认值为 5ms 小于该值的函数在调用栈中不显示
-            thresholdTime 5
+            thresholdTime 10
             //调用栈函数入口
             enterMethods = ["com.didichuxing.doraemondemo.MainDebugActivity.test1"]
+            //黑名单 粒度最小到类 暂不支持到方法
+            methodBlacklist = ["com.facebook.drawee.backends.pipeline.Fresco"]
         }
         //普通模式配置
         normalMethod {
             //默认值为 500ms 小于该值的函数在运行时不会在控制台中被打印
-            thresholdTime 100
+            thresholdTime 500
             //需要针对函数插装的包名
             packageNames = ["com.didichuxing.doraemondemo"]
             //不需要针对函数插装的包名&类名

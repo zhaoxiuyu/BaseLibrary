@@ -3,26 +3,17 @@ package com.base.app.module.common.ui
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import androidx.lifecycle.Observer
-import androidx.navigation.NavOptions
-import androidx.navigation.Navigation
-import com.base.app.R
 import com.base.app.databinding.ActivityMainBinding
 import com.base.app.module.common.viewmodel.MainViewModel
 import com.base.library.base.BActivity
-import com.base.library.mvp.template.ui.Demo1Activity
 import com.base.library.mvvm.core.BViewModel
-import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.ToastUtils
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * 首页
  */
-@AndroidEntryPoint
 class MainActivity : BActivity() {
 
     private val mMainViewModel: MainViewModel by viewModels()
@@ -37,39 +28,39 @@ class MainActivity : BActivity() {
     }
 
     override fun initData(savedInstanceState: Bundle?) {
-        val mNavController = Navigation.findNavController(this, R.id.nav_host_fragment)
-        mBind.bnv.setOnNavigationItemSelectedListener {
-            when (it.itemId) {
-                R.id.nav_menu_utils -> {
-                    val mNavOptions =
-                        NavOptions.Builder().setPopUpTo(R.id.nav_graph_utils, true).build()
-                    mNavController.navigate(R.id.nav_graph_utils, null, mNavOptions)
-                }
-                R.id.nav_menu_views -> {
-                    val mNavOptions =
-                        NavOptions.Builder().setPopUpTo(R.id.nav_graph_views, true).build()
-                    mNavController.navigate(R.id.nav_graph_views, null, mNavOptions)
-                }
-                R.id.nav_menu_function -> {
-                    val mNavOptions =
-                        NavOptions.Builder().setPopUpTo(R.id.nav_graph_function, true).build()
-                    mNavController.navigate(R.id.nav_graph_function, null, mNavOptions)
-                }
-            }
-            true
-        }
-
-        mBind.bnv.setOnNavigationItemReselectedListener {
-            when (it.itemId) {
-                R.id.nav_utils -> LogUtils.d("重复点击")
-                R.id.nav_views -> LogUtils.d("重复点击")
-                R.id.nav_function -> LogUtils.d("重复点击")
-            }
-        }
+//        val mNavController = Navigation.findNavController(this, R.id.nav_host_fragment)
+//        mBind.bnv.setOnNavigationItemSelectedListener {
+//            when (it.itemId) {
+//                R.id.nav_menu_utils -> {
+//                    val mNavOptions =
+//                        NavOptions.Builder().setPopUpTo(R.id.nav_graph_utils, true).build()
+//                    mNavController.navigate(R.id.nav_graph_utils, null, mNavOptions)
+//                }
+//                R.id.nav_menu_views -> {
+//                    val mNavOptions =
+//                        NavOptions.Builder().setPopUpTo(R.id.nav_graph_views, true).build()
+//                    mNavController.navigate(R.id.nav_graph_views, null, mNavOptions)
+//                }
+//                R.id.nav_menu_function -> {
+//                    val mNavOptions =
+//                        NavOptions.Builder().setPopUpTo(R.id.nav_graph_function, true).build()
+//                    mNavController.navigate(R.id.nav_graph_function, null, mNavOptions)
+//                }
+//            }
+//            true
+//        }
+//
+//        mBind.bnv.setOnNavigationItemReselectedListener {
+//            when (it.itemId) {
+//                R.id.nav_utils -> LogUtils.d("重复点击")
+//                R.id.nav_views -> LogUtils.d("重复点击")
+//                R.id.nav_function -> LogUtils.d("重复点击")
+//            }
+//        }
     }
 
     override fun initObserve(): MutableList<BViewModel>? {
-        mMainViewModel.bnvShowLiveData.observe(this, Observer { getMainBnv(it) })
+//        mMainViewModel.bnvShowLiveData.observe(this, Observer { getMainBnv(it) })
         return null
     }
 

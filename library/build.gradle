@@ -31,10 +31,8 @@ android {
 
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments += [
-                        //使用asXxx方法时必须，告知RxHttp你依赖的rxjava版本，可传入rxjava2、rxjava3
-                        rxhttp_rxjava: 'rxjava3',
-                ]
+                //使用asXxx方法时必须，告知RxHttp你依赖的rxjava版本，可传入rxjava2、rxjava3
+                arguments += [rxhttp_rxjava: 'rxjava3',]
             }
         }
     }
@@ -75,11 +73,10 @@ android {
     buildFeatures {
         viewBinding = true
     }
-
     lintOptions {
-        abortOnError false
+        // 发现错误,是否停止构建
+        abortOnError true
     }
-
     compileOptions {
         encoding "utf-8"
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -88,12 +85,11 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-
-    sourceSets {
-        main.java.srcDirs += 'src/main/kotlin'
-        androidTest.java.srcDirs += 'src/androidTest/kotlin'
-        androidTest.resources.srcDirs += 'src/androidTest/res'
-    }
+//    sourceSets {
+//        main.java.srcDirs += 'src/main/kotlin'
+//        androidTest.java.srcDirs += 'src/androidTest/kotlin'
+//        androidTest.resources.srcDirs += 'src/androidTest/res'
+//    }
 
 }
 
@@ -172,8 +168,8 @@ dependencies {
     api 'com.squareup.okhttp3:okhttp:4.9.0'
     api 'io.reactivex.rxjava3:rxjava:3.0.6'
     api 'io.reactivex.rxjava3:rxandroid:3.0.0'
-    api 'com.ljx.rxhttp:rxhttp:2.5.3'
-    kapt 'com.ljx.rxhttp:rxhttp-compiler:2.5.3'
+    api 'com.ljx.rxhttp:rxhttp:2.5.4'
+    kapt 'com.ljx.rxhttp:rxhttp-compiler:2.5.4'
 
     // 解决RxJava内存泄漏
     api 'com.ljx.rxlife3:rxlife-rxjava:3.0.0'
@@ -248,5 +244,12 @@ dependencies {
 
     // 混淆库
     api 'com.github.zhaoxiuyu:Proguards:1.0.5'
+
+    // 路由
+    api 'com.alibaba:arouter-api:1.5.1'
+
+    // 性能优化 检测工具
+    debugApi 'com.didichuxing.doraemonkit:dokitx:3.3.5'
+    releaseApi 'com.didichuxing.doraemonkit:dokitx-no-op:3.3.5'
 
 }
