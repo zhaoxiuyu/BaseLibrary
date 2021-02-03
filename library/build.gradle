@@ -126,6 +126,7 @@ dependencies {
     api "androidx.navigation:navigation-ui-ktx:2.3.2"
     api "androidx.navigation:navigation-fragment-ktx:2.3.2"
     api "androidx.navigation:navigation-compose:1.0.0-alpha04"
+    api "androidx.annotation:annotation:1.2.0-beta01"
     // 使用 WorkManager 调度那些必须可靠地运行的可延期异步任务
     api "androidx.work:work-runtime-ktx:2.5.0-beta01"
     // hilt Jetpack 集成

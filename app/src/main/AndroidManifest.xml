@@ -27,7 +27,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".module.views.viewpage2.ui.ViewPage2" />
+        <activity android:name="com.base.module.view.ui.ViewPage2" />
         <activity android:name="com.base.module.function.mvp.ui.Demo1Activity" />
 
     </application>
