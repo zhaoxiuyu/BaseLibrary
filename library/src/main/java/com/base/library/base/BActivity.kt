@@ -190,18 +190,18 @@ abstract class BActivity : AppCompatActivity(), OnHandleCallback {
             .asLoading(msg).show()
     }
 
-    override fun onSuccess(mRequest: RxRequest) {
+    override fun onSuccess(method: String, msg: String, clickFinish: Boolean) {
         Log.d("OnHandleCallback", "onSuccess")
         dismissDialog()
-        val mListener = getDismissFinish(mRequest.successClickFinish)
-        showDialog(content = mRequest.msg, confirmLi = mListener)
+        val mListener = getDismissFinish(clickFinish)
+        showDialog(content = msg, confirmLi = mListener)
     }
 
-    override fun onError(mRequest: RxRequest) {
+    override fun onError(method: String, msg: String, clickFinish: Boolean) {
         Log.d("OnHandleCallback", "onError")
         dismissDialog()
-        val mListener = getDismissFinish(mRequest.failClickFinish)
-        showDialog(content = mRequest.msg, confirmLi = mListener)
+        val mListener = getDismissFinish(clickFinish)
+        showDialog(content = msg, confirmLi = mListener)
     }
 
     override fun onCompleted(method: String) {

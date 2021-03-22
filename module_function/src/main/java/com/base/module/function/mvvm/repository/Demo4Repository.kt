@@ -35,47 +35,45 @@ class Demo4Repository @Inject constructor() {
     }
 
     /**
-     * 登录
+     * 串行。登录 -> 首页banner
      */
-    suspend fun getLogin2(username: String, password: String): Flow<BResponse<WanLogin>> {
-        return flow {
-            val mLogin = getLogin(username, password)
-            if (mLogin.isSuccess()) {
-                emit(mLogin)
-            }
-        }
-    }
-
-    /**
-     * 登录 -> 首页banner
-     */
-    suspend fun getLoginBanner(u: String, p: String): Flow<BResponse<MutableList<WanAndroid>>> {
+    fun getLoginBanner(u: String, p: String): Flow<BResponse<MutableList<WanAndroid>>> {
         return flow {
             // 登录
             val login = getLogin(u, p)
             // 首页banner
-            emit(getBanner())
+            val banner = getBanner()
+            emit(banner)
         }
     }
 
     /**
-     * 公众号 文章 列表同步获取
+     * 并行。公众号 文章列表同步获取
      */
-    suspend fun getChaptersInfo(scope: CoroutineScope): Flow<Pair<BResponse<MutableList<WanChapters>>, BResponse<WanArticle>>> {
-        return flow {
-            // 公众号列表
-            val chapters = getChapters(scope)
-            // 首页文章列表
-            val articleNew = getArticle(scope)
+    suspend fun getChaptersInfo(scope: CoroutineScope): Pair<BResponse<MutableList<WanChapters>>, BResponse<WanArticle>> {
+        // 公众号列表
+        val chapters = getChapters(scope)
+        // 首页文章列表
+        val articleNew = getArticle(scope)
 
-            // 两个一起返回
-            val pair = Pair(chapters.await(), articleNew.await())
-            emit(pair)
-        }
+        // 两个一起返回
+        return Pair(chapters.await(), articleNew.await())
     }
+//    fun getChaptersInfo(scope: CoroutineScope): Flow<Pair<BResponse<MutableList<WanChapters>>, BResponse<WanArticle>>> {
+//        return flow {
+//            // 公众号列表
+//            val chapters = getChapters(scope)
+//            // 首页文章列表
+//            val articleNew = getArticle(scope)
+//
+//            // 两个一起返回
+//            val pair = Pair(chapters.await(), articleNew.await())
+//            emit(pair)
+//        }
+//    }
 
     // 登录
-    private suspend fun getLogin(username: String, password: String): BResponse<WanLogin> {
+    suspend fun getLogin(username: String, password: String): BResponse<WanLogin> {
         val map = mapOf("username" to username, "password" to password)
         return RxRequest(BConstant.login)
             .httpPostForm()
@@ -83,31 +81,31 @@ class Demo4Repository @Inject constructor() {
             .addAll(map)
             .toResponse<WanLogin>()
             .onErrorReturn { getDeftBResponse(WanLogin::class.java, it) }
-            .flowOn(Dispatchers.IO).await()
+            .await()
     }
 
     // 首页banner
-    private suspend fun getBanner(): BResponse<MutableList<WanAndroid>> {
+    suspend fun getBanner(): BResponse<MutableList<WanAndroid>> {
         return RxRequest(BConstant.banner).httpGet().setDomainTowanandroidIfAbsent()
             .toResponse<MutableList<WanAndroid>>()
             .onErrorReturnItem(BResponse()) // 如果出错了就给出默认值，不影响其他请求的执行
-            .flowOn(Dispatchers.IO).await()
+            .await()
     }
 
     // 获取公众号列表
-    private suspend fun getChapters(scope: CoroutineScope): Deferred<BResponse<MutableList<WanChapters>>> {
+    suspend fun getChapters(scope: CoroutineScope): Deferred<BResponse<MutableList<WanChapters>>> {
         return RxRequest(BConstant.chapters).httpGet().setDomainTowanandroidIfAbsent()
             .toResponse<MutableList<WanChapters>>()
             .onErrorReturn { getDeftBResponses(WanChapters::class.java, it) }
-            .flowOn(Dispatchers.IO).async(scope)
+            .async(scope)
     }
 
     // 首页文章列表
-    private suspend fun getArticle(scope: CoroutineScope): Deferred<BResponse<WanArticle>> {
+    suspend fun getArticle(scope: CoroutineScope): Deferred<BResponse<WanArticle>> {
         return RxRequest(BConstant.article).httpGet().setDomainTowanandroidIfAbsent()
             .toResponse<WanArticle>()
             .onErrorReturnItem(BResponse()) // 如果出错了就给出默认值，不影响其他请求的执行
-            .flowOn(Dispatchers.IO).async(scope)
+            .async(scope)
     }
 
     private fun <T> getDeftBResponse(c: Class<T>, t: Throwable): BResponse<T> {

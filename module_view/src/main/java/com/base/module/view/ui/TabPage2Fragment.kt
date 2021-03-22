@@ -41,7 +41,6 @@ class TabPage2Fragment : BFragment() {
 
     override fun onResume() {
         super.onResume()
-
         LogUtils.d("Fragment1 + onResume = $param1")
     }
 

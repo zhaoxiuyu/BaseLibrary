@@ -8,6 +8,7 @@ import com.base.library.base.BConstant
 import com.base.library.entitys.BResponse
 import com.base.library.entitys.response.WanArticle
 import com.base.library.entitys.response.WanChapters
+import com.base.library.entitys.response.WanLogin
 import com.base.library.mvvm.core.BViewModel
 import com.base.library.rxhttp.ResponseState
 import com.base.module.function.mvvm.repository.Demo4Repository
@@ -34,17 +35,26 @@ class Demo4ViewModel @ViewModelInject constructor(val mRepository: Demo4Reposito
     fun getCache(key: String) = liveData<String> {
         mRepository.getCacheFlow(key)
             .catch { LogUtils.e("出异常了 = ${it.message}") }
+            .onStart { }
+            .onCompletion { }
             .collectLatest { emit(it) }
     }
 
     /**
      * 登录
      */
-    fun collectLogin(username: String, password: String) = liveData {
-        mRepository.getLogin2(username, password)
-            .onStart { sendState(ResponseState.Loading(BConstant.login)) }
-            .onCompletion { sendState(ResponseState.Completed(BConstant.login)) }
-            .collectLatest { emit(it) }
+    val loginLiveData = MutableLiveData<BResponse<WanLogin>>()
+    fun collectLogin(username: String, password: String) {
+        rxLifeScope.launch({
+            val mLogin = mRepository.getLogin(username, password)
+
+            if (mLogin.isSuccess()) {
+                sendState(ResponseState.Completed(BConstant.login))
+                loginLiveData.value = mLogin
+            } else {
+                sendState(ResponseState.Error(BConstant.login, mLogin.showMsg()))
+            }
+        }, null, { sendState(ResponseState.Loading(BConstant.login)) })
     }
 
     /**
@@ -60,38 +70,42 @@ class Demo4ViewModel @ViewModelInject constructor(val mRepository: Demo4Reposito
     /**
      * 公众号 文章 列表同步获取
      */
-    fun getParallel(): MutableLiveData<Pair<BResponse<MutableList<WanChapters>>, BResponse<WanArticle>>> {
-        val liveData =
-            MutableLiveData<Pair<BResponse<MutableList<WanChapters>>, BResponse<WanArticle>>>()
-        rxLifeScope.launch {
-            mRepository.getChaptersInfo(this)
-                .onStart { sendState(ResponseState.Loading(BConstant.login)) }
-                .onCompletion { sendState(ResponseState.Completed(BConstant.login)) }
-                .collect { liveData.value = it }
-        }
-        return liveData
+    val parallelLiveData =
+        MutableLiveData<Pair<BResponse<MutableList<WanChapters>>, BResponse<WanArticle>>>()
+
+    fun getParallel() {
+        rxLifeScope.launch({
+            val pair = mRepository.getChaptersInfo(this)
+
+            if (pair.first.isSuccess() && pair.second.isSuccess()) {
+                sendState(ResponseState.Completed(BConstant.login))
+                parallelLiveData.value = pair
+            } else {
+                sendState(ResponseState.Error(BConstant.login, pair.first.showMsg()))
+            }
+        }, null, { sendState(ResponseState.Loading(BConstant.login)) })
     }
 
     /**
      * 协程 - 并行获取列表
      * 无论是串行还是并行，如果其中一个出现异常了，协程自动关闭 并自动结束请求，停止剩下的代码走异常回调
-     * 如果要互补影响，可以使用onErrorReturn、onErrorReturnItem出异常时给出默认对象
+     * 如果要互不影响，可以使用onErrorReturn、onErrorReturnItem出异常时给出默认对象
      */
-//    fun getParallel() {
-//        rxLifeScope.launch({
-//            // 串行请求
-////            articleLiveData.value = getBanners(this).await()
-////            chaptersLiveData.value = getStudents(this).await()
-//
-//            // 并行请求
-////            val asyncBanners = cRepository.getArticle(this)
-////            val asyncStudents = cRepository.getChapters(this)
-//
-////            articleLiveData.value = asyncBanners.await()
-////            chaptersLiveData.value = asyncStudents.await()
-//        }, {
-//            LogUtils.d("出现异常了")
-//        })
-//    }
+    fun getParallel2() {
+        rxLifeScope.launch({
+            // 串行请求
+//            articleLiveData.value = getBanners(this).await()
+//            chaptersLiveData.value = getStudents(this).await()
+
+            // 并行请求
+//            val asyncBanners = cRepository.getArticle(this)
+//            val asyncStudents = cRepository.getChapters(this)
+
+//            articleLiveData.value = asyncBanners.await()
+//            chaptersLiveData.value = asyncStudents.await()
+        }, {
+            LogUtils.d("出现异常了")
+        })
+    }
 
 }

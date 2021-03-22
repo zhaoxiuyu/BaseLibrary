@@ -154,7 +154,7 @@ open class BRepository @Inject constructor() {
 
         // 请求成功是否弹窗
         if (request.showSuccess) {
-            dialogState?.value = ResponseState.Success(request)
+            dialogState?.value = ResponseState.Success(request.method)
         }
         // LiveData 通知
         response?.let { live?.value = it }
@@ -176,7 +176,7 @@ open class BRepository @Inject constructor() {
 
         // 请求失败是否弹窗
         if (request.showFail) {
-            dialogState?.value = ResponseState.Error(request)
+            dialogState?.value = ResponseState.Error(request.method)
         }
         // 回调接口
         call?.accept(request)

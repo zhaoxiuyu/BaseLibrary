@@ -48,17 +48,28 @@ class Demo4Fragment : BFragment() {
 
         // 登录
         mBind.collectLogin.setOnClickListener {
-            collectLogin(mBind.userName.text.toString(), mBind.passWord.text.toString())
+            mViewModel.collectLogin(mBind.userName.text.toString(), mBind.passWord.text.toString())
         }
         // 登录 -> 首页banner
         mBind.collectLoginBanner.setOnClickListener {
             loginBanner(mBind.userName.text.toString(), mBind.passWord.text.toString())
         }
         // 公众号 文章 列表同步获取
-        mBind.parallel.setOnClickListener { parallel() }
+        mBind.parallel.setOnClickListener { mViewModel.getParallel() }
     }
 
     override fun initObserve(): MutableList<BViewModel>? {
+        // 公众号 文章 列表同步获取
+        mViewModel.parallelLiveData.observe(this, Observer {
+            LogUtils.d("${it.first.errorCode} = ${it.second.errorCode}")
+        })
+
+        // 登录
+        mViewModel.loginLiveData.observe(this, Observer {
+            LogUtils.d("${it.showMsg()}")
+            mBind.tvInfo.text = "登录状态 ${it.showMsg()}"
+        })
+
         return mutableListOf(mViewModel)
     }
 
@@ -69,24 +80,10 @@ class Demo4Fragment : BFragment() {
         })
     }
 
-    // 登录
-    private fun collectLogin(username: String, password: String) {
-        mViewModel.collectLogin(username, password).observe(this, Observer {
-            mBind.tvInfo.text = "登录状态 ${it.showMsg()}"
-        })
-    }
-
     // 登录 -> 首页banner
     private fun loginBanner(username: String, password: String) {
         mViewModel.getLoginBanner(username, password).observe(this, Observer {
             mBind.tvInfo.text = "登录 -> 首页banner 状态 ${it.showMsg()}"
-        })
-    }
-
-    // 公众号 文章 列表同步获取
-    private fun parallel() {
-        mViewModel.getParallel().observe(this, Observer {
-            LogUtils.d("${it.first.errorCode} = ${it.second.errorCode}")
         })
     }
 
