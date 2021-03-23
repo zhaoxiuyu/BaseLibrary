@@ -15,7 +15,8 @@ import com.base.library.rxhttp.RxRequest
 /**
  * 使用 ViewModelInject ，数据仓库要在构造方法里面初始化
  */
-class Demo3ViewModel @ViewModelInject constructor(val mBRepository: BRepository) : BViewModel() {
+class Demo3ViewModel @ViewModelInject constructor(private val mBRepository: BRepository) :
+    BViewModel() {
 
 //    private val mBRepository by lazy { BRepository() }
 

@@ -13,16 +13,21 @@ import com.base.library.mvvm.core.BViewModel
 import com.base.library.rxhttp.ResponseState
 import com.base.module.function.mvvm.repository.Demo4Repository
 import com.blankj.utilcode.util.LogUtils
-import kotlinx.coroutines.flow.*
+import com.blankj.utilcode.util.StringUtils
+import com.blankj.utilcode.util.ToastUtils
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onStart
 
 /**
  * 使用 ViewModelInject ，数据仓库要在构造方法里面初始化
  */
-class Demo4ViewModel @ViewModelInject constructor(val mRepository: Demo4Repository) :
+class Demo4ViewModel @ViewModelInject constructor(private val mRepository: Demo4Repository) :
     BViewModel() {
 
     /**
-     * 如果变量声明方式初始化，ViewModel需要用 @ActivityRetainedScoped,ViewModel实例也需要用注解
+     * 如果变量声明方式初始化，ViewModel需要用@ActivityRetainedScoped,ViewModel实例也需要用注解
      */
 //    @Inject
 //    lateinit var mRepository: Demo4Repository
@@ -45,16 +50,23 @@ class Demo4ViewModel @ViewModelInject constructor(val mRepository: Demo4Reposito
      */
     val loginLiveData = MutableLiveData<BResponse<WanLogin>>()
     fun collectLogin(username: String, password: String) {
+        if (StringUtils.isEmpty(username)) {
+            ToastUtils.showShort("请输入用户名")
+            return
+        }
+        if (StringUtils.isEmpty(password)) {
+            ToastUtils.showShort("请输入密码")
+            return
+        }
         rxLifeScope.launch({
             val mLogin = mRepository.getLogin(username, password)
-
             if (mLogin.isSuccess()) {
-                sendState(ResponseState.Completed(BConstant.login))
                 loginLiveData.value = mLogin
             } else {
                 sendState(ResponseState.Error(BConstant.login, mLogin.showMsg()))
             }
-        }, null, { sendState(ResponseState.Loading(BConstant.login)) })
+        }, null, { sendState(ResponseState.Loading(BConstant.login)) },
+            { sendState(ResponseState.Completed(BConstant.login)) })
     }
 
     /**
@@ -64,7 +76,7 @@ class Demo4ViewModel @ViewModelInject constructor(val mRepository: Demo4Reposito
         mRepository.getLoginBanner(username, password)
             .onStart { sendState(ResponseState.Loading(BConstant.login)) }
             .onCompletion { sendState(ResponseState.Completed(BConstant.login)) }
-            .collect { emit(it) }
+            .collectLatest { emit(it) }
     }
 
     /**
@@ -74,16 +86,16 @@ class Demo4ViewModel @ViewModelInject constructor(val mRepository: Demo4Reposito
         MutableLiveData<Pair<BResponse<MutableList<WanChapters>>, BResponse<WanArticle>>>()
 
     fun getParallel() {
-        rxLifeScope.launch({
-            val pair = mRepository.getChaptersInfo(this)
-
-            if (pair.first.isSuccess() && pair.second.isSuccess()) {
-                sendState(ResponseState.Completed(BConstant.login))
-                parallelLiveData.value = pair
-            } else {
-                sendState(ResponseState.Error(BConstant.login, pair.first.showMsg()))
-            }
-        }, null, { sendState(ResponseState.Loading(BConstant.login)) })
+        rxLifeScope.launch(
+            {
+                val pair = mRepository.getChaptersInfo(this)
+                if (pair.first.isSuccess() && pair.second.isSuccess()) {
+                    parallelLiveData.value = pair
+                } else {
+                    sendState(ResponseState.Error(BConstant.login, pair.first.showMsg()))
+                }
+            }, null, { sendState(ResponseState.Loading(BConstant.login)) },
+            { sendState(ResponseState.Completed(BConstant.login)) })
     }
 
     /**

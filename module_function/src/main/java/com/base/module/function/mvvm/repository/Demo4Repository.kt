@@ -16,7 +16,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import rxhttp.async
-import rxhttp.flowOn
 import rxhttp.onErrorReturn
 import rxhttp.onErrorReturnItem
 import rxhttp.wrapper.param.toResponse
@@ -30,7 +29,7 @@ class Demo4Repository @Inject constructor() {
     suspend fun getCacheFlow(key: String): Flow<String> {
         return flow<String> {
             val cacheValue = CacheDiskStaticUtils.getString(key, "")
-            emit(cacheValue ?: "")
+            emit(cacheValue)
         }.flowOn(Dispatchers.IO)
     }
 
@@ -55,22 +54,9 @@ class Demo4Repository @Inject constructor() {
         val chapters = getChapters(scope)
         // 首页文章列表
         val articleNew = getArticle(scope)
-
         // 两个一起返回
         return Pair(chapters.await(), articleNew.await())
     }
-//    fun getChaptersInfo(scope: CoroutineScope): Flow<Pair<BResponse<MutableList<WanChapters>>, BResponse<WanArticle>>> {
-//        return flow {
-//            // 公众号列表
-//            val chapters = getChapters(scope)
-//            // 首页文章列表
-//            val articleNew = getArticle(scope)
-//
-//            // 两个一起返回
-//            val pair = Pair(chapters.await(), articleNew.await())
-//            emit(pair)
-//        }
-//    }
 
     // 登录
     suspend fun getLogin(username: String, password: String): BResponse<WanLogin> {
