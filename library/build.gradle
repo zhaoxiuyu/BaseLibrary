@@ -145,7 +145,7 @@ dependencies {
     api 'org.litepal.guolindev:core:3.2.3'
 
     // 工具类 AndroidUtilCode
-    api 'com.blankj:utilcodex:1.30.5'
+    api 'com.blankj:utilcodex:1.30.6'
 
     // MMKV
     api 'com.tencent:mmkv-static:1.2.6'
