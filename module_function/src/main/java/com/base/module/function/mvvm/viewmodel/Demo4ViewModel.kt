@@ -1,6 +1,7 @@
 package com.base.module.function.mvvm.viewmodel
 
 import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.rxLifeScope
@@ -48,7 +49,9 @@ class Demo4ViewModel @ViewModelInject constructor(private val mRepository: Demo4
     /**
      * 登录
      */
-    val loginLiveData = MutableLiveData<BResponse<WanLogin>>()
+    private val loginLiveData = MutableLiveData<BResponse<WanLogin>>()
+    fun getLoginLiveData(): LiveData<BResponse<WanLogin>> = loginLiveData
+
     fun collectLogin(username: String, password: String) {
         if (StringUtils.isEmpty(username)) {
             ToastUtils.showShort("请输入用户名")
@@ -82,8 +85,11 @@ class Demo4ViewModel @ViewModelInject constructor(private val mRepository: Demo4
     /**
      * 公众号 文章 列表同步获取
      */
-    val parallelLiveData =
+    private val parallelLiveData =
         MutableLiveData<Pair<BResponse<MutableList<WanChapters>>, BResponse<WanArticle>>>()
+
+    fun getParallelLiveData(): LiveData<Pair<BResponse<MutableList<WanChapters>>, BResponse<WanArticle>>> =
+        parallelLiveData
 
     fun getParallel() {
         rxLifeScope.launch(

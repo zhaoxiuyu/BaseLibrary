@@ -39,6 +39,12 @@ class CoroutinesFragment : BFragment() {
 
     override fun initData(savedInstanceState: Bundle?) {
         mBind.tvLoadImg.setOnClickListener {
+            loadImg()
+        }
+        mBind.tvLoadImg2.setOnClickListener {
+            loadImg2()
+        }
+        mBind.tvLoadImg3.setOnClickListener {
             loadImg3()
         }
     }

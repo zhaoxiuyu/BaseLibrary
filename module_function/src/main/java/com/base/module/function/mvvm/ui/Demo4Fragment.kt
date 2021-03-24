@@ -45,7 +45,6 @@ class Demo4Fragment : BFragment() {
     override fun initData(savedInstanceState: Bundle?) {
         // 获取缓存
         mBind.getCache.setOnClickListener { getCache() }
-
         // 登录
         mBind.collectLogin.setOnClickListener {
             mViewModel.collectLogin(mBind.userName.text.toString(), mBind.passWord.text.toString())
@@ -60,12 +59,12 @@ class Demo4Fragment : BFragment() {
 
     override fun initObserve(): MutableList<BViewModel>? {
         // 公众号 文章 列表同步获取
-        mViewModel.parallelLiveData.observe(this, Observer {
+        mViewModel.getParallelLiveData().observe(this, Observer {
             LogUtils.d("${it.first.errorCode} = ${it.second.errorCode}")
         })
 
         // 登录
-        mViewModel.loginLiveData.observe(this, Observer {
+        mViewModel.getLoginLiveData().observe(this, Observer {
             LogUtils.d("${it.showMsg()}")
             mBind.tvInfo.text = "登录状态 ${it.showMsg()}"
         })
