@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/function_fragment_rv"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF" />
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/butCollapse"
+        android:layout_width="match_parent"
+        android:layout_height="120pt"
+        android:text="崩溃"
+        android:textSize="@dimen/pt_50" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/function_fragment_rv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FFFFFF" />
+
+</LinearLayout>
+

@@ -235,7 +235,8 @@ dependencies {
 
     // 日历
     api 'com.haibin:calendarview:3.6.9'
-    api 'com.squareup:android-times-square:1.6.5@aar'
+    api 'com.squareup:android-times-square:1.7.10'
+//    api 'com.squareup:android-times-square:1.6.5@aar'
 
     // -------------------- 轮子哥的库 --------------------
     // 权限请求

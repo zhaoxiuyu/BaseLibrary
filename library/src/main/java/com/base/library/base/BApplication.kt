@@ -1,17 +1,14 @@
 package com.base.library.base
 
-import androidx.core.content.ContextCompat
 import androidx.multidex.MultiDexApplication
 import com.alibaba.android.arouter.launcher.ARouter
 import com.base.library.BuildConfig
-import com.base.library.R
 import com.base.library.custom.GlobalAdapter
 import com.base.library.rxhttp.RxHttpDecoder
 import com.base.library.rxhttp.RxHttpParamAssembly
 import com.billy.android.loading.Gloading
 import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.Utils
-import com.lxj.xpopup.XPopup
 import okhttp3.OkHttpClient
 import org.litepal.LitePal
 import rxhttp.RxHttpPlugins
@@ -28,13 +25,14 @@ import javax.net.ssl.HostnameVerifier
  */
 open class BApplication : MultiDexApplication() {
 
-    override fun onCreate() {
-        super.onCreate()
+    fun initMethod() {
+        // 工具类
+        initUtilcode()
 
-        utilcode()
+        // 数据库
         LitePal.initialize(this)
-        XPopup.setPrimaryColor(ContextCompat.getColor(this, R.color.color_03A9F4))
 
+        // 解耦APP中的状态布局
         Gloading.debug(true)
         Gloading.initDefault(GlobalAdapter())
 
@@ -43,12 +41,15 @@ open class BApplication : MultiDexApplication() {
             ARouter.openDebug() // 开启调试模式(如果在InstantRun模式下运行，必须开启调试模式！线上版本需要关闭,否则有安全风险)
         }
         ARouter.init(this) // 尽可能早，推荐在Application中初始化
+
+        // 网络请求
+        initRxHttp()
     }
 
     /**
      * 初始化打印日志
      */
-    open fun utilcode() {
+    open fun initUtilcode() {
         Utils.init(this)
         LogUtils.getConfig().setLogSwitch(BuildConfig.DEBUG)//总开关
             .setConsoleSwitch(BuildConfig.DEBUG)//控制台开关

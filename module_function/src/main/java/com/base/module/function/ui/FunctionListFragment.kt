@@ -49,6 +49,10 @@ class FunctionListFragment : BFragment(), OnItemClickListener {
     override fun initData(savedInstanceState: Bundle?) {
         registerDemo1Result()
 
+        mBind.butCollapse.setOnClickListener {
+            throw  RuntimeException("Boom!")
+        }
+
         callback = requireActivity().onBackPressedDispatcher.addCallback {
             isEnabled = true
             LogUtils.d("返回事件被我拦截了，已经在首页了")
