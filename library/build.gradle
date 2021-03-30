@@ -238,6 +238,9 @@ dependencies {
     api 'com.squareup:android-times-square:1.7.10'
 //    api 'com.squareup:android-times-square:1.6.5@aar'
 
+    // 选择器
+    api 'com.contrarywind:Android-PickerView:4.1.9'
+
     // -------------------- 轮子哥的库 --------------------
     // 权限请求
     api 'com.hjq:xxpermissions:10.5'
