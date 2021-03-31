@@ -4,12 +4,10 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.View
 import androidx.activity.addCallback
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import com.base.library.base.BFragment
 import com.base.library.interfaces.MyTitleBarListener
-import com.base.library.mvvm.core.BViewModel
+import com.base.library.mvvm.core.VMFragment
 import com.base.library.rxhttp.RxRequest
 import com.base.module.function.databinding.BaseActivityTestBinding
 import com.base.module.function.mvvm.viewmodel.Demo3ViewModel
@@ -19,18 +17,17 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.ObservableTransformer
 
 @AndroidEntryPoint
-class Demo3Fragment : BFragment() {
+class Demo3Fragment : VMFragment<Demo3ViewModel, BaseActivityTestBinding>() {
 
-    private val mViewModel: Demo3ViewModel by viewModels()
-
-    private val mBind by lazy { BaseActivityTestBinding.inflate(layoutInflater) }
+//    private val viewModel: Demo3ViewModel by viewModels()
+//    private val viewBinding by lazy { BaseActivityTestBinding.inflate(layoutInflater) }
 
     override fun initArgs(mArguments: Bundle?) {}
 
     override fun initView() {
-        setContentViewBar(mBind.root)
+        setContentViewBar(viewBinding.root)
 
-        setGloading(mBind.root)
+        setGloading(viewBinding.root)
         getGloadingHolder()?.showLoading()
         Handler().postDelayed({
             getGloadingHolder()?.showLoadSuccess()
@@ -46,32 +43,31 @@ class Demo3Fragment : BFragment() {
     }
 
     override fun initData(savedInstanceState: Bundle?) {
-        mBind.article.setOnClickListener {
-            mViewModel.getArticle()
+        viewBinding.article.setOnClickListener {
+            viewModel.getArticle()
         }
-        mBind.chapters.setOnClickListener {
-            mViewModel.getChapters()
+        viewBinding.chapters.setOnClickListener {
+            viewModel.getChapters()
         }
-        mBind.login.setOnClickListener {
+        viewBinding.login.setOnClickListener {
             val map = mapOf(
-                "username" to mBind.userName.text.toString(),
-                "password" to mBind.passWord.text.toString()
+                "username" to viewBinding.userName.text.toString(),
+                "password" to viewBinding.passWord.text.toString()
             )
-            mViewModel.getLogin(map)
+            viewModel.getLogin(map)
         }
     }
 
-    override fun initObserve(): MutableList<BViewModel> {
-        mViewModel.articleLiveData.observe(this, Observer {
+    override fun registerObserve() {
+        viewModel.articleLiveData.observe(this, Observer {
             LogUtils.d(it.errorCode)
         })
-        mViewModel.chaptersLiveData.observe(this, Observer {
+        viewModel.chaptersLiveData.observe(this, Observer {
             LogUtils.d(it.errorCode)
         })
-        mViewModel.loginLiveData.observe(this, Observer {
+        viewModel.loginLiveData.observe(this, Observer {
             LogUtils.d(it.errorCode)
         })
-        return mutableListOf(mViewModel)
     }
 
     /**

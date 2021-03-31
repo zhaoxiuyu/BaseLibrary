@@ -66,7 +66,8 @@ class DemosActivity : BActivity() {
         showFragment(mUtilsFragment, "mUtilsFragment")
     }
 
-    override fun initObserve(): Nothing? = null
+    override fun registerObserve() {
+    }
 
     private fun showFragment(fragment: Fragment, tag: String) {
         val findFragment = FragmentUtils.findFragment(supportFragmentManager, tag)

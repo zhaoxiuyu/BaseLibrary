@@ -30,6 +30,7 @@ class UtilsMainActivity : BActivity() {
         FragmentUtils.add(supportFragmentManager, mUtilsFragment, R.id.flContent)
     }
 
-    override fun initObserve(): Nothing? = null
+    override fun registerObserve() {
+    }
 
 }

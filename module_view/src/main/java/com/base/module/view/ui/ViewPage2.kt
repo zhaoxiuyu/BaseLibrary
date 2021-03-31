@@ -79,7 +79,8 @@ class ViewPage2 : BActivity() {
         })
     }
 
-    override fun initObserve(): Nothing? = null
+    override fun registerObserve() {
+    }
 
     @BusUtils.Bus(tag = ViewsConstant.TAG_NO_PARAM)
     fun oneParamFun(triple: Triple<String, Boolean, Any>) {

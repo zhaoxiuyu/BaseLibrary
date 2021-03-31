@@ -13,6 +13,7 @@ object FunctionMethod {
         datas.add(FunctionDescribe("Demo1", "测试 MVP 网络请求", Demo1Activity::class.java))
         datas.add(FunctionDescribe("协程", "练手 协程 相关操作", null))
         datas.add(FunctionDescribe("异步流", "练手 异步流 相关操作", null))
+        datas.add(FunctionDescribe("测试", "测试用的", null))
 
         return datas
     }

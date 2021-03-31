@@ -41,7 +41,8 @@ class FlowFragment : BFragment() {
         }
     }
 
-    override fun initObserve(): Nothing? = null
+    override fun registerObserve() {
+    }
 
     // 创建Flow
     private suspend fun flow1() {

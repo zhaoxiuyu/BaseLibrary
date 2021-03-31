@@ -59,9 +59,7 @@ class MainActivity : BActivity() {
 //        }
     }
 
-    override fun initObserve(): MutableList<BViewModel>? {
-//        mMainViewModel.bnvShowLiveData.observe(this, Observer { getMainBnv(it) })
-        return null
+    override fun registerObserve() {
     }
 
     /**

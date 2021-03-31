@@ -49,7 +49,8 @@ class CoroutinesFragment : BFragment() {
         }
     }
 
-    override fun initObserve(): Nothing? = null
+    override fun registerObserve() {
+    }
 
     // 协程内按顺序执行,多个withContext是串行的,可直接返回耗时任务结果
     private fun loadImg() {
@@ -57,27 +58,27 @@ class CoroutinesFragment : BFragment() {
             // 协程体
             sb.delete(0, sb.length)
 
-            sb.appendLine("1 ${Thread.currentThread().name}")
+            sb.append("1 ${Thread.currentThread().name} \n")
 
             val image = withContext(Dispatchers.IO) {
-                sb.appendLine("2 ${Thread.currentThread().name}")
+                sb.append("2 ${Thread.currentThread().name} \n")
 
                 repeat(100000) {
 
                 }
 
-                sb.appendLine("3 ${Thread.currentThread().name}")
+                sb.append("3 ${Thread.currentThread().name} \n")
             }
 
-            sb.appendLine("4 ${Thread.currentThread().name}")
+            sb.append("4 ${Thread.currentThread().name} \n")
 
             val image2 = getLoadImage()
 
-            sb.appendLine("7 ${Thread.currentThread().name}")
+            sb.append("7 ${Thread.currentThread().name} \n")
 
             val image3 = getLoadImageDone()
 
-            sb.appendLine("666 ${Thread.currentThread().name}")
+            sb.append("666 ${Thread.currentThread().name} \n")
 
             mBind.tvContent.text = sb.toString()
         }, {
@@ -94,13 +95,13 @@ class CoroutinesFragment : BFragment() {
      * 加上 suspend 关键字, withContext 把函数包裹住就可以了
      */
     private suspend fun getLoadImage() = withContext(Dispatchers.IO) {
-        sb.appendLine("5 ${Thread.currentThread().name}")
+        sb.append("5 ${Thread.currentThread().name} \n")
 
         repeat(100000) {
 
         }
 
-        sb.appendLine("6 ${Thread.currentThread().name}")
+        sb.append("6 ${Thread.currentThread().name} \n")
     }
 
     /**
@@ -108,11 +109,11 @@ class CoroutinesFragment : BFragment() {
      * 直接或间接的调用自带的挂起函数，delay 也是挂起函数
      */
     private suspend fun getLoadImageDone() {
-        sb.appendLine("8 ${Thread.currentThread().name}")
+        sb.append("8 ${Thread.currentThread().name} \n")
 
         delay(500)
 
-        sb.appendLine("9 ${Thread.currentThread().name}")
+        sb.append("9 ${Thread.currentThread().name} \n")
     }
 
     // async 开启一个子协程,后面代码继续执行,多个async 是并行的，调用 await 返回的是 Deferred 获取结果
@@ -123,27 +124,27 @@ class CoroutinesFragment : BFragment() {
             // 协程体
             sb.delete(0, sb.length)
 
-            sb.appendLine("1 ${Thread.currentThread().name}")
+            sb.append("1 ${Thread.currentThread().name} \n")
 
             val image1: Deferred<StringBuilder> = async {
-                sb.appendLine("2 ${Thread.currentThread().name}")
+                sb.append("2 ${Thread.currentThread().name} \n")
                 repeat(100000) {}
-                sb.appendLine("3 十万次循环执行完了 ${Thread.currentThread().name}")
+                sb.append("3 十万次循环执行完了 ${Thread.currentThread().name} \n")
             }
 
-            sb.appendLine("4 ${Thread.currentThread().name}")
+            sb.append("4 ${Thread.currentThread().name} \n")
 
             val image2 = async {
-                sb.appendLine("5 ${Thread.currentThread().name}")
+                sb.append("5 ${Thread.currentThread().name} \n")
                 repeat(100000) {}
-                sb.appendLine("6 十万次循环执行完了 ${Thread.currentThread().name}")
+                sb.append("6 十万次循环执行完了 ${Thread.currentThread().name} \n")
             }.await()
 
-            sb.appendLine("7 ${Thread.currentThread().name}")
+            sb.append("7 ${Thread.currentThread().name} \n")
 
             image1.await()
 
-            sb.appendLine("666 ${Thread.currentThread().name}")
+            sb.append("666 ${Thread.currentThread().name} \n")
 
             mBind.tvContent.text = sb.toString()
         }, {
@@ -165,28 +166,28 @@ class CoroutinesFragment : BFragment() {
             // 协程体
             sb.delete(0, sb.length)
 
-            sb.appendLine("1 ${Thread.currentThread().name}")
+            sb.append("1 ${Thread.currentThread().name} \n")
 
             async(Dispatchers.IO) {
-                sb.appendLine("11 ${Thread.currentThread().name}")
+                sb.append("11 ${Thread.currentThread().name} \n")
             }.await()
 
             repeat(100000) {}
 
-            sb.appendLine("2 ${Thread.currentThread().name}")
+            sb.append("2 ${Thread.currentThread().name} \n")
 
             val image = launch(Dispatchers.IO) {
-                sb.appendLine("3 ${Thread.currentThread().name}")
+                sb.append("3 ${Thread.currentThread().name} \n")
             }
 
-            sb.appendLine("4 ${Thread.currentThread().name}")
+            sb.append("4 ${Thread.currentThread().name} \n")
 
             delay(500)
 
-            sb.appendLine("5 ${Thread.currentThread().name}")
+            sb.append("5 ${Thread.currentThread().name} \n")
 
             launch(Dispatchers.Main) {
-                sb.appendLine("666 ${Thread.currentThread().name}")
+                sb.append("666 ${Thread.currentThread().name} \n")
                 mBind.tvContent.text = sb.toString()
             }
         }

@@ -22,7 +22,8 @@ class ViewPage2Fragment1 : BFragment() {
         }
     }
 
-    override fun initObserve(): Nothing? = null
+    override fun registerObserve() {
+    }
 
     override fun onStart() {
         super.onStart()

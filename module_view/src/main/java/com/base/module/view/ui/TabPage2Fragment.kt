@@ -37,7 +37,8 @@ class TabPage2Fragment : BFragment() {
         }
     }
 
-    override fun initObserve(): Nothing? = null
+    override fun registerObserve() {
+    }
 
     override fun onResume() {
         super.onResume()

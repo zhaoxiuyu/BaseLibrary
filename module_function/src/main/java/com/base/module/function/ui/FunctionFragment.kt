@@ -21,6 +21,7 @@ class FunctionFragment : BFragment() {
     override fun initData(savedInstanceState: Bundle?) {
     }
 
-    override fun initObserve(): Nothing? = null
+    override fun registerObserve() {
+    }
 
 }

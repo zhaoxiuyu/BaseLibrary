@@ -6,13 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import com.base.library.databinding.BaseLayoutBinding
 import com.base.library.interfaces.MyTitleBarListener
 import com.base.library.interfaces.MyXPopListener
-import com.base.library.mvvm.core.BViewModel
 import com.base.library.mvvm.core.OnHandleCallback
-import com.base.library.rxhttp.RxRequest
 import com.billy.android.loading.Gloading
 import com.blankj.utilcode.util.BarUtils
 import com.hjq.bar.TitleBar
@@ -27,10 +24,13 @@ abstract class BFragment : Fragment(), OnHandleCallback {
     abstract fun initArgs(mArguments: Bundle?)
     abstract fun initView()
     abstract fun initData(savedInstanceState: Bundle?)
-    abstract fun initObserve(): MutableList<BViewModel>?
+    abstract fun registerObserve()
 
+    // 最外层的布局，内部包裹添加进来的View
     private val bBind by lazy { BaseLayoutBinding.inflate(layoutInflater) }
-    private var bView: View? = null
+
+    // 根View
+    private var bRootView: View? = null
 
     // 是否使用沉浸式
     private var immersionBar = true
@@ -47,13 +47,9 @@ abstract class BFragment : Fragment(), OnHandleCallback {
         savedInstanceState: Bundle?
     ): View? {
         initArgs(arguments)
-        initObserve()?.forEach { bViewModel ->
-            bViewModel.getState()?.observe(viewLifecycleOwner, Observer { state ->
-                state.handler(this)
-            })
-        }
+        registerObserve()
         initView()
-        return bView
+        return bRootView
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -87,17 +83,16 @@ abstract class BFragment : Fragment(), OnHandleCallback {
         return getTitleBar()
     }
 
-    fun setContentView(view: View, immersionBar: Boolean = true) {
-        this.bView = view
+    fun setContentView(rootView: View, immersionBar: Boolean = true) {
+        this.bRootView = rootView
         this.immersionBar = immersionBar
     }
 
-    fun setContentViewBar(view: View, title: Boolean = true, immersionBar: Boolean = true) {
-        val lp = ViewGroup.LayoutParams(
+    fun setContentViewBar(rootView: View, title: Boolean = true, immersionBar: Boolean = true) {
+        rootView.layoutParams = ViewGroup.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.MATCH_PARENT
         )
-        view.layoutParams = lp
 
         // 是否显示 顶部导航栏
         val isShow = if (title) View.VISIBLE else View.GONE
@@ -110,14 +105,14 @@ abstract class BFragment : Fragment(), OnHandleCallback {
             bBind.stateBar.layoutParams = stateBarLp
         }
 
-        bBind.root.removeView(view)
-        bBind.root.addView(view)
+        bBind.root.removeView(rootView)
+        bBind.root.addView(rootView)
 
-        this.bView = bBind.root
+        this.bRootView = bBind.root
         this.immersionBar = immersionBar
     }
 
-    fun immersionBar() {
+    private fun immersionBar() {
         if (immersionBar) {
             UltimateBarX.with(this).fitWindow(false).light(true).applyStatusBar()
         }
@@ -224,8 +219,8 @@ abstract class BFragment : Fragment(), OnHandleCallback {
     override fun onDestroyView() {
         super.onDestroyView()
         dismissDialog()
-        if (bView?.parent != null) {
-            (bView?.parent as ViewGroup).removeView(bView)
+        if (bRootView?.parent != null) {
+            (bRootView?.parent as ViewGroup).removeView(bRootView)
         }
     }
 

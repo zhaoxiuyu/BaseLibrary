@@ -259,4 +259,9 @@ dependencies {
     debugApi 'com.didichuxing.doraemonkit:dokitx:3.3.5'
     releaseApi 'com.didichuxing.doraemonkit:dokitx-no-op:3.3.5'
 
+    //字节跳动启动优化
+    api 'com.bytedance.boost_multidex:boost_multidex:1.0.1'
+
+    api 'me.weishu:free_reflection:3.0.1'
+
 }

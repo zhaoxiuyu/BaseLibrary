@@ -8,13 +8,10 @@ import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import com.base.library.databinding.BaseLayoutBinding
 import com.base.library.interfaces.MyTitleBarListener
 import com.base.library.interfaces.MyXPopListener
-import com.base.library.mvvm.core.BViewModel
 import com.base.library.mvvm.core.OnHandleCallback
-import com.base.library.rxhttp.RxRequest
 import com.billy.android.loading.Gloading
 import com.blankj.utilcode.util.AdaptScreenUtils
 import com.blankj.utilcode.util.BarUtils
@@ -30,7 +27,7 @@ abstract class BActivity : AppCompatActivity(), OnHandleCallback {
     abstract fun initArgs(mIntent: Intent?)
     abstract fun initView()
     abstract fun initData(savedInstanceState: Bundle?)
-    abstract fun initObserve(): MutableList<BViewModel>?
+    abstract fun registerObserve()
 
     private val bBind by lazy { BaseLayoutBinding.inflate(layoutInflater) }
 
@@ -42,15 +39,9 @@ abstract class BActivity : AppCompatActivity(), OnHandleCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        initParadigm()
         initArgs(intent)
-
-        initObserve()?.forEach { bViewModel ->
-            bViewModel.getState()?.observe(this, Observer { it.handler(this) })
-        }
-
         initView()
-
         // window.decorView 获取到DecorView后,调用post方法,此时DecorView的attachInfo为空,
         // 会将这个Runnable放置runQueue中。runQueue内的任务会在ViewRootImpl.performTraversals的开始阶段被依次取出执行,
         // 这个方法内会执行到DecorView的测量、布局、绘制操作，不过runQueue的执行顺序会在这之前,所以需要再进行一次post操作
@@ -60,6 +51,10 @@ abstract class BActivity : AppCompatActivity(), OnHandleCallback {
             initData(savedInstanceState)
             false
         }
+    }
+
+    open fun initParadigm() {
+
     }
 
     /**
@@ -90,13 +85,13 @@ abstract class BActivity : AppCompatActivity(), OnHandleCallback {
     /**
      * 给 ContentView 的外面添加一个 通用的顶部导航栏
      */
-    fun setContentViewBar(view: View, title: Boolean = true, immersion: Boolean = true) {
-        val lp = ViewGroup.LayoutParams(
+    fun setContentViewBar(rootView: View, title: Boolean = true, immersion: Boolean = true) {
+        rootView.layoutParams = ViewGroup.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.MATCH_PARENT
         )
-        view.layoutParams = lp
-        bBind.root.addView(view)
+        bBind.root.removeView(rootView)
+        bBind.root.addView(rootView)
 
         // 是否显示 顶部导航栏
         val isShow = if (title) View.VISIBLE else View.GONE
@@ -108,7 +103,7 @@ abstract class BActivity : AppCompatActivity(), OnHandleCallback {
         setContentView(bBind.root)
     }
 
-    fun immersionBar(immersion: Boolean = true) {
+    private fun immersionBar(immersion: Boolean = true) {
         if (immersion) {
             val stateBarLp = bBind.stateBar.layoutParams
             stateBarLp.height = BarUtils.getStatusBarHeight()

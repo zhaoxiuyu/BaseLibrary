@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.viewpager2.widget.ViewPager2
 import com.base.library.base.BActivity
-import com.base.library.base.BFragment
 import com.base.module.view.adapter.StatisticsVp2Adapter
 import com.base.module.view.databinding.ActivityTabPage2Binding
 import com.google.android.material.tabs.TabLayoutMediator
@@ -48,6 +47,7 @@ class TabPage2Activity : BActivity() {
 
     }
 
-    override fun initObserve(): Nothing? = null
+    override fun registerObserve() {
+    }
 
 }

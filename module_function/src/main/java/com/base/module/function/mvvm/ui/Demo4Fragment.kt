@@ -3,26 +3,23 @@ package com.base.module.function.mvvm.ui
 import android.os.Bundle
 import android.view.View
 import androidx.activity.addCallback
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import com.base.library.base.BFragment
 import com.base.library.interfaces.MyTitleBarListener
-import com.base.library.mvvm.core.BViewModel
+import com.base.library.mvvm.core.VMFragment
 import com.base.module.function.databinding.BaseActivityTestBinding
 import com.base.module.function.mvvm.viewmodel.Demo4ViewModel
 import com.blankj.utilcode.util.LogUtils
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class Demo4Fragment : BFragment() {
+class Demo4Fragment : VMFragment<Demo4ViewModel, BaseActivityTestBinding>() {
+//class Demo4Fragment : BFragment() {
 
 //    @Inject
-//    lateinit var mViewModel: Demo4ViewModel
-
-    private val mViewModel: Demo4ViewModel by viewModels()
-
-    private val mBind by lazy { BaseActivityTestBinding.inflate(layoutInflater) }
+//    lateinit var viewModel: Demo4ViewModel
+//    private val viewModel: Demo4ViewModel by viewModels()
+//    private val viewBinding by lazy { BaseActivityTestBinding.inflate(layoutInflater) }
 
     override fun initArgs(mArguments: Bundle?) {
         mArguments?.let {
@@ -31,7 +28,7 @@ class Demo4Fragment : BFragment() {
     }
 
     override fun initView() {
-        setContentViewBar(mBind.root)
+        setContentViewBar(viewBinding.root)
         setTitleBarOperation("MVVM 协程", object : MyTitleBarListener() {
             override fun onLeftClick(v: View?) {
                 findNavController().navigateUp()
@@ -44,45 +41,46 @@ class Demo4Fragment : BFragment() {
 
     override fun initData(savedInstanceState: Bundle?) {
         // 获取缓存
-        mBind.getCache.setOnClickListener { getCache() }
+        viewBinding.getCache.setOnClickListener { getCache() }
         // 登录
-        mBind.collectLogin.setOnClickListener {
-            mViewModel.collectLogin(mBind.userName.text.toString(), mBind.passWord.text.toString())
+        viewBinding.collectLogin.setOnClickListener {
+            viewModel.collectLogin(
+                viewBinding.userName.text.toString(),
+                viewBinding.passWord.text.toString()
+            )
         }
         // 登录 -> 首页banner
-        mBind.collectLoginBanner.setOnClickListener {
-            loginBanner(mBind.userName.text.toString(), mBind.passWord.text.toString())
+        viewBinding.collectLoginBanner.setOnClickListener {
+            loginBanner(viewBinding.userName.text.toString(), viewBinding.passWord.text.toString())
         }
         // 公众号 文章 列表同步获取
-        mBind.parallel.setOnClickListener { mViewModel.getParallel() }
+        viewBinding.parallel.setOnClickListener { viewModel.getParallel() }
     }
 
-    override fun initObserve(): MutableList<BViewModel>? {
+    override fun registerObserve() {
         // 公众号 文章 列表同步获取
-        mViewModel.getParallelLiveData().observe(this, Observer {
+        viewModel.getParallelLiveData().observe(this, Observer {
             LogUtils.d("${it.first.errorCode} = ${it.second.errorCode}")
         })
 
         // 登录
-        mViewModel.getLoginLiveData().observe(this, Observer {
+        viewModel.getLoginLiveData().observe(this, Observer {
             LogUtils.d("${it.showMsg()}")
-            mBind.tvInfo.text = "登录状态 ${it.showMsg()}"
+            viewBinding.tvInfo.text = "登录状态 ${it.showMsg()}"
         })
-
-        return mutableListOf(mViewModel)
     }
 
     // 获取缓存
     private fun getCache() {
-        mViewModel.getCache("123").observe(this, Observer {
+        viewModel.getCache("123").observe(this, Observer {
             LogUtils.d(it)
         })
     }
 
     // 登录 -> 首页banner
     private fun loginBanner(username: String, password: String) {
-        mViewModel.getLoginBanner(username, password).observe(this, Observer {
-            mBind.tvInfo.text = "登录 -> 首页banner 状态 ${it.showMsg()}"
+        viewModel.getLoginBanner(username, password).observe(this, Observer {
+            viewBinding.tvInfo.text = "登录 -> 首页banner 状态 ${it.showMsg()}"
         })
     }
 

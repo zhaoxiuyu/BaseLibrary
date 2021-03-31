@@ -40,7 +40,8 @@ class ViewsFragment : BFragment(), OnItemClickListener {
         mAdapter.setNewInstance(ViewsMethod.getViewsDescribe())
     }
 
-    override fun initObserve(): Nothing? = null
+    override fun registerObserve() {
+    }
 
     override fun onItemClick(adapter: BaseQuickAdapter<*, *>, view: View, position: Int) {
         val item = mAdapter.getItem(position)

@@ -1,5 +1,6 @@
 package com.base.library.base
 
+import android.content.Context
 import androidx.multidex.MultiDexApplication
 import com.alibaba.android.arouter.launcher.ARouter
 import com.base.library.BuildConfig
@@ -9,6 +10,7 @@ import com.base.library.rxhttp.RxHttpParamAssembly
 import com.billy.android.loading.Gloading
 import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.Utils
+import com.bytedance.boost_multidex.BoostMultiDex
 import okhttp3.OkHttpClient
 import org.litepal.LitePal
 import rxhttp.RxHttpPlugins
@@ -24,6 +26,12 @@ import javax.net.ssl.HostnameVerifier
  * 作用: 程序的入口
  */
 open class BApplication : MultiDexApplication() {
+
+    override fun attachBaseContext(base: Context?) {
+        super.attachBaseContext(base)
+        // 用于Android低版本设备（4.X及以下，SDK < 21）快速加载多DEX的解决方案
+        BoostMultiDex.install(base)
+    }
 
     fun initMethod() {
         // 工具类

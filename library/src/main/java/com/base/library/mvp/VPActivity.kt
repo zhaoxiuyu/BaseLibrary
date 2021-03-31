@@ -20,7 +20,8 @@ abstract class VPActivity : BActivity(), VPView {
 //        mPresenter?.let { lifecycle.addObserver(it) }
     }
 
-    override fun initObserve(): Nothing? = null
+    override fun registerObserve() {
+    }
 
     override fun getContext() = this
 

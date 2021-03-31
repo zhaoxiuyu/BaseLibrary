@@ -29,6 +29,7 @@
 
         <activity android:name="com.base.module.view.ui.ViewPage2" />
         <activity android:name="com.base.module.function.mvp.ui.Demo1Activity" />
+        <activity android:name=".module.test.DetailActivity" />
 
     </application>
 

@@ -10,7 +10,9 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.alibaba.android.arouter.launcher.ARouter
 import com.base.library.base.BFragment
+import com.base.module.common.module_app.AppARoute
 import com.base.module.common.module_function.FunctionARoute
 import com.base.module.function.R
 import com.base.module.function.adapter.FunctionAdapter
@@ -38,6 +40,7 @@ class FunctionListFragment : BFragment(), OnItemClickListener {
     private var callback: OnBackPressedCallback? = null
 
     private var demo1Launch: ActivityResultLauncher<Intent>? = null
+    private var detailLaunch: ActivityResultLauncher<Intent>? = null
 
     override fun initArgs(mArguments: Bundle?) {
     }
@@ -48,6 +51,7 @@ class FunctionListFragment : BFragment(), OnItemClickListener {
 
     override fun initData(savedInstanceState: Bundle?) {
         registerDemo1Result()
+        registerDetailResult()
 
         mBind.butCollapse.setOnClickListener {
             throw  RuntimeException("Boom!")
@@ -66,22 +70,31 @@ class FunctionListFragment : BFragment(), OnItemClickListener {
         mAdapter.setNewInstance(FunctionMethod.getFunctionDescribe())
     }
 
-    override fun initObserve(): Nothing? = null
+    override fun registerObserve() {
+    }
 
     override fun onItemClick(adapter: BaseQuickAdapter<*, *>, view: View, position: Int) {
         val item = mAdapter.getItem(position)
-
         when (item.name) {
             "Demo1" -> item.cls?.let { demo1Launch?.launch(Intent(requireActivity(), it)) }
             "Demo3" -> findNavController().navigate(R.id.action_function_demo3)
             "Demo4" -> findNavController().navigate(R.id.action_function_demo4)
             "协程" -> findNavController().navigate(R.id.action_function_coroutines)
             "异步流" -> findNavController().navigate(R.id.action_function_flow)
+            "测试" -> {
+                ARouter.getInstance().build(AppARoute.App_DetailActivity).navigation();
+            }
         }
     }
 
     private fun registerDemo1Result() {
         demo1Launch = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            LogUtils.d(it.resultCode)
+        }
+    }
+
+    private fun registerDetailResult() {
+        detailLaunch = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             LogUtils.d(it.resultCode)
         }
     }

@@ -39,7 +39,8 @@ class UtilsFragment : BFragment(), OnItemClickListener {
         mAdapter.setNewInstance(UtilsMethod.getUtilsDescribe())
     }
 
-    override fun initObserve(): Nothing? = null
+    override fun registerObserve() {
+    }
 
     override fun onItemClick(adapter: BaseQuickAdapter<*, *>, view: View, position: Int) {
     }

@@ -2,12 +2,8 @@ package com.base.app.module.common.ui
 
 import android.os.Bundle
 import android.os.CountDownTimer
-import androidx.navigation.Navigation
-import androidx.navigation.fragment.findNavController
-import com.base.app.R
 import com.base.app.databinding.FragmentSplashBinding
 import com.base.library.base.BFragment
-import com.base.library.mvvm.core.BViewModel
 
 /**
  * 启动页
@@ -28,7 +24,8 @@ class SplashFragment : BFragment() {
         mCountDownTimer.start()
     }
 
-    override fun initObserve(): MutableList<BViewModel>? = null
+    override fun registerObserve() {
+    }
 
     /**
      * 倒计时
