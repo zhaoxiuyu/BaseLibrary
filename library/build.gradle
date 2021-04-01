@@ -192,7 +192,8 @@ dependencies {
     api 'com.daimajia.androidanimations:library:2.3@aar'
 
     // 低耦合方式显示程序的全局加载状态视图
-    api 'com.billy.android:gloading:1.1.0'
+    api 'com.dylanc:loadinghelper:2.1.1'
+//    api 'com.billy.android:gloading:1.1.0'
 
     // lottie
     api 'com.airbnb.android:lottie:3.6.1'

@@ -13,37 +13,11 @@ import javax.inject.Inject
 class DetailRepository @Inject constructor() {
 
     fun getArticle(): Flow<BResponse<WanArticle>> {
-        val fow = RxRequest(BConstant.article).httpGet()
+        return RxRequest(BConstant.article).httpGet()
             .setDomainTowanandroidIfAbsent()
             .toResponse<WanArticle>()
             .onErrorReturnItem(BResponse()) // 如果出错了就给出默认值,不影响其他请求的执行
             .asFlow()
-        return fow
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

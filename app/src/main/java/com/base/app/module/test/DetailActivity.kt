@@ -28,20 +28,18 @@ class DetailActivity : VMActivity<DetailViewModel, DetailsBinding>() {
         setContentViewBar(viewBinding.root)
         // 通过getTitleBar()来操作导航栏
         getTitleBar().title = "标题"
-
     }
 
     override fun initData(savedInstanceState: Bundle?) {
         viewBinding.tv.text = "设置一下内容"
         viewBinding.tv.setOnClickListener {
-            viewModel.getArticle()
+            viewModel.getArticle().observe(this, Observer {
+
+            })
         }
     }
 
     override fun registerObserve() {
-        viewModel.getArticleLiveData().observe(this, Observer {
-
-        })
     }
 
 }

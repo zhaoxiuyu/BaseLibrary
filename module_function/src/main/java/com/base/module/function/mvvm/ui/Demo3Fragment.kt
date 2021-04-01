@@ -1,7 +1,6 @@
 package com.base.module.function.mvvm.ui
 
 import android.os.Bundle
-import android.os.Handler
 import android.view.View
 import androidx.activity.addCallback
 import androidx.lifecycle.Observer
@@ -12,6 +11,8 @@ import com.base.library.rxhttp.RxRequest
 import com.base.module.function.databinding.BaseActivityTestBinding
 import com.base.module.function.mvvm.viewmodel.Demo3ViewModel
 import com.blankj.utilcode.util.LogUtils
+import com.dylanc.loadinghelper.LoadingHelper
+import com.dylanc.loadinghelper.ViewType
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.ObservableTransformer
@@ -27,11 +28,6 @@ class Demo3Fragment : VMFragment<Demo3ViewModel, BaseActivityTestBinding>() {
     override fun initView() {
         setContentViewBar(viewBinding.root)
 
-        setGloading(viewBinding.root)
-        getGloadingHolder()?.showLoading()
-        Handler().postDelayed({
-            getGloadingHolder()?.showLoadSuccess()
-        }, 2000)
         setTitleBarOperation("MVVM 测试网络请求", object : MyTitleBarListener() {
             override fun onLeftClick(v: View?) {
                 findNavController().navigateUp()
@@ -43,6 +39,11 @@ class Demo3Fragment : VMFragment<Demo3ViewModel, BaseActivityTestBinding>() {
     }
 
     override fun initData(savedInstanceState: Bundle?) {
+        val loadingHelper = LoadingHelper(viewBinding.root)
+        loadingHelper.setOnReloadListener {
+
+        }
+
         viewBinding.article.setOnClickListener {
             viewModel.getArticle()
         }

@@ -4,10 +4,8 @@ import android.content.Context
 import androidx.multidex.MultiDexApplication
 import com.alibaba.android.arouter.launcher.ARouter
 import com.base.library.BuildConfig
-import com.base.library.custom.GlobalAdapter
 import com.base.library.rxhttp.RxHttpDecoder
 import com.base.library.rxhttp.RxHttpParamAssembly
-import com.billy.android.loading.Gloading
 import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.Utils
 import com.bytedance.boost_multidex.BoostMultiDex
@@ -41,8 +39,6 @@ open class BApplication : MultiDexApplication() {
         LitePal.initialize(this)
 
         // 解耦APP中的状态布局
-        Gloading.debug(true)
-        Gloading.initDefault(GlobalAdapter())
 
         if (BuildConfig.DEBUG) { // 这两行必须写在init之前，否则这些配置在init过程中将无效
             ARouter.openLog() // 打印日志

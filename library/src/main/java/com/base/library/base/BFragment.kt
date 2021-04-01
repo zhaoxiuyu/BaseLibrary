@@ -10,7 +10,6 @@ import com.base.library.databinding.BaseLayoutBinding
 import com.base.library.interfaces.MyTitleBarListener
 import com.base.library.interfaces.MyXPopListener
 import com.base.library.mvvm.core.OnHandleCallback
-import com.billy.android.loading.Gloading
 import com.blankj.utilcode.util.BarUtils
 import com.hjq.bar.TitleBar
 import com.lxj.xpopup.XPopup
@@ -116,16 +115,6 @@ abstract class BFragment : Fragment(), OnHandleCallback {
         if (immersionBar) {
             UltimateBarX.with(this).fitWindow(false).light(true).applyStatusBar()
         }
-    }
-
-    /**
-     * --------------------- 为指定 View 设置各种状态布局
-     */
-    var mGloadingHolder: Gloading.Holder? = null
-    fun getGloadingHolder() = mGloadingHolder
-
-    fun setGloading(view: View) {
-        mGloadingHolder = Gloading.getDefault().wrap(view)
     }
 
     /**
