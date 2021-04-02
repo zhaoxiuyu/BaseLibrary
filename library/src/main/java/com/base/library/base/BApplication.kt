@@ -6,9 +6,15 @@ import com.alibaba.android.arouter.launcher.ARouter
 import com.base.library.BuildConfig
 import com.base.library.rxhttp.RxHttpDecoder
 import com.base.library.rxhttp.RxHttpParamAssembly
+import com.base.library.view.loadinghelper.EmptyHelperAdapter
+import com.base.library.view.loadinghelper.ErrorHelperAdapter
+import com.base.library.view.loadinghelper.LoadingHelperAdapter
 import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.Utils
 import com.bytedance.boost_multidex.BoostMultiDex
+import com.dylanc.loadinghelper.LoadingHelper
+import com.dylanc.loadinghelper.LoadingHelper.AdapterPool
+import com.dylanc.loadinghelper.ViewType
 import okhttp3.OkHttpClient
 import org.litepal.LitePal
 import rxhttp.RxHttpPlugins
@@ -39,6 +45,11 @@ open class BApplication : MultiDexApplication() {
         LitePal.initialize(this)
 
         // 解耦APP中的状态布局
+        LoadingHelper.setDefaultAdapterPool {
+            this.register(ViewType.LOADING, LoadingHelperAdapter())
+            this.register(ViewType.ERROR, ErrorHelperAdapter())
+            this.register(ViewType.EMPTY, EmptyHelperAdapter())
+        }
 
         if (BuildConfig.DEBUG) { // 这两行必须写在init之前，否则这些配置在init过程中将无效
             ARouter.openLog() // 打印日志

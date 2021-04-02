@@ -82,6 +82,8 @@ abstract class BFragment : Fragment(), OnHandleCallback {
         return getTitleBar()
     }
 
+    fun getRootView(): View? = bRootView
+
     fun setContentView(rootView: View, immersionBar: Boolean = true) {
         this.bRootView = rootView
         this.immersionBar = immersionBar

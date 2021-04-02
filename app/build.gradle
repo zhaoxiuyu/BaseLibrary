@@ -83,8 +83,8 @@ android {
     // 自动化打包配置，release或debug版本的内容
     buildTypes {
         release {
-            shrinkResources false //资源缩减
-            minifyEnabled false //是否混淆
+            shrinkResources false // 启用资源压缩（由Android Gradle plugin执行）
+            minifyEnabled false // 启用代码压缩、优化和混淆（由R8或者ProGuard执行
             signingConfig signingConfigs.config
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }

@@ -37,7 +37,6 @@ class Demo4Fragment : VMFragment<Demo4ViewModel, BaseActivityTestBinding>() {
         requireActivity().onBackPressedDispatcher.addCallback {
             findNavController().navigateUp()
         }
-        LogUtils.d("Demo4Fragment $viewModel")
     }
 
     override fun initData(savedInstanceState: Bundle?) {

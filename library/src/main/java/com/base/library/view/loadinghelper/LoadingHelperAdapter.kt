@@ -1,4 +1,4 @@
-package com.base.library.custom.loadinghelper
+package com.base.library.view.loadinghelper
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

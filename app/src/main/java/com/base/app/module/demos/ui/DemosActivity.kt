@@ -43,7 +43,6 @@ class DemosActivity : VMActivity<Demo4ViewModel, ActivityDemosBinding>() {
 
     override fun initView() {
         setContentView(viewBinding.root)
-        LogUtils.d("DemosActivity $viewModel")
     }
 
     override fun initData(savedInstanceState: Bundle?) {
