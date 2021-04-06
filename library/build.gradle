@@ -178,9 +178,10 @@ dependencies {
     api 'com.ljx.rxlife:rxlife-coroutine:2.0.1'
 
     // 图片配置
-    api 'io.coil-kt:coil:1.1.0'
-    api 'io.coil-kt:coil-gif:1.1.0'
-    api 'io.coil-kt:coil-svg:1.1.0'
+    api 'io.coil-kt:coil:1.1.1'
+    api 'io.coil-kt:coil-gif:1.1.1'
+    api 'io.coil-kt:coil-svg:1.1.1'
+    api 'io.coil-kt:coil-video:1.1.1'
 
     api 'com.github.bumptech.glide:glide:4.11.0'
     kapt 'com.github.bumptech.glide:compiler:4.11.0'
