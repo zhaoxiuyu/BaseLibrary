@@ -13,7 +13,6 @@ import com.base.library.interfaces.MyTitleBarListener
 import com.base.library.interfaces.MyXPopListener
 import com.base.library.mvvm.core.OnHandleCallback
 import com.blankj.utilcode.util.AdaptScreenUtils
-import com.blankj.utilcode.util.BarUtils
 import com.hjq.bar.TitleBar
 import com.lxj.xpopup.XPopup
 import com.lxj.xpopup.core.BasePopupView
@@ -103,11 +102,16 @@ abstract class BActivity : AppCompatActivity(), OnHandleCallback {
 
     private fun immersionBar(immersion: Boolean = true) {
         if (immersion) {
-            val stateBarLp = bBind.stateBar.layoutParams
-            stateBarLp.height = BarUtils.getStatusBarHeight()
-            bBind.stateBar.layoutParams = stateBarLp
-
-            UltimateBarX.with(this).fitWindow(false).light(true).applyStatusBar()
+            UltimateBarX.with(this)
+                // 布局是否侵入状态栏
+                .fitWindow(false)
+                // light模式 状态栏字体 true: 灰色，false: 白色 Android 6.0+
+                // light模式 导航栏按钮 true: 灰色，false: 白色 Android 8.0+
+                .light(true)
+                // 状态栏透明效果
+                .transparent()
+                // 应用到状态栏
+                .applyStatusBar()
         }
     }
 

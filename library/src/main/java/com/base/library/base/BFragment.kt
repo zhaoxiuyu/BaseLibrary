@@ -10,7 +10,7 @@ import com.base.library.databinding.BaseLayoutBinding
 import com.base.library.interfaces.MyTitleBarListener
 import com.base.library.interfaces.MyXPopListener
 import com.base.library.mvvm.core.OnHandleCallback
-import com.blankj.utilcode.util.BarUtils
+import com.base.library.util.ScreenUtils
 import com.hjq.bar.TitleBar
 import com.lxj.xpopup.XPopup
 import com.lxj.xpopup.core.BasePopupView
@@ -62,6 +62,9 @@ abstract class BFragment : Fragment(), OnHandleCallback {
      */
     fun getTitleBar() = bBind.titleBar
 
+    // 根据布局的id
+    fun getBaseLl() = bBind.baseLl
+
     /**
      * 默认有返回功能，如果不要返回 传listener实例 空实现就可以了。
      */
@@ -99,13 +102,6 @@ abstract class BFragment : Fragment(), OnHandleCallback {
         val isShow = if (title) View.VISIBLE else View.GONE
         bBind.titleBar.visibility = isShow
 
-        // 沉浸式,把stateBar设置为状态栏的高度,用来延伸到状态栏
-        if (immersionBar) {
-            val stateBarLp = bBind.stateBar.layoutParams
-            stateBarLp.height = BarUtils.getStatusBarHeight()
-            bBind.stateBar.layoutParams = stateBarLp
-        }
-
         bBind.root.removeView(rootView)
         bBind.root.addView(rootView)
 
@@ -113,10 +109,49 @@ abstract class BFragment : Fragment(), OnHandleCallback {
         this.immersionBar = immersionBar
     }
 
+
     private fun immersionBar() {
         if (immersionBar) {
-            UltimateBarX.with(this).fitWindow(false).light(true).applyStatusBar()
+            UltimateBarX.with(this)
+                // 布局是否侵入状态栏
+                .fitWindow(false)
+                // light模式 状态栏字体 true: 灰色，false: 白色 Android 6.0+
+                // light模式 导航栏按钮 true: 灰色，false: 白色 Android 8.0+
+                .light(true)
+                // 状态栏透明效果
+                .transparent()
+                // 应用到状态栏
+                .applyStatusBar()
         }
+    }
+
+    // 给 view 增加状态栏高度的 padding，如果target为空就是用bBind.baseLl
+    fun addStatusBarTopPadding(target: View? = null) {
+        /*if (target == null) {
+            UltimateBarX.addStatusBarTopPadding(getBaseLl())
+        } else {
+            UltimateBarX.addStatusBarTopPadding(target)
+        }*/
+
+        val targetView = target ?: getBaseLl()
+        val statusBarHeight = ScreenUtils.getStatusBarHeight()
+
+        targetView.setPadding(
+            targetView.paddingLeft,
+            targetView.paddingTop + statusBarHeight,
+            targetView.paddingRight,
+            targetView.paddingBottom
+        )
+        /*val lp = targetView.layoutParams
+        if (lp.height != ViewGroup.LayoutParams.MATCH_PARENT && lp.height != ViewGroup.LayoutParams.WRAP_CONTENT) {
+            lp.height += statusBarHeight
+            targetView.layoutParams = lp
+            return
+        }
+        targetView.post {
+            lp.height = targetView.height + statusBarHeight
+            targetView.layoutParams = lp
+        }*/
     }
 
     /**

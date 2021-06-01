@@ -1,79 +1,81 @@
 package com.base.library.util
 
-import com.google.gson.*
+import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.hjq.gson.factory.GsonFactory
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
-import java.math.BigDecimal
-import java.util.*
-import kotlin.collections.HashMap
 
 /**
  * Gson 工具类
  */
 object JsonUtils {
 
-    private val gson: Gson
+    /* private val gson: Gson
 
-    init {
-        val gb = GsonBuilder()
-        gb.setLenient()
+     init {
+         val gb = GsonBuilder()
+         gb.setLenient()
 
-        gb.setLongSerializationPolicy(LongSerializationPolicy.STRING)
+         gb.setLongSerializationPolicy(LongSerializationPolicy.STRING)
 
-        gb.registerTypeAdapter(Double::class.java, JsonSerializer<Double> { originalValue, _, _ ->
-            val bigValue = BigDecimal.valueOf(originalValue)
-            if (originalValue == bigValue.toDouble()) {
-                JsonPrimitive(bigValue.toInt())
-            } else {
-                JsonPrimitive(originalValue)
-            }
-        })
-        gb.registerTypeAdapter(Long::class.java, JsonSerializer<Long> { originalValue, _, _ ->
-            val bigValue = BigDecimal.valueOf(originalValue)
-            JsonPrimitive(bigValue.toPlainString())
-        })
-        gb.registerTypeAdapter(Int::class.java, JsonSerializer<Int> { originalValue, _, _ ->
-            val bigValue = BigDecimal.valueOf(originalValue.toLong())
-            JsonPrimitive(bigValue.toPlainString())
-        })
-        gb.registerTypeAdapter(
-            Float::class.java,
-            JsonSerializer<Float> { originalValue, _, _ ->
-                val bigValue = BigDecimal.valueOf(originalValue.toDouble())
-                JsonPrimitive(bigValue.toPlainString())
-            })
-        gb.registerTypeAdapter(
-            object : TypeToken<TreeMap<String, Any>>() {}.type,
-            JsonDeserializer { json, _, _ ->
-                val treeMap = TreeMap<String, Any>()
-                val jsonObject = json.asJsonObject
-                val entrySet = jsonObject.entrySet()
-                for ((key, value) in entrySet) treeMap[key] = value
-                treeMap
-            })
-        gson = gb.create()
-    }
+         gb.registerTypeAdapter(Double::class.java, JsonSerializer<Double> { originalValue, _, _ ->
+             val bigValue = BigDecimal.valueOf(originalValue)
+             if (originalValue == bigValue.toDouble()) {
+                 JsonPrimitive(bigValue.toInt())
+             } else {
+                 JsonPrimitive(originalValue)
+             }
+         })
+         gb.registerTypeAdapter(Long::class.java, JsonSerializer<Long> { originalValue, _, _ ->
+             val bigValue = BigDecimal.valueOf(originalValue)
+             JsonPrimitive(bigValue.toPlainString())
+         })
+         gb.registerTypeAdapter(Int::class.java, JsonSerializer<Int> { originalValue, _, _ ->
+             val bigValue = BigDecimal.valueOf(originalValue.toLong())
+             JsonPrimitive(bigValue.toPlainString())
+         })
+         gb.registerTypeAdapter(
+             Float::class.java,
+             JsonSerializer<Float> { originalValue, _, _ ->
+                 val bigValue = BigDecimal.valueOf(originalValue.toDouble())
+                 JsonPrimitive(bigValue.toPlainString())
+             })
+         gb.registerTypeAdapter(
+             object : TypeToken<TreeMap<String, Any>>() {}.type,
+             JsonDeserializer { json, _, _ ->
+                 val treeMap = TreeMap<String, Any>()
+                 val jsonObject = json.asJsonObject
+                 val entrySet = jsonObject.entrySet()
+                 for ((key, value) in entrySet) treeMap[key] = value
+                 treeMap
+             })
+         gson = gb.create()
+     }*/
 
     /**
      * 获取 Gson 实例
      */
-    fun getGson(): Gson = gson
+    //fun getGson(): Gson = gson
+
+    fun getGson(): Gson {
+        return GsonFactory.getSingletonGson()
+    }
 
     /**
      * 将json解析成指定泛型并返回
      * @param str json数据
      * @param <T>    指定泛型
      */
-    fun <T> getClass(str: String, t: Class<T>): T = gson.fromJson(str, t)
+    fun <T> getClass(str: String, t: Class<T>): T = getGson().fromJson(str, t)
 
     /**
      * 将object解析成指定泛型并返回
      * @param any json数据的object
      * @param <T> 指定泛型
      */
-    fun <T> getClass(any: Any, t: Class<T>): T = gson.fromJson(gson.toJson(any) ?: "", t)
+    fun <T> getClass(any: Any, t: Class<T>): T = getGson().fromJson(getGson().toJson(any) ?: "", t)
 
     /**
      * 将 Any 解析成指定泛型并返回
@@ -84,7 +86,7 @@ object JsonUtils {
      * @param token  解析类型token
      */
     fun <T> getClass(str: String, token: TypeToken<T>): Any {
-        return gson.fromJson(str, token.type)
+        return getGson().fromJson(str, token.type)
     }
 
     /**
@@ -96,13 +98,13 @@ object JsonUtils {
      * @param token 解析类型token
      */
     fun <T> getClass(any: Any, token: TypeToken<T>): Any {
-        return gson.fromJson(gson.toJson(any), token.type)
+        return getGson().fromJson(getGson().toJson(any), token.type)
     }
 
     /**
      * 将指定类变成Json型数据返回
      */
-    fun <T> getJsonString(any: T): String = gson.toJson(any)
+    fun <T> getJsonString(any: T): String = getGson().toJson(any)
 
     /**
      * 将json字符串解析成Map

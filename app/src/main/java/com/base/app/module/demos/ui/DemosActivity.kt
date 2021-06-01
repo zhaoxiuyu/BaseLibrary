@@ -6,12 +6,10 @@ import androidx.fragment.app.Fragment
 import com.alibaba.android.arouter.launcher.ARouter
 import com.base.app.R
 import com.base.app.databinding.ActivityDemosBinding
-import com.base.library.base.BActivity
 import com.base.library.mvvm.core.VMActivity
 import com.base.module.common.module_function.FunctionARoute
 import com.base.module.common.module_utils.UtilsARoute
 import com.base.module.common.module_views.ViewsARoute
-import com.base.module.function.databinding.BaseActivityTestBinding
 import com.base.module.function.mvvm.viewmodel.Demo4ViewModel
 import com.blankj.utilcode.util.FragmentUtils
 import com.blankj.utilcode.util.LogUtils
