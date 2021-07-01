@@ -14,10 +14,19 @@ import rxhttp.wrapper.param.Method
 class PostFormEncrypt(url: String) : FormParam(url, Method.POST) {
 
     override fun getRequestBody(): RequestBody {
-        // 你可以拿到所有的参数，然后进行加密，添加到请求头里
-//        val pair = BConstant.postFormEncrypt(keyValuePairs)
-//        addHeader("sign", pair.first)
-//        addHeader("sk", pair.second)
+        // 获取到所有通过add系列方法添加的参数
+        // val mBodyParam = bodyParam
+        // 获取到所有通过addQuery系列方法添加的参数
+        // val mQueryParam = queryParam
+
+        // 根据上面拿到的参数，自行实现加密逻辑
+        // val encryptStr = "加密后的字符串"
+        // 可以添加到参数/请求头里面
+        // addHeader("encryptStr", encryptStr)
+        // addHeader("sign", "sign")
+        // addHeader("sk", "sk")
+        // add("","")
+
         return super.getRequestBody()
     }
 

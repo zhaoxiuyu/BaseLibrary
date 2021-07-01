@@ -24,12 +24,12 @@ class FlowFragment : BFragment() {
     }
 
     override fun initView() {
-        setContentViewBar(mBind.root)
-        setTitleBarOperation("异步流", object : MyTitleBarListener() {
-            override fun onLeftClick(v: View?) {
-                findNavController().navigateUp()
-            }
-        })
+        setContentView(mBind.root)
+//        setTitleBarOperation("异步流", object : MyTitleBarListener() {
+//            override fun onLeftClick(v: View?) {
+//                findNavController().navigateUp()
+//            }
+//        })
         requireActivity().onBackPressedDispatcher.addCallback {
             findNavController().navigateUp()
         }

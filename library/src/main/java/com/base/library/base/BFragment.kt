@@ -6,16 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.base.library.databinding.BaseLayoutBinding
-import com.base.library.interfaces.MyTitleBarListener
 import com.base.library.interfaces.MyXPopListener
 import com.base.library.mvvm.core.OnHandleCallback
 import com.base.library.util.ScreenUtils
-import com.hjq.bar.TitleBar
 import com.lxj.xpopup.XPopup
 import com.lxj.xpopup.core.BasePopupView
 import com.lxj.xpopup.interfaces.XPopupCallback
-import com.zackratos.ultimatebarx.library.UltimateBarX
+import com.zackratos.ultimatebarx.ultimatebarx.UltimateBarX
 import rxhttp.wrapper.entity.Progress
 
 abstract class BFragment : Fragment(), OnHandleCallback {
@@ -25,14 +22,14 @@ abstract class BFragment : Fragment(), OnHandleCallback {
     abstract fun initData(savedInstanceState: Bundle?)
     abstract fun registerObserve()
 
-    // 最外层的布局，内部包裹添加进来的View
-    private val bBind by lazy { BaseLayoutBinding.inflate(layoutInflater) }
-
     // 根View
     private var bRootView: View? = null
 
     // 是否使用沉浸式
-    private var immersionBar = true
+    private var immersion = true
+
+    // 给指定 view 添加 padding
+    private var topPadding: View? = null
 
     val mApplication: BApplication by lazy { activity?.application as BApplication }
     private var xPopup: BasePopupView? = null
@@ -53,105 +50,33 @@ abstract class BFragment : Fragment(), OnHandleCallback {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        immersionBar()
+        if (immersion) {
+            immersionBar()
+        }
+        topPadding?.let {
+            ScreenUtils.addStatusBarTopPadding(topPadding)
+        }
+
         initData(savedInstanceState)
     }
 
-    /**
-     * --------------------- 通用的 TitleBar，避免每个 Fragment 都复写一遍 ---------------------
-     */
-    fun getTitleBar() = bBind.titleBar
-
-    // 根据布局的id
-    fun getBaseLl() = bBind.baseLl
-
-    /**
-     * 默认有返回功能，如果不要返回 传listener实例 空实现就可以了。
-     */
-    fun setTitleBarOperation(
-        title: String,
-        listener: MyTitleBarListener? = null,
-    ): TitleBar {
-        getTitleBar().title = title
-        if (listener == null) {
-            getTitleBar().setOnTitleBarListener(object : MyTitleBarListener() {
-                override fun onLeftClick(v: View?) {
-                    requireActivity().finish()
-                }
-            })
-        } else {
-            getTitleBar().setOnTitleBarListener(listener)
-        }
-        return getTitleBar()
-    }
-
-    fun getRootView(): View? = bRootView
-
-    fun setContentView(rootView: View, immersionBar: Boolean = true) {
+    fun setContentView(rootView: View, immersion: Boolean = true, topPadding: View? = null) {
         this.bRootView = rootView
-        this.immersionBar = immersionBar
+        this.immersion = immersion
+        this.topPadding = topPadding
     }
 
-    fun setContentViewBar(rootView: View, title: Boolean = true, immersionBar: Boolean = true) {
-        rootView.layoutParams = ViewGroup.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.MATCH_PARENT
-        )
-
-        // 是否显示 顶部导航栏
-        val isShow = if (title) View.VISIBLE else View.GONE
-        bBind.titleBar.visibility = isShow
-
-        bBind.root.removeView(rootView)
-        bBind.root.addView(rootView)
-
-        this.bRootView = bBind.root
-        this.immersionBar = immersionBar
-    }
-
-
-    private fun immersionBar() {
-        if (immersionBar) {
-            UltimateBarX.with(this)
-                // 布局是否侵入状态栏
-                .fitWindow(false)
-                // light模式 状态栏字体 true: 灰色，false: 白色 Android 6.0+
-                // light模式 导航栏按钮 true: 灰色，false: 白色 Android 8.0+
-                .light(true)
-                // 状态栏透明效果
-                .transparent()
-                // 应用到状态栏
-                .applyStatusBar()
-        }
-    }
-
-    // 给 view 增加状态栏高度的 padding，如果target为空就是用bBind.baseLl
-    fun addStatusBarTopPadding(target: View? = null) {
-        /*if (target == null) {
-            UltimateBarX.addStatusBarTopPadding(getBaseLl())
-        } else {
-            UltimateBarX.addStatusBarTopPadding(target)
-        }*/
-
-        val targetView = target ?: getBaseLl()
-        val statusBarHeight = ScreenUtils.getStatusBarHeight()
-
-        targetView.setPadding(
-            targetView.paddingLeft,
-            targetView.paddingTop + statusBarHeight,
-            targetView.paddingRight,
-            targetView.paddingBottom
-        )
-        /*val lp = targetView.layoutParams
-        if (lp.height != ViewGroup.LayoutParams.MATCH_PARENT && lp.height != ViewGroup.LayoutParams.WRAP_CONTENT) {
-            lp.height += statusBarHeight
-            targetView.layoutParams = lp
-            return
-        }
-        targetView.post {
-            lp.height = targetView.height + statusBarHeight
-            targetView.layoutParams = lp
-        }*/
+    fun immersionBar() {
+        UltimateBarX.with(this)
+            // 布局是否侵入状态栏
+            .fitWindow(false)
+            // light模式 状态栏字体 true: 灰色，false: 白色 Android 6.0+
+            // light模式 导航栏按钮 true: 灰色，false: 白色 Android 8.0+
+            .light(true)
+            // 状态栏透明效果
+            .transparent()
+            // 应用到状态栏
+            .applyStatusBar()
     }
 
     /**
@@ -245,9 +170,9 @@ abstract class BFragment : Fragment(), OnHandleCallback {
     override fun onDestroyView() {
         super.onDestroyView()
         dismissDialog()
-        if (bRootView?.parent != null) {
-            (bRootView?.parent as ViewGroup).removeView(bRootView)
-        }
+//        if (bRootView?.parent != null) {
+//            (bRootView?.parent as ViewGroup).removeView(bRootView)
+//        }
     }
 
 }

@@ -12,10 +12,15 @@ import rxhttp.wrapper.param.Method
 class PostJsonEncrypt(url: String) : JsonParam(url, Method.POST) {
 
     override fun getRequestBody(): RequestBody {
-        // 你可以拿到所有的参数，然后进行加密，添加到请求头里
-//        val pair = BConstant.postJsonEncrypt(params)
-//        addHeader("sign", pair.first)
-//        addHeader("sk", pair.second)
+        // 获取到所有通过add系列方法添加的参数
+        // val mBodyParam = bodyParam
+        // 获取到所有通过addQuery系列方法添加的参数
+        // val mQueryParam = queryParam
+
+        // 根据上面拿到的参数，自行实现加密逻辑
+        // val encryptStr = "加密后的字符串"
+        // 发送加密后的字符串
+        // return RequestBody.create(null, encryptStr)
         return super.getRequestBody()
     }
 

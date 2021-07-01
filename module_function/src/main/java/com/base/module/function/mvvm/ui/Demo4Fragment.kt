@@ -28,12 +28,12 @@ class Demo4Fragment : VMFragment<Demo4ViewModel, BaseActivityTestBinding>() {
     }
 
     override fun initView() {
-        setContentViewBar(viewBinding.root)
-        setTitleBarOperation("MVVM 协程", object : MyTitleBarListener() {
-            override fun onLeftClick(v: View?) {
-                findNavController().navigateUp()
-            }
-        })
+        setContentView(viewBinding.root)
+//        setTitleBarOperation("MVVM 协程", object : MyTitleBarListener() {
+//            override fun onLeftClick(v: View?) {
+//                findNavController().navigateUp()
+//            }
+//        })
         requireActivity().onBackPressedDispatcher.addCallback {
             findNavController().navigateUp()
         }

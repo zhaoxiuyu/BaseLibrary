@@ -6,18 +6,15 @@ import android.os.Bundle
 import android.os.Looper
 import android.util.Log
 import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import com.base.library.databinding.BaseLayoutBinding
-import com.base.library.interfaces.MyTitleBarListener
 import com.base.library.interfaces.MyXPopListener
 import com.base.library.mvvm.core.OnHandleCallback
+import com.base.library.util.ScreenUtils
 import com.blankj.utilcode.util.AdaptScreenUtils
-import com.hjq.bar.TitleBar
 import com.lxj.xpopup.XPopup
 import com.lxj.xpopup.core.BasePopupView
 import com.lxj.xpopup.interfaces.XPopupCallback
-import com.zackratos.ultimatebarx.library.UltimateBarX
+import com.zackratos.ultimatebarx.ultimatebarx.UltimateBarX
 import rxhttp.wrapper.entity.Progress
 
 abstract class BActivity : AppCompatActivity(), OnHandleCallback {
@@ -26,8 +23,6 @@ abstract class BActivity : AppCompatActivity(), OnHandleCallback {
     abstract fun initView()
     abstract fun initData(savedInstanceState: Bundle?)
     abstract fun registerObserve()
-
-    private val bBind by lazy { BaseLayoutBinding.inflate(layoutInflater) }
 
     val mApplication: BApplication by lazy { application as BApplication }
     private var xPopup: BasePopupView? = null
@@ -55,64 +50,32 @@ abstract class BActivity : AppCompatActivity(), OnHandleCallback {
     }
 
     /**
-     * --------------------- 通用的 TitleBar，避免每个 Activity 都复写一遍
-     */
-    fun getTitleBar() = bBind.titleBar
-
-    /**
-     * 默认有返回功能，如果不要返回 传listener实例 空实现就可以了。
-     */
-    fun setTitleBarOperation(
-        title: String,
-        listener: MyTitleBarListener? = null,
-    ): TitleBar {
-        getTitleBar().title = title
-        if (listener == null) {
-            getTitleBar().setOnTitleBarListener(object : MyTitleBarListener() {
-                override fun onLeftClick(v: View?) {
-                    finish()
-                }
-            })
-        } else {
-            getTitleBar().setOnTitleBarListener(listener)
-        }
-        return getTitleBar()
-    }
-
-    /**
      * 给 ContentView 的外面添加一个 通用的顶部导航栏
      */
-    fun setContentViewBar(rootView: View, title: Boolean = true, immersion: Boolean = true) {
-        rootView.layoutParams = ViewGroup.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.MATCH_PARENT
-        )
-        bBind.root.removeView(rootView)
-        bBind.root.addView(rootView)
+    fun setContentViewBar(rootView: View, immersion: Boolean = true, topPadding: View? = null) {
+        setContentView(rootView)
 
-        // 是否显示 顶部导航栏
-        val isShow = if (title) View.VISIBLE else View.GONE
-        bBind.titleBar.visibility = isShow
+        if (immersion) {
+            immersionBar()
+        }
 
-        // 如果是沉浸式，就把空白View的高度设置为状态栏的高度延伸上去
-        immersionBar(immersion)
-
-        setContentView(bBind.root)
+        // 给根布局添加一个状态栏高度的 padding
+        topPadding?.let {
+            ScreenUtils.addStatusBarTopPadding(topPadding)
+        }
     }
 
-    private fun immersionBar(immersion: Boolean = true) {
-        if (immersion) {
-            UltimateBarX.with(this)
-                // 布局是否侵入状态栏
-                .fitWindow(false)
-                // light模式 状态栏字体 true: 灰色，false: 白色 Android 6.0+
-                // light模式 导航栏按钮 true: 灰色，false: 白色 Android 8.0+
-                .light(true)
-                // 状态栏透明效果
-                .transparent()
-                // 应用到状态栏
-                .applyStatusBar()
-        }
+    fun immersionBar() {
+        UltimateBarX.with(this)
+            // 布局是否侵入状态栏
+            .fitWindow(false)
+            // light模式 状态栏字体 true: 灰色，false: 白色 Android 6.0+
+            // light模式 导航栏按钮 true: 灰色，false: 白色 Android 8.0+
+            .light(true)
+            // 状态栏透明效果
+            .transparent()
+            // 应用到状态栏
+            .applyStatusBar()
     }
 
     /**

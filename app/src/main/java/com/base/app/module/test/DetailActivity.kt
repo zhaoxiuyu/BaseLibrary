@@ -27,7 +27,7 @@ class DetailActivity : VMActivity<DetailViewModel, DetailsBinding>() {
         // 给 ContentView 的外面添加一个 通用的顶部导航栏,可以设置第二个参数是否沉浸式,默认是true
         setContentViewBar(viewBinding.root)
         // 通过getTitleBar()来操作导航栏
-        getTitleBar().title = "标题"
+//        getTitleBar().title = "标题"
     }
 
     override fun initData(savedInstanceState: Bundle?) {

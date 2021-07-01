@@ -27,7 +27,7 @@ class UtilsFragment : BFragment(), OnItemClickListener {
     }
 
     override fun initView() {
-        setContentViewBar(mBind.root, false)
+        setContentView(mBind.root, false)
     }
 
     override fun initData(savedInstanceState: Bundle?) {

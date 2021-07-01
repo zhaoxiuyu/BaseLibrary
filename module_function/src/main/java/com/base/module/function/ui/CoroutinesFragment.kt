@@ -26,12 +26,12 @@ class CoroutinesFragment : BFragment() {
     }
 
     override fun initView() {
-        setContentViewBar(mBind.root)
-        setTitleBarOperation("协程-练手", object : MyTitleBarListener() {
-            override fun onLeftClick(v: View?) {
-                findNavController().navigateUp()
-            }
-        })
+        setContentView(mBind.root)
+//        setTitleBarOperation("协程-练手", object : MyTitleBarListener() {
+//            override fun onLeftClick(v: View?) {
+//                findNavController().navigateUp()
+//            }
+//        })
         requireActivity().onBackPressedDispatcher.addCallback {
             findNavController().navigateUp()
         }

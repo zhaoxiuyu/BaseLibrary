@@ -28,13 +28,13 @@ class Demo3Fragment : VMFragment<Demo3ViewModel, BaseActivityTestBinding>() {
     override fun initArgs(mArguments: Bundle?) {}
 
     override fun initView() {
-        setContentViewBar(viewBinding.root)
+        setContentView(viewBinding.root)
 
-        setTitleBarOperation("MVVM 测试网络请求", object : MyTitleBarListener() {
-            override fun onLeftClick(v: View?) {
-                findNavController().navigateUp()
-            }
-        })
+//        setTitleBarOperation("MVVM 测试网络请求", object : MyTitleBarListener() {
+//            override fun onLeftClick(v: View?) {
+//                findNavController().navigateUp()
+//            }
+//        })
         requireActivity().onBackPressedDispatcher.addCallback {
             findNavController().navigateUp()
         }

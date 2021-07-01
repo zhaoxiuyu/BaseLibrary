@@ -7,6 +7,7 @@ import android.os.Build;
 import android.provider.Settings;
 import android.util.DisplayMetrics;
 import android.view.Display;
+import android.view.View;
 import android.view.WindowManager;
 
 /**
@@ -20,6 +21,18 @@ public class ScreenUtils {
 
     private ScreenUtils() {
         throw new IllegalStateException("you can't instantiate me!");
+    }
+
+    /**
+     * 给指定 view 增加状态栏高度的 padding
+     */
+    public static void addStatusBarTopPadding(View view) {
+        view.setPadding(
+                view.getPaddingLeft(),
+                view.getPaddingTop() + ScreenUtils.getStatusBarHeight(),
+                view.getPaddingRight(),
+                view.getPaddingBottom()
+        );
     }
 
     /**

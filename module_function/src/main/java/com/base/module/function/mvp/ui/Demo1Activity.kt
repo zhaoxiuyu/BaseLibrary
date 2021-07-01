@@ -27,13 +27,13 @@ class Demo1Activity : VPActivity(), Demo1Contract.View {
     override fun initArgs(mIntent: Intent?) {}
 
     override fun initView() {
-        setContentViewBar(mBind.root)
-        setTitleBarOperation("MVP 测试网络请求", object : MyTitleBarListener() {
-            override fun onLeftClick(v: View?) {
-                setResult(Activity.RESULT_OK, Intent().putExtra("msg", "传个msg吧"))
-                finish()
-            }
-        })
+        setContentViewBar(mBind.root, topPadding = mBind.root)
+//        setTitleBarOperation("MVP 测试网络请求", object : MyTitleBarListener() {
+//            override fun onLeftClick(v: View?) {
+//                setResult(Activity.RESULT_OK, Intent().putExtra("msg", "传个msg吧"))
+//                finish()
+//            }
+//        })
         lifecycle.addObserver(mPresenter)
     }
 

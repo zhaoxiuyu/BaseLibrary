@@ -13,18 +13,22 @@ import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.Utils
 import com.bytedance.boost_multidex.BoostMultiDex
 import com.dylanc.loadinghelper.LoadingHelper
-import com.dylanc.loadinghelper.LoadingHelper.AdapterPool
 import com.dylanc.loadinghelper.ViewType
+import com.hjq.gson.factory.GsonFactory
 import okhttp3.OkHttpClient
 import org.litepal.LitePal
 import rxhttp.RxHttpPlugins
 import rxhttp.wrapper.cahce.CacheMode
+import rxhttp.wrapper.callback.Function
+import rxhttp.wrapper.callback.IConverter
+import rxhttp.wrapper.converter.GsonConverter
 import rxhttp.wrapper.cookie.CookieStore
-import rxhttp.wrapper.param.RxHttp
+import rxhttp.wrapper.param.Param
 import rxhttp.wrapper.ssl.HttpsUtils
 import java.io.File
 import java.util.concurrent.TimeUnit
 import javax.net.ssl.HostnameVerifier
+
 
 /**
  * 作用: 程序的入口
@@ -79,8 +83,27 @@ open class BApplication : MultiDexApplication() {
      * 初始化R下Http
      */
     open fun initRxHttp() {
+        // 目录为 Android/data/{app包名目录}/cache/RxHttpCache
+        val cacheDir = File(Utils.getApp().externalCacheDir, "RxHttpCache")
+
+        RxHttpPlugins.init(getOkHttpClient())
+            .setDebug(BuildConfig.DEBUG, true)
+            .setCache(cacheDir, maxSize(), CacheMode.ONLY_NETWORK, -1)
+            //设置一些key，不参与cacheKey的组拼
+//            .setExcludeCacheKeys()
+            .setResultDecoder(getResultDecoder())
+            //设置全局的转换器
+            .setConverter(getConverter())
+            // 为所有的请求添加公共参数/请求头
+            .setOnParamAssembly(getOnParamAssembly())
+    }
+
+    /**
+     * OkHttpClient
+     */
+    open fun getOkHttpClient(): OkHttpClient {
         val sslParams = HttpsUtils.getSslSocketFactory()
-        val client = OkHttpClient.Builder()
+        return OkHttpClient.Builder()
             .cookieJar(CookieStore())
             .connectTimeout(10, TimeUnit.SECONDS)
             .readTimeout(10, TimeUnit.SECONDS)
@@ -88,19 +111,35 @@ open class BApplication : MultiDexApplication() {
             .sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager) // 添加信任证书
             .hostnameVerifier(HostnameVerifier { _, _ -> true }) // 忽略 host 验证
             .build()
+    }
 
-        // 初始化
-        RxHttp.init(client, BuildConfig.DEBUG)
-        // DEBUG 模式，分段打印内容
-        RxHttp.setDebug(BuildConfig.DEBUG, true)
-        // 为所有的请求添加公共参数/请求头
-        RxHttp.setOnParamAssembly(RxHttpParamAssembly())
-        // 设置数据解密/解码器
-        RxHttp.setResultDecoder(RxHttpDecoder())
-        // 目录为 Android/data/{app包名目录}/cache/RxHttpCache
-        val cacheDir = File(Utils.getApp().externalCacheDir, "RxHttpCache")
-        // 目录,缓存10M 超过10M根据LRU算法自动清除最近最少使用缓存,默认不缓存,且缓存永久有效
-        RxHttpPlugins.setCache(cacheDir, 10 * 1024 * 1024, CacheMode.ONLY_NETWORK, -1)
+    /**
+     * 默认最大缓存的大小为10M
+     */
+    open fun maxSize(): Long {
+        return 10 * 1024 * 1024
+    }
+
+    /**
+     * 设置数据解密/解码器
+     */
+    open fun getResultDecoder(): Function<String, String> {
+        return RxHttpDecoder()
+    }
+
+    /**
+     * 为所有的请求添加公共参数/请求头
+     */
+    open fun getOnParamAssembly(): Function<Param<*>, Param<*>> {
+        return RxHttpParamAssembly()
+    }
+
+    /**
+     * 设置全局的转换器
+     * 这里的 gson 实体对象使用GsonFactory,因为里面的容错机制比较完善
+     */
+    open fun getConverter(): IConverter {
+        return GsonConverter.create(GsonFactory.getSingletonGson())
     }
 
 }

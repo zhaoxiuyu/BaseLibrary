@@ -68,6 +68,6 @@ dependencies {
     api(project(':library'))
 
     // 路由
-    kapt 'com.alibaba:arouter-compiler:1.5.1'
+    kapt 'com.alibaba:arouter-compiler:1.5.2'
 
 }

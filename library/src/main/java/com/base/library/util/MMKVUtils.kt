@@ -8,42 +8,41 @@ import com.tencent.mmkv.MMKV
  */
 object MMKVUtils {
 
-    private val mmkv: MMKV
+    private val mmkv by lazy { MMKV.defaultMMKV() }
 
     init {
         MMKV.initialize(Utils.getApp())
-        mmkv = MMKV.defaultMMKV()
     }
 
     fun put(key: String, value: Any) {
         when (value) {
-            is Boolean -> mmkv.encode(key, value)
-            is String -> mmkv.encode(key, value)
-            is Int -> mmkv.encode(key, value)
-            is Long -> mmkv.encode(key, value)
-            is Float -> mmkv.encode(key, value)
-            is ByteArray -> mmkv.encode(key, value)
+            is Boolean -> mmkv?.encode(key, value)
+            is String -> mmkv?.encode(key, value)
+            is Int -> mmkv?.encode(key, value)
+            is Long -> mmkv?.encode(key, value)
+            is Float -> mmkv?.encode(key, value)
+            is ByteArray -> mmkv?.encode(key, value)
         }
     }
 
-    fun getBool(key: String) = mmkv.decodeBool(key, false)
+    fun getBool(key: String, default: Boolean = false) = mmkv?.decodeBool(key, default)
 
-    fun getStr(key: String) = mmkv.decodeString(key, "")
+    fun getStr(key: String, default: String = "") = mmkv?.decodeString(key, default)
 
-    fun getInt(key: String) = mmkv.decodeInt(key, 0)
+    fun getInt(key: String, default: Int = 0) = mmkv?.decodeInt(key, default)
 
-    fun getLong(key: String) = mmkv.decodeLong(key, 0)
+    fun getLong(key: String, default: Long = 0) = mmkv?.decodeLong(key, default)
 
-    fun getFloat(key: String) = mmkv.decodeFloat(key, 0f)
+    fun getFloat(key: String, default: Float = 0.0f) = mmkv?.decodeFloat(key, default)
 
-    fun getBytes(key: String) = mmkv.decodeBytes(key)
+    fun getBytes(key: String) = mmkv?.decodeBytes(key)
 
     fun removeValueForKey(key: String) {
-        mmkv.removeValueForKey(key)
+        mmkv?.removeValueForKey(key)
     }
 
     fun removeValuesForKeys(keys: Array<String>) {
-        mmkv.removeValuesForKeys(keys)
+        mmkv?.removeValuesForKeys(keys)
     }
 
 }

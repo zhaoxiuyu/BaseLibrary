@@ -5,7 +5,6 @@ if (isModuleUtils.toBoolean()) {
 }
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'com.didi.dokit'
 apply plugin: "com.blankj.bus"
 apply plugin: "androidx.navigation.safeargs.kotlin" // navigation 导航
 apply plugin: 'dagger.hilt.android.plugin' // hilt 注入
@@ -96,6 +95,6 @@ dependencies {
     kapt "androidx.hilt:hilt-compiler:1.0.0-alpha02"
 
     // 路由
-    kapt 'com.alibaba:arouter-compiler:1.5.1'
+    kapt 'com.alibaba:arouter-compiler:1.5.2'
 
 }

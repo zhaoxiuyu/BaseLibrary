@@ -1,5 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- 带动画的TextView (AnimatedTextView) -->
+    <declare-styleable name="Animated">
+        <attr name="lineColor" format="color" />
+    </declare-styleable>
+
+    <!-- 三角形气泡自定义view (AnimatedTextView) -->
+    <declare-styleable name="TriangleView">
+        <attr name="trv_color" format="color" />
+        <attr name="trv_direction">
+            <enum name="top" value="0" />
+            <enum name="bottom" value="1" />
+            <enum name="right" value="2" />
+            <enum name="left" value="3" />
+        </attr>
+    </declare-styleable>
 
 </resources>
