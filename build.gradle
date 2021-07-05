@@ -26,6 +26,9 @@ buildscript {
         // Gradle 插件实现路由表的自动加载
         classpath "com.alibaba:arouter-register:1.0.2"
 
+        // JitPack
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
+
     }
 }
 

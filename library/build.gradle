@@ -1,9 +1,9 @@
-plugins {
-    id 'com.android.library'
-    id 'kotlin-android'
-    id 'kotlin-kapt'
-    id 'androidx.navigation.safeargs.kotlin' // navigation 导航
-}
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: "androidx.navigation.safeargs.kotlin" // navigation 导航
+//apply plugin: 'com.github.dcendents.android-maven' // JitPack Maven
+//group = 'com.github.zhaoxiuyu'
 
 repositories {
     flatDir { dirs 'libs' }
