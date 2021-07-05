@@ -26,7 +26,6 @@ class PostFormEncrypt(url: String) : FormParam(url, Method.POST) {
         // addHeader("sign", "sign")
         // addHeader("sk", "sk")
         // add("","")
-
         return super.getRequestBody()
     }
 

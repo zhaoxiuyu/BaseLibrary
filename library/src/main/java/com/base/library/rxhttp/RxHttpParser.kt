@@ -14,7 +14,7 @@ import java.lang.reflect.Type
  */
 @Parser(name = "Response", wrappers = [List::class, BPageList::class])
 open class RxHttpParser<T> : TypeParser<BResponse<T>> {
-//    open class RxHttpParser<T> : AbstractParser<BResponse<T>> {
+    // open class RxHttpParser<T> : AbstractParser<BResponse<T>> {
     /**
      * 此构造方法适用于任意Class对象，但更多用于带泛型的Class对象，如：List<Student>
      * 用法:

@@ -8,9 +8,8 @@ import kotlinx.coroutines.flow.Flow
 import rxhttp.asFlow
 import rxhttp.onErrorReturnItem
 import rxhttp.wrapper.param.toResponse
-import javax.inject.Inject
 
-class DetailRepository @Inject constructor() {
+class DetailRepository{
 
     fun getArticle(): Flow<BResponse<WanArticle>> {
         return RxRequest(BConstant.article).httpGet()

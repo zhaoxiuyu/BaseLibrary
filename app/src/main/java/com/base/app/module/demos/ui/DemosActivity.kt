@@ -6,23 +6,18 @@ import androidx.fragment.app.Fragment
 import com.alibaba.android.arouter.launcher.ARouter
 import com.base.app.R
 import com.base.app.databinding.ActivityDemosBinding
+import com.base.app.module.demos.viewmodel.DemosViewModel
 import com.base.library.mvvm.core.VMActivity
 import com.base.module.common.module_function.FunctionARoute
 import com.base.module.common.module_utils.UtilsARoute
 import com.base.module.common.module_views.ViewsARoute
-import com.base.module.function.mvvm.viewmodel.Demo4ViewModel
 import com.blankj.utilcode.util.FragmentUtils
 import com.blankj.utilcode.util.LogUtils
-import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * 功能展示
  */
-@AndroidEntryPoint
-class DemosActivity : VMActivity<Demo4ViewModel, ActivityDemosBinding>() {
-//class DemosActivity : BActivity() {
-
-//    private val mBind by lazy { ActivityDemosBinding.inflate(layoutInflater) }
+class DemosActivity : VMActivity<DemosViewModel, ActivityDemosBinding>() {
 
     private val mUtilsFragment by lazy {
         ARouter.getInstance().build(UtilsARoute.Utils_UtilsFragment).navigation() as Fragment

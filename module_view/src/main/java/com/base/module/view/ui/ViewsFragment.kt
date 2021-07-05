@@ -12,28 +12,24 @@ import com.base.module.view.databinding.FragmentViewsBinding
 import com.base.module.view.utils.ViewsMethod
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemClickListener
-import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @Route(path = ViewsARoute.View_ViewsFragment)
-@AndroidEntryPoint
 class ViewsFragment : BFragment(), OnItemClickListener {
 
-    private val mBind by lazy { FragmentViewsBinding.inflate(layoutInflater) }
+    private val viewBinding by lazy { FragmentViewsBinding.inflate(layoutInflater) }
 
-    @Inject
-    lateinit var mAdapter: ViewsAdapter
+    private val mAdapter by lazy { ViewsAdapter() }
 
     override fun initArgs(mArguments: Bundle?) {
     }
 
     override fun initView() {
-        setContentView(mBind.root, false)
+        setContentView(viewBinding.root, true, viewBinding.viewsFragmentRv)
     }
 
     override fun initData(savedInstanceState: Bundle?) {
-        mBind.viewsFragmentRv.layoutManager = LinearLayoutManager(requireActivity())
-        mBind.viewsFragmentRv.adapter = mAdapter
+        viewBinding.viewsFragmentRv.layoutManager = LinearLayoutManager(requireActivity())
+        viewBinding.viewsFragmentRv.adapter = mAdapter
 
         mAdapter.animationEnable = true
         mAdapter.setOnItemClickListener(this)

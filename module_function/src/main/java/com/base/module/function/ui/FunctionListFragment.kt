@@ -21,17 +21,13 @@ import com.base.module.function.utils.FunctionMethod
 import com.blankj.utilcode.util.LogUtils
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemClickListener
-import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @Route(path = FunctionARoute.Function_FunctionListFragment)
-@AndroidEntryPoint
 class FunctionListFragment : BFragment(), OnItemClickListener {
 
-    private val mBind by lazy { FragmentFunctionListBinding.inflate(layoutInflater) }
+    private val viewBinding by lazy { FragmentFunctionListBinding.inflate(layoutInflater) }
 
-    @Inject
-    lateinit var mAdapter: FunctionAdapter
+    private val mAdapter by lazy { FunctionAdapter() }
 
     /**
      * callback 赋值的时候,回调里面拦截返回事件,这是首页返回给出提示是否直接退出
@@ -46,14 +42,14 @@ class FunctionListFragment : BFragment(), OnItemClickListener {
     }
 
     override fun initView() {
-        setContentView(mBind.root, false)
+        setContentView(viewBinding.root, topPadding = viewBinding.ll)
     }
 
     override fun initData(savedInstanceState: Bundle?) {
         registerDemo1Result()
         registerDetailResult()
 
-        mBind.butCollapse.setOnClickListener {
+        viewBinding.butCollapse.setOnClickListener {
             throw  RuntimeException("Boom!")
         }
 
@@ -62,8 +58,8 @@ class FunctionListFragment : BFragment(), OnItemClickListener {
             LogUtils.d("返回事件被我拦截了，已经在首页了")
         }
 
-        mBind.functionFragmentRv.layoutManager = LinearLayoutManager(requireActivity())
-        mBind.functionFragmentRv.adapter = mAdapter
+        viewBinding.functionFragmentRv.layoutManager = LinearLayoutManager(requireActivity())
+        viewBinding.functionFragmentRv.adapter = mAdapter
 
         mAdapter.animationEnable = true
         mAdapter.setOnItemClickListener(this)
@@ -82,7 +78,7 @@ class FunctionListFragment : BFragment(), OnItemClickListener {
             "协程" -> findNavController().navigate(R.id.action_function_coroutines)
             "异步流" -> findNavController().navigate(R.id.action_function_flow)
             "测试" -> {
-                ARouter.getInstance().build(AppARoute.App_DetailActivity).navigation();
+                ARouter.getInstance().build(AppARoute.App_DetailActivity).navigation()
             }
         }
     }

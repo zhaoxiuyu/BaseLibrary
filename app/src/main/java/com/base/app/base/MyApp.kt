@@ -5,19 +5,16 @@ import com.base.library.base.BApplication
 import com.base.library.util.CockroachUtil
 import com.blankj.utilcode.util.CrashUtils
 import com.blankj.utilcode.util.LogUtils
-import com.didichuxing.doraemonkit.DoKit
-import dagger.hilt.android.HiltAndroidApp
 
-@HiltAndroidApp
 class MyApp : BApplication() {
 
     override fun onCreate() {
         super.onCreate()
         initMethod()
 //        initCockroach()
-        DoKit.Builder(this)
-            .productId("0f0894d53fe597a618cb4e0c31e2f536")
-            .build()
+//        DoKit.Builder(this)
+//            .productId("0f0894d53fe597a618cb4e0c31e2f536")
+//            .build()
 
         if (BuildConfig.DEBUG) {
             CrashUtils.init { LogUtils.e(it) } // 可以弹出错误提示框

@@ -1,12 +1,10 @@
 package com.base.module.function.ui
 
 import android.os.Bundle
-import android.view.View
 import androidx.activity.addCallback
 import androidx.lifecycle.rxLifeScope
 import androidx.navigation.fragment.findNavController
 import com.base.library.base.BFragment
-import com.base.library.interfaces.MyTitleBarListener
 import com.base.module.function.databinding.FragmentCoroutinesBinding
 import com.rxlife.coroutine.RxLifeScope
 import kotlinx.coroutines.*
@@ -18,7 +16,7 @@ import kotlinx.coroutines.*
  */
 class CoroutinesFragment : BFragment() {
 
-    private val mBind by lazy { FragmentCoroutinesBinding.inflate(layoutInflater) }
+    private val viewBinding by lazy { FragmentCoroutinesBinding.inflate(layoutInflater) }
 
     private val sb = StringBuilder()
 
@@ -26,7 +24,7 @@ class CoroutinesFragment : BFragment() {
     }
 
     override fun initView() {
-        setContentView(mBind.root)
+        setContentView(viewBinding.root, topPadding = viewBinding.ll)
 //        setTitleBarOperation("协程-练手", object : MyTitleBarListener() {
 //            override fun onLeftClick(v: View?) {
 //                findNavController().navigateUp()
@@ -38,13 +36,13 @@ class CoroutinesFragment : BFragment() {
     }
 
     override fun initData(savedInstanceState: Bundle?) {
-        mBind.tvLoadImg.setOnClickListener {
+        viewBinding.tvLoadImg.setOnClickListener {
             loadImg()
         }
-        mBind.tvLoadImg2.setOnClickListener {
+        viewBinding.tvLoadImg2.setOnClickListener {
             loadImg2()
         }
-        mBind.tvLoadImg3.setOnClickListener {
+        viewBinding.tvLoadImg3.setOnClickListener {
             loadImg3()
         }
     }
@@ -80,7 +78,7 @@ class CoroutinesFragment : BFragment() {
 
             sb.append("666 ${Thread.currentThread().name} \n")
 
-            mBind.tvContent.text = sb.toString()
+            viewBinding.tvContent.text = sb.toString()
         }, {
             // 异常回调
         }, {
@@ -146,7 +144,7 @@ class CoroutinesFragment : BFragment() {
 
             sb.append("666 ${Thread.currentThread().name} \n")
 
-            mBind.tvContent.text = sb.toString()
+            viewBinding.tvContent.text = sb.toString()
         }, {
             // 异常回调
         }, {
@@ -188,7 +186,7 @@ class CoroutinesFragment : BFragment() {
 
             launch(Dispatchers.Main) {
                 sb.append("666 ${Thread.currentThread().name} \n")
-                mBind.tvContent.text = sb.toString()
+                viewBinding.tvContent.text = sb.toString()
             }
         }
     }

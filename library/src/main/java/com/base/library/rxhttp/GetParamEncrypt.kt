@@ -13,7 +13,6 @@ import rxhttp.wrapper.param.NoBodyParam
 class GetParamEncrypt(url: String) : NoBodyParam(url, Method.GET) {
 
     override fun getHttpUrl(): HttpUrl {
-
 //        val paramsBuilder = StringBuilder() //存储加密后的参数
 //        for (pair in keyValuePairs) {
 //            //这里遍历所有添加的参数，可对参数进行加密操作
@@ -28,7 +27,6 @@ class GetParamEncrypt(url: String) : NoBodyParam(url, Method.GET) {
 //            simpleUrl.toHttpUrl()
 //        else
 //            "$simpleUrl?$paramsBuilder".toHttpUrl()
-
         return super.getHttpUrl()
     }
 

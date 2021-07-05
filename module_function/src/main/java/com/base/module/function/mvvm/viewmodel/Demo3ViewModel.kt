@@ -1,6 +1,5 @@
 package com.base.module.function.mvvm.viewmodel
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import com.base.library.base.BConstant
 import com.base.library.entitys.BResponse
@@ -15,10 +14,9 @@ import com.base.library.rxhttp.RxRequest
 /**
  * 使用 ViewModelInject ，数据仓库要在构造方法里面初始化
  */
-class Demo3ViewModel @ViewModelInject constructor(private val mBRepository: BRepository) :
-    BViewModel() {
+class Demo3ViewModel : BViewModel() {
 
-//    private val mBRepository by lazy { BRepository() }
+    private val mBRepository by lazy { BRepository() }
 
     override fun getRepository() = mBRepository
 

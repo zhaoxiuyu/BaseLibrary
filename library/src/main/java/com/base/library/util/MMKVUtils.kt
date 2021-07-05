@@ -25,15 +25,15 @@ object MMKVUtils {
         }
     }
 
-    fun getBool(key: String, default: Boolean = false) = mmkv?.decodeBool(key, default)
+    fun getBool(key: String, default: Boolean = false) = mmkv?.decodeBool(key, default) ?: default
 
-    fun getStr(key: String, default: String = "") = mmkv?.decodeString(key, default)
+    fun getStr(key: String, default: String = "") = mmkv?.decodeString(key, default) ?: default
 
-    fun getInt(key: String, default: Int = 0) = mmkv?.decodeInt(key, default)
+    fun getInt(key: String, default: Int = 0) = mmkv?.decodeInt(key, default) ?: default
 
-    fun getLong(key: String, default: Long = 0) = mmkv?.decodeLong(key, default)
+    fun getLong(key: String, default: Long = 0) = mmkv?.decodeLong(key, default) ?: default
 
-    fun getFloat(key: String, default: Float = 0.0f) = mmkv?.decodeFloat(key, default)
+    fun getFloat(key: String, default: Float = 0.0f) = mmkv?.decodeFloat(key, default) ?: default
 
     fun getBytes(key: String) = mmkv?.decodeBytes(key)
 

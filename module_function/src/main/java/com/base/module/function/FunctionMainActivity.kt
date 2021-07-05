@@ -8,9 +8,7 @@ import com.base.library.base.BActivity
 import com.base.module.common.module_function.FunctionARoute
 import com.base.module.function.databinding.ActivityFunctionMainBinding
 import com.blankj.utilcode.util.FragmentUtils
-import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
 class FunctionMainActivity : BActivity() {
 
     private val mBind by lazy { ActivityFunctionMainBinding.inflate(layoutInflater) }

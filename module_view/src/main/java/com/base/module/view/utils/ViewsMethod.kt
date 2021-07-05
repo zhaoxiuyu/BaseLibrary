@@ -13,7 +13,8 @@ object ViewsMethod {
         datas.add(
             ViewsDescribe("TabPage2Activity", "导航栏-Fragment沉浸式", TabPage2Activity::class.java)
         )
-
+        datas.add(ViewsDescribe("AnimatedTextView", "带边框动画效果的 TextView", null))
+        datas.add(ViewsDescribe("TriangleView", "三角形气泡", null))
         return datas
     }
 

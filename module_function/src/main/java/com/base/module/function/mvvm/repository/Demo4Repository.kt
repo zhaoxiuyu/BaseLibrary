@@ -19,9 +19,8 @@ import rxhttp.async
 import rxhttp.onErrorReturn
 import rxhttp.onErrorReturnItem
 import rxhttp.wrapper.param.toResponse
-import javax.inject.Inject
 
-class Demo4Repository @Inject constructor() {
+class Demo4Repository {
 
     /**
      * 获取缓存

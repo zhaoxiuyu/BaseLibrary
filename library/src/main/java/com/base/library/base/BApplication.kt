@@ -27,7 +27,6 @@ import rxhttp.wrapper.param.Param
 import rxhttp.wrapper.ssl.HttpsUtils
 import java.io.File
 import java.util.concurrent.TimeUnit
-import javax.net.ssl.HostnameVerifier
 
 
 /**
@@ -109,7 +108,7 @@ open class BApplication : MultiDexApplication() {
             .readTimeout(10, TimeUnit.SECONDS)
             .writeTimeout(10, TimeUnit.SECONDS)
             .sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager) // 添加信任证书
-            .hostnameVerifier(HostnameVerifier { _, _ -> true }) // 忽略 host 验证
+            .hostnameVerifier { _, _ -> true } // 忽略 host 验证
             .build()
     }
 

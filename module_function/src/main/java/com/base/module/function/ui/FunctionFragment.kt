@@ -9,13 +9,13 @@ import com.base.module.function.databinding.FragmentFunctionBinding
 @Route(path = FunctionARoute.Function_FunctionFragment)
 class FunctionFragment : BFragment() {
 
-    private val mBind by lazy { FragmentFunctionBinding.inflate(layoutInflater) }
+    private val viewBinding by lazy { FragmentFunctionBinding.inflate(layoutInflater) }
 
     override fun initArgs(mArguments: Bundle?) {
     }
 
     override fun initView() {
-        setContentView(mBind.root, false)
+        setContentView(viewBinding.root, false)
     }
 
     override fun initData(savedInstanceState: Bundle?) {

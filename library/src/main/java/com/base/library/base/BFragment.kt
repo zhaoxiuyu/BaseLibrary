@@ -170,9 +170,9 @@ abstract class BFragment : Fragment(), OnHandleCallback {
     override fun onDestroyView() {
         super.onDestroyView()
         dismissDialog()
-//        if (bRootView?.parent != null) {
-//            (bRootView?.parent as ViewGroup).removeView(bRootView)
-//        }
+        if (bRootView?.parent != null) {
+            (bRootView?.parent as ViewGroup).removeView(bRootView)
+        }
     }
 
 }

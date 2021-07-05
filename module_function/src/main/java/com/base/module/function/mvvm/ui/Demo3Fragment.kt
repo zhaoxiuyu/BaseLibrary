@@ -2,39 +2,26 @@ package com.base.module.function.mvvm.ui
 
 import android.os.Bundle
 import android.os.Handler
-import android.view.View
+import android.os.Looper
 import androidx.activity.addCallback
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import com.base.library.interfaces.MyTitleBarListener
 import com.base.library.mvvm.core.VMFragment
 import com.base.library.rxhttp.RxRequest
 import com.base.module.function.databinding.BaseActivityTestBinding
 import com.base.module.function.mvvm.viewmodel.Demo3ViewModel
 import com.blankj.utilcode.util.LogUtils
 import com.dylanc.loadinghelper.LoadingHelper
-import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.ObservableTransformer
 
-@AndroidEntryPoint
 class Demo3Fragment : VMFragment<Demo3ViewModel, BaseActivityTestBinding>() {
-
-//    private val viewModel: Demo3ViewModel by viewModels()
-//    private val viewBinding by lazy { BaseActivityTestBinding.inflate(layoutInflater) }
 
     private val loadingHelper by lazy { LoadingHelper(viewBinding.article) }
 
     override fun initArgs(mArguments: Bundle?) {}
 
     override fun initView() {
-        setContentView(viewBinding.root)
-
-//        setTitleBarOperation("MVVM 测试网络请求", object : MyTitleBarListener() {
-//            override fun onLeftClick(v: View?) {
-//                findNavController().navigateUp()
-//            }
-//        })
+        setContentView(viewBinding.root, topPadding = viewBinding.ll)
         requireActivity().onBackPressedDispatcher.addCallback {
             findNavController().navigateUp()
         }
@@ -46,7 +33,7 @@ class Demo3Fragment : VMFragment<Demo3ViewModel, BaseActivityTestBinding>() {
         }
         loadingHelper.showLoadingView()
 
-        Handler().postDelayed({
+        Handler(Looper.getMainLooper()).postDelayed({
             loadingHelper.showErrorView()
         }, 3000)
 
@@ -66,13 +53,13 @@ class Demo3Fragment : VMFragment<Demo3ViewModel, BaseActivityTestBinding>() {
     }
 
     override fun registerObserve() {
-        viewModel.articleLiveData.observe(this, Observer {
+        viewModel.articleLiveData.observe(this, {
             LogUtils.d(it.errorCode)
         })
-        viewModel.chaptersLiveData.observe(this, Observer {
+        viewModel.chaptersLiveData.observe(this, {
             LogUtils.d(it.errorCode)
         })
-        viewModel.loginLiveData.observe(this, Observer {
+        viewModel.loginLiveData.observe(this, {
             LogUtils.d(it.errorCode)
         })
     }

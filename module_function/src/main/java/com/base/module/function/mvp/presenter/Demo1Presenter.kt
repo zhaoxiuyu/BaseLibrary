@@ -9,6 +9,7 @@ import com.base.library.mvp.core.SuccessCall
 import com.base.library.mvp.core.VPPresenterImpl
 import com.base.module.function.mvp.contract.Demo1Contract
 import com.base.library.rxhttp.RxRequest
+import rxhttp.wrapper.param.RxHttp
 
 /**
  * 作用: 使用案例,自己定义Presenter

@@ -25,39 +25,39 @@ class TokenInterceptor : Interceptor {
 
         // token 失效，1、这里根据自己的业务需求写判断条件
         if ("-1" == code) {
-//            return handleTokenInvalid(chain, request)
+            return handleTokenInvalid(chain, request)
         }
         return originalResponse
     }
 
     // 处理token失效的问题
-//    fun handleTokenInvalid(chain: Interceptor.Chain, request: Request): Response {
-//        val mapParam = HashMap<String, String>()
-//        val body = request.body
-//        if (body is FormBody) {
-//            for (i in 0 until body.size) {
-//                //2、保存参数
-//                mapParam[body.name(i)] = body.value(i)
-//            }
-//        }
-//
-//        //同步刷新token
-//        //3、发请求前需要add("request_time",System.currentTimeMillis())
-//        val requestTime = mapParam.get("request_time")
-//        val success: Boolean = refreshToken(requestTime)
-//
-//        //刷新成功，重新签名
-//        val newRequest = if (success) {
-//            //4、拿到最新的token,重新发起请求
-//            mapParam["token"] = MMKVUtils.getStr(BConstant.LibraryToken)
-//
-//            RxHttp.postForm(request.url.toString())
-//                .addAll(mapParam) //添加参数
-//                .buildRequest();
-//        } else request
-//
-//        return chain.proceed(newRequest)
-//    }
+    fun handleTokenInvalid(chain: Interceptor.Chain, request: Request): Response {
+        val mapParam = HashMap<String, String>()
+        val body = request.body
+        if (body is FormBody) {
+            for (i in 0 until body.size) {
+                //2、保存参数
+                mapParam[body.name(i)] = body.value(i)
+            }
+        }
+
+        //同步刷新token
+        //3、发请求前需要add("request_time",System.currentTimeMillis())
+        val requestTime = mapParam.get("request_time")
+        val success: Boolean = refreshToken(requestTime)
+
+        //刷新成功，重新签名
+        val newRequest = if (success) {
+            //4、拿到最新的token,重新发起请求
+            mapParam["token"] = MMKVUtils.getStr(BConstant.LibraryToken)
+
+            RxHttp.postForm(request.url.toString())
+                .addAll(mapParam) //添加参数
+                .buildRequest();
+        } else request
+
+        return chain.proceed(newRequest)
+    }
 
     private fun refreshToken(value: String?): Boolean {
         var requestTime: Long = 0

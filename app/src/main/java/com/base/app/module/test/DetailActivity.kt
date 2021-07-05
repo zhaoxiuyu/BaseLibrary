@@ -7,13 +7,11 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.base.app.databinding.DetailsBinding
 import com.base.library.mvvm.core.VMActivity
 import com.base.module.common.module_app.AppARoute
-import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * 测试用的
  */
 @Route(path = AppARoute.App_DetailActivity)
-@AndroidEntryPoint
 class DetailActivity : VMActivity<DetailViewModel, DetailsBinding>() {
 
 //    private val mBind by lazy { DetailsBinding.inflate(layoutInflater) }

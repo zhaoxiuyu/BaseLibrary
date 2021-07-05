@@ -4,9 +4,8 @@ import com.base.module.function.R
 import com.base.module.function.entity.FunctionDescribe
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
-import javax.inject.Inject
 
-class FunctionAdapter @Inject constructor() :
+class FunctionAdapter :
     BaseQuickAdapter<FunctionDescribe, BaseViewHolder>(R.layout.fragment_function_item) {
 
     override fun convert(holder: BaseViewHolder, item: FunctionDescribe) {

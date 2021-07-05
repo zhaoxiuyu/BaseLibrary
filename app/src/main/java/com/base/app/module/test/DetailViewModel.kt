@@ -1,6 +1,5 @@
 package com.base.app.module.test
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.liveData
 import com.base.library.base.BConstant
 import com.base.library.entitys.BResponse
@@ -11,8 +10,9 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
 
-class DetailViewModel @ViewModelInject constructor(private val mRepository: DetailRepository) :
-    BViewModel() {
+class DetailViewModel : BViewModel() {
+
+    private val mRepository by lazy { DetailRepository() }
 
 //    private val mBResponse by lazy { BRepository() }
 //    override fun getRepository() = mBResponse

@@ -6,6 +6,7 @@ import rxhttp.wrapper.param.Param
 /**
  * RxHttp支持为所有的请求添加公共参数/请求头，如果你希望某个请求不添加公共参数/请求头，也是支持的
  * 如果某个请求不添加公共参数/请求头，可以在RxRequest中设置assemblyEnabled=false
+ *
  */
 class RxHttpParamAssembly : Function<Param<*>, Param<*>> {
 

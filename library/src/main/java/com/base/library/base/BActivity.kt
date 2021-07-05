@@ -17,6 +17,9 @@ import com.lxj.xpopup.interfaces.XPopupCallback
 import com.zackratos.ultimatebarx.ultimatebarx.UltimateBarX
 import rxhttp.wrapper.entity.Progress
 
+/**
+ *
+ */
 abstract class BActivity : AppCompatActivity(), OnHandleCallback {
 
     abstract fun initArgs(mIntent: Intent?)

@@ -2,12 +2,10 @@ package com.base.module.function.ui
 
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import androidx.activity.addCallback
 import androidx.lifecycle.rxLifeScope
 import androidx.navigation.fragment.findNavController
 import com.base.library.base.BFragment
-import com.base.library.interfaces.MyTitleBarListener
 import com.base.module.function.databinding.FragmentFlowBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -18,25 +16,20 @@ import kotlinx.coroutines.flow.*
  */
 class FlowFragment : BFragment() {
 
-    val mBind by lazy { FragmentFlowBinding.inflate(layoutInflater) }
+    val viewBinding by lazy { FragmentFlowBinding.inflate(layoutInflater) }
 
     override fun initArgs(mArguments: Bundle?) {
     }
 
     override fun initView() {
-        setContentView(mBind.root)
-//        setTitleBarOperation("异步流", object : MyTitleBarListener() {
-//            override fun onLeftClick(v: View?) {
-//                findNavController().navigateUp()
-//            }
-//        })
+        setContentView(viewBinding.root, topPadding = viewBinding.ll)
         requireActivity().onBackPressedDispatcher.addCallback {
             findNavController().navigateUp()
         }
     }
 
     override fun initData(savedInstanceState: Bundle?) {
-        mBind.but1.setOnClickListener {
+        viewBinding.but1.setOnClickListener {
             guaqi()
         }
     }

@@ -11,6 +11,7 @@
         android:layout_height="0dp"
         android:layout_weight="1" />
 
+    <!--  app:tabTextAppearance="@style/tab_layout"-->
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
@@ -19,7 +20,7 @@
         app:tabIndicatorHeight="0dp"
         app:tabMode="fixed"
         app:tabSelectedTextColor="@color/color_FFFFFF"
-        app:tabTextAppearance="@style/tab_layout"
+
         app:tabTextColor="@color/color_CCCCCC" />
 
 </LinearLayout>

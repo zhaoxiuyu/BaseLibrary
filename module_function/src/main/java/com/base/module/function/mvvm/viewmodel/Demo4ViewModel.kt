@@ -1,6 +1,5 @@
 package com.base.module.function.mvvm.viewmodel
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
@@ -24,8 +23,9 @@ import kotlinx.coroutines.flow.onStart
 /**
  * 使用 ViewModelInject ，数据仓库要在构造方法里面初始化
  */
-class Demo4ViewModel @ViewModelInject constructor(private val mRepository: Demo4Repository) :
-    BViewModel() {
+class Demo4ViewModel : BViewModel() {
+
+    private val mRepository by lazy { Demo4Repository() }
 
     /**
      * 如果变量声明方式初始化，ViewModel需要用@ActivityRetainedScoped,ViewModel实例也需要用注解

@@ -1,25 +1,17 @@
 package com.base.module.function.mvvm.ui
 
 import android.os.Bundle
-import android.view.View
 import androidx.activity.addCallback
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import com.base.library.interfaces.MyTitleBarListener
 import com.base.library.mvvm.core.VMFragment
 import com.base.module.function.databinding.BaseActivityTestBinding
 import com.base.module.function.mvvm.viewmodel.Demo4ViewModel
 import com.blankj.utilcode.util.LogUtils
-import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
 class Demo4Fragment : VMFragment<Demo4ViewModel, BaseActivityTestBinding>() {
-//class Demo4Fragment : BFragment() {
 
-//    @Inject
-//    lateinit var viewModel: Demo4ViewModel
 //    private val viewModel: Demo4ViewModel by viewModels()
-//    private val viewBinding by lazy { BaseActivityTestBinding.inflate(layoutInflater) }
 
     override fun initArgs(mArguments: Bundle?) {
         mArguments?.let {
@@ -28,7 +20,7 @@ class Demo4Fragment : VMFragment<Demo4ViewModel, BaseActivityTestBinding>() {
     }
 
     override fun initView() {
-        setContentView(viewBinding.root)
+        setContentView(viewBinding.root, topPadding =  viewBinding.ll)
 //        setTitleBarOperation("MVVM 协程", object : MyTitleBarListener() {
 //            override fun onLeftClick(v: View?) {
 //                findNavController().navigateUp()
