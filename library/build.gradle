@@ -2,9 +2,20 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: "androidx.navigation.safeargs.kotlin" // navigation 导航
-//apply plugin: 'com.github.dcendents.android-maven' // JitPack Maven
-//group = 'com.github.zhaoxiuyu'
+apply plugin: 'maven-publish' // JitPack Maven
 
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId = 'com.gitee.zxy_it'
+                artifactId = 'BaseLibrary'
+                version = '1.1.30'
+            }
+        }
+    }
+}
 repositories {
     flatDir { dirs 'libs' }
     mavenCentral()
@@ -21,8 +32,8 @@ android {
         targetSdkVersion 30 //目标版本
         minSdkVersion 21 //最低兼容Android版本
 
-        versionCode 111
-        versionName "1.1.1"
+        versionCode 1130
+        versionName "1.1.30"
 
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
@@ -68,9 +79,6 @@ android {
         }
     }
 
-    //避免编译不能用于在编译类路径中发现的注解处理器，因为它们中的任何更改都需要运行注解处理任务
-//    kapt.includeCompileClasspath = false
-
     // 启用 viewBinding 来帮我们进行 findViewByid
     buildFeatures {
         viewBinding = true
@@ -81,11 +89,12 @@ android {
     }
     compileOptions {
         encoding "utf-8"
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '11'
+        useIR = true
     }
 //    sourceSets {
 //        main.java.srcDirs += 'src/main/kotlin'

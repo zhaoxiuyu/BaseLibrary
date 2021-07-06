@@ -43,9 +43,6 @@ android {
         viewBinding = true
     }
 
-    //避免编译不能用于在编译类路径中发现的注解处理器，因为它们中的任何更改都需要运行注解处理任务
-//    kapt.includeCompileClasspath = false
-
     //依赖库多的时候可能出现重复文件,通过 exclude 将重复的文件剔除
     packagingOptions {
         // kotlinx-coroutines-core 需要排除这个 DebugProbesKt.bin
@@ -109,13 +106,13 @@ android {
     //Java版本配置
     compileOptions {
         encoding "utf-8"
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '11'
+        useIR = true
     }
-
 }
 
 dependencies {

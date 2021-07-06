@@ -48,8 +48,6 @@ android {
                     return s.endsWith('.pro')
                 }
             })
-//            minifyEnabled false
-//            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
             consumerProguardFiles file('.').listFiles(new FilenameFilter() {
@@ -58,13 +56,8 @@ android {
                     return s.endsWith('.pro')
                 }
             })
-//            minifyEnabled false
-//            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
-    //避免编译不能用于在编译类路径中发现的注解处理器，因为它们中的任何更改都需要运行注解处理任务
-//    kapt.includeCompileClasspath = false
 
     // 启用 viewBinding 来帮我们进行 findViewByid
     buildFeatures {
@@ -75,11 +68,13 @@ android {
         abortOnError true
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        encoding "utf-8"
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '11'
+        useIR = true
     }
 }
 

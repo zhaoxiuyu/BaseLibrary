@@ -2,9 +2,12 @@
 
 ==慢慢完善中，自己备份使用==
 
-==以下暂未补全==
 
-==CockroachUtil 异常拦截==
+[混淆库地址](https://gitee.com/zxy_it/Proguards)
+
+[依赖库清单](https://gitee.com/zxy_it/BaseLibrary/blob/master/library/build.gradle)
+
+
 
 使用如下：
 
@@ -19,74 +22,10 @@
 	        implementation 'com.github.zhaoxiuyu:BaseLibrary:Tag'
 	}
 
-[project build.gradle](https://github.com/zhaoxiuyu/Proguards/blob/master/proguardslibrary/proguard-rules.pro)
+### 依赖使用 排除不用的库：
 
-[依赖库清单](https://github.com/zhaoxiuyu/BaseLibrary/blob/master/library/build.gradle)
-
-### 库
-
-    用不上的依赖库，可以排除依赖：
     implementation(project(':library')) {
         exclude group: 'com.daimajia.androidanimations', module: 'library'
-
-#### 1. Activity 使用：
-```
-class DetailActivity : BActivity() {
-
-    private val mBind by lazy { DetailsBinding.inflate(layoutInflater) }
-    private val mViewModel by lazy { ViewModelProvider(this).get(DetailViewModel::class.java) }
-
-    override fun initArgs(mIntent: Intent?) {
-    }
-    override fun initView() {
-        // 设置Activity的布局
-        setContentView(mBind.root)
-
-        // 给 ContentView 的外面添加一个 通用的顶部导航栏,可以设置第二个参数是否沉浸式,默认是true
-        setContentViewBar(mBind.root)
-        // 通过getTitleBar()来操作导航栏
-        getTitleBar().title = "标题"
-    }
-    override fun initData(savedInstanceState: Bundle?) {
-        mBind.tv.text = "设置一下内容"
-        mBind.tv.setOnClickListener {
-            mViewModel.getArticle()
-        }
-    }
-    override fun initObserve(): MutableList<BViewModel>? {
-        mViewModel.articleLiveData.observe(this, Observer {
-        })
-        return mutableListOf(mViewModel)
-    }
-// 默认实现了一套提示框，你可以重写onSuccess onError ...
-//    override fun onLoading(mRequest: RxRequest) {
-//        super.onLoading(mRequest)
-//    }
-}
-```
-#### 2. Fragment 使用：
-```
-Fragment ： BFragment  // 继承 BFragment
-
-方法参数类型改成Bundle即可
-override fun initArgs(mArguments: Bundle?) { }
-```
-和Activity使用方式 方法都一样的。几乎没有区别。
-
-#### 3. ViewModel 使用：
-```
-class DetailViewModel : BViewModel() {
-    val articleLiveData by lazy { MutableLiveData<BResponse<WanArticle>>() }
-    fun getArticle() {
-		// 参数是请求url，域名在BConstant里面，可以动态赋值。
-        val request = RxRequest(BConstant.article)
-		// 获取请求类型，设置请求地址，具体使用和说明参考rxhttp
-        request.httpGet().setDomainTowanandroidIfAbsent()
-		// 发送请求，支持LiveData和回调多种参数。可以参考Demo3Activity
-        getRepository().getResponse(request, WanArticle::class.java, articleLiveData)
-    }
-}
-```
 
 ### 工具类相关:
 
