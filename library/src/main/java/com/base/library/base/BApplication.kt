@@ -15,6 +15,7 @@ import com.bytedance.boost_multidex.BoostMultiDex
 import com.dylanc.loadinghelper.LoadingHelper
 import com.dylanc.loadinghelper.ViewType
 import com.hjq.gson.factory.GsonFactory
+import okhttp3.ConnectionPool
 import okhttp3.OkHttpClient
 import org.litepal.LitePal
 import rxhttp.RxHttpPlugins
@@ -107,6 +108,8 @@ open class BApplication : MultiDexApplication() {
             .connectTimeout(10, TimeUnit.SECONDS)
             .readTimeout(10, TimeUnit.SECONDS)
             .writeTimeout(10, TimeUnit.SECONDS)
+            // 最大连接数，超时时间，时间单位。
+            .connectionPool(ConnectionPool(5, 10, TimeUnit.MINUTES))
             .sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager) // 添加信任证书
             .hostnameVerifier { _, _ -> true } // 忽略 host 验证
             .build()
