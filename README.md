@@ -19,7 +19,7 @@
 	}
 
 	dependencies {
-	        implementation 'com.github.zhaoxiuyu:BaseLibrary:Tag'
+	        implementation 'com.gitee.zxy_it:BaseLibrary:Tag'
 	}
 
 ### 依赖使用 排除不用的库：
