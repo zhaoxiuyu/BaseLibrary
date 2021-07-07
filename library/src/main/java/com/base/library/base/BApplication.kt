@@ -6,9 +6,11 @@ import com.alibaba.android.arouter.launcher.ARouter
 import com.base.library.BuildConfig
 import com.base.library.rxhttp.RxHttpDecoder
 import com.base.library.rxhttp.RxHttpParamAssembly
+import com.base.library.util.CockroachUtil
 import com.base.library.view.loadinghelper.EmptyHelperAdapter
 import com.base.library.view.loadinghelper.ErrorHelperAdapter
 import com.base.library.view.loadinghelper.LoadingHelperAdapter
+import com.blankj.utilcode.util.CrashUtils
 import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.Utils
 import com.bytedance.boost_multidex.BoostMultiDex
@@ -29,7 +31,6 @@ import rxhttp.wrapper.ssl.HttpsUtils
 import java.io.File
 import java.util.concurrent.TimeUnit
 
-
 /**
  * 作用: 程序的入口
  */
@@ -42,6 +43,13 @@ open class BApplication : MultiDexApplication() {
     }
 
     fun initMethod() {
+
+        if (BuildConfig.DEBUG) {
+            CrashUtils.init { LogUtils.e(it) } // 可以弹出错误提示框
+        } else {
+            initCockroach()
+        }
+
         // 工具类
         initUtilcode()
 
@@ -63,6 +71,7 @@ open class BApplication : MultiDexApplication() {
 
         // 网络请求
         initRxHttp()
+
     }
 
     /**
@@ -142,6 +151,23 @@ open class BApplication : MultiDexApplication() {
      */
     open fun getConverter(): IConverter {
         return GsonConverter.create(GsonFactory.getSingletonGson())
+    }
+
+    /**
+     * todo 不死异常拦截
+     * handlerException内部建议手动try{ 异常处理逻辑 }catch(Throwable e){ }
+     * 以防handlerException内部再次抛出异常，导致循环调用handlerException
+     */
+    open fun initCockroach() {
+        CockroachUtil.install(object : CockroachUtil.ExceptionHandler {
+            override fun handlerException(thread: Thread, throwable: Throwable, info: String) {
+                try {
+                    // 可以在这里上报bugly
+                    LogUtils.e(info)
+                } catch (e: Throwable) {
+                }
+            }
+        })
     }
 
 }

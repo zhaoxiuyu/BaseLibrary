@@ -1,13 +1,13 @@
 buildscript {
     repositories {
-//      google()
-//      jcenter()
+        google()
+//        jcenter()
         mavenCentral()
         maven { url "https://jitpack.io" }
         maven { url 'https://maven.fabric.io/public' }
         maven { url 'https://dl.bintray.com/jetbrains/anko' } //这是你需要加入的
         maven { url 'https://maven.aliyun.com/repository/jcenter' } //jcenter()
-        maven { url 'https://maven.aliyun.com/repository/google' }  //google()
+//        maven { url 'https://maven.aliyun.com/repository/google' }  //google()
     }
 
     dependencies {
@@ -35,14 +35,14 @@ buildscript {
 allprojects {
     //这里是项目本身需要的依赖，比如项目所需的 maven 库
     repositories {
-//      google()
-//      jcenter()
+        google()
+//        jcenter()
         mavenCentral()
         maven { url "https://jitpack.io" }
         maven { url 'https://maven.fabric.io/public' }
         maven { url 'https://dl.bintray.com/jetbrains/anko' } //这是你需要加入的
         maven { url 'https://maven.aliyun.com/repository/jcenter' } //jcenter()
-        maven { url 'https://maven.aliyun.com/repository/google' }  //google()
+//        maven { url 'https://maven.aliyun.com/repository/google' }  //google()
     }
 }
 

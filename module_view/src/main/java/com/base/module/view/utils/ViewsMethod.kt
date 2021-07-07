@@ -1,7 +1,9 @@
 package com.base.module.view.utils
 
 import com.base.module.view.entity.ViewsDescribe
+import com.base.module.view.ui.AnimatedTextViewActivity
 import com.base.module.view.ui.TabPage2Activity
+import com.base.module.view.ui.TriangleViewActivity
 
 object ViewsMethod {
 
@@ -13,8 +15,12 @@ object ViewsMethod {
         datas.add(
             ViewsDescribe("TabPage2Activity", "导航栏-Fragment沉浸式", TabPage2Activity::class.java)
         )
-        datas.add(ViewsDescribe("AnimatedTextView", "带边框动画效果的 TextView", null))
-        datas.add(ViewsDescribe("TriangleView", "三角形气泡", null))
+        datas.add(
+            ViewsDescribe(
+                "AnimatedTextView", "带边框动画效果的 TextView", AnimatedTextViewActivity::class.java
+            )
+        )
+        datas.add(ViewsDescribe("TriangleView", "三角形气泡", TriangleViewActivity::class.java))
         return datas
     }
 

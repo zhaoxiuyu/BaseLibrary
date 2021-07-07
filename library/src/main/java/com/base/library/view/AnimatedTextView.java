@@ -33,6 +33,8 @@ public class AnimatedTextView extends AppCompatTextView {
     private int mWidth;
     private int mHeight;
 
+    private ValueAnimator valueAnimator;
+
     public AnimatedTextView(Context context) {
         this(context, null);
     }
@@ -43,12 +45,12 @@ public class AnimatedTextView extends AppCompatTextView {
 
     public AnimatedTextView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-       this. context=context;
+        this.context = context;
         initPaint(attrs);
     }
 
     //初始化画笔和路径
-    private void initPaint( AttributeSet attrs) {
+    private void initPaint(AttributeSet attrs) {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.Animated, 0, 0);
         mColor = a.getInteger(R.styleable.Animated_lineColor, mColor);
         mLinePaint = new Paint();
@@ -121,8 +123,10 @@ public class AnimatedTextView extends AppCompatTextView {
     //开始化动画
     public void startAnimation() {
         isInit = true;
-        ValueAnimator valueAnimator = ValueAnimator.ofFloat(0, 2 * mPathMeasure.getLength());
+        valueAnimator = ValueAnimator.ofFloat(0, 2 * mPathMeasure.getLength());
         valueAnimator.setDuration(1000);
+        valueAnimator.setRepeatCount(ValueAnimator.INFINITE);
+        valueAnimator.setRepeatMode(ValueAnimator.RESTART);
         valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
@@ -131,6 +135,12 @@ public class AnimatedTextView extends AppCompatTextView {
             }
         });
         valueAnimator.start();
+    }
+
+    public void stopAnimation() {
+        if (valueAnimator != null) {
+            valueAnimator.end();
+        }
     }
 
     @Override
@@ -147,7 +157,6 @@ public class AnimatedTextView extends AppCompatTextView {
     //设置线条的颜色
     public void setLineColor(int color) {
         mColor = color;
-
     }
 
     //设置线条宽度

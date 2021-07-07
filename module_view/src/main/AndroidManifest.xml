@@ -4,13 +4,13 @@
 
     <application>
 
-        <activity android:name=".ui.ViewPage2">
+        <activity android:name=".ui.ViewPage2" />
 
-        </activity>
+        <activity android:name=".ui.TabPage2Activity" />
 
-        <activity android:name=".ui.TabPage2Activity">
+        <activity android:name=".ui.AnimatedTextViewActivity" />
 
-        </activity>
+        <activity android:name=".ui.TriangleViewActivity" />
 
     </application>
 

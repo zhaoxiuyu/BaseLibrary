@@ -64,7 +64,7 @@ abstract class BActivity : AppCompatActivity(), OnHandleCallback {
 
         // 给根布局添加一个状态栏高度的 padding
         topPadding?.let {
-            ScreenUtils.addStatusBarTopPadding(topPadding)
+            addStatusBarTopPadding(topPadding)
         }
     }
 
@@ -79,6 +79,10 @@ abstract class BActivity : AppCompatActivity(), OnHandleCallback {
             .transparent()
             // 应用到状态栏
             .applyStatusBar()
+    }
+
+    fun addStatusBarTopPadding(topPadding: View? = null) {
+        ScreenUtils.addStatusBarTopPadding(topPadding)
     }
 
     /**

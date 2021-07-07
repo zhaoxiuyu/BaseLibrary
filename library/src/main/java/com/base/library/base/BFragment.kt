@@ -54,7 +54,7 @@ abstract class BFragment : Fragment(), OnHandleCallback {
             immersionBar()
         }
         topPadding?.let {
-            ScreenUtils.addStatusBarTopPadding(topPadding)
+            addStatusBarTopPadding(topPadding)
         }
 
         initData(savedInstanceState)
@@ -77,6 +77,10 @@ abstract class BFragment : Fragment(), OnHandleCallback {
             .transparent()
             // 应用到状态栏
             .applyStatusBar()
+    }
+
+    fun addStatusBarTopPadding(topPadding: View? = null) {
+        ScreenUtils.addStatusBarTopPadding(topPadding)
     }
 
     /**

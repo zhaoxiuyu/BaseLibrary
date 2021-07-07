@@ -10,6 +10,7 @@ import com.base.module.common.module_views.ViewsARoute
 import com.base.module.view.adapter.ViewsAdapter
 import com.base.module.view.databinding.FragmentViewsBinding
 import com.base.module.view.utils.ViewsMethod
+import com.blankj.utilcode.util.LogUtils
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemClickListener
 
