@@ -263,6 +263,9 @@ dependencies {
 
     api 'me.weishu:free_reflection:3.0.1'
 
+    //三角角标控件
+    api 'com.github.xiaoliang0227:TriangleView:1.0.3'
+
     // ViewBindingKTX
     api 'com.github.DylanCaiCoding.ViewBindingKTX:viewbinding-ktx:1.2.3'
     api 'com.github.DylanCaiCoding.ViewBindingKTX:viewbinding-nonreflection-ktx:1.2.3'

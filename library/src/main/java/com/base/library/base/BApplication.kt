@@ -45,7 +45,7 @@ open class BApplication : MultiDexApplication() {
     fun initMethod() {
 
         if (BuildConfig.DEBUG) {
-            CrashUtils.init { LogUtils.e(it) } // 可以弹出错误提示框
+//            CrashUtils.init { LogUtils.e(it) } // 可以弹出错误提示框
         } else {
             initCockroach()
         }

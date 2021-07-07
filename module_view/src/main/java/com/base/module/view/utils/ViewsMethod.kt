@@ -4,6 +4,7 @@ import com.base.module.view.entity.ViewsDescribe
 import com.base.module.view.ui.AnimatedTextViewActivity
 import com.base.module.view.ui.TabPage2Activity
 import com.base.module.view.ui.TriangleViewActivity
+import com.zyl.triangleview.MainActivity
 
 object ViewsMethod {
 
