@@ -272,4 +272,10 @@ dependencies {
     api 'com.github.DylanCaiCoding.ViewBindingKTX:viewbinding-base:1.2.3'
     api 'com.github.DylanCaiCoding.ViewBindingKTX:viewbinding-brvah:1.2.3'
 
+    //添加阿里https+dns解析版本
+    api 'cn.yc:WebViewLib:1.4.0'
+
+    // 悬浮窗
+    api 'com.github.princekin-f:EasyFloat:2.0.2'
+
 }
