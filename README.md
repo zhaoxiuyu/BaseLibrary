@@ -1,4 +1,4 @@
-[![](https://jitpack.io/v/zhaoxiuyu/BaseLibrary.svg)](https://jitpack.io/#zhaoxiuyu/BaseLibrary)
+[![](https://jitpack.io/v/com.gitee.zxy_it/BaseLibrary.svg)](https://jitpack.io/#com.gitee.zxy_it/BaseLibrary)
 
 ==慢慢完善中，自己备份使用==
 
