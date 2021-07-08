@@ -1,4 +1,5 @@
 buildscript {
+    // gradle脚本执行所需依赖，分别是对应的maven库和插件
     repositories {
         google()
 //        jcenter()
