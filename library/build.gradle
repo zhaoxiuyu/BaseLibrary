@@ -187,7 +187,7 @@ dependencies {
     api 'com.github.bumptech.glide:okhttp3-integration:4.11.0'
     api 'jp.wasabeef:glide-transformations:4.3.0'
     // 用Coil方式使用Glide
-//    api 'com.github.forJrking:ImageExt:0.0.3'
+    api 'com.github.forJrking:ImageExt:0.0.3'
 
     // View动画效果大集合
     api 'com.daimajia.easing:library:2.0@aar'
@@ -239,7 +239,6 @@ dependencies {
     // 日历
     api 'com.haibin:calendarview:3.7.1'
     api 'com.squareup:android-times-square:1.7.10'
-//    api 'com.squareup:android-times-square:1.6.5@aar'
 
     // 选择器
     api 'com.contrarywind:Android-PickerView:4.1.9'
@@ -277,5 +276,19 @@ dependencies {
 
     // 悬浮窗
     api 'com.github.princekin-f:EasyFloat:2.0.2'
+
+    // .............................. RxTool ..............................
+    //基础工具库
+    api 'com.github.tamsiree.RxTool:RxKit:2.6.3'
+    //UI库
+    api 'com.github.tamsiree.RxTool:RxUI:2.6.3'
+    //相机库
+    api 'com.github.tamsiree.RxTool:RxCamera:2.6.3'
+    //功能库（Zxing扫描与生成二维码条形码）
+    api 'com.github.tamsiree.RxTool:RxFeature:2.6.3'
+    //ArcGis For Android工具库（API：100.1以上版本）
+    api 'com.github.tamsiree.RxTool:RxArcGisKit:2.6.3'
+    //支付模块(支付宝 微信)[暂为待优化模块，谨慎]
+//    api 'com.github.tamsiree.RxTool:RxPay:2.6.3'
 
 }

@@ -10,13 +10,13 @@ import com.base.library.util.CockroachUtil
 import com.base.library.view.loadinghelper.EmptyHelperAdapter
 import com.base.library.view.loadinghelper.ErrorHelperAdapter
 import com.base.library.view.loadinghelper.LoadingHelperAdapter
-import com.blankj.utilcode.util.CrashUtils
 import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.Utils
 import com.bytedance.boost_multidex.BoostMultiDex
 import com.dylanc.loadinghelper.LoadingHelper
 import com.dylanc.loadinghelper.ViewType
 import com.hjq.gson.factory.GsonFactory
+import com.tamsiree.rxkit.RxTool
 import okhttp3.ConnectionPool
 import okhttp3.OkHttpClient
 import org.litepal.LitePal
@@ -52,6 +52,7 @@ open class BApplication : MultiDexApplication() {
 
         // 工具类
         initUtilcode()
+        initRxTool()
 
         // 数据库
         LitePal.initialize(this)
@@ -86,6 +87,13 @@ open class BApplication : MultiDexApplication() {
             .setFilePrefix("AndroidUtilCode") // Log 文件前缀
             .setBorderSwitch(BuildConfig.DEBUG)//边框开关
             .stackDeep = 1 //栈深度
+    }
+
+    /**
+     * 初始化RxTool
+     */
+    open fun initRxTool() {
+        RxTool.init(this)
     }
 
     /**
