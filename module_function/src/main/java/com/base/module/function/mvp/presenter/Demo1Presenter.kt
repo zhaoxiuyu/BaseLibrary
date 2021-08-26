@@ -1,14 +1,14 @@
 package com.base.module.function.mvp.presenter
 
 import com.base.library.base.BConstant
-import com.base.library.entitys.BResponse
 import com.base.library.entitys.response.WanArticle
 import com.base.library.entitys.response.WanChapters
 import com.base.library.entitys.response.WanLogin
-import com.base.library.mvp.core.SuccessCall
-import com.base.library.mvp.core.VPPresenterImpl
+import com.base.library.mvp.VPPresenterImpl
+import com.base.library.util.RxHttpUtils
 import com.base.module.function.mvp.contract.Demo1Contract
-import com.base.library.rxhttp.RxRequest
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.schedulers.Schedulers
 import rxhttp.wrapper.param.RxHttp
 
 /**
@@ -19,45 +19,59 @@ class Demo1Presenter(view: Demo1Contract.View) : VPPresenterImpl<Demo1Contract.V
 
     // 首页文章列表
     override fun getArticle() {
-        val request = RxRequest(BConstant.article)
-        request.httpGet().setDomainTowanandroidIfAbsent()
+        val mRxHttp = RxHttp.getParamEncrypt(BConstant.article).setDomainTowanandroidIfAbsent()
+        addDisposable(
+            mRxHttp.asResponse(WanArticle::class.java).compose(transformer())
+                .subscribe { bResponse ->
+                    bResponse.data?.let {
+                        mView?.articleSuccess(it)
+                    } ?: let {
+                        mView?.messageEvent(msg = "获取首页文章列表失败")
+                    }
+                }
+        )
 
-        getResponse(request, WanArticle::class.java, object : SuccessCall<BResponse<WanArticle>> {
-            override fun accept(bResponse: BResponse<WanArticle>) {
-                bResponse.data?.let { mView?.articleSuccess(it) }
-                    ?: let { mView?.showDialog(content = "获取首页文章列表失败") }
-            }
-        })
     }
 
     // 获取公众号列表
     override fun getChapters() {
-        val request = RxRequest(BConstant.chapters)
-        request.httpGet().setDomainTowanandroidIfAbsent()
-
-        getResponseList(
-            request,
-            WanChapters::class.java,
-            object : SuccessCall<BResponse<MutableList<WanChapters>>> {
-                override fun accept(bResponse: BResponse<MutableList<WanChapters>>) {
-                    bResponse.data?.let { mView?.chaptersSuccess(it) }
-                        ?: let { mView?.showDialog(content = "获取公众号列表失败") }
+        val mRxHttp = RxHttp.getParamEncrypt(BConstant.chapters).setDomainTowanandroidIfAbsent()
+        addDisposable(
+            mRxHttp.asResponseList(WanChapters::class.java)
+                .compose(transformerThread())
+                .compose(transformerEvent(BConstant.chapters))
+                .subscribe { bResponse ->
+                    bResponse.data?.let {
+                        mView?.chaptersSuccess(it)
+                    } ?: let {
+                        mView?.messageEvent(msg = "获取公众号列表失败")
+                    }
                 }
-            })
+        )
+
     }
 
     // 登录
     override fun getLogin(map: Map<String, String>) {
-        val request = RxRequest(BConstant.login)
-        request.httpPostForm().setDomainTowanandroidIfAbsent().addAll(map)
+        val mRxHttp =
+            RxHttp.postFormEncrypt(BConstant.login).setDomainTowanandroidIfAbsent().addAll(map)
+        addDisposable(
+            mRxHttp.asResponse(WanLogin::class.java)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe { mView?.loadingEvent() }
+                .doFinally { mView?.dismissEvent() }
+                .subscribe({ bResponse ->
+                    bResponse.data?.let {
+                        mView?.loginSuccess(it)
+                    } ?: let {
+                        mView?.messageEvent(msg = "登录异常")
+                    }
+                }, {
+                    mView?.messageEvent(msg = RxHttpUtils.getThrowableMessage(it))
+                })
+        )
 
-        request.getRxHttp().setDomainTowanandroidIfAbsent()
-        getResponse(request, WanLogin::class.java, object : SuccessCall<BResponse<WanLogin>> {
-            override fun accept(bResponse: BResponse<WanLogin>) {
-                bResponse.data?.let { mView?.loginSuccess(it) }
-                    ?: let { mView?.showDialog(content = "登录异常") }
-            }
-        })
     }
 
 }

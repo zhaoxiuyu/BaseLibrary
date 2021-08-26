@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:motion="http://schemas.android.com/apk/res-auto">
+
+    <Transition
+        motion:constraintSetEnd="@+id/end"
+        motion:constraintSetStart="@id/start"
+        motion:duration="3000">
+
+        <!--
+         响应手势
+         dragUp 向上边拖动执行动画
+         -->
+        <OnSwipe
+            motion:dragDirection="dragUp"
+            motion:touchAnchorId="@id/v_demo"
+            motion:touchAnchorSide="bottom" />
+
+        <!--
+         描述一系列运动过程中的关键帧
+         -->
+        <KeyFrameSet>
+            <!--
+             指定动画序列中特定时刻的位置，调整默认运动路径
+             motionTarget 表示受影响的控件
+             framePosition 关键帧的位置取值为1-99之间整数,取值50就是值动画进行到一半的位置
+             -->
+            <KeyPosition
+                motion:framePosition="50"
+                motion:keyPositionType="deltaRelative"
+                motion:motionTarget="@+id/v_share"
+                motion:percentX="0.5"
+                motion:percentY="0.7" />
+
+            <KeyPosition
+                motion:framePosition="50"
+                motion:keyPositionType="deltaRelative"
+                motion:motionTarget="@+id/v_like"
+                motion:percentX="0.5"
+                motion:percentY="0.7" />
+
+            <!--
+             这里对同一个view用来两个KeyAttribute是因为需要在30-60这个中间位置保持透明度不变
+             KeyAttribute还支持visibility、rotation、scale等控件基本属性
+             -->
+            <KeyAttribute
+                android:alpha="0.2"
+                motion:framePosition="30"
+                motion:motionTarget="@+id/v_name" />
+
+            <KeyAttribute
+                android:alpha="0.2"
+                motion:framePosition="60"
+                motion:motionTarget="@+id/v_name" />
+
+            <!--
+             进度在30-90的时候透明度为0
+             deltaRelative，percentX percentY 坐标系以constraintSetStart指定的位置为原点
+             X轴平行于父布局X轴，方向为动画开始的x点指向结束点x点，其值0为原点，1为动画整个动画X轴方向的运动距离
+             Y轴平行于父布局Y轴，方向为动画开始的y点指向结束点y点，其值0为原点，1为动画整个动画Y轴方向的运动距离
+             -->
+            <KeyAttribute
+                android:alpha="0"
+                motion:framePosition="30"
+                motion:motionTarget="@+id/v_gz" />
+            <KeyPosition
+                motion:framePosition="15"
+                motion:keyPositionType="deltaRelative"
+                motion:motionTarget="@+id/v_gz"
+                motion:percentX="0"
+                motion:percentY="0" />
+            <KeyAttribute
+                android:alpha="0"
+                motion:framePosition="75"
+                motion:motionTarget="@+id/v_gz" />
+            <KeyPosition
+                motion:framePosition="90"
+                motion:keyPositionType="deltaRelative"
+                motion:motionTarget="@+id/v_gz"
+                motion:percentX="1"
+                motion:percentY="1" />
+        </KeyFrameSet>
+    </Transition>
+
+    <ConstraintSet android:id="@+id/start">
+
+        <Constraint
+            android:id="@+id/v_demo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <Constraint
+            android:id="@+id/v_share"
+            android:layout_width="@dimen/dp_80"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/v_like" />
+
+        <Constraint
+            android:id="@+id/v_like"
+            android:layout_width="@dimen/dp_80"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/v_more" />
+
+        <Constraint
+            android:id="@+id/v_more"
+            android:layout_width="@dimen/dp_80"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <Constraint
+            android:id="@+id/v_gz"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/v_name"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <CustomAttribute
+                motion:attributeName="textSize"
+                motion:customFloatValue="12" />
+
+        </Constraint>
+
+        <Constraint
+            android:id="@+id/v_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <!--
+             attributeName 是必须属性,并且控件中具有get set方法的属性相对应
+             customFloatValue 是基于 attributeName 来决定的,用的textSize所以是customFloatValue，还有颜色 像素 字符串 布尔等等。
+             -->
+            <CustomAttribute
+                motion:attributeName="textSize"
+                motion:customFloatValue="18" />
+
+        </Constraint>
+
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/end">
+        <Constraint
+            android:id="@+id/v_demo"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_220"
+            android:layout_marginLeft="@dimen/dp_20"
+            motion:layout_constraintTop_toTopOf="parent" />
+
+        <Constraint
+            android:id="@+id/v_share"
+            android:layout_width="@dimen/dp_80"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@id/v_like"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <Constraint
+            android:id="@+id/v_like"
+            android:layout_width="@dimen/dp_80"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@id/v_more"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <Constraint
+            android:id="@+id/v_more"
+            android:layout_width="@dimen/dp_80"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <Constraint
+            android:id="@+id/v_gz"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@id/v_share"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <CustomAttribute
+                motion:attributeName="textSize"
+                motion:customFloatValue="20" />
+
+        </Constraint>
+
+        <Constraint
+            android:id="@+id/v_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <!--
+             attributeName 是必须属性,并且控件中具有get set方法的属性相对应
+             customFloatValue 是基于 attributeName 来决定的,用的textSize所以是customFloatValue，还有颜色 像素 字符串 布尔等等。
+             -->
+            <CustomAttribute
+                motion:attributeName="textSize"
+                motion:customFloatValue="16" />
+
+        </Constraint>
+
+    </ConstraintSet>
+</MotionScene>

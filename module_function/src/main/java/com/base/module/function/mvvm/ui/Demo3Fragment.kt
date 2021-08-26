@@ -3,18 +3,17 @@ package com.base.module.function.mvvm.ui
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.View
 import androidx.activity.addCallback
 import androidx.navigation.fragment.findNavController
-import com.base.library.mvvm.core.VMFragment
-import com.base.library.rxhttp.RxRequest
-import com.base.module.function.databinding.BaseActivityTestBinding
+import com.base.library.interfaces.MyTitleBarListener
+import com.base.library.mvvm.VMFragment
+import com.base.module.function.databinding.FragmentDemo3Binding
 import com.base.module.function.mvvm.viewmodel.Demo3ViewModel
 import com.blankj.utilcode.util.LogUtils
 import com.dylanc.loadinghelper.LoadingHelper
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.ObservableTransformer
 
-class Demo3Fragment : VMFragment<Demo3ViewModel, BaseActivityTestBinding>() {
+class Demo3Fragment : VMFragment<Demo3ViewModel, FragmentDemo3Binding>() {
 
     private val loadingHelper by lazy { LoadingHelper(viewBinding.article) }
 
@@ -28,15 +27,12 @@ class Demo3Fragment : VMFragment<Demo3ViewModel, BaseActivityTestBinding>() {
     }
 
     override fun initData(savedInstanceState: Bundle?) {
-        loadingHelper.setOnReloadListener {
-            loadingHelper.showContentView()
-        }
-        loadingHelper.showLoadingView()
-
-        Handler(Looper.getMainLooper()).postDelayed({
-            loadingHelper.showErrorView()
-        }, 3000)
-
+        viewBinding.titleBar.title = "Rx"
+        viewBinding.titleBar.setOnTitleBarListener(object : MyTitleBarListener() {
+            override fun onLeftClick(v: View?) {
+                findNavController().navigateUp()
+            }
+        })
         viewBinding.article.setOnClickListener {
             viewModel.getArticle()
         }
@@ -50,29 +46,40 @@ class Demo3Fragment : VMFragment<Demo3ViewModel, BaseActivityTestBinding>() {
             )
             viewModel.getLogin(map)
         }
+        viewBinding.getCache.setOnClickListener {
+            viewModel.getCache("123")
+        }
+        viewBinding.putCache.setOnClickListener {
+            viewModel.putCache("123", "Demo3Fragment 缓存")
+        }
+
+        loadingHelper.setOnReloadListener {
+            loadingHelper.showContentView()
+        }
+        loadingHelper.showLoadingView()
+
+        Handler(Looper.getMainLooper()).postDelayed({
+            loadingHelper.showErrorView()
+        }, 3000)
+
     }
 
     override fun registerObserve() {
-        viewModel.articleLiveData.observe(this, {
+        viewModel.articleLiveData.observe(viewLifecycleOwner, {
             LogUtils.d(it.errorCode)
         })
-        viewModel.chaptersLiveData.observe(this, {
+        viewModel.chaptersLiveData.observe(viewLifecycleOwner, {
             LogUtils.d(it.errorCode)
         })
-        viewModel.loginLiveData.observe(this, {
+        viewModel.loginLiveData.observe(viewLifecycleOwner, {
             LogUtils.d(it.errorCode)
         })
-    }
-
-    /**
-     * 变换 IO线程 -> Main线程
-     */
-    private fun <T> transformer(bRequest: RxRequest): ObservableTransformer<T, T> {
-        return ObservableTransformer {
-            it.observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe { }
-                .doFinally { }
-        }
+        viewModel.getCacheLiveData.observe(viewLifecycleOwner, {
+            LogUtils.d(it)
+        })
+        viewModel.putCacheLiveData.observe(viewLifecycleOwner, {
+            LogUtils.d(it)
+        })
     }
 
 }

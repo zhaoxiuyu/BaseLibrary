@@ -1,7 +1,6 @@
-package com.base.library.mvvm.core
+package com.base.library.mvvm
 
 import android.view.LayoutInflater
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewbinding.ViewBinding
 import com.base.library.base.BActivity
@@ -16,10 +15,9 @@ abstract class VMActivity<VM : BViewModel, VB : ViewBinding> : BActivity() {
     lateinit var viewBinding: VB
 
     override fun initParadigm() {
-        super.initParadigm()
         viewBinding = getVbClass()
-        viewModel = ViewModelProvider(this).get(getVmClass())
-        viewModel.getState()?.observe(this, Observer { it.handler(this) })
+        viewModel = ViewModelProvider(this)[getVmClass()]
+        viewModel.getUIChangeLiveData().observe(this, { it.handler(this) })
     }
 
     private fun <VM> getVmClass(): VM {

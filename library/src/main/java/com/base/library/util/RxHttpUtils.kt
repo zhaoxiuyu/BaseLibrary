@@ -11,10 +11,24 @@ import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 import java.util.concurrent.TimeoutException
 
-object OtherUtils {
+object RxHttpUtils {
+
+    fun <T> getDeftBResponse(c: Class<T>, t: Throwable? = null): BResponse<T> {
+        return BResponse<T>().apply {
+            errorMsg = getThrowableMessage(t)
+        }
+    }
+
+    fun <T> getDeftBResponses(c: Class<T>, t: Throwable? = null): BResponse<MutableList<T>> {
+        return BResponse<MutableList<T>>().apply {
+            errorMsg = getThrowableMessage(t)
+        }
+    }
 
     fun getThrowableMessage(throwable: Throwable?): String {
-        return if (throwable is UnknownHostException) {
+        return if (throwable == null) {
+            ""
+        } else if (throwable is UnknownHostException) {
             // 通过 OkHttpClient 设置的超时 引发的异常
             if (NetworkUtils.isConnected()) "网络连接不可用" else "当前无网络"
         } else if (throwable is SocketTimeoutException || throwable is TimeoutException) {

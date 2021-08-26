@@ -5,23 +5,23 @@ plugins {
     id 'com.blankj.bus'
     id 'androidx.navigation.safeargs.kotlin' // navigation 导航
     id 'com.alibaba.arouter' // Gradle 插件实现路由表的自动加载
+    id 'dagger.hilt.android.plugin' // 依赖注入
 }
-
 
 //配置项目构建的各种属性
 android {
-    compileSdkVersion 30 //编译时使用 Android版本
-    buildToolsVersion = '30.0.3' //编译时使用的构建工具的版本
+    compileSdkVersion skdVersion.compileSdkVersion //编译时使用 Android版本
+    buildToolsVersion = skdVersion.buildToolsVersion //编译时使用的构建工具的版本
 
     //默认配置项
     defaultConfig {
         applicationId "com.base.app" //项目包名
 
-        targetSdkVersion 30 //目标版本
-        minSdkVersion 21 //最低兼容Android版本
+        targetSdkVersion skdVersion.targetSdkVersion //目标版本
+        minSdkVersion skdVersion.minSdkVersion //最低兼容Android版本
 
-        versionCode 100 //版本号
-        versionName "1.0.0" //版本名
+        versionCode libVersion.appCode //版本号
+        versionName libVersion.appName //版本名
 
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
@@ -37,8 +37,12 @@ android {
         arguments {
             arg("AROUTER_MODULE_NAME", project.getName())
         }
+        // 解决 hilt 编译出错的问题
+        javacOptions {
+            option("-Adagger.hilt.android.internal.disableAndroidSuperclassValidation=true")
+        }
     }
-    // 启用 viewBinding 来帮我们进行findviewbyid
+    // 启用 viewBinding
     buildFeatures {
         viewBinding = true
     }
@@ -88,8 +92,8 @@ android {
         }
     }
 
-    // 多渠道打包
-    flavorDimensions "default"  // 这个一定要加
+    // 多渠道打包，这个一定要加
+    flavorDimensions "default"
     productFlavors {
         sendinfo {
             manifestPlaceholders = [UMENG_CHANNEL_VALUE: "sendinfo"]
@@ -115,35 +119,47 @@ android {
     }
 }
 
+configurations.all {
+    // 如下设置缓存失效时间,可设置时间单位,直接设置0就是不使用缓存 每次下载最新依赖
+    // 每24小时检查远程依赖是否存在更新,动态版本 x.x.+
+    // resolutionStrategy.cacheDynamicVersionsFor 24, 'hours'
+    // 每10分钟检查远程依赖是否存在更新,静态版本 x.x.x
+    // resolutionStrategy.cacheChangingModulesFor 10*60, 'seconds'
+
+    // 解决统一版本
+    resolutionStrategy {
+        // force 'com.airbnb.android:lottie:3.7.0'
+    }
+
+    // 在构建过程中进行排除
+    // all*.exclude group: 'com.github.florent37', module: 'viewanimator'
+}
+
 dependencies {
+    def dependencies = rootProject.ext.dependencies
+
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test:runner:1.3.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-
-//    implementation('com.github.zhaoxiuyu:BaseLibrary:1.0.9') {
-//        exclude group: 'com.daimajia.androidanimations', module: 'library'
-//    }
-//    implementation(project(':library')) {
-//        exclude group: 'com.daimajia.androidanimations', module: 'library'
-//    }
 
     implementation(project(':module_common'))
     if (!isModuleFunction.toBoolean()) implementation(project(':module_function'))
     if (!isModuleUtils.toBoolean()) implementation(project(':module_utils'))
     if (!isModuleView.toBoolean()) implementation(project(':module_view'))
 
-    kapt 'com.github.bumptech.glide:compiler:4.12.0'
+    if (useLocalDependencies()) {
+        implementation(project(':library'))
+    } else {
+        implementation dependencies.BaseLibrary
+    }
 
+    // Kotlin中使用了Glide注解
+    kapt dependencies.glideCompiler
     // 路由
-    kapt 'com.alibaba:arouter-compiler:1.5.2'
-}
+    kapt dependencies.arouterCompiler
+    // 依赖注入
+    implementation dependencies.hilt
+    kapt dependencies.hiltCompiler
 
-repositories {
-    mavenCentral()
-}
-
-//打包时间
-static def getDate() {
-    return new Date().format("yyyyMMdd HH-mm-ss", TimeZone.getTimeZone("UTC"))
 }

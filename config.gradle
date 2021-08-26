@@ -1,0 +1,46 @@
+ext {
+    // 创建了一个名为android类型的map的变量,groovy中可以用[]来创建map类型。
+    // 那么就是一个map下面又创建了一个map，且名字叫做 configs。
+    skdVersion = [
+            compileSdkVersion: 30,      // 编译源码所使用的API版本
+            buildToolsVersion: "30.0.3", // 构建工具版本,指我们 sdk 下面的 build-tools 目录
+            minSdkVersion    : 21,      // 最低兼容Android版本
+            targetSdkVersion : 30,      // 目标版本
+    ]
+    // 依赖版本号
+    libVersion = [
+            appCode          : 100,
+            appName          : "1.0.0",
+
+            commonCode       : 100,
+            commonName       : "1.0.0",
+
+            functionCode     : 100,
+            functionName     : "1.0.0",
+
+            utilsCode        : 100,
+            utilsName        : "1.0.0",
+
+            viewCode         : 100,
+            viewName         : "1.0.0",
+
+            libraryCode      : 1130,
+            libraryName      : "1.1.30",
+            libraryGroupId   : "com.gitee.zxy_it",
+            libraryArtifactId: "BaseLibrary",
+    ]
+    // 第三方库版本号
+    dependencies = [
+            BaseLibrary    : "com.gitee.zxy_it:BaseLibrary:1.1.36",
+
+            // Kotlin中使用了Glide注解
+            glideCompiler  : 'com.github.bumptech.glide:compiler:4.12.0',
+            // 路由
+            arouterCompiler: 'com.alibaba:arouter-compiler:1.5.2',
+
+            // 依赖注入
+            hilt           : "com.google.dagger:hilt-android:2.28-alpha",
+            hiltCompiler   : "com.google.dagger:hilt-android-compiler:2.28-alpha",
+
+    ]
+}

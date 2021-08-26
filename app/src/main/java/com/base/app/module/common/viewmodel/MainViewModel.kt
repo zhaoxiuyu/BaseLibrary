@@ -1,7 +1,7 @@
 package com.base.app.module.common.viewmodel
 
 import androidx.lifecycle.MutableLiveData
-import com.base.library.mvvm.core.BViewModel
+import com.base.library.mvvm.BViewModel
 
 class MainViewModel : BViewModel() {
 

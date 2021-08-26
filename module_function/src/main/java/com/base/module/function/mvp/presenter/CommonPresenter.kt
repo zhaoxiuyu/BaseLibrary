@@ -1,9 +1,9 @@
 package com.base.module.function.mvp.presenter
 
-import com.base.library.mvp.core.SuccessCall
-import com.base.library.mvp.core.VPPresenterImpl
+import com.base.library.mvp.VPPresenterImpl
+import com.base.library.util.RxHttpUtils
 import com.base.module.function.mvp.contract.CommonContract
-import com.base.library.rxhttp.RxRequest
+import rxhttp.wrapper.param.RxHttp
 
 /**
  * 作用: 通用的P层实现
@@ -12,12 +12,13 @@ import com.base.library.rxhttp.RxRequest
 class CommonPresenter(view: CommonContract.View) : VPPresenterImpl<CommonContract.View>(view),
     CommonContract.Presenter {
 
-    override fun requestData(bRequest: RxRequest) {
-        getDataString(bRequest, object : SuccessCall<String> {
-            override fun accept(bResponse: String) {
-                mView?.responseData(bResponse)
-            }
-        })
+    override fun requestData(rxHttp: RxHttp<*, *>) {
+        rxHttp.asString().compose(transformer())
+            .subscribe({
+                mView?.responseSuccess(it)
+            }, {
+                mView?.responseError(msg = RxHttpUtils.getThrowableMessage(it))
+            })
     }
 
 }

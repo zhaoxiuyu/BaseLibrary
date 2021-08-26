@@ -7,7 +7,6 @@ import androidx.activity.viewModels
 import com.base.app.databinding.ActivityMainBinding
 import com.base.app.module.common.viewmodel.MainViewModel
 import com.base.library.base.BActivity
-import com.base.library.mvvm.core.BViewModel
 import com.blankj.utilcode.util.ToastUtils
 import com.google.android.material.bottomnavigation.BottomNavigationView
 

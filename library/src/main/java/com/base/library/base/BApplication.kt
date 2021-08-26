@@ -104,7 +104,7 @@ open class BApplication : MultiDexApplication() {
         val cacheDir = File(Utils.getApp().externalCacheDir, "RxHttpCache")
 
         RxHttpPlugins.init(getOkHttpClient())
-            .setDebug(BuildConfig.DEBUG, true)
+            .setDebug(BuildConfig.DEBUG, false)
             .setCache(cacheDir, maxSize(), CacheMode.ONLY_NETWORK, -1)
             //设置一些key，不参与cacheKey的组拼
 //            .setExcludeCacheKeys()

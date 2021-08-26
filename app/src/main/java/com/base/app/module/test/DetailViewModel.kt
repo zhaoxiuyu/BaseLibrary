@@ -4,8 +4,7 @@ import androidx.lifecycle.liveData
 import com.base.library.base.BConstant
 import com.base.library.entitys.BResponse
 import com.base.library.entitys.response.WanArticle
-import com.base.library.mvvm.core.BViewModel
-import com.base.library.rxhttp.ResponseState
+import com.base.library.mvvm.BViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
@@ -23,10 +22,10 @@ class DetailViewModel : BViewModel() {
     fun getArticle() = liveData<BResponse<WanArticle>> {
         mRepository.getArticle()
             .onStart {
-                sendState(ResponseState.Loading(BConstant.article))
+                loadingEvent(BConstant.article)
             }
             .onCompletion {
-                sendState(ResponseState.Completed(BConstant.article))
+                dismissEvent(BConstant.article)
             }
             .collectLatest {
                 emit(it)

@@ -2,7 +2,6 @@ package com.base.library.rxhttp
 
 import com.base.library.entitys.BPageList
 import com.base.library.entitys.BResponse
-import com.blankj.utilcode.util.LogUtils
 import okhttp3.Response
 import rxhttp.wrapper.annotation.Parser
 import rxhttp.wrapper.parse.TypeParser
@@ -40,14 +39,10 @@ open class RxHttpParser<T> : TypeParser<BResponse<T>> {
          * 此时code正确，但是data字段为空，直接返回data的话，会报空指针错误，
          * 所以，判断泛型为String类型时，重新赋值，并确保赋值不为null
          */
-        var t = data.data
-        if (t == null && types[0] == String::class.java) {
-            t = data.showMsg() as T
-        }
-        // 说明数据不正确，抛出异常
-        if (!data.isSuccess() || t == null) {
-            LogUtils.e("数据不正确，抛出异常")
-        }
+//        var t = data.data
+//        if (t == null && types[0] == String::class.java) {
+//            t = data.showMsg() as T
+//        }
 
         return data
 

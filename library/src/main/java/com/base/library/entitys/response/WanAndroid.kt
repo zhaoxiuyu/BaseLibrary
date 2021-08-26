@@ -1,4 +1,4 @@
-package com.base.library.mvvm.core
+package com.base.library.entitys.response
 
 class WanAndroid {
 

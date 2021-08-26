@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.lifecycle.Observer
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.base.app.databinding.DetailsBinding
-import com.base.library.mvvm.core.VMActivity
+import com.base.library.mvvm.VMActivity
 import com.base.module.common.module_app.AppARoute
 
 /**

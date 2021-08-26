@@ -4,18 +4,16 @@ import android.content.Intent
 import android.content.res.Resources
 import android.os.Bundle
 import android.os.Looper
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.base.library.interfaces.MyXPopListener
-import com.base.library.mvvm.core.OnHandleCallback
+import com.base.library.mvvm.OnHandleCallback
 import com.base.library.util.ScreenUtils
 import com.blankj.utilcode.util.AdaptScreenUtils
 import com.lxj.xpopup.XPopup
 import com.lxj.xpopup.core.BasePopupView
 import com.lxj.xpopup.interfaces.XPopupCallback
 import com.zackratos.ultimatebarx.ultimatebarx.UltimateBarX
-import rxhttp.wrapper.entity.Progress
 
 /**
  *
@@ -28,7 +26,6 @@ abstract class BActivity : AppCompatActivity(), OnHandleCallback {
     abstract fun registerObserve()
 
     val mApplication: BApplication by lazy { application as BApplication }
-    private var xPopup: BasePopupView? = null
 
     // 加载提示框
     private var loadingPopup: BasePopupView? = null
@@ -49,6 +46,9 @@ abstract class BActivity : AppCompatActivity(), OnHandleCallback {
         }
     }
 
+    /**
+     * 该方法在onCreate时调用,子类实现这个方法进行一些初始化的操作
+     */
     open fun initParadigm() {
     }
 
@@ -113,61 +113,59 @@ abstract class BActivity : AppCompatActivity(), OnHandleCallback {
         isHideCancel: Boolean = true,
         callback: XPopupCallback? = null
     ) {
-        xPopup?.dismiss()
-
-        xPopup = XPopup.Builder(this).setPopupCallback(callback)
+        XPopup.Builder(this).setPopupCallback(callback)
             .dismissOnBackPressed(false)
             .dismissOnTouchOutside(false)
             .asConfirm(title, content, cancelTx, confirmTx, confirmLi, cancelLi, isHideCancel)
             .show()
     }
 
-    fun getDismissFinish(isFinish: Boolean, runnable: Runnable? = null) = object : MyXPopListener {
-        override fun onDis() {
-            dismissDialog(isFinish, runnable)
-        }
-    }
+//    // 提供一个接口,关闭 Dialog 的同时是否关闭页面
+//    fun getDismissFinish(isFinish: Boolean, runnable: Runnable? = null) = object : MyXPopListener {
+//        override fun onDis() {
+//            dismissDialog(isFinish, runnable)
+//        }
+//    }
+//
+//    // 关闭 Dialog
+//    fun dismissDialog(isFinish: Boolean = false, runnable: Runnable? = null) {
+//        xPopup?.dismissWith {
+//            runnable?.run()
+//            if (isFinish) finish()
+//        }
+//    }
 
-    fun dismissDialog(isFinish: Boolean = false, runnable: Runnable? = null) {
-        xPopup?.dismissWith {
-            runnable?.run()
-            if (isFinish) finish()
-        }
-    }
-
-    /**
-     * --------------------- 状态的回调
-     */
-    override fun onLoading(method: String, msg: String) {
-        Log.d("OnHandleCallback", "onLoading")
-        loadingPopup?.dismiss()
+    override fun loadingEvent(method: String, msg: String) {
+        dismissEvent()
         loadingPopup = XPopup.Builder(this)
             .dismissOnBackPressed(false)
             .dismissOnTouchOutside(false)
             .asLoading(msg).show()
     }
 
-    override fun onSuccess(method: String, msg: String, clickFinish: Boolean) {
-        Log.d("OnHandleCallback", "onSuccess")
-        dismissDialog()
-        val mListener = getDismissFinish(clickFinish)
-        showDialog(content = msg, confirmLi = mListener)
+    override fun messageEvent(method: String, msg: String, finish: Boolean) {
+        showDialog(content = msg, confirmLi = object : MyXPopListener {
+            override fun onDis() {
+                if (finish) finish()
+            }
+        })
     }
 
-    override fun onError(method: String, msg: String, clickFinish: Boolean) {
-        Log.d("OnHandleCallback", "onError")
-        dismissDialog()
-        val mListener = getDismissFinish(clickFinish)
-        showDialog(content = msg, confirmLi = mListener)
-    }
-
-    override fun onCompleted(method: String) {
-        Log.d("OnHandleCallback", "onCompleted")
+    override fun dismissEvent(method: String) {
         loadingPopup?.dismiss()
+        loadingPopup = null
     }
 
-    override fun onProgress(progress: Progress?) {
-        Log.d("OnHandleCallback", "onProgress")
+    override fun finishEvent() {
+        finish()
+    }
+
+    override fun startActivityEvent() {
+
+    }
+
+    override fun otherEvent(content: String) {
+
     }
 
     /**
@@ -175,7 +173,7 @@ abstract class BActivity : AppCompatActivity(), OnHandleCallback {
      */
     override fun onDestroy() {
         loadingPopup?.dismiss()
-        dismissDialog(false)
+//        dismissDialog(false)
         super.onDestroy()
     }
 

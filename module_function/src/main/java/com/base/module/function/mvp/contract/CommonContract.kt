@@ -1,8 +1,8 @@
 package com.base.module.function.mvp.contract
 
-import com.base.library.mvp.core.VPPresenter
-import com.base.library.mvp.core.VPView
-import com.base.library.rxhttp.RxRequest
+import com.base.library.mvp.VPPresenter
+import com.base.library.mvvm.OnHandleCallback
+import rxhttp.wrapper.param.RxHttp
 
 /**
  * 作用: 通用的回调层
@@ -10,12 +10,13 @@ import com.base.library.rxhttp.RxRequest
  */
 interface CommonContract {
 
-    interface View : VPView {
-        fun responseData(data: String)
+    interface View : OnHandleCallback {
+        fun responseSuccess(data: String)
+        fun responseError(msg: String)
     }
 
     interface Presenter : VPPresenter {
-        fun requestData(bRequest: RxRequest)
+        fun requestData(rxHttp: RxHttp<*, *>)
     }
 
 }

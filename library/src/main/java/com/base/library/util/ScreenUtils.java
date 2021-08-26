@@ -29,7 +29,7 @@ public class ScreenUtils {
     public static void addStatusBarTopPadding(View view) {
         view.setPadding(
                 view.getPaddingLeft(),
-                view.getPaddingTop() + ScreenUtils.getStatusBarHeight(),
+                view.getPaddingTop() + getStatusBarHeight(),
                 view.getPaddingRight(),
                 view.getPaddingBottom()
         );

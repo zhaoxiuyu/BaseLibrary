@@ -12,6 +12,8 @@
 
         <activity android:name=".ui.TriangleViewActivity" />
 
+        <activity android:name=".ui.MotionLayoutActivity" />
+
     </application>
 
 </manifest>

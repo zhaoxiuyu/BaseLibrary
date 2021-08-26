@@ -1,3 +1,5 @@
+apply from: "config.gradle"
+
 buildscript {
     // gradle脚本执行所需依赖，分别是对应的maven库和插件
     repositories {
@@ -30,6 +32,9 @@ buildscript {
         // JitPack
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
 
+        // hilt 依赖注入
+        classpath 'com.google.dagger:hilt-android-gradle-plugin:2.28-alpha'
+
     }
 }
 
@@ -53,3 +58,18 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+// 是否本地依赖
+def useLocalDependencies() {
+    try {
+        return Boolean.parseBoolean(USE_LOCAL_DEPENDENCIES)
+    } catch (Exception ex) {
+        return true
+    }
+}
+
+// 打包时间
+static def getDate() {
+    return new Date().format("yyyyMMdd HH-mm-ss", TimeZone.getTimeZone("UTC"))
+}
+

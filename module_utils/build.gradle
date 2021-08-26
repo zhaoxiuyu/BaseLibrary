@@ -8,20 +8,23 @@ apply plugin: 'kotlin-kapt'
 apply plugin: "com.blankj.bus"
 apply plugin: "androidx.navigation.safeargs.kotlin" // navigation 导航
 apply plugin: 'com.alibaba.arouter' // Gradle 插件实现路由表的自动加载
+apply plugin: 'dagger.hilt.android.plugin' // 依赖注入
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion "30.0.3"
+    compileSdkVersion skdVersion.compileSdkVersion //编译时使用 Android版本
+    buildToolsVersion = skdVersion.buildToolsVersion //编译时使用的构建工具的版本
 
     defaultConfig {
         // 独立调试才需要这些配置
         if (isModuleUtils.toBoolean()) {
             applicationId "com.base.module.utils"
         }
-        minSdkVersion 21
-        targetSdkVersion 30
-        versionCode 1
-        versionName "1.0"
+
+        targetSdkVersion skdVersion.targetSdkVersion //目标版本
+        minSdkVersion skdVersion.minSdkVersion //最低兼容Android版本
+
+        versionCode libVersion.utilsCode
+        versionName libVersion.utilsName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     // 路由需要
@@ -60,7 +63,7 @@ android {
         }
     }
 
-    // 启用 viewBinding 来帮我们进行 findViewByid
+    // 启用 viewBinding
     buildFeatures {
         viewBinding = true
     }
@@ -80,13 +83,26 @@ android {
 }
 
 dependencies {
+    def dependencies = rootProject.ext.dependencies
+
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
     implementation(project(':module_common'))
 
+    if (useLocalDependencies()) {
+        implementation(project(':library'))
+    } else {
+        implementation dependencies.BaseLibrary
+    }
+
+    // Kotlin中使用了Glide注解
+    kapt dependencies.glideCompiler
     // 路由
-    kapt 'com.alibaba:arouter-compiler:1.5.2'
+    kapt dependencies.arouterCompiler
+    // 依赖注入
+    implementation dependencies.hilt
+    kapt dependencies.hiltCompiler
 
 }

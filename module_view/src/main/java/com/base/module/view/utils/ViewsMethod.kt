@@ -2,9 +2,9 @@ package com.base.module.view.utils
 
 import com.base.module.view.entity.ViewsDescribe
 import com.base.module.view.ui.AnimatedTextViewActivity
+import com.base.module.view.ui.MotionLayoutActivity
 import com.base.module.view.ui.TabPage2Activity
 import com.base.module.view.ui.TriangleViewActivity
-import com.zyl.triangleview.MainActivity
 
 object ViewsMethod {
 
@@ -22,6 +22,7 @@ object ViewsMethod {
             )
         )
         datas.add(ViewsDescribe("TriangleView", "三角形气泡", TriangleViewActivity::class.java))
+        datas.add(ViewsDescribe("MotionLayout", "动画Demo", MotionLayoutActivity::class.java))
         return datas
     }
 
