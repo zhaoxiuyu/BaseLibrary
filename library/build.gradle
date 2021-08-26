@@ -3,37 +3,34 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: "androidx.navigation.safeargs.kotlin" // navigation 导航
 apply plugin: 'maven-publish' // JitPack Maven
+apply plugin: 'dagger.hilt.android.plugin' // 依赖注入
+
+// 在项目根目录引入了，就不需要在model中重复引入。
+// apply from: "../config.gradle"
 
 afterEvaluate {
     publishing {
         publications {
             release(MavenPublication) {
                 from components.release
-                groupId = 'com.gitee.zxy_it'
-                artifactId = 'BaseLibrary'
-                version = '1.1.30'
+                groupId = libVersion.libraryGroupId
+                artifactId = libVersion.libraryArtifactId
+                version = libVersion.libraryName
             }
         }
     }
 }
-repositories {
-    flatDir { dirs 'libs' }
-    mavenCentral()
-    maven { url "https://jitpack.io" }
-    maven { url 'https://maven.aliyun.com/repository/jcenter' } //jcenter()
-    maven { url 'https://maven.aliyun.com/repository/google' }  //google()
-}
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion "30.0.3"
+    compileSdkVersion skdVersion.compileSdkVersion //编译时使用 Android版本
+    buildToolsVersion = skdVersion.buildToolsVersion //编译时使用的构建工具的版本
 
     defaultConfig {
-        targetSdkVersion 30 //目标版本
-        minSdkVersion 21 //最低兼容Android版本
+        targetSdkVersion skdVersion.targetSdkVersion //目标版本
+        minSdkVersion skdVersion.minSdkVersion //最低兼容Android版本
 
-        versionCode 1130
-        versionName "1.1.30"
+        versionCode libVersion.libraryCode
+        versionName libVersion.libraryName
 
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
@@ -44,6 +41,7 @@ android {
         arguments {
             //使用asXxx方法时必须，告知RxHttp你依赖的rxjava版本，可传入rxjava2、rxjava3
             arg("rxhttp_rxjava", 'rxjava3')
+            arg("AROUTER_MODULE_NAME", project.getName())
         }
     }
     buildTypes {
@@ -79,7 +77,7 @@ android {
         }
     }
 
-    // 启用 viewBinding 来帮我们进行 findViewByid
+    // 启用 viewBinding
     buildFeatures {
         viewBinding = true
     }
@@ -104,7 +102,13 @@ android {
 
 }
 
+repositories {
+    flatDir { dirs 'libs' }
+}
+
 dependencies {
+    def dependencies = rootProject.ext.dependencies
+    
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test:runner:1.3.0'
@@ -112,90 +116,91 @@ dependencies {
 
     // 多 dex
     api 'androidx.multidex:multidex:2.0.1'
-    //design
-    api 'com.google.android.material:material:1.3.0'
-    //矢量
+    // design
+    api 'com.google.android.material:material:1.4.0'
+    // 矢量
     api 'androidx.vectordrawable:vectordrawable:1.1.0'
     api "androidx.vectordrawable:vectordrawable-seekable:1.0.0-alpha02"
     // 约束
-    api 'androidx.constraintlayout:constraintlayout:2.0.4'
+    api 'androidx.constraintlayout:constraintlayout:2.1.0'
     // 旧版本API 访问新API
-    api 'androidx.appcompat:appcompat:1.4.0-alpha02'
+    api 'androidx.appcompat:appcompat:1.4.0-alpha03'
 
     api 'androidx.cardview:cardview:1.0.0'
-    api "androidx.viewpager2:viewpager2:1.1.0-alpha01"
-    api 'androidx.recyclerview:recyclerview:1.2.0'
+    api "androidx.viewpager2:viewpager2:1.1.0-beta01"
+    api 'androidx.recyclerview:recyclerview:1.2.1'
 
     // Android KTX
-    api 'androidx.core:core-ktx:1.5.0'
+    api 'androidx.core:core-ktx:1.6.0'
     api "androidx.collection:collection-ktx:1.1.0"
-    api "androidx.activity:activity-ktx:1.3.0-alpha06"
-    api "androidx.fragment:fragment-ktx:1.3.2"
-    api "androidx.lifecycle:lifecycle-runtime-ktx:2.4.0-alpha01"
-    api "androidx.lifecycle:lifecycle-livedata-ktx:2.4.0-alpha01"
-    api "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0-alpha01"
+    api "androidx.activity:activity-ktx:1.3.1"
+    api "androidx.fragment:fragment-ktx:1.3.6"
     api "androidx.navigation:navigation-ui-ktx:2.3.5"
     api "androidx.navigation:navigation-fragment-ktx:2.3.5"
     api "androidx.navigation:navigation-compose:1.0.0-alpha10"
     api "androidx.annotation:annotation:1.3.0-alpha01"
     // 使用 WorkManager 调度那些必须可靠地运行的可延期异步任务
-    api "androidx.work:work-runtime-ktx:2.5.0"
+    api "androidx.work:work-runtime-ktx:2.6.0-rc01"
 
     // 生命周期管理相关
-    api "androidx.lifecycle:lifecycle-common-java8:2.4.0-alpha01"
-    api "androidx.lifecycle:lifecycle-service:2.4.0-alpha01"
-    api "androidx.lifecycle:lifecycle-process:2.4.0-alpha01"
-    api "androidx.lifecycle:lifecycle-viewmodel-savedstate:2.4.0-alpha01"
+    api "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0-alpha03"
+    api "androidx.lifecycle:lifecycle-livedata-ktx:2.4.0-alpha03"
+    api "androidx.lifecycle:lifecycle-runtime-ktx:2.4.0-alpha03"
+    api "androidx.lifecycle:lifecycle-viewmodel-savedstate:2.4.0-alpha03"
+    // kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
+    // 不使用compiler注解,使用java8,直接实现这个接口即可DefaultLifecycleObserver
+    api "androidx.lifecycle:lifecycle-common-java8:2.4.0-alpha03"
+    api "androidx.lifecycle:lifecycle-service:2.4.0-alpha03"
+    api "androidx.lifecycle:lifecycle-process:2.4.0-alpha03"
+    // 依赖注入
+    implementation dependencies.hilt
+    kapt dependencies.hiltCompiler
 
     // sqlite 数据库
     api 'org.litepal.guolindev:core:3.2.3'
-
     // 工具类 AndroidUtilCode
     api 'com.blankj:utilcodex:1.30.6'
-
     // MMKV
     api 'com.tencent:mmkv-static:1.2.10'
-
     // Kotlin
     api 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0'
     api 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0'
 
     // 智能刷新框架：分包之后不会有默认的Header和Footer需要手动添加！还是原来的三种方法！
-    api 'com.scwang.smart:refresh-layout-kernel:2.0.3'      //核心必须依赖
-    api 'com.scwang.smart:refresh-header-classics:2.0.3'    //经典刷新头
-    api 'com.scwang.smart:refresh-header-radar:2.0.3'       //雷达刷新头
-    api 'com.scwang.smart:refresh-header-falsify:2.0.3'     //虚拟刷新头
-    api 'com.scwang.smart:refresh-header-material:2.0.3'    //谷歌刷新头
-    api 'com.scwang.smart:refresh-header-two-level:2.0.3'   //二级刷新头
-    api 'com.scwang.smart:refresh-footer-ball:2.0.3'        //球脉冲加载
-    api 'com.scwang.smart:refresh-footer-classics:2.0.3'    //经典加载
+    api "com.scwang.smart:refresh-layout-kernel:2.0.3"  //核心必须依赖
+    api "com.scwang.smart:refresh-header-classics:2.0.3"//经典刷新头
+    api "com.scwang.smart:refresh-header-radar:2.0.3"   //雷达刷新头
+    api "com.scwang.smart:refresh-header-falsify:2.0.3" //虚拟刷新头
+    api "com.scwang.smart:refresh-header-material:2.0.3"//谷歌刷新头
+    api "com.scwang.smart:refresh-header-two-level:2.0.3"//二级刷新头
+    api "com.scwang.smart:refresh-footer-ball:2.0.3"    //球脉冲加载
+    api "com.scwang.smart:refresh-footer-classics:2.0.3"//经典加载
 
     // 网络请求相关,kapt只需要扫描library即可
-    api 'com.squareup.okhttp3:okhttp:4.9.1'
+    api 'com.squareup.okhttp3:okhttp:5.0.0-alpha.2'
     api 'io.reactivex.rxjava3:rxjava:3.0.6'
     api 'io.reactivex.rxjava3:rxandroid:3.0.0'
-    api 'com.github.liujingxing.rxhttp:rxhttp:2.6.4'
-    kapt 'com.github.liujingxing.rxhttp:rxhttp-compiler:2.6.4'
+    api 'com.github.liujingxing.rxhttp:rxhttp:2.6.6'
+    kapt 'com.github.liujingxing.rxhttp:rxhttp-compiler:2.6.6'
 
     // 解决RxJava内存泄漏
     api 'com.github.liujingxing.rxlife:rxlife-rxjava3:2.1.0'
     //管理协程生命周期，页面销毁，自动关闭协程
     api 'com.github.liujingxing.rxlife:rxlife-coroutine:2.1.0'
 
+    // 图片
     api 'com.github.bumptech.glide:glide:4.12.0'
-    kapt 'com.github.bumptech.glide:compiler:4.12.0'
+    // Kotlin中使用了Glide注解
+    kapt dependencies.glideCompiler
     api 'com.github.bumptech.glide:okhttp3-integration:4.11.0'
     api 'jp.wasabeef:glide-transformations:4.3.0'
+
     // 用Coil方式使用Glide
     api 'com.github.forJrking:ImageExt:0.0.3'
 
     // View动画效果大集合
     api 'com.daimajia.easing:library:2.0@aar'
     api 'com.daimajia.androidanimations:library:2.3@aar'
-
-    // 低耦合方式显示程序的全局加载状态视图
-    api 'com.github.DylanCaiCoding:LoadingHelper:2.3.0-alpha'
-//    api 'com.billy.android:gloading:1.1.0'
 
     // lottie
     api 'com.airbnb.android:lottie:3.7.0'
@@ -219,7 +224,7 @@ dependencies {
     api 'io.github.youth5201314:banner:2.2.2'
 
     // 提示框
-    api 'com.github.li-xiaojun:XPopup:2.4.3'
+    api 'com.github.li-xiaojun:XPopup:2.5.10'
 
     // SuperTextView
     api 'com.github.chenBingX:SuperTextView:3.2.5.99'
@@ -231,7 +236,7 @@ dependencies {
     api 'com.billy.android:smart-swipe-x:1.1.0'
 
     // 沉浸式
-    api 'com.zackratos.ultimatebarx:ultimatebarx:0.6.0'
+    api 'com.gitee.zackratos:UltimateBarX:0.6.1'
 
     // 底部导航栏
     api 'com.ashokvarma.android:bottom-navigation-bar:2.2.0'
@@ -250,12 +255,15 @@ dependencies {
     api 'com.github.getActivity:TitleBar:8.6'
     // Gson 解析容错
     api 'com.github.getActivity:GsonFactory:5.2'
+    // Shape 框架
+    api 'com.github.getActivity:ShapeView:3.0'
 
     // 混淆库
     api 'com.github.zhaoxiuyu:Proguards:1.0.5'
 
     // 路由
     api 'com.alibaba:arouter-api:1.5.2'
+    kapt dependencies.arouterCompiler
 
     //字节跳动启动优化
     api 'com.bytedance.boost_multidex:boost_multidex:1.0.1'
@@ -266,10 +274,14 @@ dependencies {
     api 'com.github.xiaoliang0227:TriangleView:1.0.3'
 
     // ViewBindingKTX
-    api 'com.github.DylanCaiCoding.ViewBindingKTX:viewbinding-ktx:1.2.3'
-    api 'com.github.DylanCaiCoding.ViewBindingKTX:viewbinding-nonreflection-ktx:1.2.3'
-    api 'com.github.DylanCaiCoding.ViewBindingKTX:viewbinding-base:1.2.3'
-    api 'com.github.DylanCaiCoding.ViewBindingKTX:viewbinding-brvah:1.2.3'
+    api 'com.github.DylanCaiCoding.ViewBindingKTX:viewbinding-ktx:1.2.4'
+    api 'com.github.DylanCaiCoding.ViewBindingKTX:viewbinding-nonreflection-ktx:1.2.4'
+    api 'com.github.DylanCaiCoding.ViewBindingKTX:viewbinding-base:1.2.4'
+    api 'com.github.DylanCaiCoding.ViewBindingKTX:viewbinding-brvah:1.2.4'
+    // 低耦合方式显示程序的全局加载状态视图
+    api 'com.github.DylanCaiCoding:LoadingHelper:2.3.0-alpha'
+    // 更简洁使用 Activity Result API
+    api 'com.github.DylanCaiCoding:ActivityResultLauncher:1.1.1'
 
     //添加阿里https+dns解析版本
     api 'cn.yc:WebViewLib:1.4.0'
@@ -289,6 +301,6 @@ dependencies {
     //ArcGis For Android工具库（API：100.1以上版本）
     api 'com.github.tamsiree.RxTool:RxArcGisKit:2.6.3'
     //支付模块(支付宝 微信)[暂为待优化模块，谨慎]
-//    api 'com.github.tamsiree.RxTool:RxPay:2.6.3'
+    // RxPay: "com.github.tamsiree.RxTool:RxPay:2.6.3"
 
 }
