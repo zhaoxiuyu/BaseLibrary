@@ -1,6 +1,5 @@
 package com.base.module.function.mvvm.repository
 
-import com.base.library.base.BConstant
 import com.base.library.data.http.HttpDataSourceImpl
 import com.base.library.data.local.LocalDataSourceImpl
 import com.base.library.entitys.BResponse
@@ -18,43 +17,46 @@ import kotlinx.coroutines.flow.flowOn
 import rxhttp.async
 import rxhttp.onErrorReturn
 import rxhttp.onErrorReturnItem
-import rxhttp.wrapper.param.RxHttp
 import rxhttp.wrapper.param.toResponse
 
 class Demo4Repository {
 
-    private val mHttpData by lazy { HttpDataSourceImpl() }
+    private val mHttpData = HttpDataSourceImpl.getInstance
     private val mLocalData = LocalDataSourceImpl.getInstance
 
-    // 登录
+    /**
+     * 登录
+     */
     suspend fun getLogin(username: String, password: String): BResponse<WanLogin> {
-        val map = mapOf("username" to username, "password" to password)
-        return RxHttp.postFormEncrypt(BConstant.login).setDomainTowanandroidIfAbsent().addAll(map)
+        return mHttpData.getLogin(mapOf("username" to username, "password" to password))
             .toResponse<WanLogin>()
             .onErrorReturn { RxHttpUtils.getDeftBResponse(WanLogin::class.java, it) }
             .await()
     }
 
-    // 首页banner
+    /**
+     * 首页banner
+     */
     suspend fun getBanner(): BResponse<MutableList<WanAndroid>> {
-        return RxHttp.getParamEncrypt(BConstant.banner).setDomainTowanandroidIfAbsent()
-            .toResponse<MutableList<WanAndroid>>()
+        return mHttpData.getBanner().toResponse<MutableList<WanAndroid>>()
             .onErrorReturnItem(RxHttpUtils.getDeftBResponses(WanAndroid::class.java)) // 如果出错了就给出默认值，不影响其他请求的执行
             .await()
     }
 
-    // 获取公众号列表
+    /**
+     * 获取公众号列表
+     */
     suspend fun getChapters(scope: CoroutineScope): Deferred<BResponse<MutableList<WanChapters>>> {
-        return RxHttp.getParamEncrypt(BConstant.chapters).setDomainTowanandroidIfAbsent()
-            .toResponse<MutableList<WanChapters>>()
+        return mHttpData.getChapters().toResponse<MutableList<WanChapters>>()
             .onErrorReturn { RxHttpUtils.getDeftBResponses(WanChapters::class.java, it) }
             .async(scope)
     }
 
-    // 首页文章列表
+    /**
+     * 首页文章列表
+     */
     suspend fun getArticle(scope: CoroutineScope): Deferred<BResponse<WanArticle>> {
-        return RxHttp.getParamEncrypt(BConstant.article).setDomainTowanandroidIfAbsent()
-            .toResponse<WanArticle>()
+        return mHttpData.getArticle().toResponse<WanArticle>()
             .onErrorReturnItem(RxHttpUtils.getDeftBResponse(WanArticle::class.java)) // 如果出错了就给出默认值，不影响其他请求的执行
             .async(scope)
     }

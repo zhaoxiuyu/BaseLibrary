@@ -13,12 +13,10 @@ import com.base.module.common.module_utils.UtilsARoute
 import com.base.module.common.module_views.ViewsARoute
 import com.blankj.utilcode.util.FragmentUtils
 import com.blankj.utilcode.util.LogUtils
-import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * 功能展示
  */
-@AndroidEntryPoint
 class DemosActivity : VMActivity<DemosViewModel, ActivityDemosBinding>() {
 
     private val mUtilsFragment by lazy {
@@ -31,7 +29,7 @@ class DemosActivity : VMActivity<DemosViewModel, ActivityDemosBinding>() {
 
     private val mFunctionFragment by lazy {
         ARouter.getInstance().build(FunctionARoute.Function_FunctionFragment)
-            .navigation() as Fragment
+                .navigation() as Fragment
     }
 
     override fun initArgs(mIntent: Intent?) {}

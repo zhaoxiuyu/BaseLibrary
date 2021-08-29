@@ -9,7 +9,6 @@ import com.base.library.util.RxHttpUtils
 import com.base.module.function.mvp.contract.Demo1Contract
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
-import rxhttp.wrapper.param.RxHttp
 
 /**
  * 作用: 使用案例,自己定义Presenter
@@ -19,9 +18,8 @@ class Demo1Presenter(view: Demo1Contract.View) : VPPresenterImpl<Demo1Contract.V
 
     // 首页文章列表
     override fun getArticle() {
-        val mRxHttp = RxHttp.getParamEncrypt(BConstant.article).setDomainTowanandroidIfAbsent()
         addDisposable(
-            mRxHttp.asResponse(WanArticle::class.java).compose(transformer())
+            mHttpData.getArticle().asResponse(WanArticle::class.java).compose(transformer())
                 .subscribe { bResponse ->
                     bResponse.data?.let {
                         mView?.articleSuccess(it)
@@ -35,9 +33,8 @@ class Demo1Presenter(view: Demo1Contract.View) : VPPresenterImpl<Demo1Contract.V
 
     // 获取公众号列表
     override fun getChapters() {
-        val mRxHttp = RxHttp.getParamEncrypt(BConstant.chapters).setDomainTowanandroidIfAbsent()
         addDisposable(
-            mRxHttp.asResponseList(WanChapters::class.java)
+            mHttpData.getChapters().asResponseList(WanChapters::class.java)
                 .compose(transformerThread())
                 .compose(transformerEvent(BConstant.chapters))
                 .subscribe { bResponse ->
@@ -53,10 +50,8 @@ class Demo1Presenter(view: Demo1Contract.View) : VPPresenterImpl<Demo1Contract.V
 
     // 登录
     override fun getLogin(map: Map<String, String>) {
-        val mRxHttp =
-            RxHttp.postFormEncrypt(BConstant.login).setDomainTowanandroidIfAbsent().addAll(map)
         addDisposable(
-            mRxHttp.asResponse(WanLogin::class.java)
+            mHttpData.getLogin(map).asResponse(WanLogin::class.java)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe { mView?.loadingEvent() }

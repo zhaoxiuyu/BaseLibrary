@@ -2,6 +2,7 @@ package com.base.library.mvp
 
 import android.util.Log
 import androidx.lifecycle.LifecycleOwner
+import com.base.library.data.http.HttpDataSourceImpl
 import com.base.library.data.local.LocalDataSourceImpl
 import com.base.library.mvvm.OnHandleCallback
 import com.blankj.utilcode.util.LogUtils
@@ -20,6 +21,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 open class VPPresenterImpl<T : OnHandleCallback?>(var mView: T?) : VPPresenter {
 //    open class VPPresenterImpl<T : VPView?>(var mView: T?) : VPPresenter, VPCallback, MyLifecycle {
 
+    val mHttpData = HttpDataSourceImpl.getInstance
     private val mLocalData = LocalDataSourceImpl.getInstance
 
     private var compositeDisposable: CompositeDisposable? = null

@@ -4,9 +4,7 @@ import androidx.lifecycle.ProcessLifecycleOwner
 import com.base.library.base.AppLifecycleObserver
 import com.base.library.base.BApplication
 import com.dylanc.activityresult.launcher.FileProviderUtils
-import dagger.hilt.android.HiltAndroidApp
 
-@HiltAndroidApp
 class MyApp : BApplication() {
 
     override fun onCreate() {

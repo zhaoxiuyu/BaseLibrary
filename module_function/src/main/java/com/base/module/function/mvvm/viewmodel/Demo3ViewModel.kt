@@ -7,6 +7,7 @@ import com.base.library.entitys.response.WanArticle
 import com.base.library.entitys.response.WanChapters
 import com.base.library.entitys.response.WanLogin
 import com.base.library.mvvm.BViewModel
+import com.base.library.util.RxHttpUtils
 import com.base.module.function.mvvm.repository.Demo3Repository
 import com.blankj.utilcode.util.ThreadUtils
 import io.reactivex.rxjava3.core.Observable
@@ -32,7 +33,7 @@ class Demo3ViewModel : BViewModel() {
                     } else {
                         messageEvent(BConstant.article, it.showMsg())
                     }
-                }, { messageEvent(BConstant.article, it.message ?: "") })
+                }, { messageEvent(BConstant.article, RxHttpUtils.getThrowableMessage(it)) })
         )
     }
 
@@ -50,7 +51,7 @@ class Demo3ViewModel : BViewModel() {
                     } else {
                         messageEvent(BConstant.chapters, it.showMsg())
                     }
-                }, { messageEvent(BConstant.chapters, it.message ?: "") })
+                }, { messageEvent(BConstant.chapters, RxHttpUtils.getThrowableMessage(it)) })
         )
     }
 
@@ -70,7 +71,7 @@ class Demo3ViewModel : BViewModel() {
                     } else {
                         messageEvent(msg = it.showMsg())
                     }
-                }, { messageEvent(msg = it.message ?: "") })
+                }, { messageEvent(msg = RxHttpUtils.getThrowableMessage(it)) })
         )
     }
 

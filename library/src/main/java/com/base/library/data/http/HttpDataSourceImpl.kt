@@ -1,11 +1,6 @@
 package com.base.library.data.http
 
-import android.graphics.Bitmap
-import com.base.library.entitys.BResponse
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.core.ObservableTransformer
-import io.reactivex.rxjava3.schedulers.Schedulers
+import com.base.library.base.BConstant
 import rxhttp.wrapper.param.RxHttp
 
 /**
@@ -22,63 +17,26 @@ class HttpDataSourceImpl {
     }
 
     /**
-     * 响应数据 BResponse<Student.class>
+     * 首页文章列表
      */
-    fun <T> asResponse(rxHttp: RxHttp<*, *>, clas: Class<T>): Observable<BResponse<T>> {
-        return rxHttp.asResponse(clas).compose(transformer())
+    fun getArticle(): RxHttp<*, *> {
+        return RxHttp.getParamEncrypt(BConstant.article).setDomainTowanandroidIfAbsent()
     }
 
     /**
-     * 响应数据 BResponse<MutableList<Student.class>>
+     * 获取公众号列表
      */
-    fun <T> asResponseList(rxHttp: RxHttp<*, *>, clas: Class<T>):
-            Observable<BResponse<MutableList<T>>> {
-        return rxHttp.asResponseList(clas).compose(transformer())
-    }
+    fun getChapters() = RxHttp.getParamEncrypt(BConstant.chapters).setDomainTowanandroidIfAbsent()
 
     /**
-     * 响应数据 Student.class
+     * 登录
      */
-    fun <T> asDataClass(rxHttp: RxHttp<*, *>, clas: Class<T>): Observable<T> {
-        return rxHttp.asClass(clas).compose(transformer())
-    }
+    fun getLogin(map: Map<String, String>) = RxHttp.postFormEncrypt(BConstant.login)
+        .setDomainTowanandroidIfAbsent().addAll(map)
 
     /**
-     * 响应数据 MutableList<Student.class>
+     * 首页banner
      */
-    fun <T> asDataList(rxHttp: RxHttp<*, *>, clas: Class<T>): Observable<MutableList<T>> {
-        return rxHttp.asList(clas).compose(transformer())
-    }
-
-    /**
-     * 响应数据 String
-     */
-    fun asString(rxHttp: RxHttp<*, *>): Observable<String> {
-        return rxHttp.asString().compose(transformer())
-    }
-
-    /**
-     * 响应数据 Bitmap
-     */
-    fun asBitmap(rxHttp: RxHttp<*, *>): Observable<Bitmap> {
-        return rxHttp.asBitmap<Bitmap>().compose(transformer())
-    }
-
-    /**
-     * 响应数据 MutableList<Student.class>
-     */
-    fun <T> asMap(rxHttp: RxHttp<*, *>, clas: Class<T>): Observable<Map<T, T>> {
-        return rxHttp.asMap(clas).compose(transformer())
-    }
-
-    /**
-     * 变换 IO线程 -> Main线程
-     */
-    fun <T> transformer(): ObservableTransformer<T, T> {
-        return ObservableTransformer {
-            it.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-        }
-    }
+    fun getBanner() = RxHttp.getParamEncrypt(BConstant.banner).setDomainTowanandroidIfAbsent()
 
 }

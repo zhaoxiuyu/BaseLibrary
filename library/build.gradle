@@ -3,7 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: "androidx.navigation.safeargs.kotlin" // navigation 导航
 apply plugin: 'maven-publish' // JitPack Maven
-apply plugin: 'dagger.hilt.android.plugin' // 依赖注入
+//apply plugin: 'dagger.hilt.android.plugin' // 依赖注入
 
 // 在项目根目录引入了，就不需要在model中重复引入。
 // apply from: "../config.gradle"
@@ -153,8 +153,8 @@ dependencies {
     api "androidx.lifecycle:lifecycle-service:2.4.0-alpha03"
     api "androidx.lifecycle:lifecycle-process:2.4.0-alpha03"
     // 依赖注入
-    implementation dependencies.hilt
-    kapt dependencies.hiltCompiler
+//    implementation dependencies.hilt
+//    kapt dependencies.hiltCompiler
 
     // sqlite 数据库
     api 'org.litepal.guolindev:core:3.2.3'

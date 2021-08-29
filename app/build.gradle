@@ -5,7 +5,7 @@ plugins {
     id 'com.blankj.bus'
     id 'androidx.navigation.safeargs.kotlin' // navigation 导航
     id 'com.alibaba.arouter' // Gradle 插件实现路由表的自动加载
-    id 'dagger.hilt.android.plugin' // 依赖注入
+//    id 'dagger.hilt.android.plugin' // 依赖注入
 }
 
 //配置项目构建的各种属性
@@ -38,9 +38,9 @@ android {
             arg("AROUTER_MODULE_NAME", project.getName())
         }
         // 解决 hilt 编译出错的问题
-        javacOptions {
-            option("-Adagger.hilt.android.internal.disableAndroidSuperclassValidation=true")
-        }
+//        javacOptions {
+//            option("-Adagger.hilt.android.internal.disableAndroidSuperclassValidation=true")
+//        }
     }
     // 启用 viewBinding
     buildFeatures {
@@ -159,7 +159,7 @@ dependencies {
     // 路由
     kapt dependencies.arouterCompiler
     // 依赖注入
-    implementation dependencies.hilt
-    kapt dependencies.hiltCompiler
+//    implementation dependencies.hilt
+//    kapt dependencies.hiltCompiler
 
 }

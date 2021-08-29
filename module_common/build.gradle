@@ -3,7 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'com.alibaba.arouter' // Gradle 插件实现路由表的自动加载
-    id 'dagger.hilt.android.plugin' // 依赖注入
+//    id 'dagger.hilt.android.plugin' // 依赖注入
 }
 
 android {
@@ -81,7 +81,7 @@ dependencies {
     // 路由
     kapt dependencies.arouterCompiler
     // 依赖注入
-    implementation dependencies.hilt
-    kapt dependencies.hiltCompiler
+//    implementation dependencies.hilt
+//    kapt dependencies.hiltCompiler
 
 }
