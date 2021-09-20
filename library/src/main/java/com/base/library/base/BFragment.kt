@@ -11,7 +11,7 @@ import com.base.library.util.ScreenUtils
 import com.lxj.xpopup.XPopup
 import com.lxj.xpopup.core.BasePopupView
 import com.lxj.xpopup.interfaces.XPopupCallback
-import com.zackratos.ultimatebarx.ultimatebarx.UltimateBarX
+import com.zackratos.ultimatebarx.ultimatebarx.java.UltimateBarX
 
 abstract class BFragment : Fragment(), OnHandleCallback {
 
@@ -69,7 +69,7 @@ abstract class BFragment : Fragment(), OnHandleCallback {
     }
 
     fun immersionBar() {
-        UltimateBarX.with(this)
+        UltimateBarX.statusBar(this)
             // 布局是否侵入状态栏
             .fitWindow(false)
             // light模式 状态栏字体 true: 灰色，false: 白色 Android 6.0+
@@ -78,7 +78,7 @@ abstract class BFragment : Fragment(), OnHandleCallback {
             // 状态栏透明效果
             .transparent()
             // 应用到状态栏
-            .applyStatusBar()
+            .apply()
     }
 
     fun addStatusBarTopPadding(topPadding: View? = null) {

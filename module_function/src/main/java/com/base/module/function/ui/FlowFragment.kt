@@ -3,13 +3,14 @@ package com.base.module.function.ui
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.addCallback
-import androidx.lifecycle.rxLifeScope
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.base.library.base.BFragment
 import com.base.module.function.databinding.FragmentFlowBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 
 /**
  * 异步流
@@ -180,7 +181,7 @@ class FlowFragment : BFragment() {
     }
 
     private fun guaqi() {
-        rxLifeScope.launch {
+        lifecycleScope.launch {
             flow2()
         }
     }

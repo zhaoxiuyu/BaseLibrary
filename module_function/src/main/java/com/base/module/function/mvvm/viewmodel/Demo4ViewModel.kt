@@ -3,7 +3,6 @@ package com.base.module.function.mvvm.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
-import androidx.lifecycle.rxLifeScope
 import com.base.library.base.BConstant
 import com.base.library.entitys.BResponse
 import com.base.library.entitys.response.WanArticle
@@ -116,11 +115,12 @@ class Demo4ViewModel : BViewModel() {
      * 添加缓存
      */
     fun putCache(key: String, content: String) {
-        rxLifeScope.launch({
-            launch(Dispatchers.IO) { m4Repository.putCacheFlow(key, content) }
-        }, {
-            LogUtils.d("添加缓存 key : ${it.message}")
-        })
+        viewModelScope(
+            block = {
+                launch(Dispatchers.IO) { m4Repository.putCacheFlow(key, content) }
+            }, onFinally = {
+                LogUtils.d("添加缓存 key : $key")
+            })
     }
 
 }

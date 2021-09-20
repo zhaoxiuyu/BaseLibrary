@@ -11,8 +11,9 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/pt_128"
         app:barStyle="ripple"
-        app:drawableSize="@dimen/pt_70"
-        app:leftColor="#FFFFFF"
+        app:leftIconWidth="@dimen/pt_70"
+        app:leftIconHeight="@dimen/pt_70"
+        app:leftTitleColor="#FFFFFF"
         app:title="首页"
         app:titleColor="#FFFFFF"
         app:titleSize="@dimen/pt_50" />

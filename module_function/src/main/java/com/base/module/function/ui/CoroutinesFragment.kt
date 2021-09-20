@@ -2,11 +2,10 @@ package com.base.module.function.ui
 
 import android.os.Bundle
 import androidx.activity.addCallback
-import androidx.lifecycle.rxLifeScope
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.base.library.base.BFragment
 import com.base.module.function.databinding.FragmentCoroutinesBinding
-import com.rxlife.coroutine.RxLifeScope
 import kotlinx.coroutines.*
 
 /**
@@ -52,7 +51,7 @@ class CoroutinesFragment : BFragment() {
 
     // 协程内按顺序执行,多个withContext是串行的,可直接返回耗时任务结果
     private fun loadImg() {
-        rxLifeScope.launch({
+        lifecycleScope.launch {
             // 协程体
             sb.delete(0, sb.length)
 
@@ -79,13 +78,7 @@ class CoroutinesFragment : BFragment() {
             sb.append("666 ${Thread.currentThread().name} \n")
 
             viewBinding.tvContent.text = sb.toString()
-        }, {
-            // 异常回调
-        }, {
-            // 协程开始回调
-        }, {
-            // 协程结束回调，不管成功/失败都会回调
-        })
+        }
     }
 
     /**
@@ -118,7 +111,7 @@ class CoroutinesFragment : BFragment() {
     // await 在 async 未执行完成返回结果时才会挂起协程，否则直接获取结果赋值变量不会挂起
     // await 是挂起函数，使用await就和withContext一样，挂起函数执行完才会执行下一个async
     private fun loadImg2() {
-        rxLifeScope.launch({
+        lifecycleScope.launch {
             // 协程体
             sb.delete(0, sb.length)
 
@@ -145,13 +138,7 @@ class CoroutinesFragment : BFragment() {
             sb.append("666 ${Thread.currentThread().name} \n")
 
             viewBinding.tvContent.text = sb.toString()
-        }, {
-            // 异常回调
-        }, {
-            // 协程开始回调
-        }, {
-            // 协程结束回调，不管成功/失败都会回调
-        })
+        }
     }
 
     /**
@@ -189,21 +176,6 @@ class CoroutinesFragment : BFragment() {
                 viewBinding.tvContent.text = sb.toString()
             }
         }
-    }
-
-    // 非 Fragment Activity ViewModel 环境下
-    private fun job() {
-        val job = RxLifeScope().launch({
-            // 协程体
-        }, {
-            // 异常回调
-        }, {
-            // 协程开始回调
-        }, {
-            // 协程结束回调，不管成功/失败都会回调
-        })
-        //  在合适的时机，手动关闭协程
-        job.cancel()
     }
 
 }
