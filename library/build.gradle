@@ -180,13 +180,11 @@ dependencies {
     api 'com.squareup.okhttp3:okhttp:5.0.0-alpha.2'
     api 'io.reactivex.rxjava3:rxjava:3.0.6'
     api 'io.reactivex.rxjava3:rxandroid:3.0.0'
-    api 'com.github.liujingxing.rxhttp:rxhttp:2.6.6'
-    kapt 'com.github.liujingxing.rxhttp:rxhttp-compiler:2.6.6'
+    api 'com.github.liujingxing.rxhttp:rxhttp:2.6.8'
+    kapt 'com.github.liujingxing.rxhttp:rxhttp-compiler:2.6.8'
 
     // 解决RxJava内存泄漏
-    api 'com.github.liujingxing.rxlife:rxlife-rxjava3:2.1.0'
-    //管理协程生命周期，页面销毁，自动关闭协程
-    api 'com.github.liujingxing.rxlife:rxlife-coroutine:2.1.0'
+    api 'com.github.liujingxing.rxlife:rxlife-rxjava3:2.2.1'
 
     // 图片
     api 'com.github.bumptech.glide:glide:4.12.0'
@@ -196,23 +194,23 @@ dependencies {
     api 'jp.wasabeef:glide-transformations:4.3.0'
 
     // 用Coil方式使用Glide
-    api 'com.github.forJrking:ImageExt:0.0.3'
+    api 'com.github.forJrking:ImageExt:0.0.4'
 
     // View动画效果大集合
     api 'com.daimajia.easing:library:2.0@aar'
     api 'com.daimajia.androidanimations:library:2.3@aar'
 
     // lottie
-    api 'com.airbnb.android:lottie:3.7.0'
+    api 'com.airbnb.android:lottie:4.1.0'
 
     // RecyclerView 列表动画
-    api 'jp.wasabeef:recyclerview-animators:4.0.1'
+    api 'jp.wasabeef:recyclerview-animators:4.0.2'
 
     // 动画工具类
     api 'com.github.florent37:viewanimator:1.1.2'
 
     // Json相关
-    api 'com.google.code.gson:gson:2.8.7'
+    api 'com.google.code.gson:gson:2.8.8'
 
     // 适配器
     api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.6'
@@ -224,19 +222,19 @@ dependencies {
     api 'io.github.youth5201314:banner:2.2.2'
 
     // 提示框
-    api 'com.github.li-xiaojun:XPopup:2.5.10'
+    api 'com.github.li-xiaojun:XPopup:2.5.15'
 
     // SuperTextView
     api 'com.github.chenBingX:SuperTextView:3.2.5.99'
 
     // RWidgetHelper : 圆角，边框，Gradient背景渐变，控件State各个状态UI样式，阴影，水波纹
-    api 'com.github.RuffianZhong:RWidgetHelper:androidx.v0.0.1'
+    api 'com.github.RuffianZhong:RWidgetHelper:androidx.v0.0.6'
 
     // 侧滑一个就够了
     api 'com.billy.android:smart-swipe-x:1.1.0'
 
     // 沉浸式
-    api 'com.gitee.zackratos:UltimateBarX:0.6.1'
+    api 'com.gitee.zackratos:UltimateBarX:0.7.1'
 
     // 底部导航栏
     api 'com.ashokvarma.android:bottom-navigation-bar:2.2.0'
@@ -250,13 +248,13 @@ dependencies {
 
     // -------------------- 轮子哥的库 --------------------
     // 权限请求
-    api 'com.github.getActivity:XXPermissions:11.5'
+    api 'com.github.getActivity:XXPermissions:12.2'
     // 顶部标题栏
-    api 'com.github.getActivity:TitleBar:8.6'
+    api 'com.github.getActivity:TitleBar:9.0'
     // Gson 解析容错
     api 'com.github.getActivity:GsonFactory:5.2'
     // Shape 框架
-    api 'com.github.getActivity:ShapeView:3.0'
+    api 'com.github.getActivity:ShapeView:6.0'
 
     // 混淆库
     api 'com.github.zhaoxiuyu:Proguards:1.0.5'
@@ -287,7 +285,7 @@ dependencies {
     api 'cn.yc:WebViewLib:1.4.0'
 
     // 悬浮窗
-    api 'com.github.princekin-f:EasyFloat:2.0.2'
+    api 'com.github.princekin-f:EasyFloat:2.0.3'
 
     // .............................. RxTool ..............................
     //基础工具库

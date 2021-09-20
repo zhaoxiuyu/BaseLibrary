@@ -34,6 +34,7 @@ abstract class BActivity : AppCompatActivity(), OnHandleCallback {
         super.onCreate(savedInstanceState)
         initParadigm()
         initArgs(intent)
+        registerObserve()
         initView()
         // window.decorView 获取到DecorView后,调用post方法,此时DecorView的attachInfo为空,
         // 会将这个Runnable放置runQueue中。runQueue内的任务会在ViewRootImpl.performTraversals的开始阶段被依次取出执行,
