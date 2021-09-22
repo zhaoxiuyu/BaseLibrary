@@ -286,6 +286,9 @@ dependencies {
 
     // 悬浮窗
     api 'com.github.princekin-f:EasyFloat:2.0.3'
+    
+    // 指示器
+    api 'com.github.hackware1993:MagicIndicator:1.7.0'
 
     // .............................. RxTool ..............................
     //基础工具库
