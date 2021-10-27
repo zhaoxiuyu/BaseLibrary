@@ -31,7 +31,7 @@ ext {
     ]
     // 第三方库版本号
     dependencies = [
-            BaseLibrary    : "com.gitee.zxy_it:BaseLibrary:1.1.36",
+            BaseLibrary    : "com.gitee.zxy_it:BaseLibrary:1.1.39",
 
             // Kotlin中使用了Glide注解
             glideCompiler  : 'com.github.bumptech.glide:compiler:4.12.0',
