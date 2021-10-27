@@ -2,7 +2,6 @@ package com.base.app.module.test
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.lifecycle.Observer
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.base.app.databinding.DetailsBinding
 import com.base.library.mvvm.VMActivity
@@ -23,7 +22,7 @@ class DetailActivity : VMActivity<DetailViewModel, DetailsBinding>() {
 
     override fun initView() {
         // 给 ContentView 的外面添加一个 通用的顶部导航栏,可以设置第二个参数是否沉浸式,默认是true
-        setContentViewBar(viewBinding.root)
+        setContentViewBar(viewBinding.root, topPadding = viewBinding.root)
         // 通过getTitleBar()来操作导航栏
 //        getTitleBar().title = "标题"
     }
@@ -31,8 +30,8 @@ class DetailActivity : VMActivity<DetailViewModel, DetailsBinding>() {
     override fun initData(savedInstanceState: Bundle?) {
         viewBinding.tv.text = "设置一下内容"
         viewBinding.tv.setOnClickListener {
-            viewModel.getArticle().observe(this, Observer {
-
+            viewModel.getArticle2().observe(this, {
+                viewBinding.tv.text = it.showMsg()
             })
         }
     }
