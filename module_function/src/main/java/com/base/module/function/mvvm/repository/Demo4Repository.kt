@@ -1,7 +1,6 @@
 package com.base.module.function.mvvm.repository
 
-import com.base.library.data.http.HttpDataSourceImpl
-import com.base.library.data.local.LocalDataSourceImpl
+import com.base.library.data.BaseRepository
 import com.base.library.entitys.BResponse
 import com.base.library.entitys.response.WanAndroid
 import com.base.library.entitys.response.WanArticle
@@ -19,10 +18,7 @@ import rxhttp.onErrorReturn
 import rxhttp.onErrorReturnItem
 import rxhttp.wrapper.param.toResponse
 
-class Demo4Repository {
-
-    private val mHttpData = HttpDataSourceImpl.getInstance
-    private val mLocalData = LocalDataSourceImpl.getInstance
+class Demo4Repository : BaseRepository() {
 
     /**
      * 登录
