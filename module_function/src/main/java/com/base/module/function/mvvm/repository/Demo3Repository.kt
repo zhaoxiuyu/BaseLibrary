@@ -1,17 +1,13 @@
 package com.base.module.function.mvvm.repository
 
-import com.base.library.data.http.HttpDataSourceImpl
-import com.base.library.data.local.LocalDataSourceImpl
+import com.base.library.data.BaseRepository
 import com.base.library.entitys.BResponse
 import com.base.library.entitys.response.WanArticle
 import com.base.library.entitys.response.WanChapters
 import com.base.library.entitys.response.WanLogin
 import io.reactivex.rxjava3.core.Observable
 
-class Demo3Repository {
-
-    private val mHttpData = HttpDataSourceImpl.getInstance
-    private val mLocalData = LocalDataSourceImpl.getInstance
+class Demo3Repository : BaseRepository() {
 
     /**
      * 获取首页文章列表
