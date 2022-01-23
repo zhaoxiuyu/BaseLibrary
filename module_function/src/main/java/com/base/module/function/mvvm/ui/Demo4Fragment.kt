@@ -58,30 +58,30 @@ class Demo4Fragment : VMFragment<Demo4ViewModel, FragmentDemo4Binding>() {
 
     override fun registerObserve() {
         // 公众号 文章 列表同步获取
-        viewModel.getParallelLiveData().observe(viewLifecycleOwner, {
+        viewModel.getParallelLiveData().observe(viewLifecycleOwner) {
             LogUtils.d("${it.first.errorCode} = ${it.second.errorCode}")
-        })
+        }
 
         // 登录
-        viewModel.getLoginLiveData().observe(viewLifecycleOwner, {
+        viewModel.getLoginLiveData().observe(viewLifecycleOwner) {
             LogUtils.d("${it.showMsg()}")
             viewBinding.tvInfo.text = "登录状态 ${it.showMsg()}"
-        })
+        }
     }
 
     // 获取缓存
     private fun getCache() {
-        viewModel.getCache("123").observe(viewLifecycleOwner, {
+        viewModel.getCache("123").observe(viewLifecycleOwner) {
             LogUtils.d(it)
-        })
+        }
     }
 
     // 登录 -> 首页banner
     private fun loginBanner(username: String, password: String) {
-        viewModel.getLoginBanner(username, password).observe(viewLifecycleOwner, {
+        viewModel.getLoginBanner(username, password).observe(viewLifecycleOwner) {
             val info = "${it.first.showMsg()} \n ${it.second.showMsg()}"
             viewBinding.tvInfo.text = "登录 -> 首页banner 状态 $info"
-        })
+        }
     }
 
 }

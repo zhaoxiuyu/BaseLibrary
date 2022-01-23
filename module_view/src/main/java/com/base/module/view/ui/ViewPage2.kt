@@ -38,7 +38,7 @@ class ViewPage2 : BActivity() {
         // 模拟拖拽,想前一个页面滑动 -300f
         mBind.butDrag.setOnClickListener {
             mBind.vp2.beginFakeDrag()
-            if (mBind.vp2.fakeDragBy(-300f)!!) {
+            if (mBind.vp2.fakeDragBy(-300f)) {
                 mBind.vp2.endFakeDrag()
             }
         }

@@ -11,11 +11,11 @@ import com.base.library.mvvm.VMFragment
 import com.base.module.function.databinding.FragmentDemo3Binding
 import com.base.module.function.mvvm.viewmodel.Demo3ViewModel
 import com.blankj.utilcode.util.LogUtils
-import com.dylanc.loadinghelper.LoadingHelper
+import com.dylanc.loadingstateview.LoadingStateView
 
 class Demo3Fragment : VMFragment<Demo3ViewModel, FragmentDemo3Binding>() {
 
-    private val loadingHelper by lazy { LoadingHelper(viewBinding.article) }
+    private val loadingHelper by lazy { LoadingStateView(viewBinding.article) }
 
     override fun initArgs(mArguments: Bundle?) {}
 
@@ -65,21 +65,21 @@ class Demo3Fragment : VMFragment<Demo3ViewModel, FragmentDemo3Binding>() {
     }
 
     override fun registerObserve() {
-        viewModel.articleLiveData.observe(viewLifecycleOwner, {
+        viewModel.articleLiveData.observe(viewLifecycleOwner) {
             LogUtils.d(it.errorCode)
-        })
-        viewModel.chaptersLiveData.observe(viewLifecycleOwner, {
+        }
+        viewModel.chaptersLiveData.observe(viewLifecycleOwner) {
             LogUtils.d(it.errorCode)
-        })
-        viewModel.loginLiveData.observe(viewLifecycleOwner, {
+        }
+        viewModel.loginLiveData.observe(viewLifecycleOwner) {
             LogUtils.d(it.errorCode)
-        })
-        viewModel.getCacheLiveData.observe(viewLifecycleOwner, {
+        }
+        viewModel.getCacheLiveData.observe(viewLifecycleOwner) {
             LogUtils.d(it)
-        })
-        viewModel.putCacheLiveData.observe(viewLifecycleOwner, {
+        }
+        viewModel.putCacheLiveData.observe(viewLifecycleOwner) {
             LogUtils.d(it)
-        })
+        }
     }
 
 }

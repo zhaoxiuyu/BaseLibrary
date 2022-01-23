@@ -14,11 +14,15 @@
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
 
-        <activity android:name=".module.common.ui.MainActivity">
+        <activity
+            android:name=".module.common.ui.MainActivity"
+            android:exported="false">
 
         </activity>
 
-        <activity android:name=".module.demos.ui.DemosActivity">
+        <activity
+            android:name=".module.demos.ui.DemosActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
@@ -27,9 +31,15 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.base.module.view.ui.ViewPage2" />
-        <activity android:name="com.base.module.function.mvp.ui.Demo1Activity" />
-        <activity android:name=".module.test.DetailActivity" />
+        <activity
+            android:name="com.base.module.view.ui.ViewPage2"
+            android:exported="false" />
+        <activity
+            android:name="com.base.module.function.mvp.ui.Demo1Activity"
+            android:exported="false" />
+        <activity
+            android:name=".module.test.DetailActivity"
+            android:exported="false" />
 
     </application>
 

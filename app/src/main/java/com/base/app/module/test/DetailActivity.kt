@@ -30,9 +30,9 @@ class DetailActivity : VMActivity<DetailViewModel, DetailsBinding>() {
     override fun initData(savedInstanceState: Bundle?) {
         viewBinding.tv.text = "设置一下内容"
         viewBinding.tv.setOnClickListener {
-            viewModel.getArticle2().observe(this, {
+            viewModel.getArticle2().observe(this) {
                 viewBinding.tv.text = it.showMsg()
-            })
+            }
         }
     }
 

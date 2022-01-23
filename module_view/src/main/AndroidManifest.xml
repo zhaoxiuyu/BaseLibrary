@@ -4,15 +4,25 @@
 
     <application>
 
-        <activity android:name=".ui.ViewPage2" />
+        <activity
+            android:name=".ui.ViewPage2"
+            android:exported="false" />
 
-        <activity android:name=".ui.TabPage2Activity" />
+        <activity
+            android:name=".ui.TabPage2Activity"
+            android:exported="false" />
 
-        <activity android:name=".ui.AnimatedTextViewActivity" />
+        <activity
+            android:name=".ui.AnimatedTextViewActivity"
+            android:exported="false" />
 
-        <activity android:name=".ui.TriangleViewActivity" />
+        <activity
+            android:name=".ui.TriangleViewActivity"
+            android:exported="false" />
 
-        <activity android:name=".ui.MotionLayoutActivity" />
+        <activity
+            android:name=".ui.MotionLayoutActivity"
+            android:exported="false" />
 
     </application>
 

@@ -11,17 +11,16 @@ apply plugin: 'com.alibaba.arouter' // Gradle 插件实现路由表的自动加�
 //apply plugin: 'dagger.hilt.android.plugin' // 依赖注入
 
 android {
-    compileSdkVersion skdVersion.compileSdkVersion //编译时使用 Android版本
-    buildToolsVersion = skdVersion.buildToolsVersion //编译时使用的构建工具的版本
+    compileSdk skdVersion.compileSdk //编译时使用 Android版本
 
     defaultConfig {
+        targetSdk skdVersion.targetSdk //目标版本
+        minSdk skdVersion.minSdk //最低兼容Android版本
+
         // 独立调试才需要这些配置
         if (isModuleUtils.toBoolean()) {
             applicationId "com.base.module.utils"
         }
-
-        targetSdkVersion skdVersion.targetSdkVersion //目标版本
-        minSdkVersion skdVersion.minSdkVersion //最低兼容Android版本
 
         versionCode libVersion.utilsCode
         versionName libVersion.utilsName
@@ -65,7 +64,7 @@ android {
 
     // 启用 viewBinding
     buildFeatures {
-        viewBinding = true
+        viewBinding true
     }
     lintOptions {
         // 发现错误,是否停止构建
@@ -73,8 +72,8 @@ android {
     }
     compileOptions {
         encoding "utf-8"
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
     kotlinOptions {
         jvmTarget = '11'

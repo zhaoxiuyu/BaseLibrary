@@ -3,22 +3,22 @@ package com.base.library.view.loadinghelper
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.base.library.R
-import com.dylanc.loadinghelper.LoadingHelper
+import com.dylanc.loadingstateview.LoadingStateView
 
 /**
  * 加载中的状态布局
  */
-class LoadingHelperAdapter : LoadingHelper.Adapter<LoadingHelper.ViewHolder>() {
+class LoadingHelperAdapter : LoadingStateView.ViewDelegate<LoadingStateView.ViewHolder>() {
 
     override fun onCreateViewHolder(
         inflater: LayoutInflater, parent: ViewGroup
-    ): LoadingHelper.ViewHolder {
-        return LoadingHelper.ViewHolder(
+    ): LoadingStateView.ViewHolder {
+        return LoadingStateView.ViewHolder(
             inflater.inflate(R.layout.layout_loading_helper, parent, false)
         )
     }
 
-    override fun onBindViewHolder(holder: LoadingHelper.ViewHolder) {
+    override fun onBindViewHolder(holder: LoadingStateView.ViewHolder) {
         val lp = holder.rootView.layoutParams
         lp.height = ViewGroup.LayoutParams.MATCH_PARENT
         holder.rootView.layoutParams = lp

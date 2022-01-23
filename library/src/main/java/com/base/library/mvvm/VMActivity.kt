@@ -17,7 +17,7 @@ abstract class VMActivity<VM : BViewModel, VB : ViewBinding> : BActivity() {
     override fun initParadigm() {
         viewBinding = getVbClass()
         viewModel = ViewModelProvider(this)[getVmClass()]
-        viewModel.getUIChangeLiveData().observe(this, { it.handler(this) })
+        viewModel.getUIChangeLiveData().observe(this) { it.handler(this) }
     }
 
     private fun <VM> getVmClass(): VM {

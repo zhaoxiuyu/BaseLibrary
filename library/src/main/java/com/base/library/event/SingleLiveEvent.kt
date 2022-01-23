@@ -25,14 +25,14 @@ class SingleLiveEvent<T> : MutableLiveData<T>() {
             LogUtils.d("已注册多个观察员，但只有一个观察员会收到更改通知.")
         }
 
-        super.observe(owner, { t ->
+        super.observe(owner) { t ->
             /**
              * 如果当前值等于预定值就更新成给定值
              */
             if (mPending.compareAndSet(true, false)) {
                 observer.onChanged(t)
             }
-        })
+        }
     }
 
     @MainThread

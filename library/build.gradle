@@ -22,15 +22,11 @@ afterEvaluate {
 }
 
 android {
-    compileSdkVersion skdVersion.compileSdkVersion //编译时使用 Android版本
-    buildToolsVersion = skdVersion.buildToolsVersion //编译时使用的构建工具的版本
+    compileSdk skdVersion.compileSdk //编译时使用 Android版本
 
     defaultConfig {
-        targetSdkVersion skdVersion.targetSdkVersion //目标版本
-        minSdkVersion skdVersion.minSdkVersion //最低兼容Android版本
-
-        versionCode libVersion.libraryCode
-        versionName libVersion.libraryName
+        targetSdk skdVersion.targetSdk //目标版本
+        minSdk skdVersion.minSdk //最低兼容Android版本
 
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
@@ -79,7 +75,7 @@ android {
 
     // 启用 viewBinding
     buildFeatures {
-        viewBinding = true
+        viewBinding true
     }
     lintOptions {
         // 发现错误,是否停止构建
@@ -87,8 +83,8 @@ android {
     }
     compileOptions {
         encoding "utf-8"
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
     kotlinOptions {
         jvmTarget = '11'
@@ -153,15 +149,15 @@ dependencies {
     api "androidx.lifecycle:lifecycle-service:2.4.0-alpha03"
     api "androidx.lifecycle:lifecycle-process:2.4.0-alpha03"
     // 依赖注入
-//    implementation dependencies.hilt
-//    kapt dependencies.hiltCompiler
+    implementation dependencies.hilt
+    kapt dependencies.hiltCompiler
 
     // sqlite 数据库
     api 'org.litepal.guolindev:core:3.2.3'
     // 工具类 AndroidUtilCode
-    api 'com.blankj:utilcodex:1.30.6'
+    api 'com.blankj:utilcodex:1.31.0'
     // MMKV
-    api 'com.tencent:mmkv-static:1.2.10'
+    api 'com.tencent:mmkv-static:1.2.11'
     // Kotlin
     api 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0'
     api 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0'
@@ -180,8 +176,8 @@ dependencies {
     api 'com.squareup.okhttp3:okhttp:5.0.0-alpha.2'
     api 'io.reactivex.rxjava3:rxjava:3.1.1'
     api 'io.reactivex.rxjava3:rxandroid:3.0.0'
-    api 'com.github.liujingxing.rxhttp:rxhttp:2.7.2'
-    kapt 'com.github.liujingxing.rxhttp:rxhttp-compiler:2.7.2'
+    api 'com.github.liujingxing.rxhttp:rxhttp:2.7.3'
+    kapt 'com.github.liujingxing.rxhttp:rxhttp-compiler:2.7.3'
 
     // 解决RxJava内存泄漏
     api 'com.github.liujingxing.rxlife:rxlife-rxjava3:2.2.1'
@@ -192,6 +188,7 @@ dependencies {
     kapt dependencies.glideCompiler
     api 'com.github.bumptech.glide:okhttp3-integration:4.11.0'
     api 'jp.wasabeef:glide-transformations:4.3.0'
+    api 'jp.co.cyberagent.android:gpuimage:2.1.0'
 
     // 用Coil方式使用Glide
     api 'com.github.forJrking:ImageExt:0.0.4'
@@ -201,7 +198,7 @@ dependencies {
     api 'com.daimajia.androidanimations:library:2.3@aar'
 
     // lottie
-    api 'com.airbnb.android:lottie:4.1.0'
+    api 'com.airbnb.android:lottie:4.2.1'
 
     // RecyclerView 列表动画
     api 'jp.wasabeef:recyclerview-animators:4.0.2'
@@ -213,7 +210,7 @@ dependencies {
     api 'com.google.code.gson:gson:2.8.8'
 
     // 适配器
-    api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.6'
+    api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.7'
 
     // 分割线
     api 'ckrjfrog.FlexItemDecoration:Decoration:1.1.3'
@@ -222,19 +219,19 @@ dependencies {
     api 'io.github.youth5201314:banner:2.2.2'
 
     // 提示框
-    api 'com.github.li-xiaojun:XPopup:2.5.15'
+    api 'com.github.li-xiaojun:XPopup:2.6.7'
 
     // SuperTextView
     api 'com.github.chenBingX:SuperTextView:3.2.5.99'
 
     // RWidgetHelper : 圆角，边框，Gradient背景渐变，控件State各个状态UI样式，阴影，水波纹
-    api 'com.github.RuffianZhong:RWidgetHelper:androidx.v0.0.6'
+    api 'com.github.RuffianZhong:RWidgetHelper:androidx.v0.0.8'
 
     // 侧滑一个就够了
     api 'com.billy.android:smart-swipe-x:1.1.0'
 
     // 沉浸式
-    api 'com.gitee.zackratos:UltimateBarX:0.7.1'
+    api 'com.gitee.zackratos:UltimateBarX:0.8.0'
 
     // 底部导航栏
     api 'com.ashokvarma.android:bottom-navigation-bar:2.2.0'
@@ -248,13 +245,13 @@ dependencies {
 
     // -------------------- 轮子哥的库 --------------------
     // 权限请求
-    api 'com.github.getActivity:XXPermissions:12.2'
+    api 'com.github.getActivity:XXPermissions:13.2'
     // 顶部标题栏
-    api 'com.github.getActivity:TitleBar:9.0'
+    api 'com.github.getActivity:TitleBar:9.2'
     // Gson 解析容错
     api 'com.github.getActivity:GsonFactory:5.2'
     // Shape 框架
-    api 'com.github.getActivity:ShapeView:6.0'
+    api 'com.github.getActivity:ShapeView:6.2'
 
     // 混淆库
     api 'com.github.zhaoxiuyu:Proguards:1.0.5'
@@ -272,17 +269,17 @@ dependencies {
     api 'com.github.xiaoliang0227:TriangleView:1.0.3'
 
     // ViewBindingKTX
-    api 'com.github.DylanCaiCoding.ViewBindingKTX:viewbinding-ktx:1.2.4'
-    api 'com.github.DylanCaiCoding.ViewBindingKTX:viewbinding-nonreflection-ktx:1.2.4'
-    api 'com.github.DylanCaiCoding.ViewBindingKTX:viewbinding-base:1.2.4'
-    api 'com.github.DylanCaiCoding.ViewBindingKTX:viewbinding-brvah:1.2.4'
+    api 'com.github.DylanCaiCoding.ViewBindingKTX:viewbinding-ktx:1.2.5'
+    api 'com.github.DylanCaiCoding.ViewBindingKTX:viewbinding-nonreflection-ktx:1.2.5'
+    api 'com.github.DylanCaiCoding.ViewBindingKTX:viewbinding-base:1.2.5'
+    api 'com.github.DylanCaiCoding.ViewBindingKTX:viewbinding-brvah:1.2.5'
     // 低耦合方式显示程序的全局加载状态视图
-    api 'com.github.DylanCaiCoding:LoadingHelper:2.3.0-alpha'
+    api 'com.github.DylanCaiCoding:LoadingStateView:3.0.1'
     // 更简洁使用 Activity Result API
-    api 'com.github.DylanCaiCoding:ActivityResultLauncher:1.1.1'
+    api 'com.github.DylanCaiCoding:ActivityResultLauncher:1.1.2'
 
     //添加阿里https+dns解析版本
-    api 'cn.yc:WebViewLib:1.4.0'
+//    api 'cn.yc:WebViewLib:1.4.0'
 
     // 悬浮窗
     api 'com.github.princekin-f:EasyFloat:2.0.3'

@@ -13,8 +13,8 @@ import com.base.library.view.loadinghelper.LoadingHelperAdapter
 import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.Utils
 import com.bytedance.boost_multidex.BoostMultiDex
-import com.dylanc.loadinghelper.LoadingHelper
-import com.dylanc.loadinghelper.ViewType
+import com.dylanc.loadingstateview.LoadingStateView
+import com.dylanc.loadingstateview.ViewType
 import com.hjq.gson.factory.GsonFactory
 import com.tamsiree.rxkit.RxTool
 import okhttp3.ConnectionPool
@@ -58,7 +58,7 @@ open class BApplication : MultiDexApplication() {
         LitePal.initialize(this)
 
         // 解耦APP中的状态布局
-        LoadingHelper.setDefaultAdapterPool {
+        LoadingStateView.setViewDelegatePool {
             this.register(ViewType.LOADING, LoadingHelperAdapter())
             this.register(ViewType.ERROR, ErrorHelperAdapter())
             this.register(ViewType.EMPTY, EmptyHelperAdapter())

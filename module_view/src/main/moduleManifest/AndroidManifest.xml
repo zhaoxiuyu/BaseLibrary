@@ -12,7 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ModuleView"
         tools:replace="android:label">
-        <activity android:name=".ViewMainActivity">
+        <activity
+            android:name=".ViewMainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -20,13 +22,21 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.ViewPage2" />
+        <activity
+            android:name=".ui.ViewPage2"
+            android:exported="false" />
 
-        <activity android:name=".ui.TabPage2Activity" />
+        <activity
+            android:name=".ui.TabPage2Activity"
+            android:exported="false" />
 
-        <activity android:name=".ui.AnimatedTextViewActivity" />
+        <activity
+            android:name=".ui.AnimatedTextViewActivity"
+            android:exported="false" />
 
-        <activity android:name=".ui.TriangleViewActivity" />
+        <activity
+            android:name=".ui.TriangleViewActivity"
+            android:exported="false" />
 
     </application>
 

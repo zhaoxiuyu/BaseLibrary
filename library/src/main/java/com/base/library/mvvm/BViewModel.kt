@@ -83,19 +83,14 @@ open class BViewModel : ViewModel(), OnHandleCallback {
     /**
      * 需要加载框和取消加载框的可以使用这个方法
      */
-    fun viewModelScope(method: String = "", block: suspend CoroutineScope.() -> Unit) {
-//        viewModelScope.launch(Dispatchers.Main) {
-//            loadingEvent(method)
-//            block()
-//            dismissEvent(method)
-//        }
+    fun viewModelScopeLoadDisMess(method: String = "", block: suspend CoroutineScope.() -> Unit) {
         viewModelScope(block,
             { messageEvent(method, RxHttpUtils.getThrowableMessage(it)) },
             { loadingEvent(method) },
             { dismissEvent(method) })
     }
 
-    fun viewModelScopeNoError(method: String = "", block: suspend CoroutineScope.() -> Unit) {
+    fun viewModelScopeLoadDis(method: String = "", block: suspend CoroutineScope.() -> Unit) {
         viewModelScope(block, null,
             { loadingEvent(method) },
             { dismissEvent(method) })

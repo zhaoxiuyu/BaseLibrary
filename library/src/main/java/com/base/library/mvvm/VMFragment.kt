@@ -30,7 +30,7 @@ abstract class VMFragment<VM : BViewModel, VB : ViewBinding> : BFragment() {
             viewModel = ViewModelProvider(requireActivity())[getVmClass()]
         } else {
             viewModel = ViewModelProvider(this)[getVmClass()]
-            viewModel.getUIChangeLiveData().observe(viewLifecycleOwner, { it.handler(this) })
+            viewModel.getUIChangeLiveData().observe(viewLifecycleOwner) { it.handler(this) }
         }
     }
 

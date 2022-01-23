@@ -22,6 +22,9 @@ class EventState(private val state: Int) {
             DIALOGLOADING -> callback.loadingEvent(method, msg)
             DIALOGMESSAGE -> callback.messageEvent(method, msg, finish)
             DIALOGDISMISS -> callback.dismissEvent(method)
+            FINISHEVENT -> callback.finishEvent()
+            STARTACTIVITYEVENT -> callback.startActivityEvent()
+            OTHEREVENT -> callback.otherEvent("")
         }
     }
 
@@ -35,6 +38,15 @@ class EventState(private val state: Int) {
 
         // 消除
         const val DIALOGDISMISS: Int = 3
+
+        // 关闭 Activity
+        const val FINISHEVENT: Int = 4
+
+        // 启动 Activity
+        const val STARTACTIVITYEVENT: Int = 5
+
+        // 其他事件
+        const val OTHEREVENT: Int = 6
 
         // 获取状态对象
         fun getStateEntity(

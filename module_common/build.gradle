@@ -7,16 +7,12 @@ plugins {
 }
 
 android {
-    compileSdkVersion skdVersion.compileSdkVersion //编译时使用 Android版本
-    buildToolsVersion = skdVersion.buildToolsVersion //编译时使用的构建工具的版本
+    compileSdk skdVersion.compileSdk //编译时使用 Android版本
 
     defaultConfig {
-//        applicationId "com.base.module.common"
-        targetSdkVersion skdVersion.targetSdkVersion //目标版本
-        minSdkVersion skdVersion.minSdkVersion //最低兼容Android版本
+        targetSdk skdVersion.targetSdk //目标版本
+        minSdk skdVersion.minSdk //最低兼容Android版本
 
-        versionCode libVersion.commonCode
-        versionName libVersion.commonName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     // 路由需要
@@ -46,7 +42,7 @@ android {
 
     // 启用 viewBinding
     buildFeatures {
-        viewBinding = true
+        viewBinding true
     }
     lintOptions {
         // 发现错误,是否停止构建
@@ -54,8 +50,8 @@ android {
     }
     compileOptions {
         encoding "utf-8"
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
     kotlinOptions {
         jvmTarget = '11'

@@ -45,7 +45,7 @@ class Demo4ViewModel : BViewModel() {
             ToastUtils.showShort("请输入密码")
             return
         }
-        viewModelScope(BConstant.login) {
+        viewModelScopeLoadDisMess(BConstant.login) {
             val mLogin = m4Repository.getLogin(username, password)
             if (mLogin.isSuccess()) {
                 loginLiveData.value = mLogin
@@ -80,7 +80,7 @@ class Demo4ViewModel : BViewModel() {
         parallelLiveData
 
     fun getParallel() {
-        viewModelScopeNoError {
+        viewModelScopeLoadDis {
             // 公众号列表
             val chapters = m4Repository.getChapters(this)
 

@@ -10,15 +10,14 @@ plugins {
 
 //配置项目构建的各种属性
 android {
-    compileSdkVersion skdVersion.compileSdkVersion //编译时使用 Android版本
-    buildToolsVersion = skdVersion.buildToolsVersion //编译时使用的构建工具的版本
+    compileSdk skdVersion.compileSdk //编译时使用 Android版本
 
     //默认配置项
     defaultConfig {
-        applicationId "com.base.app" //项目包名
+        targetSdk skdVersion.targetSdk //目标版本
+        minSdk skdVersion.minSdk //最低兼容Android版本
 
-        targetSdkVersion skdVersion.targetSdkVersion //目标版本
-        minSdkVersion skdVersion.minSdkVersion //最低兼容Android版本
+        applicationId "com.base.app" //项目包名
 
         versionCode libVersion.appCode //版本号
         versionName libVersion.appName //版本名
@@ -71,7 +70,7 @@ android {
         config {
             keyAlias "sendinfo"
             keyPassword "sendinfokey"
-            storeFile file("./keystore/androidkey")
+            storeFile file("../keystore/androidkey")
             storePassword "sendinfokey"
             v2SigningEnabled true
         }
@@ -110,8 +109,8 @@ android {
     //Java版本配置
     compileOptions {
         encoding "utf-8"
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
     kotlinOptions {
         jvmTarget = '11'
