@@ -15,13 +15,7 @@
         tools:replace="android:icon">
 
         <activity
-            android:name=".module.common.ui.MainActivity"
-            android:exported="false">
-
-        </activity>
-
-        <activity
-            android:name=".module.demos.ui.DemosActivity"
+            android:name=".sample.DemosActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,13 +26,31 @@
         </activity>
 
         <activity
-            android:name="com.base.module.view.ui.ViewPage2"
+            android:name=".sample.mvp.activity.Demo1Activity"
             android:exported="false" />
+
         <activity
-            android:name="com.base.module.function.mvp.ui.Demo1Activity"
+            android:name=".sample.views.activity.AnimatedTextViewActivity"
             android:exported="false" />
+
         <activity
-            android:name=".module.test.DetailActivity"
+            android:name=".sample.views.activity.MotionLayoutActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".sample.views.activity.TriangleViewActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".sample.views.activity.ViewPage2Activity"
+            android:exported="false" />
+
+        <activity
+            android:name=".sample.views.activity.ViewPage2TabActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".sample.mvi.activity.Demo5Activity"
             android:exported="false" />
 
     </application>

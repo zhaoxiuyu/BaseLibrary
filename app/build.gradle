@@ -142,11 +142,6 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.3.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
-    implementation(project(':module_common'))
-    if (!isModuleFunction.toBoolean()) implementation(project(':module_function'))
-    if (!isModuleUtils.toBoolean()) implementation(project(':module_utils'))
-    if (!isModuleView.toBoolean()) implementation(project(':module_view'))
-
     if (useLocalDependencies()) {
         implementation(project(':library'))
     } else {

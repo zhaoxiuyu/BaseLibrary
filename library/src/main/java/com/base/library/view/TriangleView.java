@@ -14,6 +14,7 @@ import androidx.core.content.ContextCompat;
 import com.base.library.R;
 import com.blankj.utilcode.util.ConvertUtils;
 
+// 三角形
 public class TriangleView extends View {
     private static final int TOP = 0;
     private static final int BOTTOM = 1;

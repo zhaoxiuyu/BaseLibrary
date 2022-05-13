@@ -7,7 +7,6 @@ import android.os.Looper
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.base.library.interfaces.MyXPopListener
-import com.base.library.mvvm.OnHandleCallback
 import com.base.library.util.ScreenUtils
 import com.blankj.utilcode.util.AdaptScreenUtils
 import com.lxj.xpopup.XPopup
@@ -15,11 +14,7 @@ import com.lxj.xpopup.core.BasePopupView
 import com.lxj.xpopup.interfaces.XPopupCallback
 import com.zackratos.ultimatebarx.ultimatebarx.java.UltimateBarX
 
-/**
- *
- */
-abstract class BActivity : AppCompatActivity(), OnHandleCallback {
-
+abstract class BActivity : AppCompatActivity() {
     abstract fun initArgs(mIntent: Intent?)
     abstract fun initView()
     abstract fun initData(savedInstanceState: Bundle?)
@@ -32,7 +27,6 @@ abstract class BActivity : AppCompatActivity(), OnHandleCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initParadigm()
         initArgs(intent)
         registerObserve()
         initView()
@@ -45,12 +39,6 @@ abstract class BActivity : AppCompatActivity(), OnHandleCallback {
             initData(savedInstanceState)
             false
         }
-    }
-
-    /**
-     * 该方法在onCreate时调用,子类实现这个方法进行一些初始化的操作
-     */
-    open fun initParadigm() {
     }
 
     /**
@@ -114,38 +102,15 @@ abstract class BActivity : AppCompatActivity(), OnHandleCallback {
         cancelLi: MyXPopListener? = null,
         isHideCancel: Boolean = true,
         callback: XPopupCallback? = null
-    ) {
-        XPopup.Builder(this).setPopupCallback(callback)
+    ): BasePopupView {
+        return XPopup.Builder(this).setPopupCallback(callback)
             .dismissOnBackPressed(false)
             .dismissOnTouchOutside(false)
             .asConfirm(title, content, cancelTx, confirmTx, confirmLi, cancelLi, isHideCancel)
             .show()
     }
 
-//    // 提供一个接口,关闭 Dialog 的同时是否关闭页面
-//    fun getDismissFinish(isFinish: Boolean, runnable: Runnable? = null) = object : MyXPopListener {
-//        override fun onDis() {
-//            dismissDialog(isFinish, runnable)
-//        }
-//    }
-//
-//    // 关闭 Dialog
-//    fun dismissDialog(isFinish: Boolean = false, runnable: Runnable? = null) {
-//        xPopup?.dismissWith {
-//            runnable?.run()
-//            if (isFinish) finish()
-//        }
-//    }
-
-    override fun loadingEvent(method: String, msg: String) {
-        dismissEvent()
-        loadingPopup = XPopup.Builder(this)
-            .dismissOnBackPressed(false)
-            .dismissOnTouchOutside(false)
-            .asLoading(msg).show()
-    }
-
-    override fun messageEvent(method: String, msg: String, finish: Boolean) {
+    fun showMessage(msg: String, finish: Boolean = false) {
         showDialog(content = msg, confirmLi = object : MyXPopListener {
             override fun onDis() {
                 if (finish) finish()
@@ -153,29 +118,25 @@ abstract class BActivity : AppCompatActivity(), OnHandleCallback {
         })
     }
 
-    override fun dismissEvent(method: String) {
+    fun showLoading(msg: String = "请稍后") {
+        if (loadingPopup?.isDismiss != false) {
+            loadingPopup = XPopup.Builder(this)
+                .dismissOnBackPressed(false)
+                .dismissOnTouchOutside(false)
+                .asLoading(msg).show()
+        }
+    }
+
+    fun dismissLoading() {
         loadingPopup?.dismiss()
         loadingPopup = null
-    }
-
-    override fun finishEvent() {
-        finish()
-    }
-
-    override fun startActivityEvent() {
-
-    }
-
-    override fun otherEvent(content: String) {
-
     }
 
     /**
      * --------------------- 结束,清理
      */
     override fun onDestroy() {
-        loadingPopup?.dismiss()
-//        dismissDialog(false)
+        dismissLoading()
         super.onDestroy()
     }
 

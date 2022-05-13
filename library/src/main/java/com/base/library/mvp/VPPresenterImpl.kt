@@ -2,9 +2,7 @@ package com.base.library.mvp
 
 import android.util.Log
 import androidx.lifecycle.LifecycleOwner
-import com.base.library.data.http.HttpDataSourceImpl
-import com.base.library.data.local.LocalDataSourceImpl
-import com.base.library.mvvm.OnHandleCallback
+import com.base.library.data.BaseRepository
 import com.blankj.utilcode.util.LogUtils
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
@@ -18,11 +16,10 @@ import io.reactivex.rxjava3.schedulers.Schedulers
  * 作用：P层的基础实现类
  * 实现了网络请求 返回 取消等处理
  */
-open class VPPresenterImpl<T : OnHandleCallback?>(var mView: T?) : VPPresenter {
+open class VPPresenterImpl<T : VPView?>(var mView: T?) : VPPresenter {
 //    open class VPPresenterImpl<T : VPView?>(var mView: T?) : VPPresenter, VPCallback, MyLifecycle {
 
-    val mHttpData = HttpDataSourceImpl.getInstance
-    private val mLocalData = LocalDataSourceImpl.getInstance
+    private val mLocalData by lazy { BaseRepository() }
 
     private var compositeDisposable: CompositeDisposable? = null
 

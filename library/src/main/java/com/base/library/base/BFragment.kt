@@ -6,22 +6,21 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.base.library.interfaces.MyXPopListener
-import com.base.library.mvvm.OnHandleCallback
 import com.base.library.util.ScreenUtils
 import com.lxj.xpopup.XPopup
 import com.lxj.xpopup.core.BasePopupView
 import com.lxj.xpopup.interfaces.XPopupCallback
 import com.zackratos.ultimatebarx.ultimatebarx.java.UltimateBarX
 
-abstract class BFragment : Fragment(), OnHandleCallback {
-
+abstract class BFragment : Fragment() {
+    //    , OnHandleCallback
+    abstract fun initViewBinding(inflater: LayoutInflater, container: ViewGroup?, mBundle: Bundle?)
     abstract fun initArgs(mArguments: Bundle?)
     abstract fun initView()
     abstract fun initData(savedInstanceState: Bundle?)
     abstract fun registerObserve()
 
-    // 根View
-    private var bRootView: View? = null
+    private var mRootView: View? = null
 
     // 是否使用沉浸式
     private var immersion = true
@@ -39,15 +38,11 @@ abstract class BFragment : Fragment(), OnHandleCallback {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        initParadigm()
+        initViewBinding(inflater, container, savedInstanceState)
         initArgs(arguments)
         registerObserve()
         initView()
-        return bRootView
-    }
-
-    open fun initParadigm() {
-
+        return mRootView
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -58,12 +53,11 @@ abstract class BFragment : Fragment(), OnHandleCallback {
         topPadding?.let {
             addStatusBarTopPadding(topPadding)
         }
-
         initData(savedInstanceState)
     }
 
     fun setContentView(rootView: View, immersion: Boolean = true, topPadding: View? = null) {
-        this.bRootView = rootView
+        this.mRootView = rootView
         this.immersion = immersion
         this.topPadding = topPadding
     }
@@ -90,47 +84,22 @@ abstract class BFragment : Fragment(), OnHandleCallback {
      */
     fun showDialog(
         title: String? = "提示",
-        content: String? = "",
+        content: String? = "暂无内容",
         cancelTx: String? = "取消",
         confirmTx: String? = "确定",
         confirmLi: MyXPopListener? = null,
         cancelLi: MyXPopListener? = null,
         isHideCancel: Boolean = true,
         callback: XPopupCallback? = null
-    ) {
-        XPopup.Builder(activity).setPopupCallback(callback)
-            .dismissOnBackPressed(false).dismissOnTouchOutside(false)
+    ): BasePopupView {
+        return XPopup.Builder(activity).setPopupCallback(callback)
+            .dismissOnBackPressed(false)
+            .dismissOnTouchOutside(false)
             .asConfirm(title, content, cancelTx, confirmTx, confirmLi, cancelLi, isHideCancel)
             .show()
     }
 
-//    // 提供一个接口,关闭 Dialog 的同时是否关闭页面
-//    fun getDismissFinish(isFinish: Boolean = false, runnable: Runnable? = null): MyXPopListener =
-//        object : MyXPopListener {
-//            override fun onDis() {
-//                dismissDialog(isFinish, runnable)
-//            }
-//        }
-//
-//    // 关闭 Dialog
-//    fun dismissDialog(isFinish: Boolean = false, runnable: Runnable? = null) {
-//        xPopup?.dismissWith {
-//            runnable?.run()
-//            if (isFinish) {
-//                activity?.finish()
-//            }
-//        }
-//    }
-
-    override fun loadingEvent(method: String, msg: String) {
-        dismissEvent()
-        loadingPopup = XPopup.Builder(activity)
-            .dismissOnBackPressed(false)
-            .dismissOnTouchOutside(false)
-            .asLoading(msg).show()
-    }
-
-    override fun messageEvent(method: String, msg: String, finish: Boolean) {
+    fun showMessage(msg: String, finish: Boolean = false) {
         showDialog(content = msg, confirmLi = object : MyXPopListener {
             override fun onDis() {
                 if (finish) activity?.finish()
@@ -138,29 +107,23 @@ abstract class BFragment : Fragment(), OnHandleCallback {
         })
     }
 
-    override fun dismissEvent(method: String) {
+    fun showLoading(msg: String = "请稍后") {
+        if (loadingPopup?.isDismiss != false) {
+            loadingPopup = XPopup.Builder(activity)
+                .dismissOnBackPressed(false)
+                .dismissOnTouchOutside(false)
+                .asLoading(msg).show()
+        }
+    }
+
+    fun dismissLoading() {
         loadingPopup?.dismiss()
         loadingPopup = null
     }
 
-    override fun finishEvent() {
-        activity?.finish()
-    }
-
-    override fun startActivityEvent() {
-    }
-
-    override fun otherEvent(content: String) {
-    }
-
-    /**
-     * ------------- 清理 -------------
-     */
     override fun onDestroyView() {
+        dismissLoading()
         super.onDestroyView()
-        if (bRootView?.parent != null) {
-            (bRootView?.parent as ViewGroup).removeView(bRootView)
-        }
     }
 
 }

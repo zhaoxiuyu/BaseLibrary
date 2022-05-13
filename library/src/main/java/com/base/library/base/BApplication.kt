@@ -4,8 +4,6 @@ import android.content.Context
 import androidx.multidex.MultiDexApplication
 import com.alibaba.android.arouter.launcher.ARouter
 import com.base.library.BuildConfig
-import com.base.library.rxhttp.RxHttpDecoder
-import com.base.library.rxhttp.RxHttpParamAssembly
 import com.base.library.util.CockroachUtil
 import com.base.library.view.loadinghelper.EmptyHelperAdapter
 import com.base.library.view.loadinghelper.ErrorHelperAdapter
@@ -15,21 +13,7 @@ import com.blankj.utilcode.util.Utils
 import com.bytedance.boost_multidex.BoostMultiDex
 import com.dylanc.loadingstateview.LoadingStateView
 import com.dylanc.loadingstateview.ViewType
-import com.hjq.gson.factory.GsonFactory
-import com.tamsiree.rxkit.RxTool
-import okhttp3.ConnectionPool
-import okhttp3.OkHttpClient
 import org.litepal.LitePal
-import rxhttp.RxHttpPlugins
-import rxhttp.wrapper.cahce.CacheMode
-import rxhttp.wrapper.callback.Function
-import rxhttp.wrapper.callback.IConverter
-import rxhttp.wrapper.converter.GsonConverter
-import rxhttp.wrapper.cookie.CookieStore
-import rxhttp.wrapper.param.Param
-import rxhttp.wrapper.ssl.HttpsUtils
-import java.io.File
-import java.util.concurrent.TimeUnit
 
 /**
  * 作用: 程序的入口
@@ -44,15 +28,14 @@ open class BApplication : MultiDexApplication() {
 
     fun initMethod() {
 
-        if (BuildConfig.DEBUG) {
-//            CrashUtils.init { LogUtils.e(it) } // 可以弹出错误提示框
-        } else {
+//        if (BuildConfig.DEBUG) {
+////            CrashUtils.init { LogUtils.e(it) } // 可以弹出错误提示框
+//        } else {
             initCockroach()
-        }
+//        }
 
         // 工具类
         initUtilcode()
-        initRxTool()
 
         // 数据库
         LitePal.initialize(this)
@@ -70,9 +53,6 @@ open class BApplication : MultiDexApplication() {
         }
         ARouter.init(this) // 尽可能早，推荐在Application中初始化
 
-        // 网络请求
-        initRxHttp()
-
     }
 
     /**
@@ -87,78 +67,6 @@ open class BApplication : MultiDexApplication() {
             .setFilePrefix("AndroidUtilCode") // Log 文件前缀
             .setBorderSwitch(BuildConfig.DEBUG)//边框开关
             .stackDeep = 1 //栈深度
-    }
-
-    /**
-     * 初始化RxTool
-     */
-    open fun initRxTool() {
-        RxTool.init(this)
-    }
-
-    /**
-     * 初始化R下Http
-     */
-    open fun initRxHttp() {
-        // 目录为 Android/data/{app包名目录}/cache/RxHttpCache
-        val cacheDir = File(Utils.getApp().externalCacheDir, "RxHttpCache")
-
-        RxHttpPlugins.init(getOkHttpClient())
-            .setDebug(BuildConfig.DEBUG, false)
-            .setCache(cacheDir, maxSize(), CacheMode.ONLY_NETWORK, -1)
-            //设置一些key，不参与cacheKey的组拼
-//            .setExcludeCacheKeys()
-            .setResultDecoder(getResultDecoder())
-            //设置全局的转换器
-            .setConverter(getConverter())
-            // 为所有的请求添加公共参数/请求头
-            .setOnParamAssembly(getOnParamAssembly())
-    }
-
-    /**
-     * OkHttpClient
-     */
-    open fun getOkHttpClient(): OkHttpClient {
-        val sslParams = HttpsUtils.getSslSocketFactory()
-        return OkHttpClient.Builder()
-            .cookieJar(CookieStore())
-            .connectTimeout(10, TimeUnit.SECONDS)
-            .readTimeout(10, TimeUnit.SECONDS)
-            .writeTimeout(10, TimeUnit.SECONDS)
-            // 最大连接数，超时时间，时间单位。
-            .connectionPool(ConnectionPool(5, 10, TimeUnit.MINUTES))
-            .sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager) // 添加信任证书
-            .hostnameVerifier { _, _ -> true } // 忽略 host 验证
-            .build()
-    }
-
-    /**
-     * 默认最大缓存的大小为10M
-     */
-    open fun maxSize(): Long {
-        return 10 * 1024 * 1024
-    }
-
-    /**
-     * 设置数据解密/解码器
-     */
-    open fun getResultDecoder(): Function<String, String> {
-        return RxHttpDecoder()
-    }
-
-    /**
-     * 为所有的请求添加公共参数/请求头
-     */
-    open fun getOnParamAssembly(): Function<Param<*>, Param<*>> {
-        return RxHttpParamAssembly()
-    }
-
-    /**
-     * 设置全局的转换器
-     * 这里的 gson 实体对象使用GsonFactory,因为里面的容错机制比较完善
-     */
-    open fun getConverter(): IConverter {
-        return GsonConverter.create(GsonFactory.getSingletonGson())
     }
 
     /**

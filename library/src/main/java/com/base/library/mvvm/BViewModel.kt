@@ -2,9 +2,8 @@ package com.base.library.mvvm
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.base.library.event.EventState
-import com.base.library.event.SingleLiveEvent
-import com.base.library.util.RxHttpUtils
+import com.kunminx.architecture.ui.callback.ProtectedUnPeekLiveData
+import com.kunminx.architecture.ui.callback.UnPeekLiveData
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.ObservableTransformer
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -17,40 +16,31 @@ import kotlinx.coroutines.launch
 /**
  * 作用：基础的 ViewModel 类，封装了网络请求 返回 取消等处理
  */
-open class BViewModel : ViewModel(), OnHandleCallback {
-
-    /**
-     * 操作状态通知
-     */
-    private val uiChangeLiveData by lazy { SingleLiveEvent<EventState>() }
-
-    //    private val uiChangeLiveData by lazy { MutableLiveData<EventState>() }
-    fun getUIChangeLiveData() = uiChangeLiveData
+open class BViewModel : ViewModel() {
 
     private var mDisposables: CompositeDisposable? = null
 
-    override fun loadingEvent(method: String, msg: String) {
-        getUIChangeLiveData().value =
-            EventState.getStateEntity(method, msg, EventState.DIALOGLOADING)
+    private val _uiChangeState = UnPeekLiveData.Builder<UiChangeState>().create()
+    val uiChangeState: ProtectedUnPeekLiveData<UiChangeState> get() = _uiChangeState
+
+    private fun changeState(state: UiChangeState) {
+        _uiChangeState.value = state
     }
 
-    override fun messageEvent(method: String, msg: String, finish: Boolean) {
-        getUIChangeLiveData().value =
-            EventState.getStateEntity(method, msg, EventState.DIALOGMESSAGE, finish)
+    fun changeStateLoading(msg: String = "请稍候") {
+        changeState(UiChangeState.Loading(msg))
     }
 
-    override fun dismissEvent(method: String) {
-        getUIChangeLiveData().value =
-            EventState.getStateEntity(method, state = EventState.DIALOGDISMISS)
+    fun changeStateSuccess(msg: String = "") {
+        changeState(UiChangeState.Success(msg))
     }
 
-    override fun finishEvent() {
+    fun changeStateFail(msg: String = "") {
+        changeState(UiChangeState.Fail(msg))
     }
 
-    override fun startActivityEvent() {
-    }
-
-    override fun otherEvent(content: String) {
+    fun changeStateMessage(msg: String) {
+        changeState(UiChangeState.Message(msg))
     }
 
     /**
@@ -60,40 +50,6 @@ open class BViewModel : ViewModel(), OnHandleCallback {
         return ObservableTransformer {
             it.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
         }
-    }
-
-    /**
-     * 变换 IO线程 -> Main线程
-     */
-    protected fun <T> transformerEvent(method: String = ""): ObservableTransformer<T, T> {
-        return ObservableTransformer {
-            it.doOnSubscribe { loadingEvent(method) }.doFinally { dismissEvent(method) }
-        }
-    }
-
-    /**
-     * 变换 IO线程 -> Main线程
-     */
-    protected fun <T> transformer(method: String = ""): ObservableTransformer<T, T> {
-        return ObservableTransformer {
-            it.compose(transformerThread()).compose(transformerEvent(method))
-        }
-    }
-
-    /**
-     * 需要加载框和取消加载框的可以使用这个方法
-     */
-    fun viewModelScopeLoadDisMess(method: String = "", block: suspend CoroutineScope.() -> Unit) {
-        viewModelScope(block,
-            { messageEvent(method, RxHttpUtils.getThrowableMessage(it)) },
-            { loadingEvent(method) },
-            { dismissEvent(method) })
-    }
-
-    fun viewModelScopeLoadDis(method: String = "", block: suspend CoroutineScope.() -> Unit) {
-        viewModelScope(block, null,
-            { loadingEvent(method) },
-            { dismissEvent(method) })
     }
 
     fun viewModelScope(
