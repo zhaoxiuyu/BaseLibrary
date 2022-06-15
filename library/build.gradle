@@ -163,8 +163,8 @@ dependencies {
     // MMKV
     api 'com.tencent:mmkv-static:1.2.13'
     // Kotlin
-    api 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1'
-    api 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1'
+    api 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.2'
+    api 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.2'
 
     // 智能刷新框架：分包之后不会有默认的Header和Footer需要手动添加！还是原来的三种方法！
     api 'io.github.scwang90:refresh-layout-kernel:2.0.5'      //核心必须依赖
