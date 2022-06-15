@@ -91,10 +91,10 @@ android {
         targetCompatibility JavaVersion.VERSION_11
     }
 
-    kotlinOptions {
-        jvmTarget = '11'
-        useIR = true
-    }
+//    kotlinOptions {
+//        jvmTarget = '11'
+//        useIR = true
+//    }
 
 }
 
@@ -113,7 +113,7 @@ dependencies {
     // 多 dex
     api 'androidx.multidex:multidex:2.0.1'
     // design
-    api 'com.google.android.material:material:1.4.0'
+    api 'com.google.android.material:material:1.6.1'
     // 矢量
     api 'androidx.vectordrawable:vectordrawable:1.1.0'
     api "androidx.vectordrawable:vectordrawable-seekable:1.0.0-alpha02"
@@ -143,18 +143,18 @@ dependencies {
     api "androidx.annotation:annotation:1.4.0-alpha02"
 
     // 生命周期管理相关
-    api "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.0-beta01"
+    api "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.0-rc01"
     api "androidx.lifecycle:lifecycle-livedata-ktx:2.5.0-beta01"
     api "androidx.lifecycle:lifecycle-runtime-ktx:2.5.0-beta01"
-    api "androidx.lifecycle:lifecycle-viewmodel-savedstate:2.5.0-beta01"
+    api "androidx.lifecycle:lifecycle-viewmodel-savedstate:2.5.0-rc01"
     // kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
     // 不使用compiler注解,使用java8,直接实现这个接口即可DefaultLifecycleObserver
-    api "androidx.lifecycle:lifecycle-common-java8:2.5.0-beta01"
+    api "androidx.lifecycle:lifecycle-common-java8:2.5.0-rc01"
     api "androidx.lifecycle:lifecycle-service:2.5.0-beta01"
     api "androidx.lifecycle:lifecycle-process:2.5.0-beta01"
     // 依赖注入
-    implementation dependencies.hilt
-    kapt dependencies.hiltCompiler
+    implementation 'com.google.dagger:hilt-android:2.42'
+    kapt 'com.google.dagger:hilt-android-compiler:2.42'
 
     // sqlite 数据库
     api 'org.litepal.guolindev:core:3.2.3'
@@ -192,7 +192,7 @@ dependencies {
     // 图片
     api 'com.github.bumptech.glide:glide:4.13.2'
     // Kotlin中使用了Glide注解
-    kapt dependencies.glideCompiler
+    kapt 'com.github.bumptech.glide:compiler:4.12.0'
     api 'com.github.bumptech.glide:okhttp3-integration:4.11.0'
     api 'jp.wasabeef:glide-transformations:4.3.0'
     api 'jp.co.cyberagent.android:gpuimage:2.1.0'
@@ -265,17 +265,17 @@ dependencies {
     // 混淆库
     api 'com.github.zhaoxiuyu:Proguards:1.0.5'
 
-    // 路由
-    api 'com.alibaba:arouter-api:1.5.2'
-    kapt dependencies.arouterCompiler
-
-    //字节跳动启动优化
+    // 字节跳动启动优化
     api 'com.bytedance.boost_multidex:boost_multidex:1.0.1'
 
     api 'me.weishu:free_reflection:3.0.1'
 
-    //三角角标控件
+    // 三角角标控件
     api 'com.github.xiaoliang0227:TriangleView:1.0.3'
+
+    // 路由
+    api 'com.alibaba:arouter-api:1.5.2'
+    kapt 'com.alibaba:arouter-compiler:1.5.2'
 
     // ViewBindingKTX
     api 'com.github.DylanCaiCoding.ViewBindingKTX:viewbinding-ktx:2.0.5'
