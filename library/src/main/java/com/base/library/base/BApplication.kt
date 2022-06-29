@@ -5,14 +5,13 @@ import androidx.multidex.MultiDexApplication
 import com.alibaba.android.arouter.launcher.ARouter
 import com.base.library.BuildConfig
 import com.base.library.util.CockroachUtil
-import com.base.library.view.loadinghelper.EmptyHelperAdapter
-import com.base.library.view.loadinghelper.ErrorHelperAdapter
-import com.base.library.view.loadinghelper.LoadingHelperAdapter
+import com.base.library.view.loadingstateview.EmptyViewDelegate
+import com.base.library.view.loadingstateview.ErrorViewDelegate
+import com.base.library.view.loadingstateview.LoadingViewDelegate
 import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.Utils
 import com.bytedance.boost_multidex.BoostMultiDex
 import com.dylanc.loadingstateview.LoadingStateView
-import com.dylanc.loadingstateview.ViewType
 import org.litepal.LitePal
 
 /**
@@ -31,7 +30,7 @@ open class BApplication : MultiDexApplication() {
 //        if (BuildConfig.DEBUG) {
 ////            CrashUtils.init { LogUtils.e(it) } // 可以弹出错误提示框
 //        } else {
-            initCockroach()
+        initCockroach()
 //        }
 
         // 工具类
@@ -40,11 +39,9 @@ open class BApplication : MultiDexApplication() {
         // 数据库
         LitePal.initialize(this)
 
-        // 解耦APP中的状态布局
+//      解耦APP中的状态布局
         LoadingStateView.setViewDelegatePool {
-            this.register(ViewType.LOADING, LoadingHelperAdapter())
-            this.register(ViewType.ERROR, ErrorHelperAdapter())
-            this.register(ViewType.EMPTY, EmptyHelperAdapter())
+            register(LoadingViewDelegate(), ErrorViewDelegate(), EmptyViewDelegate())
         }
 
         if (BuildConfig.DEBUG) { // 这两行必须写在init之前，否则这些配置在init过程中将无效

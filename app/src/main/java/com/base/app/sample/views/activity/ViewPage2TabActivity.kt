@@ -21,7 +21,7 @@ class ViewPage2TabActivity : VMActivity<ActivityViewpage2TabBinding>() {
     override fun initArgs(mIntent: Intent?) {}
 
     override fun initView() {
-        setContentView(viewBinding.root)
+        setContentViewBar(viewBinding.root)
     }
 
     override fun initData(savedInstanceState: Bundle?) {

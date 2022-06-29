@@ -29,7 +29,7 @@ class Demo5Activity : VMActivity<ActivityDemo5Binding>(), MavericksView {
     }
 
     override fun initView() {
-        setContentViewBar(viewBinding.root, topPadding = viewBinding.root)
+        setContentViewBar(viewBinding.root)
     }
 
     override fun initData(savedInstanceState: Bundle?) {

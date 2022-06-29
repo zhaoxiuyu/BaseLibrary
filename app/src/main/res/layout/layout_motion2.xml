@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="MotionLayout的动作" />
+
+    <androidx.constraintlayout.motion.widget.MotionLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        app:layoutDescription="@xml/scene_scroll_13">
+
+        <ImageView
+            android:id="@+id/iv_img"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:contentDescription="我是测试的图片"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/ic_launcher" />
+
+        <TextView
+            android:id="@+id/tv_message"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="#ccc"
+            android:gravity="center"
+            android:text="我是测试的分割线"
+            tools:layout_editor_absoluteY="150dp" />
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/nestedScroll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/nestedScrollLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="scroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_contentscroll_content" />
+
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.constraintlayout.motion.widget.MotionLayout>
+
+</LinearLayout>

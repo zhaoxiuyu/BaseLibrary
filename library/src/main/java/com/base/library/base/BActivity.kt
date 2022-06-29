@@ -7,11 +7,11 @@ import android.os.Looper
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.base.library.interfaces.MyXPopListener
-import com.base.library.util.ScreenUtils
 import com.blankj.utilcode.util.AdaptScreenUtils
 import com.lxj.xpopup.XPopup
 import com.lxj.xpopup.core.BasePopupView
 import com.lxj.xpopup.interfaces.XPopupCallback
+import com.zackratos.ultimatebarx.ultimatebarx.addStatusBarTopPadding
 import com.zackratos.ultimatebarx.ultimatebarx.java.UltimateBarX
 
 abstract class BActivity : AppCompatActivity() {
@@ -29,6 +29,7 @@ abstract class BActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         initArgs(intent)
         registerObserve()
+        setUltimateBarX()
         initView()
         // window.decorView 获取到DecorView后,调用post方法,此时DecorView的attachInfo为空,
         // 会将这个Runnable放置runQueue中。runQueue内的任务会在ViewRootImpl.performTraversals的开始阶段被依次取出执行,
@@ -44,20 +45,12 @@ abstract class BActivity : AppCompatActivity() {
     /**
      * 给 ContentView 的外面添加一个 通用的顶部导航栏
      */
-    fun setContentViewBar(rootView: View, immersion: Boolean = true, topPadding: View? = null) {
-        setContentView(rootView)
-
-        if (immersion) {
-            immersionBar()
-        }
-
-        // 给根布局添加一个状态栏高度的 padding
-        topPadding?.let {
-            addStatusBarTopPadding(topPadding)
-        }
+    fun setContentViewBar(contentView: View, topPadding: View? = null) {
+        setContentView(contentView)
+        addStatusBarTopPadding(topPadding?.let { topPadding } ?: let { contentView })
     }
 
-    fun immersionBar() {
+    fun setUltimateBarX() {
         UltimateBarX
             .statusBar(this)
             // 布局是否侵入状态栏
@@ -71,8 +64,12 @@ abstract class BActivity : AppCompatActivity() {
             .apply()
     }
 
-    fun addStatusBarTopPadding(topPadding: View? = null) {
-        ScreenUtils.addStatusBarTopPadding(topPadding)
+    /**
+     *  给 view 添加一个状态栏高度的 padding
+     */
+    fun addStatusBarTopPadding(barTopPadding: View? = null) {
+//        ScreenUtils.addStatusBarTopPadding(topPadding)
+        barTopPadding?.addStatusBarTopPadding()
     }
 
     /**

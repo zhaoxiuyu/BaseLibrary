@@ -13,7 +13,7 @@ class FunctionFragment : VMFragment<FragmentFunctionBinding>() {
     }
 
     override fun initView() {
-        setContentView(viewBinding.root, false)
+        setContentView(viewBinding.root)
     }
 
     override fun initData(savedInstanceState: Bundle?) {

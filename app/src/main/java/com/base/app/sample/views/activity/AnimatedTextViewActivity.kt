@@ -12,8 +12,7 @@ class AnimatedTextViewActivity : VMActivity<ActivityAnimatedTextviewBinding>() {
     }
 
     override fun initView() {
-        immersionBar()
-        addStatusBarTopPadding(viewBinding.root)
+        setContentViewBar(viewBinding.root)
         viewBinding.mAnimatedTextView.setOnClickListener {
             viewBinding.mAnimatedTextView.startAnimation()
         }

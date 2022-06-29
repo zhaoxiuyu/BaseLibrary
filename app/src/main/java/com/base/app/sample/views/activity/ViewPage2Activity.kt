@@ -29,7 +29,7 @@ class ViewPage2Activity : VMActivity<ActivityViewpage2Binding>() {
     override fun initArgs(mIntent: Intent?) {}
 
     override fun initView() {
-        setContentView(viewBinding.root)
+        setContentViewBar(viewBinding.root)
 
         viewBinding.butVertical.setOnClickListener {
             viewBinding.vp2.orientation = ViewPager2.ORIENTATION_VERTICAL

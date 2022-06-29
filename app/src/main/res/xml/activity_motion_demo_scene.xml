@@ -17,6 +17,8 @@
             motion:touchAnchorId="@id/v_demo"
             motion:touchAnchorSide="bottom" />
 
+        <OnClick app:targetId="@id/v_gz" />
+
         <!--
          描述一系列运动过程中的关键帧
          -->
@@ -40,6 +42,16 @@
                 motion:percentX="0.5"
                 motion:percentY="0.7" />
 
+            <KeyTrigger
+                motion:framePosition="50"
+                motion:motionTarget="@id/v_gz"
+                motion:onCross="toggle" />
+
+            <KeyCycle
+                android:translationY="50dp"
+                motion:motionTarget="@id/v_like"
+                motion:wavePeriod="1"
+                motion:waveShape="sin" />
             <!--
              这里对同一个view用来两个KeyAttribute是因为需要在30-60这个中间位置保持透明度不变
              KeyAttribute还支持visibility、rotation、scale等控件基本属性

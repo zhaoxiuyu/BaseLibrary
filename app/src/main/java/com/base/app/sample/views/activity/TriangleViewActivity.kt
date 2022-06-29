@@ -12,8 +12,7 @@ class TriangleViewActivity : VMActivity<ActivityTriangleViewBinding>() {
     }
 
     override fun initView() {
-        immersionBar()
-        addStatusBarTopPadding(viewBinding.root)
+        setContentViewBar(viewBinding.root)
     }
 
     override fun initData(savedInstanceState: Bundle?) {

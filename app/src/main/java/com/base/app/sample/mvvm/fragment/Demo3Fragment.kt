@@ -13,17 +13,21 @@ import com.base.app.databinding.FragmentDemo3Binding
 import com.base.app.sample.mvvm.viewmodel.Demo3ViewModel
 import com.base.library.mvvm.UiChangeState
 import com.base.library.mvvm.VMFragment
+import com.base.library.view.loadingstateview.LoadingViewDelegate
 import com.blankj.utilcode.util.LogUtils
 import com.dylanc.loadingstateview.LoadingStateView
+import com.dylanc.loadingstateview.OnReloadListener
+import com.dylanc.loadingstateview.ViewType
 import com.hjq.bar.OnTitleBarListener
 import com.hjq.bar.TitleBar
 import kotlinx.coroutines.launch
 
-class Demo3Fragment : VMFragment<FragmentDemo3Binding>() {
+class Demo3Fragment : VMFragment<FragmentDemo3Binding>(), OnReloadListener {
 
     private val viewModel: Demo3ViewModel by viewModels()
 
-    private val loadingHelper by lazy { LoadingStateView(viewBinding.article) }
+    // 显示加载中、加载失败等缺省页
+    private val loadingHelper by lazy { LoadingStateView(viewBinding.article, this) }
 
     override fun initArgs(mArguments: Bundle?) {}
 
@@ -57,15 +61,22 @@ class Demo3Fragment : VMFragment<FragmentDemo3Binding>() {
             viewModel.putCache("123", "Demo3Fragment 缓存")
         }
 
-        loadingHelper.setOnReloadListener {
-            loadingHelper.showContentView()
-        }
         loadingHelper.showLoadingView()
+        loadingHelper.updateViewDelegate<LoadingViewDelegate>(ViewType.LOADING) {
+            // 更新视图样式
+            this.updateMessage()
+        }
 
         Handler(Looper.getMainLooper()).postDelayed({
             loadingHelper.showErrorView()
         }, 3000)
 
+    }
+
+    // 重新请求数据
+    override fun onReload() {
+//        super.onReload()
+        loadingHelper.showContentView()
     }
 
     override fun registerObserve() {

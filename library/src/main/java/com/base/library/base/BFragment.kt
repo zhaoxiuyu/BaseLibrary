@@ -6,10 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.base.library.interfaces.MyXPopListener
-import com.base.library.util.ScreenUtils
 import com.lxj.xpopup.XPopup
 import com.lxj.xpopup.core.BasePopupView
 import com.lxj.xpopup.interfaces.XPopupCallback
+import com.zackratos.ultimatebarx.ultimatebarx.addStatusBarTopPadding
 import com.zackratos.ultimatebarx.ultimatebarx.java.UltimateBarX
 
 abstract class BFragment : Fragment() {
@@ -20,13 +20,10 @@ abstract class BFragment : Fragment() {
     abstract fun initData(savedInstanceState: Bundle?)
     abstract fun registerObserve()
 
-    private var mRootView: View? = null
+    private var mContentView: View? = null
 
     // 是否使用沉浸式
     private var immersion = true
-
-    // 给指定 view 添加 padding
-    private var topPadding: View? = null
 
     val mApplication: BApplication by lazy { activity?.application as BApplication }
 
@@ -42,28 +39,23 @@ abstract class BFragment : Fragment() {
         initArgs(arguments)
         registerObserve()
         initView()
-        return mRootView
+        return mContentView
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (immersion) {
-            immersionBar()
-        }
-        topPadding?.let {
-            addStatusBarTopPadding(topPadding)
-        }
+        setUltimateBarX()
         initData(savedInstanceState)
     }
 
-    fun setContentView(rootView: View, immersion: Boolean = true, topPadding: View? = null) {
-        this.mRootView = rootView
-        this.immersion = immersion
-        this.topPadding = topPadding
+    fun setContentView(contentView: View, topPadding: View? = null) {
+        this.mContentView = contentView
+        addStatusBarTopPadding(topPadding?.let { topPadding } ?: let { contentView })
     }
 
-    fun immersionBar() {
-        UltimateBarX.statusBar(this)
+    fun setUltimateBarX() {
+        UltimateBarX
+            .statusBar(this)
             // 布局是否侵入状态栏
             .fitWindow(false)
             // light模式 状态栏字体 true: 灰色，false: 白色 Android 6.0+
@@ -75,8 +67,9 @@ abstract class BFragment : Fragment() {
             .apply()
     }
 
-    fun addStatusBarTopPadding(topPadding: View? = null) {
-        ScreenUtils.addStatusBarTopPadding(topPadding)
+    fun addStatusBarTopPadding(barTopPadding: View? = null) {
+//        ScreenUtils.addStatusBarTopPadding(topPadding)
+        barTopPadding?.addStatusBarTopPadding()
     }
 
     /**

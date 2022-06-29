@@ -1,6 +1,7 @@
 package com.base.app.base
 
 import com.base.app.entitys.PageDescribe
+import com.base.app.sample.mvi.activity.Demo4Activity
 import com.base.app.sample.mvi.activity.Demo5Activity
 import com.base.app.sample.mvp.activity.Demo1Activity
 import com.base.app.sample.views.activity.AnimatedTextViewActivity
@@ -69,6 +70,7 @@ object MyMethod {
         )
         datas.add(PageDescribe("Demo3", "MVVM", null))
         datas.add(PageDescribe("Demo5", "MVI", Demo5Activity::class.java))
+        datas.add(PageDescribe("Demo4", "MVI", Demo4Activity::class.java))
         datas.add(PageDescribe("协程", "协程 相关操作", null))
         datas.add(PageDescribe("异步流", "异步流 相关操作", null))
 

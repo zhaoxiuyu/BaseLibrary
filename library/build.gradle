@@ -162,6 +162,10 @@ dependencies {
     api 'com.blankj:utilcodex:1.31.0'
     // MMKV
     api 'com.tencent:mmkv-static:1.2.13'
+
+    // datastore
+    api("androidx.datastore:datastore-preferences:1.0.0")
+
     // Kotlin
     api 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.2'
     api 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.2'
@@ -278,14 +282,15 @@ dependencies {
     kapt 'com.alibaba:arouter-compiler:1.5.2'
 
     // ViewBindingKTX
-    api 'com.github.DylanCaiCoding.ViewBindingKTX:viewbinding-ktx:2.0.5'
-    api 'com.github.DylanCaiCoding.ViewBindingKTX:viewbinding-nonreflection-ktx:2.0.5'
-    api 'com.github.DylanCaiCoding.ViewBindingKTX:viewbinding-base:2.0.5'
-    api 'com.github.DylanCaiCoding.ViewBindingKTX:viewbinding-brvah:2.0.5'
+    api 'com.github.DylanCaiCoding.ViewBindingKTX:viewbinding-ktx:2.1.0'
+//    api 'com.github.DylanCaiCoding.ViewBindingKTX:viewbinding-nonreflection-ktx:2.1.0'
+    api 'com.github.DylanCaiCoding.ViewBindingKTX:viewbinding-base:2.1.0'
+    api 'com.github.DylanCaiCoding.ViewBindingKTX:viewbinding-brvah:2.1.0'
     // 低耦合方式显示程序的全局加载状态视图
-    api 'com.github.DylanCaiCoding:LoadingStateView:3.0.1'
+    api 'com.github.DylanCaiCoding.LoadingStateView:loadingstateview-ktx:4.0.1'
     // 更简洁使用 Activity Result API
     api 'com.github.DylanCaiCoding:ActivityResultLauncher:1.1.2'
+
     // Kotlin 工具类集合
 //    api 'com.github.DylanCaiCoding.Longan:longan:1.0.5'
 //    api 'com.github.DylanCaiCoding.Longan:longan-design:1.0.5'

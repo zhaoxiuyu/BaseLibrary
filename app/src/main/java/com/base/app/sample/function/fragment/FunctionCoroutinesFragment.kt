@@ -1,11 +1,19 @@
 package com.base.app.sample.function.fragment
 
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.addCallback
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.base.app.databinding.FragmentFunctionCoroutinesBinding
+import com.base.library.dao.entity.Journal
 import com.base.library.mvvm.VMFragment
+import com.base.library.util.launchSafety
+import com.blankj.utilcode.util.LogUtils
+import com.blankj.utilcode.util.ThreadUtils
 import kotlinx.coroutines.*
 
 /**
@@ -16,6 +24,8 @@ import kotlinx.coroutines.*
 class FunctionCoroutinesFragment : VMFragment<FragmentFunctionCoroutinesBinding>() {
 
     private val sb = StringBuilder()
+
+    val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
     override fun initArgs(mArguments: Bundle?) {
     }
@@ -42,6 +52,40 @@ class FunctionCoroutinesFragment : VMFragment<FragmentFunctionCoroutinesBinding>
         viewBinding.tvLoadImg3.setOnClickListener {
             loadImg3()
         }
+        viewBinding.tvDataStore.setOnClickListener {
+            // 链式调用
+            lifecycleScope.launchSafety {
+                // 这里能执行完的代码，一定是成功的
+                delay(1000)
+                val mJournal = getWithContext()
+//                LogUtils.d("Task throw Exception : ${ThreadUtils.isMainThread()}")
+//                throw Exception("failed")
+                mJournal
+            }.onCatch {
+                // 想来几个就来几个，不想处理就一个都不写
+                LogUtils.d("onCatch : ${it.message} ${ThreadUtils.isMainThread()}")
+            }.onSuccess {
+                LogUtils.d("onSuccess : ${it.content} ${ThreadUtils.isMainThread()}")
+            }.onComplete {
+                LogUtils.d("onComplete ${ThreadUtils.isMainThread()}")
+            }.onCancell {
+                LogUtils.d("onCancell ${ThreadUtils.isMainThread()}")
+            }
+
+            // 修改执行线程，和官方的用法一摸一样，没有区别
+//            lifecycleScope.launchSafety(context = Dispatchers.IO) {
+//
+//            }
+        }
+    }
+
+    suspend fun getWithContext() = withContext(Dispatchers.IO) {
+        LogUtils.d("withContext ${ThreadUtils.isMainThread()}")
+        val mJournal = Journal()
+        mJournal.content = "content"
+        mJournal.behavior = "behavior"
+        mJournal.level = "level"
+        mJournal
     }
 
     override fun registerObserve() {

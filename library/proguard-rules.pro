@@ -21,3 +21,8 @@
 #-renamesourcefileattribute SourceFile
 
 -keep class com.base.library.entitys.** {*;}
+
+# datastore-preferences-core 工件与 Proguard 搭配使用
+-keepclassmembers class * extends androidx.datastore.preferences.protobuf.GeneratedMessageLite {
+    <fields>;
+}

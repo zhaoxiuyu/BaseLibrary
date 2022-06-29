@@ -75,6 +75,7 @@ class FunctionListFragment : VMFragment<FragmentFunctionListBinding>(), OnItemCl
             "协程" -> findNavController().navigate(R.id.action_function_coroutines)
             "异步流" -> findNavController().navigate(R.id.action_function_flow)
             "Demo5" -> item.cls?.let { demo5Launch?.launch(Intent(requireActivity(), it)) }
+            "Demo4" -> item.cls?.let { demo5Launch?.launch(Intent(requireActivity(), it)) }
         }
     }
 

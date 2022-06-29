@@ -22,7 +22,7 @@ class ViewsFragment : VMFragment<FragmentViewsBinding>(), OnItemClickListener {
     }
 
     override fun initView() {
-        setContentView(viewBinding.root, true, viewBinding.viewsFragmentRv)
+        setContentView(viewBinding.root, viewBinding.viewsFragmentRv)
     }
 
     override fun initData(savedInstanceState: Bundle?) {

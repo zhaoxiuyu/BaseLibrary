@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.viewbinding.ViewBinding
 import com.base.library.base.BActivity
 import com.dylanc.viewbinding.base.ViewBindingUtil
+import com.zackratos.ultimatebarx.ultimatebarx.addStatusBarTopPadding
 
 /**
  * MVVM 模式的基础 Activity
