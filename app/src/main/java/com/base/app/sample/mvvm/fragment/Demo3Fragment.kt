@@ -11,7 +11,6 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.base.app.databinding.FragmentDemo3Binding
 import com.base.app.sample.mvvm.viewmodel.Demo3ViewModel
-import com.base.library.mvvm.UiChangeState
 import com.base.library.mvvm.VMFragment
 import com.base.library.view.loadingstateview.LoadingViewDelegate
 import com.blankj.utilcode.util.LogUtils
@@ -84,14 +83,24 @@ class Demo3Fragment : VMFragment<FragmentDemo3Binding>(), OnReloadListener {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
             }
         }
-        viewModel.uiChangeState.observe(viewLifecycleOwner) {
+        viewModel.events.observe(viewLifecycleOwner) {
             when (it) {
-                is UiChangeState.Loading -> showLoading()
-                is UiChangeState.Success -> dismissLoading()
-                is UiChangeState.Fail -> showDialog(it.msg)
+                is Demo3ViewModel.Demo3Event.ShowLoading -> showLoading()
+                is Demo3ViewModel.Demo3Event.DismissLoading -> dismissLoading()
+                is Demo3ViewModel.Demo3Event.ShowDialog -> showDialog(it.message)
+                is Demo3ViewModel.Demo3Event.ShowSnackbar -> {}
+                is Demo3ViewModel.Demo3Event.StartActivity -> {}
                 else -> {}
             }
         }
+//        viewModel.uiChangeState.observe(viewLifecycleOwner) {
+//            when (it) {
+//                is UiChangeState.Loading -> showLoading()
+//                is UiChangeState.Success -> dismissLoading()
+//                is UiChangeState.Fail -> showDialog(it.msg)
+//                else -> {}
+//            }
+//        }
         viewModel.article.observe(viewLifecycleOwner) {
             LogUtils.d("article")
         }

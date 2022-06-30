@@ -26,6 +26,12 @@ import kotlinx.coroutines.withContext
 class Demo3ViewModel : BViewModel() {
 
     /**
+     * 发送事件
+     */
+    private val _events = UnPeekLiveData.Builder<Demo3Event>().create()
+    val events: ProtectedUnPeekLiveData<Demo3Event> get() = _events
+
+    /**
      * 存储数据
      * mWanArticle.value = WanArticle()
      * if (mWanArticle.value != null)
@@ -46,18 +52,22 @@ class Demo3ViewModel : BViewModel() {
 
     fun getArticle() {
         viewModelScope.launch(Dispatchers.Main) {
-            changeStateLoading()
+            sendEvent(Demo3Event.ShowLoading())
+
             val mArticle = withContext(Dispatchers.IO) {
                 mRepository.getArticle()
             }
-
             val mChapters = async { mRepository.getChapters() }
             val mBanner = async { mRepository.getBanner() }
 
-            val mTriple = Triple(mArticle.data, mChapters.await().data, mBanner.await().data)
+            val wanArticle = mArticle.data
+            val wanChapters = mChapters.await().data
+            val wanAndroid = mBanner.await().data
 
+            val mTriple = Triple(wanArticle, wanChapters, wanAndroid)
             _article.value = mTriple
-            changeStateSuccess()
+
+            sendEvent(Demo3Event.DismissLoading())
         }
     }
 
@@ -69,27 +79,18 @@ class Demo3ViewModel : BViewModel() {
     val chaptersLiveData: ProtectedUnPeekLiveData<BResponse<MutableList<WanChapters>>> get() = _chaptersLiveData
 
     fun getChapters() {
-        changeStateLoading()
+        sendEvent(Demo3Event.ShowLoading())
         viewModelScope.launchSafety(Dispatchers.Main) {
             val mChapters = mRepository.getChapters()
             mChapters
         }.onCatch {
             LogUtils.d("onCatch : ${it.message} ${ThreadUtils.isMainThread()}")
-            changeStateFail("获取公众号列表失败 : ${it.message}")
+            sendEvent(Demo3Event.ShowToast("获取公众号列表失败 : ${it.message}"))
         }.onComplete {
             LogUtils.d("onSuccess : ${it?.message} ${ThreadUtils.isMainThread()}")
             _chaptersLiveData.value = it
-            changeStateSuccess()
+            sendEvent(Demo3Event.DismissLoading())
         }
-
-//        viewModelScope.launch(Dispatchers.Main) {
-//            flow {
-//                emit(mRepository.getChapters())
-//            }.onStart { changeStateLoading() }
-//                .catch { changeStateFail("获取公众号列表失败 : ${it.message}") }
-//                .onCompletion { changeStateSuccess() }
-//                .collect { _chaptersLiveData.value = it }
-//        }
     }
 
     /**
@@ -99,10 +100,12 @@ class Demo3ViewModel : BViewModel() {
         flow {
             val login = mRepository.getLogin(map["username"] ?: "", map["password"] ?: "")
             emit(login)
-        }.onStart { changeStateLoading() }
-            .catch { changeStateFail("登录失败 : ${it.message}") }
-            .onCompletion { changeStateSuccess() }
-            .collect { emit(it) }
+        }.onStart { sendEvent(Demo3Event.ShowLoading()) }
+            .catch { sendEvent(Demo3Event.ShowToast("登录失败 : ${it.message}")) }
+            .onCompletion { sendEvent(Demo3Event.DismissLoading()) }
+            .collect {
+                emit(it)
+            }
     }
 
     /**
@@ -114,7 +117,7 @@ class Demo3ViewModel : BViewModel() {
     fun getCache(key: String) = liveData<String> {
         flow { emit(mRepository.getCache(key)) }
             .flowOn(Dispatchers.IO)
-            .catch { changeStateMessage("获取缓存 $key 失败") }
+            .catch { sendEvent(Demo3Event.ShowToast("获取缓存 $key 失败")) }
             .collectLatest { emit(it) }
     }
 
@@ -125,6 +128,22 @@ class Demo3ViewModel : BViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             mRepository.putCache(key, content)
         }
+    }
+
+    fun sendEvent(event: Demo3Event) {
+        _events.value = event
+    }
+
+    /**
+     * 一次性事件
+     */
+    sealed class Demo3Event {
+        data class ShowSnackbar(val message: String = "") : Demo3Event()
+        data class ShowToast(val message: String = "") : Demo3Event()
+        data class ShowDialog(val title: String = "提示", val message: String = "") : Demo3Event()
+        data class ShowLoading(val message: String = "") : Demo3Event()
+        data class DismissLoading(val message: String = "") : Demo3Event()
+        data class StartActivity(val message: String = "") : Demo3Event()
     }
 
 }

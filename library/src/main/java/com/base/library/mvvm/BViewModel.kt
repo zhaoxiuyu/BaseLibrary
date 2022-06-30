@@ -2,8 +2,6 @@ package com.base.library.mvvm
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kunminx.architecture.ui.callback.ProtectedUnPeekLiveData
-import com.kunminx.architecture.ui.callback.UnPeekLiveData
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.ObservableTransformer
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -19,29 +17,6 @@ import kotlinx.coroutines.launch
 open class BViewModel : ViewModel() {
 
     private var mDisposables: CompositeDisposable? = null
-
-    private val _uiChangeState = UnPeekLiveData.Builder<UiChangeState>().create()
-    val uiChangeState: ProtectedUnPeekLiveData<UiChangeState> get() = _uiChangeState
-
-    private fun changeState(state: UiChangeState) {
-        _uiChangeState.value = state
-    }
-
-    fun changeStateLoading(msg: String = "请稍候") {
-        changeState(UiChangeState.Loading(msg))
-    }
-
-    fun changeStateSuccess(msg: String = "") {
-        changeState(UiChangeState.Success(msg))
-    }
-
-    fun changeStateFail(msg: String = "") {
-        changeState(UiChangeState.Fail(msg))
-    }
-
-    fun changeStateMessage(msg: String) {
-        changeState(UiChangeState.Message(msg))
-    }
 
     /**
      * 变换 IO线程 -> Main线程
