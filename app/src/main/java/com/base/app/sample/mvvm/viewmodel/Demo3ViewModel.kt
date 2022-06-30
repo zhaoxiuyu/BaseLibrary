@@ -12,8 +12,8 @@ import com.base.library.mvvm.BViewModel
 import com.base.library.util.launchSafety
 import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.ThreadUtils
-import com.kunminx.architecture.ui.callback.ProtectedUnPeekLiveData
-import com.kunminx.architecture.ui.callback.UnPeekLiveData
+import com.kunminx.architecture.domain.message.MutableResult
+import com.kunminx.architecture.domain.message.Result
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.*
@@ -28,8 +28,8 @@ class Demo3ViewModel : BViewModel() {
     /**
      * 发送事件
      */
-    private val _events = UnPeekLiveData.Builder<Demo3Event>().create()
-    val events: ProtectedUnPeekLiveData<Demo3Event> get() = _events
+    private val _events: MutableResult<Demo3Event> = MutableResult<Demo3Event>()
+    val events: Result<Demo3Event> get() = _events
 
     /**
      * 存储数据
@@ -43,12 +43,9 @@ class Demo3ViewModel : BViewModel() {
     /**
      * 获取首页文章列表
      */
-    private val _article =
-        UnPeekLiveData.Builder<
-                Triple<WanArticle?, MutableList<WanChapters>?, MutableList<WanAndroid>?>>().create()
-    val article: ProtectedUnPeekLiveData<
-            Triple<WanArticle?, MutableList<WanChapters>?, MutableList<WanAndroid>?>>
-        get() = _article
+    private val _article: MutableResult<Triple<WanArticle?, MutableList<WanChapters>?, MutableList<WanAndroid>?>> =
+        MutableResult()
+    val article: Result<Triple<WanArticle?, MutableList<WanChapters>?, MutableList<WanAndroid>?>> get() = _article
 
     fun getArticle() {
         viewModelScope.launch(Dispatchers.Main) {
@@ -74,9 +71,9 @@ class Demo3ViewModel : BViewModel() {
     /**
      * 获取公众号列表
      */
-    private val _chaptersLiveData =
-        UnPeekLiveData.Builder<BResponse<MutableList<WanChapters>>>().create()
-    val chaptersLiveData: ProtectedUnPeekLiveData<BResponse<MutableList<WanChapters>>> get() = _chaptersLiveData
+    private val _chaptersLiveData: MutableResult<BResponse<MutableList<WanChapters>>> =
+        MutableResult()
+    val chaptersLiveData: Result<BResponse<MutableList<WanChapters>>> get() = _chaptersLiveData
 
     fun getChapters() {
         sendEvent(Demo3Event.ShowLoading())
@@ -130,7 +127,7 @@ class Demo3ViewModel : BViewModel() {
         }
     }
 
-    fun sendEvent(event: Demo3Event) {
+    private fun sendEvent(event: Demo3Event) {
         _events.value = event
     }
 

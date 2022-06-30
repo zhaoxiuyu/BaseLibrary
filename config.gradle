@@ -3,7 +3,7 @@ ext {
     // 那么就是一个map下面又创建了一个map，且名字叫做 configs。
     skdVersion = [
             compileSdk: 31,      // 编译源码所使用的API版本
-            minSdk    : 21,      // 最低兼容Android版本
+            minSdk    : 23,      // 最低兼容Android版本
             targetSdk : 31,      // 目标版本
     ]
     // 依赖版本号
