@@ -9,6 +9,9 @@ import com.base.app.entitys.response.WanChapters
 import com.base.app.sample.mvi.repository.Demo5Repository
 import com.base.library.base.BResponse
 import com.base.library.mvvm.BViewModel
+import com.base.library.util.launchSafety
+import com.blankj.utilcode.util.LogUtils
+import com.blankj.utilcode.util.ThreadUtils
 import com.kunminx.architecture.ui.callback.ProtectedUnPeekLiveData
 import com.kunminx.architecture.ui.callback.UnPeekLiveData
 import kotlinx.coroutines.Dispatchers
@@ -66,14 +69,27 @@ class Demo3ViewModel : BViewModel() {
     val chaptersLiveData: ProtectedUnPeekLiveData<BResponse<MutableList<WanChapters>>> get() = _chaptersLiveData
 
     fun getChapters() {
-        viewModelScope.launch(Dispatchers.Main) {
-            flow {
-                emit(mRepository.getChapters())
-            }.onStart { changeStateLoading() }
-                .catch { changeStateFail("获取公众号列表失败 : ${it.message}") }
-                .onCompletion { changeStateSuccess() }
-                .collect { _chaptersLiveData.value = it }
+        changeStateLoading()
+        viewModelScope.launchSafety(Dispatchers.Main) {
+            val mChapters = mRepository.getChapters()
+            mChapters
+        }.onCatch {
+            LogUtils.d("onCatch : ${it.message} ${ThreadUtils.isMainThread()}")
+            changeStateFail("获取公众号列表失败 : ${it.message}")
+        }.onComplete {
+            LogUtils.d("onSuccess : ${it?.message} ${ThreadUtils.isMainThread()}")
+            _chaptersLiveData.value = it
+            changeStateSuccess()
         }
+
+//        viewModelScope.launch(Dispatchers.Main) {
+//            flow {
+//                emit(mRepository.getChapters())
+//            }.onStart { changeStateLoading() }
+//                .catch { changeStateFail("获取公众号列表失败 : ${it.message}") }
+//                .onCompletion { changeStateSuccess() }
+//                .collect { _chaptersLiveData.value = it }
+//        }
     }
 
     /**
