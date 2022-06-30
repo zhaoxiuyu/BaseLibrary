@@ -106,9 +106,9 @@ dependencies {
     def dependencies = rootProject.ext.dependencies
 
     api fileTree(dir: 'libs', include: ['*.jar'])
-    testImplementation 'junit:junit:4.13'
-    androidTestImplementation 'androidx.test:runner:1.3.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test:runner:1.4.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
     // 多 dex
     api 'androidx.multidex:multidex:2.0.1'
@@ -211,7 +211,7 @@ dependencies {
     api 'com.kunminx.arch:unpeek-livedata:7.6.0'
 
     // lottie
-    api 'com.airbnb.android:lottie:5.0.3'
+    api 'com.airbnb.android:lottie:5.2.0'
 
     // RecyclerView 列表动画
     api 'jp.wasabeef:recyclerview-animators:4.0.2'
@@ -232,7 +232,7 @@ dependencies {
     api 'io.github.youth5201314:banner:2.2.2'
 
     // 提示框
-    api 'com.github.li-xiaojun:XPopup:2.7.8'
+    api 'com.github.li-xiaojun:XPopup:2.8.9'
 
     // SuperTextView
     api 'com.github.chenBingX:SuperTextView:3.2.6.99'
@@ -258,13 +258,13 @@ dependencies {
 
     // -------------------- 轮子哥的库 --------------------
     // 权限请求
-    api 'com.github.getActivity:XXPermissions:13.6'
+    api 'com.github.getActivity:XXPermissions:15.0'
     // 顶部标题栏
-    api 'com.github.getActivity:TitleBar:9.3'
+    api 'com.github.getActivity:TitleBar:9.5'
     // Gson 解析容错
-    api 'com.github.getActivity:GsonFactory:6.0'
+    api 'com.github.getActivity:GsonFactory:6.2'
     // Shape 框架
-    api 'com.github.getActivity:ShapeView:6.2'
+    api 'com.github.getActivity:ShapeView:8.2'
 
     // 混淆库
     api 'com.github.zhaoxiuyu:Proguards:1.0.5'
@@ -315,8 +315,8 @@ dependencies {
     api 'com.airbnb.android:mavericks:2.6.1'
 
     // Net
-//    api 'com.github.liangjingkanji:Net:3.4.6'
+    api 'com.github.liangjingkanji:Net:3.4.10'
     // 支持自动下拉刷新和缺省页的(可选)
-    api 'com.github.liangjingkanji:BRV:1.3.63'
+    api 'com.github.liangjingkanji:BRV:1.3.79'
 
 }
