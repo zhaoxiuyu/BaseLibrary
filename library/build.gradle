@@ -304,6 +304,13 @@ dependencies {
     // 指示器
     api 'com.github.hackware1993:MagicIndicator:1.7.0'
 
+    // DslTabLayout 万能的TabLayout
+    implementation 'com.github.angcyo.DslTablayout:TabLayout:3.2.4'
+    //可选
+    implementation 'com.github.angcyo.DslTablayout:ViewPager1Delegate:3.2.4'
+    //可选
+    implementation 'com.github.angcyo.DslTablayout:ViewPager2Delegate:3.2.4'
+
     // MVI
     api 'com.airbnb.android:mavericks:2.6.1'
 
