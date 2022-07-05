@@ -103,7 +103,7 @@ repositories {
 }
 
 dependencies {
-    def dependencies = rootProject.ext.dependencies
+//    def dependencies = rootProject.ext.dependencies
 
     api fileTree(dir: 'libs', include: ['*.jar'])
     testImplementation 'junit:junit:4.13.2'
@@ -118,11 +118,11 @@ dependencies {
     api 'androidx.vectordrawable:vectordrawable:1.1.0'
     api "androidx.vectordrawable:vectordrawable-seekable:1.0.0-alpha02"
     // 约束
-    api 'androidx.constraintlayout:constraintlayout:2.1.3'
+    api 'androidx.constraintlayout:constraintlayout:2.1.4'
     // 旧版本API 访问新API
-    api 'androidx.appcompat:appcompat:1.4.1'
+    api 'androidx.appcompat:appcompat:1.4.2'
     // 用于在交旧的平台上使用 drawables
-    api("androidx.appcompat:appcompat-resources:1.4.1")
+    api("androidx.appcompat:appcompat-resources:1.4.2")
 
     api 'androidx.cardview:cardview:1.0.0'
     api "androidx.viewpager2:viewpager2:1.1.0-beta01"
@@ -133,7 +133,7 @@ dependencies {
     // Android KTX
     api 'androidx.core:core-ktx:1.7.0'
     api "androidx.collection:collection-ktx:1.2.0"
-    api "androidx.activity:activity-ktx:1.4.0"
+    api "androidx.activity:activity-ktx:1.5.0"
     api "androidx.fragment:fragment-ktx:1.4.1"
     api "androidx.navigation:navigation-ui-ktx:2.4.2"
     api "androidx.navigation:navigation-fragment-ktx:2.4.2"
@@ -143,13 +143,13 @@ dependencies {
     api "androidx.annotation:annotation:1.4.0-alpha02"
 
     // 生命周期管理相关
-    api "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.0-rc01"
+    api "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.0"
     api "androidx.lifecycle:lifecycle-livedata-ktx:2.5.0-beta01"
-    api "androidx.lifecycle:lifecycle-runtime-ktx:2.5.0-beta01"
-    api "androidx.lifecycle:lifecycle-viewmodel-savedstate:2.5.0-rc01"
+    api "androidx.lifecycle:lifecycle-runtime-ktx:2.5.0"
+    api "androidx.lifecycle:lifecycle-viewmodel-savedstate:2.5.0"
     // kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
     // 不使用compiler注解,使用java8,直接实现这个接口即可DefaultLifecycleObserver
-    api "androidx.lifecycle:lifecycle-common-java8:2.5.0-rc01"
+    api "androidx.lifecycle:lifecycle-common-java8:2.5.0"
     api "androidx.lifecycle:lifecycle-service:2.5.0-beta01"
     api "androidx.lifecycle:lifecycle-process:2.5.0-beta01"
     // 依赖注入
@@ -181,105 +181,106 @@ dependencies {
     api 'io.github.scwang90:refresh-footer-classics:2.0.5'    //经典加载
 
     // 网络请求相关,kapt只需要扫描library即可
-    api 'com.squareup.okhttp3:okhttp:5.0.0-alpha.2'
-    api 'com.squareup.retrofit2:retrofit:2.9.0'
-    api 'com.squareup.retrofit2:adapter-rxjava3:2.9.0'
-    api 'com.squareup.retrofit2:converter-gson:2.9.0'
-    api 'com.squareup.retrofit2:converter-scalars:2.9.0'
+    api "com.squareup.okhttp3:okhttp:5.0.0-alpha.2"
+    api "com.squareup.retrofit2:retrofit:2.9.0"
+    api "com.squareup.retrofit2:adapter-rxjava3:2.9.0"
+    api "com.squareup.retrofit2:converter-gson:2.9.0"
+    api "com.squareup.retrofit2:converter-scalars:2.9.0"
 
-    api 'io.reactivex.rxjava3:rxjava:3.1.4'
-    api 'io.reactivex.rxjava3:rxandroid:3.0.0'
+    api "io.reactivex.rxjava3:rxjava:3.1.4"
+    api "io.reactivex.rxjava3:rxandroid:3.0.0"
 
     // 解决RxJava内存泄漏
-    api 'com.github.liujingxing.rxlife:rxlife-rxjava3:2.2.2'
+    api "com.github.liujingxing.rxlife:rxlife-rxjava3:2.2.2"
 
     // 图片
-    api 'com.github.bumptech.glide:glide:4.13.2'
+    api "com.github.bumptech.glide:glide:4.13.2"
     // Kotlin中使用了Glide注解
-    kapt 'com.github.bumptech.glide:compiler:4.12.0'
-    api 'com.github.bumptech.glide:okhttp3-integration:4.11.0'
-    api 'jp.wasabeef:glide-transformations:4.3.0'
-    api 'jp.co.cyberagent.android:gpuimage:2.1.0'
+    kapt "com.github.bumptech.glide:compiler:4.12.0"
+    api "com.github.bumptech.glide:okhttp3-integration:4.11.0"
+    api "jp.wasabeef:glide-transformations:4.3.0"
+    api "jp.co.cyberagent.android:gpuimage:2.1.0"
     // 用Coil方式使用Glide
-    api 'com.github.forJrking:ImageExt:0.0.4'
+    api "com.github.forJrking:ImageExt:0.0.4"
 
     // View动画效果大集合
-    api 'com.daimajia.easing:library:2.0@aar'
-    api 'com.daimajia.androidanimations:library:2.3@aar'
+    api "com.daimajia.easing:library:2.0@aar"
+    api "com.daimajia.androidanimations:library:2.3@aar"
 
     // livedata
-    api 'com.kunminx.arch:unpeek-livedata:7.6.0'
+    api "com.kunminx.arch:unpeek-livedata:7.6.0"
+    api "com.kunminx.arch:mvi-dispatch:2.2.0-beta"
 
     // lottie
-    api 'com.airbnb.android:lottie:5.2.0'
+    api "com.airbnb.android:lottie:5.2.0"
 
     // RecyclerView 列表动画
-    api 'jp.wasabeef:recyclerview-animators:4.0.2'
+    api "jp.wasabeef:recyclerview-animators:4.0.2"
 
     // 动画工具类
-    api 'com.github.florent37:viewanimator:1.1.2'
+    api "com.github.florent37:viewanimator:1.1.2"
 
     // Json相关
-    api 'com.google.code.gson:gson:2.9.0'
+    api "com.google.code.gson:gson:2.9.0"
 
     // 适配器
-    api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.7'
+    api "com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.7"
 
     // 分割线
-    api 'ckrjfrog.FlexItemDecoration:Decoration:1.1.3'
+    api "ckrjfrog.FlexItemDecoration:Decoration:1.1.3"
 
     // banner 轮播图
-    api 'io.github.youth5201314:banner:2.2.2'
+    api "io.github.youth5201314:banner:2.2.2"
 
     // 提示框
-    api 'com.github.li-xiaojun:XPopup:2.8.9'
+    api "com.github.li-xiaojun:XPopup:2.8.9"
 
     // SuperTextView
-    api 'com.github.chenBingX:SuperTextView:3.2.6.99'
+    api "com.github.chenBingX:SuperTextView:3.2.6.99"
 
     // RWidgetHelper : 圆角，边框，Gradient背景渐变，控件State各个状态UI样式，阴影，水波纹
-    api 'com.github.RuffianZhong:RWidgetHelper:androidx.v0.0.10'
+    api "com.github.RuffianZhong:RWidgetHelper:androidx.v0.0.10"
 
     // 侧滑一个就够了
-    api 'com.billy.android:smart-swipe-x:1.1.0'
+    api "com.billy.android:smart-swipe-x:1.1.0"
 
     // 沉浸式
-    api 'com.gitee.zackratos:UltimateBarX:0.8.0'
+    api "com.gitee.zackratos:UltimateBarX:0.8.0"
 
     // 底部导航栏
-    api 'com.ashokvarma.android:bottom-navigation-bar:2.2.0'
+    api "com.ashokvarma.android:bottom-navigation-bar:2.2.0"
 
     // 日历
-    api 'com.haibin:calendarview:3.7.1'
-    api 'com.squareup:android-times-square:1.7.11'
+    api "com.haibin:calendarview:3.7.1"
+    api "com.squareup:android-times-square:1.7.11"
 
     // 选择器
     api 'com.contrarywind:Android-PickerView:4.1.9'
 
     // -------------------- 轮子哥的库 --------------------
     // 权限请求
-    api 'com.github.getActivity:XXPermissions:15.0'
+    api "com.github.getActivity:XXPermissions:15.0"
     // 顶部标题栏
-    api 'com.github.getActivity:TitleBar:9.5'
+    api "com.github.getActivity:TitleBar:9.5"
     // Gson 解析容错
-    api 'com.github.getActivity:GsonFactory:6.2'
+    api "com.github.getActivity:GsonFactory:6.2"
     // Shape 框架
-    api 'com.github.getActivity:ShapeView:8.2'
+    api "com.github.getActivity:ShapeView:8.2"
 
     // 混淆库
-    api 'com.github.zhaoxiuyu:Proguards:1.0.5'
+    api "com.github.zhaoxiuyu:Proguards:1.0.5"
 
     // 字节跳动启动优化
-    api 'com.bytedance.boost_multidex:boost_multidex:1.0.1'
+    api "com.bytedance.boost_multidex:boost_multidex:1.0.1"
 
-    api 'me.weishu:free_reflection:3.0.1'
+    api "me.weishu:free_reflection:3.0.1"
 
     // 三角角标控件
-    api 'com.github.xiaoliang0227:TriangleView:1.0.3'
+    api "com.github.xiaoliang0227:TriangleView:1.0.3"
 
     // 路由
-    api 'com.alibaba:arouter-api:1.5.2'
-    kapt 'com.alibaba:arouter-compiler:1.5.2'
+    api "com.alibaba:arouter-api:1.5.2"
+    kapt "com.alibaba:arouter-compiler:1.5.2"
 
     // ViewBindingKTX
     api 'com.github.DylanCaiCoding.ViewBindingKTX:viewbinding-ktx:2.1.0'

@@ -26,10 +26,16 @@ import kotlinx.coroutines.withContext
 class Demo3ViewModel : BViewModel() {
 
     /**
-     * 发送事件
+     * 发送事件 UnPeekLiveData
      */
-    private val _events: MutableResult<Demo3Event> = MutableResult<Demo3Event>()
-    val events: Result<Demo3Event> get() = _events
+    private val _demo3Result: MutableResult<Demo3Event> = MutableResult<Demo3Event>()
+    val demo3Result: Result<Demo3Event> get() = _demo3Result
+
+    /**
+     * 发送事件 StateFlow
+     */
+    private val _stateFlow = MutableStateFlow<Demo3Event>(Demo3Event.Idle)
+    val stateFlow: StateFlow<Demo3Event> get() = _stateFlow
 
     /**
      * 存储数据
@@ -65,11 +71,13 @@ class Demo3ViewModel : BViewModel() {
             _article.value = mTriple
 
             sendEvent(Demo3Event.DismissLoading())
+
+            wanChapters?.let { sendEvent2(Demo3Event.WanChaptersState(wanChapters)) }
         }
     }
 
     /**
-     * 获取公众号列表
+     * 获取公众号列表`
      */
     private val _chaptersLiveData: MutableResult<BResponse<MutableList<WanChapters>>> =
         MutableResult()
@@ -128,19 +136,25 @@ class Demo3ViewModel : BViewModel() {
     }
 
     private fun sendEvent(event: Demo3Event) {
-        _events.value = event
+        _demo3Result.value = event
+    }
+
+    private fun sendEvent2(event: Demo3Event) {
+        _stateFlow.value = event
     }
 
     /**
      * 一次性事件
      */
     sealed class Demo3Event {
+        object Idle : Demo3Event()
         data class ShowSnackbar(val message: String = "") : Demo3Event()
         data class ShowToast(val message: String = "") : Demo3Event()
         data class ShowDialog(val title: String = "提示", val message: String = "") : Demo3Event()
         data class ShowLoading(val message: String = "") : Demo3Event()
         data class DismissLoading(val message: String = "") : Demo3Event()
         data class StartActivity(val message: String = "") : Demo3Event()
+        data class WanChaptersState(val wanChapters: MutableList<WanChapters>) : Demo3Event()
     }
 
 }

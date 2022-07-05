@@ -10,6 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.base.app.databinding.FragmentDemo3Binding
+import com.base.app.entitys.response.WanChapters
 import com.base.app.sample.mvvm.viewmodel.Demo3ViewModel
 import com.base.library.mvvm.VMFragment
 import com.base.library.view.loadingstateview.LoadingViewDelegate
@@ -81,9 +82,22 @@ class Demo3Fragment : VMFragment<FragmentDemo3Binding>(), OnReloadListener {
     override fun registerObserve() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.stateFlow.collect {
+                    when (it) {
+                        is Demo3ViewModel.Demo3Event.ShowLoading -> showLoading()
+                        is Demo3ViewModel.Demo3Event.DismissLoading -> dismissLoading()
+                        is Demo3ViewModel.Demo3Event.ShowDialog -> showDialog(it.message)
+                        is Demo3ViewModel.Demo3Event.ShowSnackbar -> {}
+                        is Demo3ViewModel.Demo3Event.StartActivity -> {}
+                        is Demo3ViewModel.Demo3Event.WanChaptersState -> {
+                            wanChapters(it.wanChapters)
+                        }
+                        else -> {}
+                    }
+                }
             }
         }
-        viewModel.events.observe(viewLifecycleOwner) {
+        viewModel.demo3Result.observe(viewLifecycleOwner) {
             when (it) {
                 is Demo3ViewModel.Demo3Event.ShowLoading -> showLoading()
                 is Demo3ViewModel.Demo3Event.DismissLoading -> dismissLoading()
@@ -107,6 +121,10 @@ class Demo3Fragment : VMFragment<FragmentDemo3Binding>(), OnReloadListener {
         viewModel.chaptersLiveData.observe(viewLifecycleOwner) {
             LogUtils.d(it.errorCode)
         }
+    }
+
+    private fun wanChapters(wanChapters: MutableList<WanChapters>) {
+        LogUtils.d("WanChapters ${wanChapters.size}")
     }
 
     private fun getLogin() {
