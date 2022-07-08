@@ -22,8 +22,14 @@ class Demo4Event(eventId: Int) : Event<Demo4Event.Param, Demo4Event.Result>() {
     }
 
     companion object {
-        const val EVENT_SHOW_LOADING = 1 // 加载框
-        const val EVENT_DISMISS_LOADING = 2 // 关闭加载框
+        const val EVENT_SHOW_LOADING = 1000 // 加载框
+        const val EVENT_DISMISS_LOADING = 1001 // 关闭加载框
+
+        const val EVENT_SHOW_TOAST = 1002 // toast
+        const val EVENT_SHOW_DIALOG = 1003 // 消息提示框
+
+        const val EVENT_START_ACTIVITY = 1004 // 启动 Activity
+        const val EVENT_FINISH_ACTIVITY = 1005 // 关闭 Activity
 
         const val EVENT_ARTICLE = 7 // 获取首页文章列表
         const val EVENT_CHAPTERS = 8 // 获取公众号列表

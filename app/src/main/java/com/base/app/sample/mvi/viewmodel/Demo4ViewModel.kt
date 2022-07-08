@@ -27,7 +27,7 @@ class Demo4ViewModel : MviDispatcher<Demo4Event>() {
     /**
      * 获取首页文章列表
      */
-    private fun getArticle(event: Demo4Event?) {
+    private fun getArticle(event: Demo4Event) {
         viewModelScope.launch(Dispatchers.Main) {
             showLoading()
 
@@ -37,9 +37,9 @@ class Demo4ViewModel : MviDispatcher<Demo4Event>() {
             val mChapters = async { mRepository.getChapters() }
             val mBanner = async { mRepository.getBanner() }
 
-            event?.result?.wanArticle = mArticle.data
-            event?.result?.wanChapters = mChapters.await().data
-            event?.result?.wanAndroid = mBanner.await().data
+            event.result?.wanArticle = mArticle.data
+            event.result?.wanChapters = mChapters.await().data
+            event.result?.wanAndroid = mBanner.await().data
             sendResult(event)
 
             dismissLoading()
@@ -49,7 +49,7 @@ class Demo4ViewModel : MviDispatcher<Demo4Event>() {
     /**
      * 获取公众号列表
      */
-    private fun getChapters(event: Demo4Event?) {
+    private fun getChapters(event: Demo4Event) {
         showLoading()
         viewModelScope.launchSafety(Dispatchers.Main) {
             val mChapters = mRepository.getChapters()
@@ -58,7 +58,7 @@ class Demo4ViewModel : MviDispatcher<Demo4Event>() {
             LogUtils.d("onCatch : ${it.message} ${ThreadUtils.isMainThread()}")
         }.onComplete {
             LogUtils.d("onSuccess : ${it?.message} ${ThreadUtils.isMainThread()}")
-            event?.result?.wanChapters = it?.data
+            event.result?.wanChapters = it?.data
             sendResult(event)
             dismissLoading()
         }
@@ -67,12 +67,12 @@ class Demo4ViewModel : MviDispatcher<Demo4Event>() {
     /**
      * 登录
      */
-    private fun getLogin(event: Demo4Event?, map: Map<String, String>) {
+    private fun getLogin(event: Demo4Event, map: Map<String, String>) {
         viewModelScope.launchSafety(Dispatchers.Main) {
             val login = mRepository.getLogin(map["username"] ?: "", map["password"] ?: "")
             login
         }.onComplete {
-            event?.result?.wanLogin = it?.data
+            event.result?.wanLogin = it?.data
             sendResult(event)
         }
     }
