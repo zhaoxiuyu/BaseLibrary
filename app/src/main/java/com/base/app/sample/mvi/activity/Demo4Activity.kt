@@ -3,6 +3,7 @@ package com.base.app.sample.mvi.activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.core.text.buildSpannedString
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -23,21 +24,27 @@ class Demo4Activity : VMActivity<ActivityDemo1Binding>() {
     override fun initView() {
         setContentViewBar(viewBinding.root)
         viewBinding.article.setOnClickListener {
-            viewModel.input(Demo4Event(Demo4Event.EVENT_ARTICLE))
+            viewModel.input(Demo4Event.WanArticleM())
         }
         viewBinding.chapters.setOnClickListener {
-            viewModel.input(Demo4Event(Demo4Event.EVENT_CHAPTERS))
+            viewModel.input(Demo4Event.WanChaptersM())
+        }
+        viewBinding.banner.setOnClickListener {
+            viewModel.input(Demo4Event.WanAndroidM())
         }
         viewBinding.login.setOnClickListener {
             val map = mapOf(
                 "username" to viewBinding.userName.text.toString(),
                 "password" to viewBinding.passWord.text.toString()
             )
-            viewModel.input(Demo4Event(Demo4Event.EVENT_LOGIN).setLoginMap(map))
+            viewModel.input(Demo4Event.WanLoginM().setMap(map))
         }
     }
 
     override fun initData(savedInstanceState: Bundle?) {
+        val build = buildSpannedString {
+            //操作各种Span
+        }
     }
 
     override fun registerObserve() {
@@ -47,22 +54,18 @@ class Demo4Activity : VMActivity<ActivityDemo1Binding>() {
         }
 
         viewModel.output(this) { event ->
-            when (event.eventId) {
-                Demo4Event.EVENT_LOGIN -> {
-                    LogUtils.d(event.result.wanLogin.toString())
-                }
-                Demo4Event.EVENT_CHAPTERS -> {
-                    LogUtils.d(event.result.wanChapters?.size)
-                }
-                Demo4Event.EVENT_ARTICLE -> {
-                    val wanArticleSize = event.result.wanArticle?.size
-                    val wanChaptersSize = event.result.wanChapters?.size
-                    val wanAndroidSize = event.result.wanAndroid?.size
-
+            when (event) {
+                is Demo4Event.WanLoginM -> LogUtils.d(event.wanLogin.toString())
+                is Demo4Event.WanArticleM -> {
+                    val wanArticleSize = event.mTriple?.first?.size
+                    val wanChaptersSize = event.mTriple?.second?.size
+                    val wanAndroidSize = event.mTriple?.third?.size
                     LogUtils.d("$wanArticleSize ; $wanChaptersSize ; $wanAndroidSize")
                 }
-                Demo4Event.EVENT_SHOW_LOADING -> showLoading(event.result.loadingMsg)
-                Demo4Event.EVENT_DISMISS_LOADING -> dismissLoading()
+                is Demo4Event.WanChaptersM -> LogUtils.d(event.wanChapters?.size)
+                is Demo4Event.WanAndroidM -> LogUtils.d(event.wanAndroid?.size)
+                is Demo4Event.ShowLoading -> showLoading(event.msg)
+                is Demo4Event.DismissLoading -> dismissLoading()
             }
         }
     }

@@ -35,6 +35,13 @@
         android:textSize="@dimen/pt_40" />
 
     <Button
+        android:id="@+id/banner"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/pt_130"
+        android:text="轮播图"
+        android:textSize="@dimen/pt_40" />
+
+    <Button
         android:id="@+id/login"
         android:layout_width="match_parent"
         android:layout_height="@dimen/pt_130"

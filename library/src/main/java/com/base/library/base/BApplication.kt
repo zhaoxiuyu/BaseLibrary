@@ -30,7 +30,7 @@ open class BApplication : MultiDexApplication() {
 //        if (BuildConfig.DEBUG) {
 ////            CrashUtils.init { LogUtils.e(it) } // 可以弹出错误提示框
 //        } else {
-        initCockroach()
+//        initCockroach()
 //        }
 
         // 工具类

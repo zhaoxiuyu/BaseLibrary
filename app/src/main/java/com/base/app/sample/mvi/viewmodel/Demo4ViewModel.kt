@@ -5,42 +5,44 @@ import com.base.app.sample.mvi.event.Demo4Event
 import com.base.app.sample.mvi.repository.Demo5Repository
 import com.base.library.util.launchSafety
 import com.blankj.utilcode.util.LogUtils
-import com.blankj.utilcode.util.ThreadUtils
-import com.kunminx.architecture.domain.dispatch.MviDispatcher
+import com.kunminx.architecture.domain.dispatch.MviDispatcherKTX
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class Demo4ViewModel : MviDispatcher<Demo4Event>() {
+class Demo4ViewModel : MviDispatcherKTX<Demo4Event>() {
 
     private val mRepository by lazy { Demo5Repository() }
 
-    override fun input(event: Demo4Event?) {
-        when (event?.eventId) {
-            Demo4Event.EVENT_LOGIN -> getLogin(event, event.param.map)
-            Demo4Event.EVENT_CHAPTERS -> getChapters(event)
-            Demo4Event.EVENT_ARTICLE -> getArticle(event)
+    override suspend fun onHandle(event: Demo4Event) {
+        when (event) {
+            is Demo4Event.WanLoginM -> getLogin(event.map)
+            is Demo4Event.WanArticleM -> getArticle()
+            is Demo4Event.WanChaptersM -> getChapters()
+            is Demo4Event.WanAndroidM -> getWanAndroid()
+            else -> {}
         }
     }
 
     /**
      * 获取首页文章列表
      */
-    private fun getArticle(event: Demo4Event) {
+    private suspend fun getArticle() {
+        showLoading()
         viewModelScope.launch(Dispatchers.Main) {
-            showLoading()
-
             val mArticle = withContext(Dispatchers.IO) {
                 mRepository.getArticle()
             }
             val mChapters = async { mRepository.getChapters() }
             val mBanner = async { mRepository.getBanner() }
 
-            event.result?.wanArticle = mArticle.data
-            event.result?.wanChapters = mChapters.await().data
-            event.result?.wanAndroid = mBanner.await().data
-            sendResult(event)
+            val mTriple = Triple(mArticle.data, mChapters.await().data, mBanner.await().data)
+            sendResult(Demo4Event.WanArticleM(mTriple))
 
             dismissLoading()
         }
@@ -49,40 +51,50 @@ class Demo4ViewModel : MviDispatcher<Demo4Event>() {
     /**
      * 获取公众号列表
      */
-    private fun getChapters(event: Demo4Event) {
+    private suspend fun getChapters() {
         showLoading()
-        viewModelScope.launchSafety(Dispatchers.Main) {
-            val mChapters = mRepository.getChapters()
-            mChapters
-        }.onCatch {
-            LogUtils.d("onCatch : ${it.message} ${ThreadUtils.isMainThread()}")
-        }.onComplete {
-            LogUtils.d("onSuccess : ${it?.message} ${ThreadUtils.isMainThread()}")
-            event.result?.wanChapters = it?.data
-            sendResult(event)
-            dismissLoading()
-        }
+
+        val mChapters = mRepository.getChapters()
+        sendResult(Demo4Event.WanChaptersM(mChapters.data))
+
+        dismissLoading()
     }
 
     /**
      * 登录
      */
-    private fun getLogin(event: Demo4Event, map: Map<String, String>) {
+    private suspend fun getLogin(map: Map<String, String>) {
         viewModelScope.launchSafety(Dispatchers.Main) {
             val login = mRepository.getLogin(map["username"] ?: "", map["password"] ?: "")
-            login
-        }.onComplete {
-            event.result?.wanLogin = it?.data
-            sendResult(event)
+            sendResult(Demo4Event.WanLoginM(login.data))
+        }.onCatch {
+            LogUtils.d(it.message)
         }
     }
 
-    private fun showLoading() {
-        sendResult(Demo4Event(Demo4Event.EVENT_SHOW_LOADING))
+    /**
+     * 首页banner
+     */
+    private suspend fun getWanAndroid() {
+        flow {
+            val banner = mRepository.getBanner()
+            emit(banner)
+        }
+            .onStart { showLoading() }
+//            .flowOn(Dispatchers.IO)
+            .onCompletion { dismissLoading() }
+            .catch { LogUtils.d(it.message) }
+            .collect {
+                sendResult(Demo4Event.WanAndroidM(it.data))
+            }
     }
 
-    private fun dismissLoading() {
-        sendResult(Demo4Event(Demo4Event.EVENT_DISMISS_LOADING))
+    private suspend fun showLoading() {
+        sendResult(Demo4Event.ShowLoading())
+    }
+
+    private suspend fun dismissLoading() {
+        sendResult(Demo4Event.DismissLoading)
     }
 
 }
