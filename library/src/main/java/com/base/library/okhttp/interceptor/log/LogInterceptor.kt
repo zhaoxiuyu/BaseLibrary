@@ -1,6 +1,7 @@
 package com.base.library.okhttp.interceptor.log
 
 import android.util.Log
+import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import okhttp3.*
 import java.io.IOException
@@ -280,7 +281,7 @@ class LogInterceptor @JvmOverloads constructor(
          */
         const val DEFAULT_IGNORE_LENGTH = 102400
 
-        val gson by lazy {
+        val gson: Gson by lazy {
             GsonBuilder().setPrettyPrinting().create()
         }
     }

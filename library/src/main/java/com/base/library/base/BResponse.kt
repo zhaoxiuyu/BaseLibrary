@@ -21,7 +21,7 @@ class BResponse<T> {
     }
 
     fun showMsg(): String {
-        return message ?: errorMsg ?: msg ?: ""
+        return message ?: errorMsg ?: msg
     }
 
 }

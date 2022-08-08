@@ -20,13 +20,6 @@ object LitePalUtils {
     }
 
     /**
-     * 异步插入
-     */
-    fun insertAsync(datas: Collection<LitePalSupport>) {
-        LitePal.saveAllAsync(datas)
-    }
-
-    /**
      * 删除单个数据
      */
     fun delete(data: LitePalSupport) {
