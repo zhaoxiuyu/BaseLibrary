@@ -5,17 +5,21 @@ plugins {
     id 'com.blankj.bus'
     id 'androidx.navigation.safeargs.kotlin' // navigation 导航
     id 'com.alibaba.arouter' // Gradle 插件实现路由表的自动加载
-//    id 'dagger.hilt.android.plugin' // 依赖注入
 }
+
+def androidVersion = rootProject.ext.androidVersion
+def support = rootProject.ext.dependencies
+def kaptSupport = rootProject.ext.kapt
+def annotationProcessorSupport = rootProject.ext.annotationProcessor
 
 //配置项目构建的各种属性
 android {
-    compileSdk skdVersion.compileSdk //编译时使用 Android版本
+    compileSdk androidVersion.compileSdkVersion //编译时使用 Android版本
 
     //默认配置项
     defaultConfig {
-        targetSdk skdVersion.targetSdk //目标版本
-        minSdk skdVersion.minSdk //最低兼容Android版本
+        targetSdk androidVersion.targetSdkVersion //目标版本
+        minSdk androidVersion.minSdkVersion //最低兼容Android版本
 
         applicationId "com.base.app" //项目包名
 
@@ -142,17 +146,14 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.3.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
+    support.each { k, v -> implementation v }
+    kaptSupport.each { k, v -> kapt v }
+    annotationProcessorSupport.each { k, v -> annotationProcessor v }
+
     if (useLocalDependencies()) {
         implementation(project(':library'))
     } else {
         implementation dependencies.BaseLibrary
     }
-
-    // Kotlin中使用了Glide注解
-    kapt 'com.github.bumptech.glide:compiler:4.12.0'
-    // 路由
-    kapt 'com.alibaba:arouter-compiler:1.5.2'
-    // 依赖注入
-    kapt 'com.google.dagger:hilt-android-compiler:2.42'
 
 }

@@ -1,11 +1,191 @@
 ext {
     // 创建了一个名为android类型的map的变量,groovy中可以用[]来创建map类型。
     // 那么就是一个map下面又创建了一个map，且名字叫做 configs。
-    skdVersion = [
-            compileSdk: 31,      // 编译源码所使用的API版本
-            minSdk    : 23,      // 最低兼容Android版本
-            targetSdk : 31,      // 目标版本
+    androidVersion = [
+            compileSdkVersion: 32, // 编译源码所使用的API版本
+            minSdkVersion    : 23, // 最低兼容Android版本
+            targetSdkVersion : 32, // 目标版本
+            versionCode      : 1,
+            versionName      : "1.0",
     ]
+
+    // 第三方库版本号
+    dependencies = [
+            // 多 dex
+            "multidex"                      : "androidx.multidex:multidex:2.0.1",
+            // design
+            "material"                      : "com.google.android.material:material:1.6.1",
+            // 矢量
+            "vectordrawable"                : "androidx.vectordrawable:vectordrawable:1.1.0",
+            "vectordrawable-seekable"       : "androidx.vectordrawable:vectordrawable-seekable:1.0.0-alpha02",
+            // 约束
+            "constraintlayout"              : "androidx.constraintlayout:constraintlayout:2.1.4",
+            // 旧版本API 访问新API
+            "appcompat"                     : "androidx.appcompat:appcompat:1.5.0",
+            // 用于在交旧的平台上使用 drawables
+            "appcompat-resources"           : "androidx.appcompat:appcompat-resources:1.5.0",
+            "cardview"                      : "androidx.cardview:cardview:1.0.0",
+            "viewpager2"                    : "androidx.viewpager2:viewpager2:1.1.0-beta01",
+            "recyclerview"                  : "androidx.recyclerview:recyclerview:1.3.0-alpha02",
+            // 用于控制触摸和鼠标驱动选择的项目选择
+            "recyclerview-selection"        : "androidx.recyclerview:recyclerview-selection:1.1.0",
+
+            // Android KTX
+            "core-ktx"                      : "androidx.core:core-ktx:1.8.0",
+            "collection-ktx"                : "androidx.collection:collection-ktx:1.2.0",
+            "activity-ktx"                  : "androidx.activity:activity-ktx:1.5.1",
+            "fragment-ktx"                  : "androidx.fragment:fragment-ktx:1.5.2",
+            "navigation-ui-ktx"             : "androidx.navigation:navigation-ui-ktx:2.4.2",
+            "navigation-fragment-ktx"       : "androidx.navigation:navigation-fragment-ktx:2.4.2",
+            "work-runtime-ktx"              : "androidx.work:work-runtime-ktx:2.7.1",
+            "navigation-compose"            : "androidx.navigation:navigation-compose:2.4.2",
+            "annotation"                    : "androidx.annotation:annotation:1.5.0-alpha02",
+
+            // 生命周期管理相关
+            "lifecycle-viewmodel"           : "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1",
+            "lifecycle-livedata"            : "androidx.lifecycle:lifecycle-livedata-ktx:2.5.0-beta01",
+            "lifecycle-runtime"             : "androidx.lifecycle:lifecycle-runtime-ktx:2.5.1",
+            "lifecycle-viewmodel-savedstate": "androidx.lifecycle:lifecycle-viewmodel-savedstate:2.5.1",
+            // kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
+            // 不使用compiler注解,使用java8,直接实现这个接口即可DefaultLifecycleObserver
+            "lifecycle-common"              : "androidx.lifecycle:lifecycle-common-java8:2.5.1",
+            "lifecycle-service"             : "androidx.lifecycle:lifecycle-service:2.5.0-beta01",
+            "lifecycle-process"             : "androidx.lifecycle:lifecycle-process:2.5.0-beta01",
+            "datastore"                     : "androidx.datastore:datastore-preferences:1.0.0",
+
+            // 网络
+            "Net"                           : "com.github.liangjingkanji:Net:3.4.14",
+            // 适配器
+            "BRV"                           : "com.github.liangjingkanji:BRV:1.3.81",
+            // 悬浮窗
+            "EasyFloat"                     : "com.github.princekin-f:EasyFloat:2.0.4",
+            // 指示器
+            "MagicIndicator"                : "com.github.hackware1993:MagicIndicator:1.7.0",
+            // DslTabLayout
+            "TabLayout"                     : "com.github.angcyo.DslTablayout:TabLayout:3.2.5",
+            "ViewPager1Delegate"            : "com.github.angcyo.DslTablayout:ViewPager1Delegate:3.2.5",
+            "ViewPager2Delegate"            : "com.github.angcyo.DslTablayout:ViewPager2Delegate:3.2.5",
+            // ViewBindingKTX
+            "viewbinding-ktx"               : "com.github.DylanCaiCoding.ViewBindingKTX:viewbinding-ktx:2.1.0",
+            "viewbinding-base"              : "com.github.DylanCaiCoding.ViewBindingKTX:viewbinding-base:2.1.0",
+            "viewbinding-brvah"             : "com.github.DylanCaiCoding.ViewBindingKTX:viewbinding-brvah:2.1.0",
+            // 全局加载状态视图
+            "loadingstateview-ktx"          : "com.github.DylanCaiCoding.LoadingStateView:loadingstateview-ktx:4.0.1",
+            // Activity Result API
+            "ActivityResultLauncher"        : "com.github.DylanCaiCoding:ActivityResultLauncher:1.1.2",
+            // 路由
+            "arouter-api"                   : "com.alibaba:arouter-api:1.5.2",
+
+            // 权限
+            "XXPermissions"                 : "com.github.getActivity:XXPermissions:15.0",
+            // 顶部标题栏
+            "TitleBar"                      : "com.github.getActivity:TitleBar:9.5",
+            // Gson 解析容错
+            "GsonFactory"                   : "com.github.getActivity:GsonFactory:6.2",
+            // Shape 框架
+            "ShapeView"                     : "com.github.getActivity:ShapeView:8.3",
+
+            // 三角角标控件
+            "TriangleView"                  : "com.github.xiaoliang0227:TriangleView:1.0.3",
+
+            // 混淆库
+            "Proguards"                     : "com.github.zhaoxiuyu:Proguards:1.0.5",
+            // 字节跳动启动优化
+            "boost_multidex"                : "com.bytedance.boost_multidex:boost_multidex:1.0.1",
+            "free_reflection"               : "me.weishu:free_reflection:3.0.1",
+
+            // SuperTextView
+            "SuperTextView"                 : "com.github.chenBingX:SuperTextView:3.2.6.99",
+            // RWidgetHelper : 圆角，边框，Gradient背景渐变，控件State各个状态UI样式，阴影，水波纹
+            "RWidgetHelper"                 : "com.github.RuffianZhong:RWidgetHelper:androidx.v0.0.10",
+            // 侧滑
+            "smart-swipe-x"                 : "com.billy.android:smart-swipe-x:1.1.0",
+            // 沉浸式
+            "UltimateBarX"                  : "com.gitee.zackratos:UltimateBarX:0.8.0",
+            // 日历
+            "calendarview"                  : "com.haibin:calendarview:3.7.1",
+            "android-times-square"          : "com.squareup:android-times-square:1.7.11",
+            // 选择器
+            "AndroidPicker-Common"          : "com.github.gzu-liyujiang.AndroidPicker:Common:4.1.9",
+            "AndroidPicker-WheelPicker"     : "com.github.gzu-liyujiang.AndroidPicker:WheelPicker:4.1.9",
+            "AndroidPicker-AddressPicker"   : "com.github.gzu-liyujiang.AndroidPicker:AddressPicker:4.1.9",
+            "AndroidPicker-FilePicker"      : "com.github.gzu-liyujiang.AndroidPicker:FilePicker:4.1.9",
+            "AndroidPicker-ColorPicker"     : "com.github.gzu-liyujiang.AndroidPicker:ColorPicker:4.1.9",
+            "AndroidPicker-CalendarPicker"  : "com.github.gzu-liyujiang.AndroidPicker:CalendarPicker:4.1.9",
+            "AndroidPicker-ImagePicker"     : "com.github.gzu-liyujiang.AndroidPicker:ImagePicker:4.1.9",
+
+            // livedata
+            "unpeek-livedata"               : "com.kunminx.arch:unpeek-livedata:7.8.0",
+            "mvi-dispatch-ktx"              : 'com.kunminx.arch:mvi-dispatch-ktx:7.0.2-beta',
+            // lottie
+            "lottie"                        : "com.airbnb.android:lottie:5.2.0",
+            // RecyclerView 列表动画
+            "recyclerview-animators"        : "jp.wasabeef:recyclerview-animators:4.0.2",
+            // 动画工具类
+            "viewanimator"                  : "com.github.florent37:viewanimator:1.1.2",
+            // Json相关
+            "gson"                          : "com.google.code.gson:gson:2.9.1",
+            // 分割线
+            "Decoration"                    : "ckrjfrog.FlexItemDecoration:Decoration:1.1.3",
+            // banner 轮播图
+            "banner"                        : "io.github.youth5201314:banner:2.2.2",
+            // 提示框
+            "XPopup"                        : "com.github.li-xiaojun:XPopup:2.8.9",
+
+            // View动画效果大集合
+            "easing-library"                : "com.daimajia.easing:library:2.0@aar",
+            "androidanimations-library"     : "com.daimajia.androidanimations:library:2.3@aar",
+
+            // 图片
+            "glide"                         : "com.github.bumptech.glide:glide:4.13.2",
+            "okhttp3-integration"           : "com.github.bumptech.glide:okhttp3-integration:4.11.0",
+            "glide-transformations"         : "jp.wasabeef:glide-transformations:4.3.0",
+            "gpuimage"                      : "jp.co.cyberagent.android:gpuimage:2.1.0",
+
+            // 智能刷新框架：分包之后不会有默认的Header和Footer需要手动添加！还是原来的三种方法！
+            "refresh-layout-kernel"         : "io.github.scwang90:refresh-layout-kernel:2.0.5",
+            "refresh-header-classics"       : "io.github.scwang90:refresh-header-classics:2.0.5",
+            "refresh-header-radar"          : "io.github.scwang90:refresh-header-radar:2.0.5",
+            "refresh-header-falsify"        : "io.github.scwang90:refresh-header-falsify:2.0.5",
+            "refresh-header-material"       : "io.github.scwang90:refresh-header-material:2.0.5",
+            "refresh-header-two-level"      : "io.github.scwang90:refresh-header-two-level:2.0.5",
+            "refresh-footer-ball"           : "io.github.scwang90:refresh-footer-ball:2.0.5",
+            "refresh-footer-classics"       : "io.github.scwang90:refresh-footer-classics:2.0.5",
+
+            // 网络请求相关,kapt只需要扫描library即可
+            "okhttp"                        : "com.squareup.okhttp3:okhttp:5.0.0-alpha.2",
+            "retrofit"                      : "com.squareup.retrofit2:retrofit:2.9.0",
+            "adapter-rxjava3"               : "com.squareup.retrofit2:adapter-rxjava3:2.9.0",
+            "converter-gson"                : "com.squareup.retrofit2:converter-gson:2.9.0",
+            "converter-scalars"             : "com.squareup.retrofit2:converter-scalars:2.9.0",
+            "rxjava"                        : "io.reactivex.rxjava3:rxjava:3.1.4",
+            "rxandroid"                     : "io.reactivex.rxjava3:rxandroid:3.0.0",
+            // 解决RxJava内存泄漏
+            "rxlife-rxjava3"                : "com.github.liujingxing.rxlife:rxlife-rxjava3:2.2.2",
+
+            // sqlite 数据库
+            "litepal"                       : "org.litepal.guolindev:core:3.2.3",
+            // 工具类 AndroidUtilCode
+            "utilcodex"                     : "com.blankj:utilcodex:1.31.0",
+            // MMKV
+            "mmkv-static"                   : "com.tencent:mmkv-static:1.2.13",
+
+            // 协程
+            "coroutines-core"               : "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.2",
+            "coroutines-android"            : "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4",
+
+    ]
+
+    kapt = [
+            "arouter-compiler": "com.alibaba:arouter-compiler:1.5.2",
+
+            // Glide注解
+            "glide-compiler"  : "com.github.bumptech.glide:compiler:4.13.2",
+    ]
+    annotationProcessor = [
+
+    ]
+
     // 依赖版本号
     libVersion = [
             appCode          : 100,
@@ -16,10 +196,5 @@ ext {
             libraryGroupId   : "com.gitee.zxy_it",
             libraryArtifactId: "BaseLibrary",
     ]
-    // 第三方库版本号
-    dependencies = [
-            // 依赖注入
-//            hilt           : "com.google.dagger:hilt-android:2.28-alpha",
-//            hiltCompiler   : "com.google.dagger:hilt-android-compiler:2.28-alpha",
-    ]
+
 }

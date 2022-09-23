@@ -2,21 +2,20 @@ package com.base.app.sample.views
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
-import androidx.recyclerview.widget.LinearLayoutManager
+import android.widget.TextView
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.base.app.R
 import com.base.app.base.MyARoute
 import com.base.app.base.MyMethod
 import com.base.app.databinding.FragmentViewsBinding
+import com.base.app.entitys.PageDescribe
 import com.base.library.mvvm.VMFragment
-import com.chad.library.adapter.base.BaseQuickAdapter
-import com.chad.library.adapter.base.listener.OnItemClickListener
+import com.drake.brv.utils.linear
+import com.drake.brv.utils.setup
 
 // view 功能列表
 @Route(path = MyARoute.View_ViewsFragment)
-class ViewsFragment : VMFragment<FragmentViewsBinding>(), OnItemClickListener {
-
-    private val mAdapter by lazy { ViewsAdapter() }
+class ViewsFragment : VMFragment<FragmentViewsBinding>() {
 
     override fun initArgs(mArguments: Bundle?) {
     }
@@ -26,22 +25,26 @@ class ViewsFragment : VMFragment<FragmentViewsBinding>(), OnItemClickListener {
     }
 
     override fun initData(savedInstanceState: Bundle?) {
-        viewBinding.viewsFragmentRv.layoutManager = LinearLayoutManager(requireActivity())
-        viewBinding.viewsFragmentRv.adapter = mAdapter
-
-        mAdapter.animationEnable = true
-        mAdapter.setOnItemClickListener(this)
-        mAdapter.setNewInstance(MyMethod.getViewsDescribe())
+        initAdapter()
     }
 
     override fun registerObserve() {
     }
 
-    override fun onItemClick(adapter: BaseQuickAdapter<*, *>, view: View, position: Int) {
-        val item = mAdapter.getItem(position)
-        item.cls?.let {
-            startActivity(Intent(requireActivity(), it))
-        }
+    private fun initAdapter() {
+        viewBinding.viewsFragmentRv.linear().setup {
+            addType<PageDescribe>(R.layout.fragment_views_item)
+            onBind {
+                val model = getModel<PageDescribe>()
+                findView<TextView>(R.id.material_textview_name).text = model.name
+                findView<TextView>(R.id.material_textview_describe).text = model.describe
+            }
+            onClick(R.id.itemView) {
+                val model = getModel<PageDescribe>()
+                model.cls?.let {
+                    startActivity(Intent(requireActivity(), it))
+                }
+            }
+        }.models = MyMethod.getViewsDescribe()
     }
-
 }

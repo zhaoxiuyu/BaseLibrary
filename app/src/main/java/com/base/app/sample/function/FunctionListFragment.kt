@@ -2,27 +2,25 @@ package com.base.app.sample.function
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
+import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.base.app.R
 import com.base.app.base.MyARoute
 import com.base.app.base.MyMethod
 import com.base.app.databinding.FragmentFunctionListBinding
+import com.base.app.entitys.PageDescribe
 import com.base.library.mvvm.VMFragment
 import com.blankj.utilcode.util.LogUtils
-import com.chad.library.adapter.base.BaseQuickAdapter
-import com.chad.library.adapter.base.listener.OnItemClickListener
+import com.drake.brv.utils.linear
+import com.drake.brv.utils.setup
 
 @Route(path = MyARoute.Function_FunctionListFragment)
-class FunctionListFragment : VMFragment<FragmentFunctionListBinding>(), OnItemClickListener {
-
-    private val mAdapter by lazy { FunctionAdapter() }
+class FunctionListFragment : VMFragment<FragmentFunctionListBinding>() {
 
     /**
      * callback 赋值的时候,回调里面拦截返回事件,这是首页返回给出提示是否直接退出
@@ -45,6 +43,7 @@ class FunctionListFragment : VMFragment<FragmentFunctionListBinding>(), OnItemCl
         registerDemo1Result()
         registerDetailResult()
         registerDemo5Result()
+        initAdapter()
 
         viewBinding.butCollapse.setOnClickListener {
             throw  RuntimeException("Boom!")
@@ -54,29 +53,9 @@ class FunctionListFragment : VMFragment<FragmentFunctionListBinding>(), OnItemCl
             isEnabled = true
             LogUtils.d("返回事件被我拦截了，已经在首页了")
         }
-
-        viewBinding.functionFragmentRv.layoutManager = LinearLayoutManager(requireActivity())
-        viewBinding.functionFragmentRv.adapter = mAdapter
-
-        mAdapter.animationEnable = true
-        mAdapter.setOnItemClickListener(this)
-        mAdapter.setNewInstance(MyMethod.getFunctionDescribe())
     }
 
     override fun registerObserve() {
-    }
-
-    override fun onItemClick(adapter: BaseQuickAdapter<*, *>, view: View, position: Int) {
-        val item = mAdapter.getItem(position)
-        when (item.name) {
-            "Demo1" -> item.cls?.let { demo1Launch?.launch(Intent(requireActivity(), it)) }
-            "Demo3" -> findNavController().navigate(R.id.action_function_demo3)
-//            "Demo4" -> findNavController().navigate(R.id.action_function_demo4)
-            "协程" -> findNavController().navigate(R.id.action_function_coroutines)
-            "异步流" -> findNavController().navigate(R.id.action_function_flow)
-            "Demo5" -> item.cls?.let { demo5Launch?.launch(Intent(requireActivity(), it)) }
-            "Demo4" -> item.cls?.let { demo5Launch?.launch(Intent(requireActivity(), it)) }
-        }
     }
 
     private fun registerDemo1Result() {
@@ -95,6 +74,29 @@ class FunctionListFragment : VMFragment<FragmentFunctionListBinding>(), OnItemCl
         detailLaunch = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             LogUtils.d(it.resultCode)
         }
+    }
+
+    private fun initAdapter() {
+        viewBinding.functionFragmentRv.linear().setup {
+            addType<PageDescribe>(R.layout.fragment_function_item)
+            onBind {
+                val model = getModel<PageDescribe>()
+                findView<TextView>(R.id.material_textview_name).text = model.name
+                findView<TextView>(R.id.material_textview_describe).text = model.name
+            }
+            onClick(R.id.itemView) {
+                val model = getModel<PageDescribe>()
+                when (model.name) {
+                    "Demo1" -> model.cls?.let { demo1Launch?.launch(Intent(requireActivity(), it)) }
+                    "Demo3" -> findNavController().navigate(R.id.action_function_demo3)
+//                  "Demo4" -> findNavController().navigate(R.id.action_function_demo4)
+                    "协程" -> findNavController().navigate(R.id.action_function_coroutines)
+                    "异步流" -> findNavController().navigate(R.id.action_function_flow)
+                    "Demo5" -> model.cls?.let { demo5Launch?.launch(Intent(requireActivity(), it)) }
+                    "Demo4" -> model.cls?.let { demo5Launch?.launch(Intent(requireActivity(), it)) }
+                }
+            }
+        }.models = MyMethod.getFunctionDescribe()
     }
 
     override fun onDestroyView() {

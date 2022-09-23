@@ -50,10 +50,6 @@
             android:exported="false" />
 
         <activity
-            android:name=".sample.mvi.activity.Demo5Activity"
-            android:exported="false" />
-
-        <activity
             android:name=".sample.mvi.activity.Demo4Activity"
             android:exported="false" />
 

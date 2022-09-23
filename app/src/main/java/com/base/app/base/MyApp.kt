@@ -1,7 +1,6 @@
 package com.base.app.base
 
 import androidx.lifecycle.ProcessLifecycleOwner
-import com.airbnb.mvrx.Mavericks
 import com.base.app.http.OkHttpUtils
 import com.base.library.base.AppLifecycleObserver
 import com.base.library.base.BApplication
@@ -24,8 +23,6 @@ class MyApp : BApplication() {
 
         // ActivityResultLauncher 和 RxTool 的FileProvider冲突，https://github.com/DylanCaiCoding/ActivityResultLauncher/issues/2
         FileProviderUtils.authority = "$packageName.fileProvider"
-
-        Mavericks.initialize(this)
 
     }
 
