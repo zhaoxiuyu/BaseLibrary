@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.base.common">
+
+    <application>
+
+        <activity
+            android:name=".sample.mvp.activity.Demo1Activity"
+            android:exported="true" />
+
+        <activity
+            android:name=".sample.mvp.activity.Demo2Activity"
+            android:exported="true" />
+
+        <activity
+            android:name=".sample.mvi.activity.Demo4Activity"
+            android:exported="true" />
+
+    </application>
+
+</manifest>

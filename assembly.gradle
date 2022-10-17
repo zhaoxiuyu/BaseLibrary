@@ -1,0 +1,88 @@
+apply from: "${rootProject.rootDir}/dependencies.gradle"
+
+project.ext {
+
+    // 是否允许 module 单独调试
+    isModuleDebug = true
+    // 单独调试 module 名称
+    moduleName = "utils"
+
+    //动态改变，用于单模块调试
+    setAppOrLibDefaultConfig = {
+        extension ->
+            if (project.ext.isModuleDebug && project.ext.moduleName == project.name) {
+                extension.apply plugin: 'com.android.application'
+                extension.description "app"
+            } else {
+                extension.apply plugin: 'com.android.library'
+                extension.description "lib"
+            }
+            extension.apply plugin: 'kotlin-android'
+            extension.apply plugin: 'kotlin-parcelize'
+            extension.apply plugin: 'kotlin-kapt'
+
+            appImplementation = project.name
+
+            //设置通用Android配置
+            setAppOrLibAndroidConfig extension.android
+            //设置通用依赖配置
+            setDependencies extension.dependencies
+    }
+
+    //设置通用的 android配置（可作为project单独调试）
+    setAppOrLibAndroidConfig = {
+        extension ->
+            extension.compileSdkVersion project.ext.compileSdkVersion
+            extension.defaultConfig {
+                if (project.ext.isModuleDebug && project.ext.moduleName == project.name) {
+                    applicationId project.ext.applicationId + "." + project.name
+                    println("包名 : " + project.ext.applicationId + "." + project.name)
+                }
+
+                minSdkVersion project.ext.minSdkVersion
+                targetSdkVersion project.ext.targetSdkVersion
+                versionCode project.ext.versionCode
+                versionName project.ext.versionName
+
+                multiDexEnabled true
+                vectorDrawables.useSupportLibrary = true
+
+                extension.flavorDimensions "default"
+                testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+            }
+
+            extension.resourcePrefix appImplementation + "_"
+
+            kapt {
+                arguments {
+                    arg("AROUTER_MODULE_NAME", project.getName())
+                }
+            }
+            //Java版本配置
+            extension.compileOptions {
+                encoding "utf-8"
+                sourceCompatibility JavaVersion.VERSION_11
+                targetCompatibility JavaVersion.VERSION_11
+            }
+//            extension.kotlinOptions {
+//                jvmTarget = '11'
+//                useIR = true
+//            }
+            // 启用 viewBinding
+            extension.buildFeatures {
+                viewBinding = true
+            }
+            //动态改变清单文件资源指向
+            extension.sourceSets {
+                main {
+                    if (project.ext.isModuleDebug && project.ext.moduleName == project.name) {
+                        manifest.srcFile 'src/main/manifest/AndroidManifest.xml'
+                    } else {
+                        manifest.srcFile 'src/main/AndroidManifest.xml'
+                    }
+                }
+            }
+    }
+
+}
+

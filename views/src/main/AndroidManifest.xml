@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.base.views">
+
+    <application>
+
+        <activity
+            android:name=".ui.activity.ViewsAnimatedTvActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.activity.ViewsMotionActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.activity.ViewsTriangleActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.activity.ViewsVP2Activity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.activity.ViewsVP2TabActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.activity.ViewsConstraintActivity"
+            android:exported="false" />
+
+    </application>
+
+</manifest>

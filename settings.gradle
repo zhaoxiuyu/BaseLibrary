@@ -1,1 +1,5 @@
 include ':app', ':library'
+include ':common'
+include ':views'
+include ':function'
+include ':utils'

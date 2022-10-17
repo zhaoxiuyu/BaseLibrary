@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/common_color_CCCCCC"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <com.base.library.view.AnimatedTextView
+        android:id="@+id/mAnimatedTextView"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/pt_120"
+        android:layout_margin="@dimen/pt_100"
+        android:gravity="center"
+        android:text="带动画的TextView" />
+
+    <Button
+        android:id="@+id/butStop"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/pt_120"
+        android:text="Stop" />
+</LinearLayout>

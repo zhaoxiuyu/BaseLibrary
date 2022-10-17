@@ -1,0 +1,12 @@
+project.ext {
+
+    compileSdkVersion = 32 // 编译源码所使用的API版本
+    minSdkVersion = 23 // 最低兼容Android版本
+    targetSdkVersion = 32 // 目标版本
+    applicationId = "com.base.app" // 项目包名
+    versionCode = 1
+    versionName = "1.0.0"
+
+
+}
+

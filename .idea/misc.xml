@@ -3,29 +3,67 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/app/src/main/res/drawable/ic_svg_function.xml" value="0.1" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/app/src/main/res/drawable/ic_svg_utils.xml" value="0.1" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/app/src/main/res/drawable/ic_svg_views.xml" value="0.1" />
         <entry key="..\:/Project/AndroidStudio/BaseLibrary/app/src/main/res/layout/activity_animated_textview.xml" value="0.2210144927536232" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/app/src/main/res/layout/activity_constraint_layout.xml" value="0.176" />
         <entry key="..\:/Project/AndroidStudio/BaseLibrary/app/src/main/res/layout/activity_demo1.xml" value="0.264" />
         <entry key="..\:/Project/AndroidStudio/BaseLibrary/app/src/main/res/layout/activity_demo5.xml" value="0.2418478260869565" />
         <entry key="..\:/Project/AndroidStudio/BaseLibrary/app/src/main/res/layout/activity_demos.xml" value="0.2210144927536232" />
         <entry key="..\:/Project/AndroidStudio/BaseLibrary/app/src/main/res/layout/activity_function.xml" value="0.2210144927536232" />
         <entry key="..\:/Project/AndroidStudio/BaseLibrary/app/src/main/res/layout/activity_main.xml" value="0.2210144927536232" />
-        <entry key="..\:/Project/AndroidStudio/BaseLibrary/app/src/main/res/layout/activity_motion_demo.xml" value="0.1" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/app/src/main/res/layout/activity_motion_demo.xml" value="0.2" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/app/src/main/res/layout/activity_triangle_view.xml" value="0.25364583333333335" />
         <entry key="..\:/Project/AndroidStudio/BaseLibrary/app/src/main/res/layout/activity_viewpage2.xml" value="0.15896739130434784" />
         <entry key="..\:/Project/AndroidStudio/BaseLibrary/app/src/main/res/layout/activity_viewpage2_tab.xml" value="0.13854166666666667" />
         <entry key="..\:/Project/AndroidStudio/BaseLibrary/app/src/main/res/layout/details.xml" value="0.15896739130434784" />
         <entry key="..\:/Project/AndroidStudio/BaseLibrary/app/src/main/res/layout/fragment123_viewpage2.xml" value="0.2210144927536232" />
-        <entry key="..\:/Project/AndroidStudio/BaseLibrary/app/src/main/res/layout/fragment_demo3.xml" value="0.15534420289855072" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/app/src/main/res/layout/fragment_demo3.xml" value="0.2" />
         <entry key="..\:/Project/AndroidStudio/BaseLibrary/app/src/main/res/layout/fragment_demo4.xml" value="0.2210144927536232" />
         <entry key="..\:/Project/AndroidStudio/BaseLibrary/app/src/main/res/layout/fragment_function.xml" value="0.2210144927536232" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/app/src/main/res/layout/fragment_function_coroutines.xml" value="0.21422101449275363" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/app/src/main/res/layout/fragment_function_flow.xml" value="0.21195652173913043" />
         <entry key="..\:/Project/AndroidStudio/BaseLibrary/app/src/main/res/layout/fragment_function_item.xml" value="0.2210144927536232" />
         <entry key="..\:/Project/AndroidStudio/BaseLibrary/app/src/main/res/layout/fragment_function_list.xml" value="0.2210144927536232" />
         <entry key="..\:/Project/AndroidStudio/BaseLibrary/app/src/main/res/layout/fragment_splash.xml" value="0.2210144927536232" />
         <entry key="..\:/Project/AndroidStudio/BaseLibrary/app/src/main/res/layout/fragment_utils.xml" value="0.2210144927536232" />
         <entry key="..\:/Project/AndroidStudio/BaseLibrary/app/src/main/res/layout/fragment_utils_item.xml" value="0.2210144927536232" />
         <entry key="..\:/Project/AndroidStudio/BaseLibrary/app/src/main/res/layout/fragment_viewpage2.xml" value="0.2210144927536232" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/app/src/main/res/layout/fragment_viewpage2_tab.xml" value="0.2296195652173913" />
         <entry key="..\:/Project/AndroidStudio/BaseLibrary/app/src/main/res/layout/fragment_views.xml" value="0.2210144927536232" />
         <entry key="..\:/Project/AndroidStudio/BaseLibrary/app/src/main/res/layout/fragment_views_item.xml" value="0.2210144927536232" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/app/src/main/res/layout/layout_motion1.xml" value="0.23596014492753623" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/app/src/main/res/layout/layout_motion2.xml" value="0.23596014492753623" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/app/src/main/res/menu/activity_demos_nav_menu.xml" value="0.25364583333333335" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/app/src/main/res/xml/scene_scroll_13.xml" value="0.23596014492753623" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/common/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1735" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/common/src/main/res/drawable/ic_launcher_background.xml" value="0.1735" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/common/src/main/res/layout/activity_demo1.xml" value="0.21195652173913043" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/common/src/main/res/layout/activity_main.xml" value="0.21195652173913043" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/common/src/main/res/layout/common_sample_activity.xml" value="0.21195652173913043" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/common/src/main/res/layout/common_sample_demo.xml" value="0.21195652173913043" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/common/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1735" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/function/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.232" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/function/src/main/res/layout/activity_main.xml" value="0.21195652173913043" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/function/src/main/res/layout/fragment_function.xml" value="0.21195652173913043" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/function/src/main/res/layout/fragment_function_coroutines.xml" value="0.21195652173913043" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/function/src/main/res/layout/fragment_function_flow.xml" value="0.21195652173913043" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/function/src/main/res/layout/fragment_function_item.xml" value="0.21195652173913043" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/function/src/main/res/layout/function_entrance_activity.xml" value="0.21195652173913043" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/function/src/main/res/layout/function_fragment.xml" value="0.21195652173913043" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/function/src/main/res/layout/function_fragment_coroutines.xml" value="0.2210144927536232" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/function/src/main/res/layout/function_fragment_flow.xml" value="0.2210144927536232" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/function/src/main/res/layout/function_fragment_item.xml" value="0.2210144927536232" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/function/src/main/res/layout/function_fragment_list.xml" value="0.21195652173913043" />
         <entry key="..\:/Project/AndroidStudio/BaseLibrary/library/src/main/res/layout/base_layout.xml" value="0.16077898550724637" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/library/src/main/res/layout/layout_empty_helper.xml" value="0.21195652173913043" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/library/src/main/res/layout/layout_empty_state_view.xml" value="0.21195652173913043" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/library/src/main/res/layout/layout_error_helper.xml" value="0.21195652173913043" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/library/src/main/res/layout/layout_error_state_view.xml" value="0.21195652173913043" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/library/src/main/res/layout/layout_loading_helper.xml" value="0.21195652173913043" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/library/src/main/res/layout/layout_loading_state_view.xml" value="0.21195652173913043" />
         <entry key="..\:/Project/AndroidStudio/BaseLibrary/module_common/src/main/res/layout/activity_common_main.xml" value="0.2210144927536232" />
         <entry key="..\:/Project/AndroidStudio/BaseLibrary/module_function/src/main/res/layout/activity_demo1.xml" value="0.264" />
         <entry key="..\:/Project/AndroidStudio/BaseLibrary/module_function/src/main/res/layout/activity_demo5.xml" value="0.264" />
@@ -46,6 +84,43 @@
         <entry key="..\:/Project/AndroidStudio/BaseLibrary/module_view/src/main/res/layout/fragment123_viewpage2.xml" value="0.2210144927536232" />
         <entry key="..\:/Project/AndroidStudio/BaseLibrary/module_view/src/main/res/layout/fragment_tab_page2.xml" value="0.2210144927536232" />
         <entry key="..\:/Project/AndroidStudio/BaseLibrary/module_view/src/main/res/layout/fragment_views.xml" value="0.2210144927536232" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/utils/src/main/res/layout/activity_main.xml" value="0.21195652173913043" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/utils/src/main/res/layout/fragment_utils.xml" value="0.21195652173913043" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/utils/src/main/res/layout/fragment_utils_item.xml" value="0.21195652173913043" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/utils/src/main/res/layout/utils_entrance_activity.xml" value="0.21195652173913043" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/utils/src/main/res/layout/utils_fragment.xml" value="0.2210144927536232" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/utils/src/main/res/layout/utils_fragment_item.xml" value="0.2210144927536232" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/views/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1735" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/views/src/main/res/drawable/ic_launcher_background.xml" value="0.1735" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/views/src/main/res/layout/activity_animated_textview.xml" value="0.21195652173913043" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/views/src/main/res/layout/activity_constraint_layout.xml" value="0.21195652173913043" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/views/src/main/res/layout/activity_main.xml" value="0.13632246376811594" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/views/src/main/res/layout/activity_motion_demo.xml" value="0.21195652173913043" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/views/src/main/res/layout/activity_triangle_view.xml" value="0.21195652173913043" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/views/src/main/res/layout/activity_viewpage2.xml" value="0.21195652173913043" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/views/src/main/res/layout/activity_viewpage2_tab.xml" value="0.21195652173913043" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/views/src/main/res/layout/fragment_viewpage2.xml" value="0.21195652173913043" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/views/src/main/res/layout/fragment_viewpage2_tab.xml" value="0.21195652173913043" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/views/src/main/res/layout/fragment_views.xml" value="0.21195652173913043" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/views/src/main/res/layout/fragment_views_item.xml" value="0.21195652173913043" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/views/src/main/res/layout/layout_motion1.xml" value="0.12335359675785208" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/views/src/main/res/layout/layout_motion2.xml" value="0.21195652173913043" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/views/src/main/res/layout/views_activity_animated_tv.xml" value="0.2210144927536232" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/views/src/main/res/layout/views_activity_constraint.xml" value="0.2210144927536232" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/views/src/main/res/layout/views_activity_entrance.xml" value="0.21195652173913043" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/views/src/main/res/layout/views_activity_main.xml" value="0.21195652173913043" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/views/src/main/res/layout/views_activity_motion.xml" value="0.2210144927536232" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/views/src/main/res/layout/views_activity_triangle.xml" value="0.21195652173913043" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/views/src/main/res/layout/views_activity_vp2.xml" value="0.2210144927536232" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/views/src/main/res/layout/views_activity_vp2_tab.xml" value="0.1" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/views/src/main/res/layout/views_fragment.xml" value="0.2210144927536232" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/views/src/main/res/layout/views_fragment_item.xml" value="0.2210144927536232" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/views/src/main/res/layout/views_fragment_motion1.xml" value="0.12335359675785208" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/views/src/main/res/layout/views_fragment_motion2.xml" value="0.2210144927536232" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/views/src/main/res/layout/views_fragment_vp2.xml" value="0.2210144927536232" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/views/src/main/res/layout/views_fragment_vp2_tab.xml" value="0.2210144927536232" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/views/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1735" />
+        <entry key="..\:/Project/AndroidStudio/BaseLibrary/views/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1735" />
       </map>
     </option>
   </component>
@@ -95,7 +170,7 @@
       </value>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

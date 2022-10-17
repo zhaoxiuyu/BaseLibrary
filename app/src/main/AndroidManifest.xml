@@ -4,14 +4,14 @@
     package="com.base.app">
 
     <application
-        android:name=".base.MyApp"
+        android:name=".base.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
+        android:theme="@style/common_Theme.BaseLibrary"
         tools:replace="android:icon">
 
         <activity
@@ -24,34 +24,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity
-            android:name=".sample.mvp.activity.Demo1Activity"
-            android:exported="false" />
-
-        <activity
-            android:name=".sample.views.activity.AnimatedTextViewActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".sample.views.activity.MotionLayoutActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".sample.views.activity.TriangleViewActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".sample.views.activity.ViewPage2Activity"
-            android:exported="false" />
-
-        <activity
-            android:name=".sample.views.activity.ViewPage2TabActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".sample.mvi.activity.Demo4Activity"
-            android:exported="false" />
 
     </application>
 

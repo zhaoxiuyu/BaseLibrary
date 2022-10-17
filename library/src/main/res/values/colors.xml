@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="color_03A9F4">#03A9F4</color>
-
-    <color name="color_FFFFFF">#FFFFFF</color>
+    <color name="library_color_FFFFFF">#FFFFFF</color>
 
 </resources>

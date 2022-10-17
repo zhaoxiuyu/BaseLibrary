@@ -1,6 +1,6 @@
 package com.base.library.base
 
-import android.content.Context
+//import com.bytedance.boost_multidex.BoostMultiDex
 import androidx.multidex.MultiDexApplication
 import com.alibaba.android.arouter.launcher.ARouter
 import com.base.library.BuildConfig
@@ -10,7 +10,6 @@ import com.base.library.view.loadingstateview.ErrorViewDelegate
 import com.base.library.view.loadingstateview.LoadingViewDelegate
 import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.Utils
-import com.bytedance.boost_multidex.BoostMultiDex
 import com.dylanc.loadingstateview.LoadingStateView
 import org.litepal.LitePal
 
@@ -19,37 +18,24 @@ import org.litepal.LitePal
  */
 open class BApplication : MultiDexApplication() {
 
-    override fun attachBaseContext(base: Context?) {
-        super.attachBaseContext(base)
-        // 用于Android低版本设备（4.X及以下，SDK < 21）快速加载多DEX的解决方案
-        BoostMultiDex.install(base)
+    // 数据库
+    open fun initLitePal() {
+        LitePal.initialize(this)
     }
 
-    fun initMethod() {
-
-//        if (BuildConfig.DEBUG) {
-////            CrashUtils.init { LogUtils.e(it) } // 可以弹出错误提示框
-//        } else {
-//        initCockroach()
-//        }
-
-        // 工具类
-        initUtilcode()
-
-        // 数据库
-        LitePal.initialize(this)
-
-//      解耦APP中的状态布局
+    // 解耦APP中的状态布局
+    open fun initStateView() {
         LoadingStateView.setViewDelegatePool {
             register(LoadingViewDelegate(), ErrorViewDelegate(), EmptyViewDelegate())
         }
+    }
 
+    open fun initARouter() {
         if (BuildConfig.DEBUG) { // 这两行必须写在init之前，否则这些配置在init过程中将无效
             ARouter.openLog() // 打印日志
             ARouter.openDebug() // 开启调试模式(如果在InstantRun模式下运行，必须开启调试模式！线上版本需要关闭,否则有安全风险)
         }
         ARouter.init(this) // 尽可能早，推荐在Application中初始化
-
     }
 
     /**

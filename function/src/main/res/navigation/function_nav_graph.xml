@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/function_nav_graph"
+    app:startDestination="@id/function_function">
+
+    <!--
+        app:popUpTo 跳转到tag并弹出tag之上的Fragment
+        app:popUpToInclusive 是否从堆栈中弹出设置的tag目标,需要和 app:popUpTo 配合使用
+            效果和代码中的 popBackStack(R.id.fragment,false)效果一致
+        app:launchSingleTop="true" 此导航是否作为单顶启动,就是后堆栈的顶上最多有一个给定的目标副本
+        android:id action的id,必填
+        app:destination 跳转到目的地页的路径
+        app:enterAnim 进场时目标页面动画
+        app:exitAnim 进场时原页面动画
+        app:popEnterAnim 回退pop时目标页面动画
+        app:popExitAnim 回退pop时原页面动画
+     -->
+
+    <!-- 启动页 -->
+    <fragment
+        android:id="@+id/function_function"
+        android:name="com.base.function.ui.fragment.FunctionListFragment"
+        android:label="FunctionListFragment"
+        app:defaultNavHost="true">
+
+        <action
+            android:id="@+id/action_function_coroutines"
+            app:destination="@id/function_coroutines"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+        <action
+            android:id="@+id/action_function_flow"
+            app:destination="@id/function_flow"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+        <!--        <action-->
+        <!--            android:id="@+id/action_function_demo3"-->
+        <!--            app:destination="@id/function_demo3"-->
+        <!--            app:enterAnim="@anim/slide_in_right"-->
+        <!--            app:exitAnim="@anim/slide_out_left"-->
+        <!--            app:popEnterAnim="@anim/slide_in_left"-->
+        <!--            app:popExitAnim="@anim/slide_out_right" />-->
+
+    </fragment>
+
+    <!--    <fragment-->
+    <!--        android:id="@+id/function_demo3"-->
+    <!--        android:name="com.base.common.sample.mvvm.activity.Demo3Fragment"-->
+    <!--        android:label="Demo3Fragment"-->
+    <!--        app:defaultNavHost="false" />-->
+
+    <fragment
+        android:id="@+id/function_coroutines"
+        android:name="com.base.function.ui.fragment.FunctionCoroutinesFragment"
+        android:label="Coroutines"
+        app:defaultNavHost="false" />
+
+    <fragment
+        android:id="@+id/function_flow"
+        android:name="com.base.function.ui.fragment.FunctionFlowFragment"
+        android:label="Flow"
+        app:defaultNavHost="false" />
+
+</navigation>

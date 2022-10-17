@@ -16,7 +16,7 @@ abstract class BFragment : Fragment() {
     //    , OnHandleCallback
     abstract fun initViewBinding(inflater: LayoutInflater, container: ViewGroup?, mBundle: Bundle?)
     abstract fun initArgs(mArguments: Bundle?)
-    abstract fun initView()
+    abstract fun getRootView(): View
     abstract fun initData(savedInstanceState: Bundle?)
     abstract fun registerObserve()
 
@@ -36,15 +36,14 @@ abstract class BFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         initViewBinding(inflater, container, savedInstanceState)
+        mContentView = getRootView()
         initArgs(arguments)
         registerObserve()
-        initView()
         return mContentView
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setUltimateBarX()
         initData(savedInstanceState)
     }
 

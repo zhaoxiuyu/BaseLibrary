@@ -42,9 +42,6 @@ abstract class BActivity : AppCompatActivity() {
         }
     }
 
-    /**
-     * 给 ContentView 的外面添加一个 通用的顶部导航栏
-     */
     fun setContentViewBar(contentView: View, topPadding: View? = null) {
         setContentView(contentView)
         addStatusBarTopPadding(topPadding?.let { topPadding } ?: let { contentView })

@@ -1,0 +1,485 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/but1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="A"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="gone" />
+
+        <!-- layout_constraintBaseline_toBaselineOf 两个大小不同的文案基线对齐 -->
+        <TextView
+            android:id="@+id/tv1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="20"
+            android:textSize="50sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/but1"
+            tools:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="20"
+            app:layout_constraintBaseline_toBaselineOf="@id/tv1"
+            app:layout_constraintStart_toEndOf="@id/tv1"
+            tools:visibility="gone" />
+
+        <!-- 角度约束 -->
+        <ImageView
+            android:id="@+id/iv1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_40"
+            android:src="@mipmap/ic_launcher"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv1"
+            tools:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/iv2"
+            android:layout_width="@dimen/dp_30"
+            android:layout_height="@dimen/dp_30"
+            android:src="@mipmap/ic_launcher_round"
+            app:layout_constraintCircle="@id/iv1"
+            app:layout_constraintCircleAngle="45"
+            app:layout_constraintCircleRadius="@dimen/dp_70"
+            tools:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="百分比偏移"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.4"
+            tools:visibility="gone" />
+
+        <Button
+            android:id="@+id/but2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="A"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv3"
+            tools:visibility="gone" />
+
+        <Button
+            android:id="@+id/but3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="B"
+            app:layout_constraintStart_toEndOf="@id/but2"
+            app:layout_constraintTop_toBottomOf="@id/tv3"
+            app:layout_goneMarginStart="@dimen/dp_16"
+            tools:visibility="gone" />
+
+        <!-- 0dp.spread 默认值 占用所有的符合约束的空间 -->
+        <Button
+            android:id="@+id/but4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_50"
+            android:layout_marginEnd="@dimen/dp_50"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/but3"
+            app:layout_constraintWidth_default="spread"
+            tools:visibility="gone" />
+
+        <!-- 0dp.percent 按照父布局的百分比设置 -->
+        <Button
+            android:id="@+id/but5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_50"
+            android:layout_marginEnd="@dimen/dp_50"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/but4"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.6"
+            tools:visibility="gone" />
+
+        <!-- layout_constrainedWidth 强制约束 可以实现 0dp.default="wrap" 的效果,不超过 margin 限制 -->
+        <Button
+            android:id="@+id/but6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_50"
+            android:layout_marginEnd="@dimen/dp_50"
+            android:text="AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/but4"
+            tools:visibility="gone" />
+
+        <!-- wrap：匹配内容大小但不超过约束限制 -->
+        <Button
+            android:id="@+id/but7"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_50"
+            android:layout_marginEnd="@dimen/dp_50"
+            android:text="AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/but6"
+            app:layout_constraintWidth_default="wrap"
+            tools:visibility="gone" />
+
+        <!-- 0dp 宽度最大值 -->
+        <Button
+            android:id="@+id/but8"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/but7"
+            app:layout_constraintWidth_max="@dimen/dp_100"
+            tools:visibility="gone" />
+
+        <Button
+            android:id="@+id/but9"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dp_100"
+            android:text="AAA"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/but8"
+            tools:visibility="gone" />
+
+        <!--
+        spread（默认）：均分剩余空间
+        spread_inside：两侧的控件贴近两边，剩余的控件均分剩余空间
+        packed：所有控件贴紧居中
+        -->
+        <Button
+            android:id="@+id/but10"
+            android:layout_width="@dimen/dp_80"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toStartOf="@id/but11"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/but9"
+            tools:visibility="gone" />
+
+        <Button
+            android:id="@+id/but11"
+            android:layout_width="@dimen/dp_80"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toStartOf="@id/but12"
+            app:layout_constraintStart_toEndOf="@id/but10"
+            app:layout_constraintTop_toBottomOf="@id/but9"
+            tools:visibility="gone" />
+
+        <Button
+            android:id="@+id/but12"
+            android:layout_width="@dimen/dp_80"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/but11"
+            app:layout_constraintTop_toBottomOf="@id/but9"
+            tools:visibility="gone" />
+
+        <!-- Chains(链)支持weight（权重）的配置 -->
+        <TextView
+            android:id="@+id/tv4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/common_purple_200"
+            android:paddingTop="@dimen/dp_10"
+            android:paddingBottom="@dimen/dp_10"
+            app:layout_constraintEnd_toStartOf="@id/tv5"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/but12"
+            tools:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/common_purple_500"
+            android:paddingTop="@dimen/dp_10"
+            android:paddingBottom="@dimen/dp_10"
+            app:layout_constraintEnd_toStartOf="@id/tv6"
+            app:layout_constraintHorizontal_weight="2"
+            app:layout_constraintStart_toEndOf="@id/tv4"
+            app:layout_constraintTop_toBottomOf="@id/but12"
+            tools:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv6"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/common_purple_700"
+            android:paddingTop="@dimen/dp_10"
+            android:paddingBottom="@dimen/dp_10"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="3"
+            app:layout_constraintStart_toEndOf="@id/tv5"
+            app:layout_constraintTop_toBottomOf="@id/but12"
+            tools:visibility="gone" />
+
+        <!--
+        Guideline 辅助线可以做一些百分比分割之类的需求,有很好的屏幕适配效果
+        but13 依赖于辅助线,无论布局如何更改,辅助线始终是父级垂直方向0.02的位置,控件也不会偏离预设
+        -->
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.02"
+            tools:visibility="gone" />
+
+        <Button
+            android:id="@+id/but13"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/guideline1"
+            tools:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_100"
+            android:paddingTop="@dimen/dp_5"
+            android:paddingBottom="@dimen/dp_5"
+            android:text="warehousewarehousewarehouse"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/dp_5"
+            android:paddingBottom="@dimen/dp_5"
+            android:text="warehousewarehouse"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv7"
+            tools:visibility="gone" />
+
+        <!--
+         barrierDirection 控制 Barrier 相对于给定的 View 的位置
+         ids 取值是要依赖的控件id,Barrier将会使用ids中最大的一个宽/高作为自己的位置
+         -->
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="end"
+            app:constraint_referenced_ids="tv7,tv8" />
+
+        <TextView
+            android:id="@+id/tv9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="warehousewarehousewarehousewarehousewarehousewarehousewarehousewarehousewarehousewarehousewarehousewarehousewarehousewarehehousewarehousewarehousewarehousewarehousewarehousewarehousewarehousewarehousewarehousewarehousewarehousewarehousewarehousewarehousewarehousewarehousewarehousewarehouse"
+            app:layout_constraintStart_toEndOf="@id/barrier1"
+            app:layout_constraintTop_toTopOf="@id/tv7"
+            tools:visibility="gone" />
+
+        <Button
+            android:id="@+id/but14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="but14"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/but13" />
+
+        <Button
+            android:id="@+id/but15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_10"
+            android:text="but15"
+            app:layout_constraintStart_toEndOf="@id/but14"
+            app:layout_constraintTop_toBottomOf="@id/but13" />
+
+        <Button
+            android:id="@+id/but16"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_10"
+            android:text="but16"
+            app:layout_constraintStart_toEndOf="@id/but15"
+            app:layout_constraintTop_toBottomOf="@id/but13" />
+
+        <!--
+        Group 可以对一组控件同时隐藏或显示
+        -->
+        <androidx.constraintlayout.widget.Group
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:constraint_referenced_ids="but14,but15,but16" />
+
+        <TextView
+            android:id="@+id/tv10"
+            android:layout_width="@dimen/dp_50"
+            android:layout_height="@dimen/dp_50"
+            android:background="@color/common_color_FFC301"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv4"
+            tools:visibility="gone" />
+
+        <!--
+          Placeholder 占位符
+          app:content="@id/tv10" 或 setContent() 让某个控件移动到此占位符中
+          一般在代码中设置setContent,在布局中使用app:content显然就失去了它的作用
+         -->
+        <androidx.constraintlayout.widget.Placeholder
+            android:id="@+id/placeholder1"
+            android:layout_width="@dimen/dp_50"
+            android:layout_height="@dimen/dp_50"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv4" />
+
+        <Button
+            android:id="@+id/butA"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/butB"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_100" />
+
+        <Button
+            android:id="@+id/butC"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/butD"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_80" />
+
+        <Button
+            android:id="@+id/butE"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/butF"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_30" />
+
+        <Button
+            android:id="@+id/butG"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <androidx.constraintlayout.helper.widget.Flow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:constraint_referenced_ids="butA,butB,butC,butD,butE,butF,butG"
+            app:flow_verticalAlign="baseline"
+            app:flow_wrapMode="chain"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv10"
+            tools:visibility="gone" />
+
+        <androidx.constraintlayout.helper.widget.Layer
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/common_color_CCCCCC"
+            android:padding="@dimen/dp_10"
+            app:constraint_referenced_ids="iv3,tv11"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/butE"
+            tools:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/iv3"
+            android:layout_width="@dimen/dp_100"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_launcher"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/butE" />
+
+        <TextView
+            android:id="@+id/tv11"
+            android:layout_width="@dimen/dp_100"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_launcher"
+            android:text="Android"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv3" />
+
+        <!--
+         altSrc 和 src 通过 crossfade 属性成交叉淡化效果
+         warmth 调节色温
+         brightness 调节亮度
+         saturation 调节饱和度
+         contrast 调节对比度
+         -->
+        <androidx.constraintlayout.utils.widget.ImageFilterView
+            android:id="@+id/ifv1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_50"
+            android:src="@mipmap/ic_launcher"
+            app:brightness="4"
+            app:contrast="8"
+            app:layout_constraintStart_toEndOf="@id/tv11"
+            app:layout_constraintTop_toBottomOf="@id/butE"
+            app:roundPercent="0.7"
+            app:saturation="6"
+            app:warmth="2" />
+
+        <androidx.constraintlayout.utils.widget.MockView
+            android:id="@+id/Avatar"
+            android:layout_width="@dimen/dp_100"
+            android:layout_height="@dimen/dp_100"
+            app:layout_constraintTop_toBottomOf="@id/ifv1" />
+
+        <androidx.constraintlayout.utils.widget.MockView
+            android:id="@+id/Name"
+            android:layout_width="@dimen/dp_100"
+            android:layout_height="@dimen/dp_40"
+            app:layout_constraintStart_toEndOf="@id/Avatar"
+            app:layout_constraintTop_toBottomOf="@id/ifv1" />
+
+        <androidx.constraintlayout.utils.widget.MockView
+            android:id="@+id/Age"
+            android:layout_width="@dimen/dp_100"
+            android:layout_height="@dimen/dp_40"
+            app:layout_constraintBottom_toBottomOf="@id/Avatar"
+            app:layout_constraintStart_toEndOf="@id/Avatar" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>
+

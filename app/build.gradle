@@ -1,159 +1,162 @@
-plugins {
-    id 'com.android.application'
-    id 'kotlin-android'
-    id 'kotlin-kapt'
-    id 'com.blankj.bus'
-    id 'androidx.navigation.safeargs.kotlin' // navigation 导航
-    id 'com.alibaba.arouter' // Gradle 插件实现路由表的自动加载
-}
+apply from: "${rootProject.rootDir}/app.gradle"
+project.ext.setAppDefaultConfig project
 
-def androidVersion = rootProject.ext.androidVersion
-def support = rootProject.ext.dependencies
-def kaptSupport = rootProject.ext.kapt
-def annotationProcessorSupport = rootProject.ext.annotationProcessor
-
-//配置项目构建的各种属性
-android {
-    compileSdk androidVersion.compileSdkVersion //编译时使用 Android版本
-
-    //默认配置项
-    defaultConfig {
-        targetSdk androidVersion.targetSdkVersion //目标版本
-        minSdk androidVersion.minSdkVersion //最低兼容Android版本
-
-        applicationId "com.base.app" //项目包名
-
-        versionCode libVersion.appCode //版本号
-        versionName libVersion.appName //版本名
-
-        multiDexEnabled true
-        vectorDrawables.useSupportLibrary = true
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
-        ndk {
-            abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', "x86_64"
-//            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a', 'x86', "x86_64"
-        }
-    }
-    // 路由需要
-    kapt {
-        arguments {
-            arg("AROUTER_MODULE_NAME", project.getName())
-        }
-        // 解决 hilt 编译出错的问题
-//        javacOptions {
-//            option("-Adagger.hilt.android.internal.disableAndroidSuperclassValidation=true")
+//plugins {
+//    id 'com.android.application'
+//    id 'kotlin-android'
+//    id 'kotlin-kapt'
+//    id 'com.blankj.bus'
+//    id 'androidx.navigation.safeargs.kotlin' // navigation 导航
+//    id 'com.alibaba.arouter' // Gradle 插件实现路由表的自动加载
+//}
+//
+//def androidVersion = rootProject.ext.androidVersion
+//def support = rootProject.ext.dependencies
+//def kaptSupport = rootProject.ext.kapt
+//def annotationProcessorSupport = rootProject.ext.annotationProcessor
+//
+////配置项目构建的各种属性
+//android {
+//    compileSdk androidVersion.compileSdkVersion //编译时使用 Android版本
+//
+//    //默认配置项
+//    defaultConfig {
+//        targetSdk androidVersion.targetSdkVersion //目标版本
+//        minSdk androidVersion.minSdkVersion //最低兼容Android版本
+//
+//        applicationId "com.base.app" //项目包名
+//
+//        versionCode libVersion.appCode //版本号
+//        versionName libVersion.appName //版本名
+//
+//        multiDexEnabled true
+//        vectorDrawables.useSupportLibrary = true
+//        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+//
+//        ndk {
+//            abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', "x86_64"
+////            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a', 'x86', "x86_64"
 //        }
-    }
-    // 启用 viewBinding
-    buildFeatures {
-        viewBinding = true
-    }
-
-    //依赖库多的时候可能出现重复文件,通过 exclude 将重复的文件剔除
-    packagingOptions {
-        // kotlinx-coroutines-core 需要排除这个 DebugProbesKt.bin
-        exclude "DebugProbesKt.bin"
-        exclude 'lib/x86/librsjni.so'
-        exclude 'lib/x86_64/librsjni.so'
-        exclude 'lib/x86/libRSSupport.so'
-        exclude "lib/mips/libRSSupport.so"
-        exclude 'lib/arm64-v8a/librsjni.so'
-        exclude 'lib/x86_64/libRSSupport.so'
-        exclude 'META-INF/rxjava.properties'
-        exclude 'lib/armeabi-v7a/librsjni.so'
-        exclude 'lib/arm64-v8a/libRSSupport.so'
-        exclude 'lib/armeabi-v7a/libRSSupport.so'
-        exclude 'META-INF/library_release.kotlin_module0'
-        exclude 'META-INF/proguard/androidx-annotations.pro'
-        exclude 'META-INF/library_release.kotlin_module'
-    }
-
-    //签名配置
-    signingConfigs {
-        config {
-            keyAlias "sendinfo"
-            keyPassword "sendinfokey"
-            storeFile file("../keystore/androidkey")
-            storePassword "sendinfokey"
-            v2SigningEnabled true
-        }
-    }
-
-    // 自动化打包配置，release或debug版本的内容
-    buildTypes {
-        release {
-            shrinkResources false // 启用资源压缩（由Android Gradle plugin执行）
-            minifyEnabled false // 启用代码压缩、优化和混淆（由R8或者ProGuard执行
-            signingConfig signingConfigs.config
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-        debug {
-            minifyEnabled false
-            signingConfig signingConfigs.config
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
-
-    // 多渠道打包，这个一定要加
-    flavorDimensions "default"
-    productFlavors {
-        sendinfo {
-            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "sendinfo"]
-        }
-    }
-
-    // 设置编译生成APK的名称
-    android.applicationVariants.all { variant ->
-        variant.outputs.all { output ->
-            outputFileName = "${defaultConfig.versionName}_${variant.name}_${getDate()}.apk"
-        }
-    }
-
-    //Java版本配置
-    compileOptions {
-        encoding "utf-8"
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
-    }
-//    kotlinOptions {
-//        jvmTarget = '11'
-//        useIR = true
 //    }
-}
-
-configurations.all {
-    // 如下设置缓存失效时间,可设置时间单位,直接设置0就是不使用缓存 每次下载最新依赖
-    // 每24小时检查远程依赖是否存在更新,动态版本 x.x.+
-    // resolutionStrategy.cacheDynamicVersionsFor 24, 'hours'
-    // 每10分钟检查远程依赖是否存在更新,静态版本 x.x.x
-    // resolutionStrategy.cacheChangingModulesFor 10*60, 'seconds'
-
-    // 解决统一版本
-    resolutionStrategy {
-        // force 'com.airbnb.android:lottie:3.7.0'
-    }
-
-    // 在构建过程中进行排除
-    // all*.exclude group: 'com.github.florent37', module: 'viewanimator'
-}
-
-dependencies {
-    def dependencies = rootProject.ext.dependencies
-
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
-    testImplementation 'junit:junit:4.13'
-    androidTestImplementation 'androidx.test:runner:1.3.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-
-    support.each { k, v -> implementation v }
-    kaptSupport.each { k, v -> kapt v }
-    annotationProcessorSupport.each { k, v -> annotationProcessor v }
-
-    if (useLocalDependencies()) {
-        implementation(project(':library'))
-    } else {
-        implementation dependencies.BaseLibrary
-    }
-
-}
+//    // 路由需要
+//    kapt {
+//        arguments {
+//            arg("AROUTER_MODULE_NAME", project.getName())
+//        }
+//        // 解决 hilt 编译出错的问题
+////        javacOptions {
+////            option("-Adagger.hilt.android.internal.disableAndroidSuperclassValidation=true")
+////        }
+//    }
+//    // 启用 viewBinding
+//    buildFeatures {
+//        viewBinding = true
+//    }
+//
+//    //依赖库多的时候可能出现重复文件,通过 exclude 将重复的文件剔除
+//    packagingOptions {
+//        // kotlinx-coroutines-core 需要排除这个 DebugProbesKt.bin
+//        exclude "DebugProbesKt.bin"
+//        exclude 'lib/x86/librsjni.so'
+//        exclude 'lib/x86_64/librsjni.so'
+//        exclude 'lib/x86/libRSSupport.so'
+//        exclude "lib/mips/libRSSupport.so"
+//        exclude 'lib/arm64-v8a/librsjni.so'
+//        exclude 'lib/x86_64/libRSSupport.so'
+//        exclude 'META-INF/rxjava.properties'
+//        exclude 'lib/armeabi-v7a/librsjni.so'
+//        exclude 'lib/arm64-v8a/libRSSupport.so'
+//        exclude 'lib/armeabi-v7a/libRSSupport.so'
+//        exclude 'META-INF/library_release.kotlin_module0'
+//        exclude 'META-INF/proguard/androidx-annotations.pro'
+//        exclude 'META-INF/library_release.kotlin_module'
+//    }
+//
+//    //签名配置
+//    signingConfigs {
+//        config {
+//            keyAlias "sendinfo"
+//            keyPassword "sendinfokey"
+//            storeFile file("../keystore/androidkey")
+//            storePassword "sendinfokey"
+//            v2SigningEnabled true
+//        }
+//    }
+//
+//    // 自动化打包配置，release或debug版本的内容
+//    buildTypes {
+//        release {
+//            shrinkResources false // 启用资源压缩（由Android Gradle plugin执行）
+//            minifyEnabled false // 启用代码压缩、优化和混淆（由R8或者ProGuard执行
+//            signingConfig signingConfigs.config
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//        }
+//        debug {
+//            minifyEnabled false
+//            signingConfig signingConfigs.config
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//        }
+//    }
+//
+//    // 多渠道打包，这个一定要加
+//    flavorDimensions "default"
+//    productFlavors {
+//        sendinfo {
+//            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "sendinfo"]
+//        }
+//    }
+//
+//    // 设置编译生成APK的名称
+//    android.applicationVariants.all { variant ->
+//        variant.outputs.all { output ->
+//            outputFileName = "${defaultConfig.versionName}_${variant.name}_${getDate()}.apk"
+//        }
+//    }
+//
+//    //Java版本配置
+//    compileOptions {
+//        encoding "utf-8"
+//        sourceCompatibility JavaVersion.VERSION_11
+//        targetCompatibility JavaVersion.VERSION_11
+//    }
+////    kotlinOptions {
+////        jvmTarget = '11'
+////        useIR = true
+////    }
+//}
+//
+//configurations.all {
+//    // 如下设置缓存失效时间,可设置时间单位,直接设置0就是不使用缓存 每次下载最新依赖
+//    // 每24小时检查远程依赖是否存在更新,动态版本 x.x.+
+//    // resolutionStrategy.cacheDynamicVersionsFor 24, 'hours'
+//    // 每10分钟检查远程依赖是否存在更新,静态版本 x.x.x
+//    // resolutionStrategy.cacheChangingModulesFor 10*60, 'seconds'
+//
+//    // 解决统一版本
+//    resolutionStrategy {
+//        // force 'com.airbnb.android:lottie:3.7.0'
+//    }
+//
+//    // 在构建过程中进行排除
+//    // all*.exclude group: 'com.github.florent37', module: 'viewanimator'
+//}
+//
+//dependencies {
+//    def dependencies = rootProject.ext.dependencies
+//
+//    implementation fileTree(include: ['*.jar'], dir: 'libs')
+//    testImplementation 'junit:junit:4.13'
+//    androidTestImplementation 'androidx.test:runner:1.3.0'
+//    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+//
+//    support.each { k, v -> implementation v }
+//    kaptSupport.each { k, v -> kapt v }
+//    annotationProcessorSupport.each { k, v -> annotationProcessor v }
+//
+//    if (useLocalDependencies()) {
+//        implementation(project(':library'))
+//    } else {
+//        implementation dependencies.BaseLibrary
+//    }
+//
+//}

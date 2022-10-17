@@ -1,0 +1,73 @@
+//apply from: "config.gradle" 同级目录
+apply from: "${rootProject.rootDir}/dependencies.gradle"
+
+project.ext {
+
+    // 设置 app 配置
+    setAppDefaultConfig = {
+        extension ->
+            // 指定为 application
+            extension.apply plugin: "com.android.application"
+            extension.description "app"
+
+            // 公共的 apply 主要是用于三方库
+            extension.apply plugin: 'kotlin-android'
+            extension.apply plugin: 'kotlin-parcelize'
+            extension.apply plugin: 'kotlin-kapt'
+
+            extension.apply plugin: 'com.blankj.bus'
+            extension.apply plugin: 'androidx.navigation.safeargs.kotlin' // navigation 导航
+            extension.apply plugin: 'com.alibaba.arouter' // Gradle 插件实现路由表的自动加载
+
+            appImplementation = "app"
+            //设置项目的android
+            setAppAndroidConfig extension.android
+            //设置项目的三方库依赖
+            setDependencies extension.dependencies
+    }
+
+    //设置application 公共的android配置
+    setAppAndroidConfig = {
+        extension ->
+            extension.compileSdkVersion project.ext.compileSdkVersion
+            extension.defaultConfig {
+                applicationId project.ext.applicationId
+                minSdkVersion project.ext.minSdkVersion
+                targetSdkVersion project.ext.targetSdkVersion
+                versionCode project.ext.versionCode
+                versionName project.ext.versionName
+
+                multiDexEnabled true
+                vectorDrawables.useSupportLibrary = true
+
+                extension.flavorDimensions "default"
+                testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+                ndk {
+                    abiFilters 'arm64-v8a', "x86_64"
+                    // abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a', 'x86', "x86_64"
+                }
+            }
+            kapt {
+                arguments {
+                    arg("AROUTER_MODULE_NAME", project.getName())
+                }
+            }
+            //Java版本配置
+            extension.compileOptions {
+                encoding "utf-8"
+                sourceCompatibility JavaVersion.VERSION_11
+                targetCompatibility JavaVersion.VERSION_11
+            }
+//            extension.kotlinOptions {
+//                jvmTarget = '11'
+//                useIR = true
+//            }
+            // 启用 viewBinding
+            extension.buildFeatures {
+                viewBinding = true
+            }
+    }
+
+}
+

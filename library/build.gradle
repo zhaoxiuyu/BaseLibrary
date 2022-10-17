@@ -1,122 +1,126 @@
-plugins {
-    id 'com.android.library'
-    id 'kotlin-android'
-    id 'kotlin-kapt'
-    id 'androidx.navigation.safeargs.kotlin'
-    id 'maven-publish'
-    id("com.google.devtools.ksp") version "1.6.21-1.0.5"
-}
+apply from: "${rootProject.rootDir}/assembly.gradle"
+project.ext.setAppOrLibDefaultConfig project
 
-def androidVersion = rootProject.ext.androidVersion
-def support = rootProject.ext.dependencies
-def kaptSupport = rootProject.ext.kapt
-def annotationProcessorSupport = rootProject.ext.annotationProcessor
+//plugins {
+//    id 'com.android.library'
+//    id 'kotlin-android'
+//    id 'kotlin-kapt'
+//    id 'androidx.navigation.safeargs.kotlin'
+//    id 'maven-publish'
+//    id("com.google.devtools.ksp") version "1.6.21-1.0.5"
+//}
 
-// 在项目根目录引入了，就不需要在model中重复引入。
-// apply from: "../config.gradle"
-
-afterEvaluate {
-    publishing {
-        publications {
-            release(MavenPublication) {
-                from components.release
-                groupId = libVersion.libraryGroupId
-                artifactId = libVersion.libraryArtifactId
-                version = libVersion.libraryName
-            }
-        }
-    }
-}
-
-android {
-    compileSdk androidVersion.compileSdkVersion //编译时使用 Android版本
-
-    defaultConfig {
-        targetSdk androidVersion.targetSdkVersion //目标版本
-        minSdk androidVersion.minSdkVersion //最低兼容Android版本
-
-        multiDexEnabled true
-        vectorDrawables.useSupportLibrary = true
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-    }
-
-    buildTypes {
-        release {
-            consumerProguardFiles file('.').listFiles(new FilenameFilter() {
-                @Override
-                boolean accept(File file, String s) {
-                    return s.endsWith('.pro')
-                }
-            })
-//            minifyEnabled false
-//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-        debug {
-            consumerProguardFiles file('.').listFiles(new FilenameFilter() {
-                @Override
-                boolean accept(File file, String s) {
-                    return s.endsWith('.pro')
-                }
-            })
-//            minifyEnabled false
-//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-        unsigned {
-            consumerProguardFiles file('.').listFiles(new FilenameFilter() {
-                @Override
-                boolean accept(File file, String s) {
-                    return s.endsWith('.pro')
-                }
-            })
-//            minifyEnabled false
-//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
-
-    // 路由需要
-    kapt {
-        arguments {
-            arg("AROUTER_MODULE_NAME", project.getName())
-        }
-    }
-
-    // 启用 viewBinding
-    buildFeatures {
-        viewBinding true
-    }
-
-    lintOptions {
-        // 发现错误,是否停止构建
-        abortOnError true
-    }
-
-    compileOptions {
-        encoding "utf-8"
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
-    }
-
-//    kotlinOptions {
-//        jvmTarget = '11'
-//        useIR = true
+//def androidVersion = rootProject.ext.androidVersion
+//def support = rootProject.ext.dependencies
+//def kaptSupport = rootProject.ext.kapt
+//def annotationProcessorSupport = rootProject.ext.annotationProcessor
+//
+//// 在项目根目录引入了，就不需要在model中重复引入。
+//// apply from: "../config.gradle"
+//
+//afterEvaluate {
+//    publishing {
+//        publications {
+//            release(MavenPublication) {
+//                from components.release
+//                groupId = libVersion.libraryGroupId
+//                artifactId = libVersion.libraryArtifactId
+//                version = libVersion.libraryName
+//            }
+//        }
 //    }
+//}
+//
+//android {
+//    compileSdk androidVersion.compileSdkVersion //编译时使用 Android版本
+//
+//    defaultConfig {
+//        targetSdk androidVersion.targetSdkVersion //目标版本
+//        minSdk androidVersion.minSdkVersion //最低兼容Android版本
+//
+//        multiDexEnabled true
+//        vectorDrawables.useSupportLibrary = true
+//        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+//    }
+//
+//    buildTypes {
+//        release {
+//            consumerProguardFiles file('.').listFiles(new FilenameFilter() {
+//                @Override
+//                boolean accept(File file, String s) {
+//                    return s.endsWith('.pro')
+//                }
+//            })
+////            minifyEnabled false
+////            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//        }
+//        debug {
+//            consumerProguardFiles file('.').listFiles(new FilenameFilter() {
+//                @Override
+//                boolean accept(File file, String s) {
+//                    return s.endsWith('.pro')
+//                }
+//            })
+////            minifyEnabled false
+////            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//        }
+//        unsigned {
+//            consumerProguardFiles file('.').listFiles(new FilenameFilter() {
+//                @Override
+//                boolean accept(File file, String s) {
+//                    return s.endsWith('.pro')
+//                }
+//            })
+////            minifyEnabled false
+////            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//        }
+//    }
+//
+//    // 路由需要
+//    kapt {
+//        arguments {
+//            arg("AROUTER_MODULE_NAME", project.getName())
+//        }
+//    }
+//
+//    // 启用 viewBinding
+//    buildFeatures {
+//        viewBinding true
+//    }
+//
+//    lintOptions {
+//        // 发现错误,是否停止构建
+//        abortOnError true
+//    }
+//
+//    compileOptions {
+//        encoding "utf-8"
+//        sourceCompatibility JavaVersion.VERSION_11
+//        targetCompatibility JavaVersion.VERSION_11
+//    }
+//
+////    kotlinOptions {
+////        jvmTarget = '11'
+////        useIR = true
+////    }
+//
+//}
+//
+//repositories {
+//    flatDir { dirs 'libs' }
+//}
+//
+//dependencies {
+////    def dependencies = rootProject.ext.dependencies
+//
+//    api fileTree(dir: 'libs', include: ['*.jar'])
+//    testImplementation 'junit:junit:4.13.2'
+//    androidTestImplementation 'androidx.test:runner:1.4.0'
+//    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+//
+//    support.each { k, v -> implementation v }
+//    kaptSupport.each { k, v -> kapt v }
+//    annotationProcessorSupport.each { k, v -> annotationProcessor v }
+//
+//}
 
-}
-
-repositories {
-    flatDir { dirs 'libs' }
-}
-
-dependencies {
-//    def dependencies = rootProject.ext.dependencies
-
-    api fileTree(dir: 'libs', include: ['*.jar'])
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test:runner:1.4.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-
-    support.each { k, v -> implementation v }
-    kaptSupport.each { k, v -> kapt v }
-    annotationProcessorSupport.each { k, v -> annotationProcessor v }
-
-}

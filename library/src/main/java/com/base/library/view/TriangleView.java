@@ -22,7 +22,7 @@ public class TriangleView extends View {
     private static final int LEFT = 3;
     private static final int DEFUALT_WIDTH = 10;
     private static final int DEFUALT_HEIGHT = 6;
-    private static final int DEFUALT_COLOR = R.color.color_FFFFFF;
+    private static final int DEFUALT_COLOR = R.color.library_color_FFFFFF;
     private Paint mPaint;
     private int mColor;
     private int mWidth;

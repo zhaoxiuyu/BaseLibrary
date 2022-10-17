@@ -1,26 +1,26 @@
 <resources>
 
     <!-- 原本的主题 : Theme.AppCompat.Light.NoActionBar Theme.MaterialComponents.Light.NoActionBar -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-    </style>
+    <!--    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">-->
+    <!--        &lt;!&ndash; Customize your theme here. &ndash;&gt;-->
+    <!--        <item name="colorPrimary">@color/colorPrimary</item>-->
+    <!--        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
+    <!--        <item name="colorAccent">@color/colorAccent</item>-->
+    <!--    </style>-->
 
-    <style name="AppTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
+    <!--    <style name="AppTheme.NoActionBar">-->
+    <!--        <item name="windowActionBar">false</item>-->
+    <!--        <item name="windowNoTitle">true</item>-->
+    <!--    </style>-->
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <!--    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />-->
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <!--    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />-->
 
 
-    <!-- activity_tab_layout -->
-    <style name="tab_layout">
-        <item name="android:textSize">14sp</item>
-    </style>
+<!--    &lt;!&ndash; activity_tab_layout &ndash;&gt;-->
+<!--    <style name="tab_layout">-->
+<!--        <item name="android:textSize">14sp</item>-->
+<!--    </style>-->
 
 </resources>
