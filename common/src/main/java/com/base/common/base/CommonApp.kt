@@ -3,12 +3,14 @@ package com.base.common.base
 import android.content.Context
 import androidx.lifecycle.ProcessLifecycleOwner
 import com.base.common.http.OkHttpUtils
+import com.base.common.interfaces.AppAutoServiceInterface
 import com.base.library.base.AppLifecycleObserver
 import com.base.library.base.BApplication
 import com.base.library.okhttp.cookie.ICookieJar
 import com.dylanc.activityresult.launcher.FileProviderUtils
 import okhttp3.Cookie
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
+import java.util.*
 
 open class CommonApp : BApplication() {
 
@@ -26,6 +28,7 @@ open class CommonApp : BApplication() {
         initStateView()
         initARouter()
         initCockroach()
+        initModule(this)
         cookieManager()
 
         ProcessLifecycleOwner.get().lifecycle.addObserver(AppLifecycleObserver())
@@ -35,7 +38,14 @@ open class CommonApp : BApplication() {
 
     }
 
-    private fun cookieManager() {
+    fun initModule(mContext: Context?) {
+        val spi = ServiceLoader.load(AppAutoServiceInterface::class.java).toList()
+        spi.forEach {
+            it.onCreate(mContext)
+        }
+    }
+
+    fun cookieManager() {
         // 手动管理 cookie
         val cookieJar = OkHttpUtils.mOkHttpClient.cookieJar as ICookieJar
         val httpUrl = "https://www.wanandroid.com/".toHttpUrlOrNull()

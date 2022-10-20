@@ -2,10 +2,10 @@ apply from: "${rootProject.rootDir}/dependencies.gradle"
 
 project.ext {
 
-    // 是否允许 module 单独调试
-    isModuleDebug = true
+    // 是否允许 module 单独调试 true false
+    isModuleDebug = false
     // 单独调试 module 名称
-    moduleName = "utils"
+    moduleName = ""
 
     //动态改变，用于单模块调试
     setAppOrLibDefaultConfig = {
@@ -20,6 +20,9 @@ project.ext {
             extension.apply plugin: 'kotlin-android'
             extension.apply plugin: 'kotlin-parcelize'
             extension.apply plugin: 'kotlin-kapt'
+            extension.apply plugin: 'com.blankj.bus'
+            extension.apply plugin: 'androidx.navigation.safeargs.kotlin' // navigation 导航
+            extension.apply plugin: 'com.alibaba.arouter' // Gradle 插件实现路由表的自动加载
 
             appImplementation = project.name
 

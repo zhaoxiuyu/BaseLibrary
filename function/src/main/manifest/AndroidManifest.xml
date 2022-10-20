@@ -4,7 +4,7 @@
     package="com.base.function">
 
     <application
-        android:name=".base.FunctionApp"
+        android:name="com.base.common.base.CommonApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/function_module_name"

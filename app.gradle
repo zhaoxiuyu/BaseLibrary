@@ -9,15 +9,14 @@ project.ext {
             // 指定为 application
             extension.apply plugin: "com.android.application"
             extension.description "app"
-
             // 公共的 apply 主要是用于三方库
             extension.apply plugin: 'kotlin-android'
             extension.apply plugin: 'kotlin-parcelize'
             extension.apply plugin: 'kotlin-kapt'
-
             extension.apply plugin: 'com.blankj.bus'
             extension.apply plugin: 'androidx.navigation.safeargs.kotlin' // navigation 导航
             extension.apply plugin: 'com.alibaba.arouter' // Gradle 插件实现路由表的自动加载
+
 
             appImplementation = "app"
             //设置项目的android

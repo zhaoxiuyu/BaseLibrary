@@ -55,6 +55,9 @@ project.ext {
             extension.implementation "androidx.lifecycle:lifecycle-process:2.5.0-beta01"
             extension.implementation "androidx.datastore:datastore-preferences:1.0.0"
 
+            extension.implementation "com.google.auto.service:auto-service:1.0.1"
+            extension.kapt "com.google.auto.service:auto-service:1.0.1"
+
             extension.kapt 'com.alibaba:arouter-compiler:1.5.2'
             extension.kapt 'com.github.bumptech.glide:compiler:4.13.2'
 

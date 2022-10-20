@@ -4,7 +4,7 @@
     package="com.base.views">
 
     <application
-        android:name=".base.ViewsApp"
+        android:name="com.base.common.base.CommonApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/views_app_name"
